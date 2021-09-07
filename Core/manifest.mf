@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: net.retrocarnage.editor.core
+OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/core/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
