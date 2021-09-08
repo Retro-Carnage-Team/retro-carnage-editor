@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model;
+package net.retrocarnage.editor.model.game;
 
 /**
  * Values that can be set as EnemyAction.

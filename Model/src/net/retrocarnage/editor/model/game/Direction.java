@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model;
+package net.retrocarnage.editor.model.game;
 
 /**
  * Direction specifies one of eight possible directions (cardinal and diagonal).

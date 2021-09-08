@@ -16,7 +16,7 @@
                 </test-type>
             </test-dependencies>
             <public-packages>
-                <package>net.retrocarnage.editor.model</package>
+                <package>net.retrocarnage.editor.model.game</package>
             </public-packages>
         </data>
     </configuration>

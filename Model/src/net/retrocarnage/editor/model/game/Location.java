@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model;
+package net.retrocarnage.editor.model.game;
 
 /**
  * A Location of a mission on the unscaled world map.

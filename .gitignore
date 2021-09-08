@@ -29,3 +29,6 @@ hs_err_pid*
 /Model/nbproject/private/
 /Core/build/
 /Core/nbproject/private/
+/AssetManager/build/
+/Jackson-annotations/build/
+/AssetManager/nbproject/private/

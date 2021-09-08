@@ -1,5 +1,5 @@
 
-package net.retrocarnage.editor.model;
+package net.retrocarnage.editor.model.game;
 
 /**
  * EnemyMovement is one of a series of movements of an Enemy.

@@ -1,14 +1,14 @@
 
-package net.retrocarnage.editor.model;
+package net.retrocarnage.editor.model.game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/mission.go
+ * A mission for Retro-Carnage.
  * 
  * @author Thomas Werner
- * @see 
+ * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/mission.go
  */
 public class Mission {
 
