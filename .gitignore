@@ -32,3 +32,4 @@ hs_err_pid*
 /AssetManager/build/
 /Jackson-annotations/build/
 /AssetManager/nbproject/private/
+/Apache-Commons-IO/build/

@@ -6,7 +6,6 @@ import java.util.UUID;
 import net.retrocarnage.editor.assetmanager.model.AttributionData;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,15 +57,15 @@ public class AssetServiceImplPeristenceTest {
         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         assetServiceIn.loadAssets(bais);
 
-        assertEquals(0, assetServiceIn.getMusic(null).size());
-        assertEquals(0, assetServiceIn.getSprites(null, null).size());
+        assertEquals(0, assetServiceIn.findMusic(null).size());
+        assertEquals(0, assetServiceIn.findSprites(null, null).size());
     }
 
     @Test
     public void testPopulatedDatabase() throws Exception {
         final AssetServiceImpl assetServiceOut = new AssetServiceImpl();
-        assetServiceOut.addMusic(music1);
-        assetServiceOut.addMusic(music2);
+        assetServiceOut.addMusic(music1, null);
+        assetServiceOut.addMusic(music2, null);
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         assetServiceOut.saveAssets(baos);
 
@@ -74,14 +73,8 @@ public class AssetServiceImplPeristenceTest {
         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         assetServiceIn.loadAssets(bais);
 
-        assertEquals(2, assetServiceIn.getMusic(null).size());
-        assertEquals(0, assetServiceIn.getSprites(null, null).size());
-    }
-
-    @Test
-    public void testCorruptDatabase() throws Exception {
-        // TODO: Populate
-        fail("The test case is a prototype.");
+        assertEquals(2, assetServiceIn.findMusic(null).size());
+        assertEquals(0, assetServiceIn.findSprites(null, null).size());
     }
 
 }

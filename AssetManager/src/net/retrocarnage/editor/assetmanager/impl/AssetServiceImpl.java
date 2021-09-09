@@ -56,7 +56,7 @@ public class AssetServiceImpl extends AssetService {
     }
 
     @Override
-    public Collection<Music> getMusic(String tagFilter) {
+    public Collection<Music> findMusic(final String tagFilter) {
         if (null == tagFilter || tagFilter.isEmpty()) {
             return assets.getMusic().values();
         }
@@ -65,7 +65,34 @@ public class AssetServiceImpl extends AssetService {
     }
 
     @Override
-    public Collection<Sprite> getSprites(SpriteCategory category, String tagFilter) {
+    public Music getMusic(final String id) {
+        return assets.getMusic().get(id);
+    }
+
+    @Override
+    public void addMusic(final Music music, final InputStream in) {
+        // TODO: Create copy of asset
+        // TODO: Update music with relative path
+        assets.getMusic().put(music.getId(), music);
+    }
+
+    @Override
+    public void updateMusicInfo(final Music music) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void updateMusicAsset(final InputStream in) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeMusic(final String id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Collection<Sprite> findSprites(final SpriteCategory category, final String tagFilter) {
         if (null == category && (null == tagFilter || tagFilter.isEmpty())) {
             return assets.getSprites().values();
         }
@@ -74,33 +101,38 @@ public class AssetServiceImpl extends AssetService {
     }
 
     @Override
-    public void addMusic(Music music) {
-        assets.getMusic().put(music.getId(), music);
+    public Sprite getSprite(final String id) {
+        return assets.getSprites().get(id);
     }
 
     @Override
-    public void updateMusic(Music music) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeMusic(Music music) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void addSprite(Sprite sprite) {
+    public void addSprite(final Sprite sprite, final InputStream in) {
+        // TODO: Create copy of asset
+        // TODO: Update sprite with relative path
         assets.getSprites().put(sprite.getId(), sprite);
     }
 
     @Override
-    public void updateSprite(Sprite sprite) {
+    public void updateSpriteInfo(final Sprite sprite) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void removeSprite(Sprite sprite) {
+    public void updateSpriteAsset(final InputStream in) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeSprite(final String id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Path getMusicFolder() {
+        return musicFolder;
+    }
+
+    public Path getSpriteFolder() {
+        return spriteFolder;
     }
 
 }
