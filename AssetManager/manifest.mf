@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: net.retrocarnage.editor.assetmanager
+OpenIDE-Module-Install: net/retrocarnage/editor/assetmanager/impl/Installer.class
 OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/assetmanager/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.0
 

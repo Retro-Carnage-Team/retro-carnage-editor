@@ -1,8 +1,5 @@
 package net.retrocarnage.editor.assetmanager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
 import net.retrocarnage.editor.assetmanager.model.Music;
@@ -16,20 +13,6 @@ import org.openide.util.Lookup;
  * @author Thomas Werner
  */
 public abstract class AssetService {
-
-    /**
-     * Loads the asset database from disk (or some other resource)
-     *
-     * @param in InputStream containing the assets database
-     */
-    public abstract void loadAssets(InputStream in) throws IOException;
-
-    /**
-     * Saves the asset database to disk (or some other resource)
-     *
-     * @param out OutputStream to store the asset database
-     */
-    public abstract void saveAssets(OutputStream out) throws IOException;
 
     /**
      * Searches for music assets that match the given criteria.
