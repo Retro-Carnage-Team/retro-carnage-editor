@@ -63,19 +63,20 @@ public class AssetServiceImplSpriteTest {
             service.addSprite(sprite, logoStream);
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        sprite.getData(baos);
-        final int googleLogoSize = baos.toByteArray().length;
-
-        try (final InputStream logoStream = new URL(WIKIPEDIA_LOGO).openStream()) {
-            service.updateSpriteAsset(sprite.getId(), logoStream);
+        int googleLogoSize;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            sprite.getData(baos);
+            googleLogoSize = baos.toByteArray().length;
         }
 
-        baos = new ByteArrayOutputStream();
-        sprite.getData(baos);
-        assertNotEquals(googleLogoSize, baos.toByteArray().length);
-        assertTrue(0 < baos.toByteArray().length);
-        service.removeSprite(sprite.getId());
+        try (final InputStream logoStream = new URL(WIKIPEDIA_LOGO).openStream();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            service.updateSpriteAsset(sprite.getId(), logoStream);
+            sprite.getData(baos);
+            assertNotEquals(googleLogoSize, baos.toByteArray().length);
+            assertTrue(0 < baos.toByteArray().length);
+            service.removeSprite(sprite.getId());
+        }
     }
 
 }

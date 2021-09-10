@@ -17,8 +17,8 @@ import net.retrocarnage.editor.assetmanager.model.Sprite;
  */
 class AssetDatabase {
 
-    private Map<String, Music> music;
-    private Map<String, Sprite> sprites;
+    private final Map<String, Music> music;
+    private final Map<String, Sprite> sprites;
 
     public AssetDatabase() {
         // We need concorrent maps here as we want to do the media handling outside of the UI thread

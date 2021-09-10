@@ -16,13 +16,12 @@ import org.junit.Test;
  */
 public class AssetServiceImplPeristenceTest {
 
-    private AttributionData attributionData;
     private Music music1;
     private Music music2;
 
     @Before
     public void setUp() {
-        attributionData = new AttributionData();
+        final AttributionData attributionData = new AttributionData();
         attributionData.setAuthor("Thomas Werner");
         attributionData.setLicenseLink("http://apache.org/license/2.0");
         attributionData.setWebsite("http://retro-carnage.net");
