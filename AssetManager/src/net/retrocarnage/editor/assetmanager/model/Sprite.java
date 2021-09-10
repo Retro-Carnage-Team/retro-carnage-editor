@@ -7,13 +7,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
-import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
+import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -91,11 +89,11 @@ public class Sprite {
      * @throws IOException
      */
     public void getData(final OutputStream out) throws IOException {
-        final AssetServiceImpl assetService = (AssetServiceImpl) AssetService.getDefault();
-        final Path filePath = Paths.get(assetService.getSpriteFolder().toString(), relativePath);
+        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+        final Path appFolderPath = appFolderService.getApplicationFolder();
+        final Path filePath = Paths.get(appFolderPath.toString(), relativePath);
         if (filePath.toFile().exists()) {
-            try (final InputStream in = Files.newInputStream(filePath, StandardOpenOption.READ);
-                    final BufferedInputStream bin = new BufferedInputStream(in)) {
+            try (final InputStream in = new BufferedInputStream(Files.newInputStream(filePath))) {
                 IOUtils.copy(in, out);
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to read sprite asset: {0}", filePath.toString());
@@ -103,6 +101,29 @@ public class Sprite {
             }
         } else {
             logger.log(Level.WARNING, "Missing asset: {0}", filePath.toString());
+            throw new IOException("File not found: " + filePath.toString());
+        }
+    }
+
+    /**
+     * Reads the file of the thumbnail associated with this asset.
+     *
+     * @param out destination
+     * @throws IOException
+     */
+    public void getThumbnail(final OutputStream out) throws IOException {
+        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+        final Path appFolderPath = appFolderService.getApplicationFolder();
+        final Path filePath = Paths.get(appFolderPath.toString(), relativePathThumbnail);
+        if (filePath.toFile().exists()) {
+            try (final InputStream in = new BufferedInputStream(Files.newInputStream(filePath))) {
+                IOUtils.copy(in, out);
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to read sprite thumbnail: {0}", filePath.toString());
+                throw new IOException("Failed to read sprite thumbnail " + filePath.toString(), ex);
+            }
+        } else {
+            logger.log(Level.WARNING, "Missing thumbnail: {0}", filePath.toString());
             throw new IOException("File not found: " + filePath.toString());
         }
     }

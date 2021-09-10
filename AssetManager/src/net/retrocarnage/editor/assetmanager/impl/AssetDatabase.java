@@ -5,8 +5,8 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
 
@@ -21,8 +21,9 @@ class AssetDatabase {
     private Map<String, Sprite> sprites;
 
     public AssetDatabase() {
-        music = new HashMap<>();
-        sprites = new HashMap<>();
+        // We need concorrent maps here as we want to do the media handling outside of the UI thread
+        music = new ConcurrentHashMap<>();
+        sprites = new ConcurrentHashMap<>();
     }
 
     public Map<String, Music> getMusic() {

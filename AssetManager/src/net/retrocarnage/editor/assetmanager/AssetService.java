@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.assetmanager;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
@@ -31,11 +32,17 @@ public abstract class AssetService {
      */
     public abstract Music getMusic(String id);
 
-    public abstract void addMusic(Music music, InputStream in);
+    /**
+     * Adds a new Music asset. InputStream is expected to hold MP3 encoded sound data.
+     *
+     * @param music music data
+     * @param in InputStream that provides a MP3 encoded sound
+     */
+    public abstract void addMusic(Music music, InputStream in) throws IOException;
 
     public abstract void updateMusicInfo(Music music);
 
-    public abstract void updateMusicAsset(InputStream in);
+    public abstract void updateMusicAsset(String id, InputStream in) throws IOException;
 
     public abstract void removeMusic(String id);
 
@@ -56,11 +63,17 @@ public abstract class AssetService {
      */
     public abstract Sprite getSprite(String id);
 
-    public abstract void addSprite(Sprite sprite, InputStream in);
+    /**
+     * Adds a new Sprite asset. InputStream is expected to hold GIF, PNG, JPEG, BMP, or WBMP encoded image data.
+     *
+     * @param sprite sprite data
+     * @param in InputStream that provides a PNG encoded image
+     */
+    public abstract void addSprite(Sprite sprite, InputStream in) throws IOException;
 
     public abstract void updateSpriteInfo(Sprite sprite);
 
-    public abstract void updateSpriteAsset(InputStream in);
+    public abstract void updateSpriteAsset(String id, InputStream in) throws IOException;
 
     public abstract void removeSprite(String id);
 
