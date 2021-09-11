@@ -131,21 +131,24 @@ public class AssetServiceImpl extends AssetService {
         final Path spritePath = Paths.get(appFolderPath.toString(), sprite.getRelativePath());
         final Path thumbnailPath = Paths.get(appFolderPath.toString(), sprite.getRelativePathThumbnail());
         storeSpriteToDisk(in, spritePath, thumbnailPath);
-
-        assets.getSprites().put(sprite.getId(), sprite);
+        assets.getSprites().put(sprite.getId(), sprite.deepCopy());
     }
 
     @Override
     public void updateSpriteInfo(final Sprite sprite) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (null == getSprite(sprite.getId())) {
+            logger.log(Level.WARNING, "No such asset for given id: {0}", sprite.getId());
+            throw new IllegalArgumentException("No such asset for given id: " + sprite.getId());
+        }
+        assets.getSprites().put(sprite.getId(), sprite.deepCopy());
     }
 
     @Override
     public void updateSpriteAsset(final String id, final InputStream in) throws IOException {
-        final Sprite sprite = assets.getSprites().get(id);
+        final Sprite sprite = getSprite(id);
         if (null == sprite) {
             logger.log(Level.WARNING, "No such asset for given id: {0}", id);
-            throw new IOException("No such asset for given id: " + id);
+            throw new IllegalArgumentException("No such asset for given id: " + id);
         }
 
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();

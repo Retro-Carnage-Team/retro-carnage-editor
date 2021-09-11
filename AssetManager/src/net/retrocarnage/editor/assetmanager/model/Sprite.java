@@ -1,5 +1,8 @@
 package net.retrocarnage.editor.assetmanager.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +128,21 @@ public class Sprite {
         } else {
             logger.log(Level.WARNING, "Missing thumbnail: {0}", filePath.toString());
             throw new IOException("File not found: " + filePath.toString());
+        }
+    }
+
+    /**
+     * Creates a deep copy of this object.
+     *
+     * @return the copy
+     */
+    public Sprite deepCopy() {
+        try {
+            final ObjectMapper xmlMapper = new XmlMapper();
+            return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Sprite.class);
+        } catch (JsonProcessingException ex) {
+            logger.log(Level.SEVERE, "Failed to serialize / deserialize Sprite instance", ex);
+            throw new IllegalArgumentException("Sprite can't be serialized / deserialized");
         }
     }
 
