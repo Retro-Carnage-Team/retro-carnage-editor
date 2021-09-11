@@ -617,7 +617,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         }
     }
 
-    private void populateAssetEditor(final JLabel idDisplay, final JTextField[] assetFields) {
+    private void populateAssetEditor(final JLabel idDisplay, final JTextField... assetFields) {
         final Asset<?> asset = controller.getSelectedAsset();
         idDisplay.setText(asset.getId());
         assetFields[0].setText(asset.getName());
@@ -649,12 +649,12 @@ public final class AssetManagerTopComponent extends TopComponent {
             }
 
             final String extension = FilenameUtils.getExtension(f.getName()).toUpperCase();
-            return extension.equals("GIF")
-                    || extension.equals("PNG")
-                    || extension.equals("JPEG")
-                    || extension.equals("JPG")
-                    || extension.equals("BMP")
-                    || extension.equals("WBMP");
+            return "GIF".equals(extension)
+                    || "PNG".equals(extension)
+                    || "JPEG".equals(extension)
+                    || "JPG".equals(extension)
+                    || "BMP".equals(extension)
+                    || "WBMP".equals(extension);
         }
 
         @Override
