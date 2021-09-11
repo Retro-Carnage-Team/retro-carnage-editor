@@ -10,15 +10,18 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
-import net.retrocarnage.editor.assetmanager.model.SpriteCategory;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 
 /**
@@ -70,12 +73,29 @@ public class AssetServiceImpl extends AssetService {
     }
 
     @Override
-    public Collection<Music> findMusic(final String tagFilter) {
+    public Collection<Asset<?>> findAssets(final String tagFilter) {
+        final Collection<Asset<?>> result = new ArrayList<>();
         if (null == tagFilter || tagFilter.isEmpty()) {
-            return assets.getMusic().values();
+            result.addAll(assets.getMusic().values());
+            result.addAll(assets.getSprites().values());
+        } else {
+            final String[] filterTags = tagFilter.split("\\s+");
+            for (String filterTag : filterTags) {
+                final List<Music> taggedMusic = assets
+                        .getMusic()
+                        .values()
+                        .stream()
+                        .filter(m -> m.isTagged(filterTag)).collect(Collectors.toList());
+                result.addAll(taggedMusic);
+                final List<Sprite> taggedSprites = assets
+                        .getSprites()
+                        .values()
+                        .stream()
+                        .filter(m -> m.isTagged(filterTag)).collect(Collectors.toList());
+                result.addAll(taggedSprites);
+            }
         }
-
-        throw new UnsupportedOperationException("Not supported yet.");
+        return result;
     }
 
     @Override
@@ -102,15 +122,6 @@ public class AssetServiceImpl extends AssetService {
 
     @Override
     public void removeMusic(final String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Collection<Sprite> findSprites(final SpriteCategory category, final String tagFilter) {
-        if (null == category && (null == tagFilter || tagFilter.isEmpty())) {
-            return assets.getSprites().values();
-        }
-
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

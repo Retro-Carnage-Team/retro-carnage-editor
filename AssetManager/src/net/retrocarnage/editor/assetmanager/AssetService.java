@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
+import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
-import net.retrocarnage.editor.assetmanager.model.SpriteCategory;
 import org.openide.util.Lookup;
 
 /**
@@ -17,12 +17,12 @@ import org.openide.util.Lookup;
 public abstract class AssetService {
 
     /**
-     * Searches for music assets that match the given criteria.
+     * Searches for music and sprite assets that match the given criteria.
      *
      * @param tagFilter a search term containing zero, one or more tags. Can be NULL.
-     * @return a List of Music assets
+     * @return a List of Assets
      */
-    public abstract Collection<Music> findMusic(String tagFilter);
+    public abstract Collection<Asset<?>> findAssets(String tagFilter);
 
     /**
      * Gets the Music for the given Id.
@@ -45,15 +45,6 @@ public abstract class AssetService {
     public abstract void updateMusicAsset(String id, InputStream in) throws IOException;
 
     public abstract void removeMusic(String id);
-
-    /**
-     * Searches for sprite assets that match the given criteria.
-     *
-     * @param category a SpriteCategory or NULL
-     * @param tagFilter a search term containing zero, one or more tags. Can be NULL.
-     * @return a List of sprite assets
-     */
-    public abstract Collection<Sprite> findSprites(SpriteCategory category, String tagFilter);
 
     /**
      * Gets the Sprite for the given Id.

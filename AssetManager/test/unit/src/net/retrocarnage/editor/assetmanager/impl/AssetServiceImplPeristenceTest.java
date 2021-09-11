@@ -56,8 +56,7 @@ public class AssetServiceImplPeristenceTest {
         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         assetServiceIn.loadAssets(bais);
 
-        assertEquals(0, assetServiceIn.findMusic(null).size());
-        assertEquals(0, assetServiceIn.findSprites(null, null).size());
+        assertEquals(0, assetServiceIn.findAssets(null).size());
     }
 
     @Test
@@ -72,8 +71,7 @@ public class AssetServiceImplPeristenceTest {
         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         assetServiceIn.loadAssets(bais);
 
-        assertEquals(2, assetServiceIn.findMusic(null).size());
-        assertEquals(0, assetServiceIn.findSprites(null, null).size());
+        assertEquals(2, assetServiceIn.findAssets(null).size());
     }
 
 }

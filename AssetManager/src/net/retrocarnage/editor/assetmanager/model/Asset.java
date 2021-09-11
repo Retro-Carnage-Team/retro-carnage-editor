@@ -19,7 +19,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author Thomas Werner
  */
-public abstract class Asset<T> {
+public abstract class Asset<T extends Asset<?>> {
 
     private static final Logger logger = Logger.getLogger(Music.class.getName());
 
@@ -71,6 +71,18 @@ public abstract class Asset<T> {
 
     public void setTags(final List<String> tags) {
         this.tags = tags;
+    }
+
+    /**
+     * Checks whether or not this Asset has a tag that starts with the given String.
+     *
+     * @param tag search criteria
+     * @return true if this Asset has a matching tag
+     */
+    public boolean isTagged(final String tag) {
+        return tags
+                .stream()
+                .anyMatch(t -> t.trim().toLowerCase().startsWith(tag.trim().toLowerCase()));
     }
 
     /**

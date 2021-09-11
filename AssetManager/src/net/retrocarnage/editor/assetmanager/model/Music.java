@@ -22,7 +22,7 @@ public class Music extends Asset<Music> {
             return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Music.class);
         } catch (JsonProcessingException ex) {
             logger.log(Level.SEVERE, "Failed to serialize / deserialize Music instance", ex);
-            throw new IllegalArgumentException("Music can't be serialized / deserialized");
+            throw new IllegalArgumentException("Music can't be serialized / deserialized", ex);
         }
     }
 
