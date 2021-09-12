@@ -3,10 +3,15 @@ package net.retrocarnage.editor.assetmanager.gui;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
 import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import org.apache.commons.io.FilenameUtils;
@@ -41,6 +46,8 @@ import org.openide.windows.TopComponent;
     "HINT_AssetManagerTopComponent=This is a AssetManager window"
 })
 public final class AssetManagerTopComponent extends TopComponent {
+
+    private static final Logger logger = Logger.getLogger(AssetManagerTopComponent.class.getName());
 
     private final AssetManagerController controller;
     private final JTextField[] musicEditorFields;
@@ -84,7 +91,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMenuLeft = new javax.swing.JPanel();
         btnAddSprite = new javax.swing.JButton();
         btnAddMusic = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
+        btnSaveAsset = new javax.swing.JButton();
         pnlMenuRight = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -143,11 +150,21 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMenuLeft.add(btnAddSprite);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddMusic, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.jButton2.text")); // NOI18N
+        btnAddMusic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMusicMouseClicked(evt);
+            }
+        });
         pnlMenuLeft.add(btnAddMusic);
 
-        org.openide.awt.Mnemonics.setLocalizedText(btnUpdate, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnUpdate.text_1")); // NOI18N
-        btnUpdate.setEnabled(false);
-        pnlMenuLeft.add(btnUpdate);
+        org.openide.awt.Mnemonics.setLocalizedText(btnSaveAsset, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnSaveAsset.text_1")); // NOI18N
+        btnSaveAsset.setEnabled(false);
+        btnSaveAsset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveAssetMouseClicked(evt);
+            }
+        });
+        pnlMenuLeft.add(btnSaveAsset);
 
         pnlMenu.add(pnlMenuLeft, java.awt.BorderLayout.WEST);
 
@@ -297,6 +314,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicEditor.add(lblMusicName, gridBagConstraints);
 
         txtMusicName.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicName.text")); // NOI18N
+        txtMusicName.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getName())) {
+                    music.setName(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -520,7 +547,7 @@ public final class AssetManagerTopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddSpriteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddSpriteMouseClicked
-        if (controller.isAssetModified()) {
+        if (btnSaveAsset.isEnabled()) {
             // TODO: Ask user to save changes
         }
 
@@ -530,12 +557,27 @@ public final class AssetManagerTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_btnAddSpriteMouseClicked
 
+    private void btnAddMusicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMusicMouseClicked
+        if (btnSaveAsset.isEnabled()) {
+            // TODO: Ask user to save changes
+        }
+
+        final File selectAssetResource = this.selectAssetResource(new ImageMusicFilter());
+        if (null != selectAssetResource) {
+            controller.newMusicAsset(selectAssetResource);
+        }
+    }//GEN-LAST:event_btnAddMusicMouseClicked
+
+    private void btnSaveAssetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveAssetMouseClicked
+        btnSaveAsset.setEnabled(!controller.saveChanges());
+    }//GEN-LAST:event_btnSaveAssetMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMusic;
     private javax.swing.JButton btnAddSprite;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnSaveAsset;
     private javax.swing.JLabel lblMusicAuthor;
     private javax.swing.JLabel lblMusicId;
     private javax.swing.JLabel lblMusicIdDisplay;
@@ -661,6 +703,54 @@ public final class AssetManagerTopComponent extends TopComponent {
         public String getDescription() {
             return "Image files";
         }
+    }
+
+    private static class ImageMusicFilter extends FileFilter {
+
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            }
+
+            final String extension = FilenameUtils.getExtension(f.getName()).toUpperCase();
+            return "MP3".equals(extension);
+        }
+
+        @Override
+        public String getDescription() {
+            return "Music files";
+        }
+    }
+
+    private static abstract class AssetUpdateListener implements DocumentListener {
+
+        @Override
+        public void changedUpdate(final DocumentEvent e) {
+            updateAssetProperty(getCurrentState(e));
+        }
+
+        @Override
+        public void insertUpdate(final DocumentEvent e) {
+            updateAssetProperty(getCurrentState(e));
+        }
+
+        @Override
+        public void removeUpdate(final DocumentEvent e) {
+            updateAssetProperty(getCurrentState(e));
+        }
+
+        private String getCurrentState(final DocumentEvent e) {
+            try {
+                return e.getDocument().getText(0, e.getLength());
+            } catch (BadLocationException ex) {
+                logger.log(Level.WARNING, "Failed to get text of JTextField", ex);
+                return "";
+            }
+        }
+
+        protected abstract void updateAssetProperty(final String newValue);
+
     }
 
 }

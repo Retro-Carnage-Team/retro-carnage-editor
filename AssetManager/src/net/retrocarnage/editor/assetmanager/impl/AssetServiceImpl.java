@@ -23,6 +23,7 @@ import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
 import net.retrocarnage.editor.core.ApplicationFolderService;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Implementation of the AssetService.
@@ -104,10 +105,15 @@ public class AssetServiceImpl extends AssetService {
     }
 
     @Override
-    public void addMusic(final Music music, final InputStream in) {
-        // TODO: Create copy of asset
-        // TODO: Update music with relative path
-        assets.getMusic().put(music.getId(), music);
+    public void addMusic(final Music music, final InputStream in) throws IOException {
+        music.setId(UUID.randomUUID().toString());
+        music.setRelativePath(Paths.get(MUSIC_FOLDER_NAME, music.getId() + ".mp3").toString());
+
+        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+        final Path appFolderPath = appFolderService.getApplicationFolder();
+        storeMusicToDisk(in, Paths.get(appFolderPath.toString(), music.getRelativePath()));
+
+        assets.getMusic().put(music.getId(), music.deepCopy());
     }
 
     @Override
@@ -187,6 +193,24 @@ public class AssetServiceImpl extends AssetService {
                 logger.warning("Failed to delete thumbnail file immediatly. Scheduling delete on exit.");
             }
             assets.getSprites().remove(id);
+        }
+    }
+
+    /**
+     * Reads the given data stream and resamples the music to the required sample ratio. Stores the resampled musicto
+     * the specified musicPath.
+     *
+     * @param in music
+     * @param spritePath path for the resampled music
+     * @throws IOException when things blow up
+     */
+    private void storeMusicToDisk(final InputStream in, final Path musicPath) throws IOException {
+        try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(musicPath))) {
+            // TODO: Resample using JAVE
+            IOUtils.copy(in, out);
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, "Failed to add music asset: {0}", musicPath.toString());
+            throw new IOException("Failed to add music asset " + musicPath.toString(), ex);
         }
     }
 

@@ -63,8 +63,8 @@ class AssetDatabase {
      */
     public void save(final OutputStream out) throws IOException {
         final AssetDatabaseFile dataStore = new AssetDatabaseFile();
-        dataStore.getMusic().addAll(this.music.values());
-        dataStore.getSprites().addAll(this.sprites.values());
+        dataStore.getMusic().addAll(music.values());
+        dataStore.getSprites().addAll(sprites.values());
 
         new XmlMapper().writeValue(out, dataStore);
     }

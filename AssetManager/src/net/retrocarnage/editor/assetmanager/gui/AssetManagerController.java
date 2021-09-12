@@ -3,9 +3,15 @@ package net.retrocarnage.editor.assetmanager.gui;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -23,6 +29,7 @@ import net.retrocarnage.editor.assetmanager.model.Sprite;
 class AssetManagerController {
 
     public static final String PROPERTY_SELECTED_ASSET = "selectedAsset";
+    private static final Logger logger = Logger.getLogger(AssetManagerTopComponent.class.getName());
 
     private final AssetService assetService = AssetService.getDefault();
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -30,6 +37,7 @@ class AssetManagerController {
     private List<Asset<?>> assets = getAssetList();
     private Asset<?> selectedAsset;
     private File newAssetResource;
+    private AssetTableModel assetTableModel;
 
     private List<Asset<?>> getAssetList() {
         return new ArrayList<>(assetService.findAssets(null));
@@ -44,7 +52,11 @@ class AssetManagerController {
     }
 
     void newMusicAsset(final File assetResourceFile) {
-        // TODO: Check that the currently selected asset has no unsaved changes
+        newAssetResource = assetResourceFile;
+
+        final Music newMusic = new Music();
+        newMusic.setAttributionData(new AttributionData());
+        replaceAsset(newMusic);
     }
 
     void newSpriteAsset(final File assetResourceFile) {
@@ -55,9 +67,29 @@ class AssetManagerController {
         replaceAsset(newSprite);
     }
 
-    boolean isAssetModified() {
-        // TODO: Check that the currently selected asset has no unsaved changes
-        return false;
+    boolean saveChanges() {
+        try (final InputStream in = new FileInputStream(newAssetResource)) {
+            if (null == selectedAsset.getId()) {
+                selectedAsset.setId(UUID.randomUUID().toString());
+                if (selectedAsset instanceof Music) {
+                    assetService.addMusic((Music) selectedAsset, in);
+                } else {
+                    assetService.addSprite((Sprite) selectedAsset, in);
+                }
+            } else {
+                if (selectedAsset instanceof Music) {
+                    assetService.updateMusicInfo((Music) selectedAsset);
+                } else {
+                    assetService.updateSpriteInfo((Sprite) selectedAsset);
+                }
+            }
+            assets = getAssetList();
+            assetTableModel.fireTableDataChanged();
+            return true;
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Failed to add asset", ex);
+            return false;
+        }
     }
 
     /**
@@ -73,45 +105,10 @@ class AssetManagerController {
      * @return the TableModel
      */
     AbstractTableModel getTableModel() {
-        final String[] columnNames = {"ID", "Type", "Tags"};
-        return new AbstractTableModel() {
-            @Override
-            public String getColumnName(int col) {
-                return columnNames[col];
-            }
-
-            @Override
-            public int getRowCount() {
-                return assets.size();
-            }
-
-            @Override
-            public int getColumnCount() {
-                return columnNames.length;
-            }
-
-            @Override
-            public Object getValueAt(int row, int column) {
-                final Asset<?> asset = assets.get(row);
-                switch (column) {
-                    case 0:
-                        return asset.getId();
-                    case 1:
-                        return (asset instanceof Music) ? "Music" : "Sprite";
-                    case 2:
-                        final List<String> tags = new ArrayList<>(asset.getTags());
-                        Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
-                        return String.join(", ", tags);
-                    default:
-                        return "";
-                }
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
+        if (null == assetTableModel) {
+            assetTableModel = new AssetTableModel();
+        }
+        return assetTableModel;
     }
 
     /**
@@ -135,6 +132,50 @@ class AssetManagerController {
 
         selectedAsset = newValue;
         this.propertyChangeSupport.firePropertyChange(PROPERTY_SELECTED_ASSET, oldValue, selectedAsset);
+    }
+
+    private class AssetTableModel extends AbstractTableModel {
+
+        final String[] columnNames = {"ID", "Name", "Type", "Tags"};
+
+        @Override
+        public String getColumnName(int col) {
+            return columnNames[col];
+        }
+
+        @Override
+        public int getRowCount() {
+            return assets.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        @Override
+        public Object getValueAt(int row, int column) {
+            final Asset<?> asset = assets.get(row);
+            switch (column) {
+                case 0:
+                    return asset.getId();
+                case 1:
+                    return asset.getName();
+                case 2:
+                    return (asset instanceof Music) ? "Music" : "Sprite";
+                case 3:
+                    final List<String> tags = new ArrayList<>(asset.getTags());
+                    Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
+                    return String.join(", ", tags);
+                default:
+                    return "";
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return false;
+        }
     }
 
 }

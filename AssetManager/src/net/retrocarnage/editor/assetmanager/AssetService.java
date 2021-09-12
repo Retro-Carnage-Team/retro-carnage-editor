@@ -7,7 +7,6 @@ import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
 import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
-import org.openide.util.Lookup;
 
 /**
  * Manages the assets used to create a level.
@@ -15,6 +14,8 @@ import org.openide.util.Lookup;
  * @author Thomas Werner
  */
 public abstract class AssetService {
+
+    private static AssetService assetServiceImpl = new AssetServiceImpl();
 
     /**
      * Searches for music and sprite assets that match the given criteria.
@@ -72,11 +73,7 @@ public abstract class AssetService {
      * @return an instance of this service
      */
     public static AssetService getDefault() {
-        AssetService assetService = Lookup.getDefault().lookup(AssetService.class);
-        if (null == assetService) {
-            assetService = new AssetServiceImpl();
-        }
-        return assetService;
+        return assetServiceImpl;
     }
 
 }

@@ -20,6 +20,8 @@ public class Installer extends ModuleInstall {
     @Override
     public void restored() {
         final AssetServiceImpl assetService = ((AssetServiceImpl) AssetService.getDefault());
+        assetService.initializeFolderStructure();
+
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
         if (databaseFile.toFile().exists()) {
@@ -29,18 +31,16 @@ public class Installer extends ModuleInstall {
                 logger.log(Level.WARNING, "Failed to read the asset database file", ex.getMessage());
             }
         }
-        assetService.initializeFolderStructure();
+
     }
 
     @Override
     public void close() {
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
-        try (final OutputStream database = Files.newOutputStream(databaseFile,
-                StandardOpenOption.CREATE,
-                StandardOpenOption.TRUNCATE_EXISTING,
-                StandardOpenOption.WRITE)) {
-            ((AssetServiceImpl) AssetService.getDefault()).saveAssets(database);
+        try (final OutputStream database = Files.newOutputStream(databaseFile)) {
+            final AssetServiceImpl assetService = ((AssetServiceImpl) AssetService.getDefault());
+            assetService.saveAssets(database);
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to write the asset database file", ex.getMessage());
         }
