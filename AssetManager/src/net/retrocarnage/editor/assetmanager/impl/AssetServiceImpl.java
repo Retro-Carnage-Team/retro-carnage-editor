@@ -118,7 +118,11 @@ public class AssetServiceImpl extends AssetService {
 
     @Override
     public void updateMusicInfo(final Music music) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (null == getMusic(music.getId())) {
+            logger.log(Level.WARNING, "No such asset for given id: {0}", music.getId());
+            throw new IllegalArgumentException("No such asset for given id: " + music.getId());
+        }
+        assets.getMusic().put(music.getId(), music.deepCopy());
     }
 
     @Override

@@ -280,6 +280,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtMusicAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getAuthor())) {&#xa;            music.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -292,6 +295,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtMusicWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getWebsite())) {&#xa;            music.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -304,6 +310,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtMusicLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseLink())) {&#xa;            music.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -316,6 +325,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtMusicLicenceText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseText())) {&#xa;            music.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -396,6 +408,9 @@
                   <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtMusicTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getTags())) {             &#xa;            music.setTags(newValue);             &#xa;            btnSaveAsset.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -551,6 +566,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getAuthor())) {&#xa;            sprite.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -563,6 +581,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getWebsite())) {&#xa;            sprite.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -575,6 +596,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {&#xa;            sprite.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -587,6 +611,9 @@
                       <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteLicenceText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {&#xa;            sprite.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -640,6 +667,9 @@
                   <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteName.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getName())) {&#xa;            sprite.setName(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -664,6 +694,9 @@
                   <ResourceString bundle="net/retrocarnage/editor/assetmanager/gui/Bundle.properties" key="AssetManagerTopComponent.txtSpriteTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getTags())) {             &#xa;            sprite.setTags(newValue);             &#xa;            btnSaveAsset.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="2" insetsLeft="2" insetsBottom="2" insetsRight="2" anchor="10" weightX="0.0" weightY="0.0"/>

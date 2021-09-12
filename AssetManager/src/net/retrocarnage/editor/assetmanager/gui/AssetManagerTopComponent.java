@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.BadLocationException;
 import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
+import net.retrocarnage.editor.assetmanager.model.Sprite;
 import org.apache.commons.io.FilenameUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -247,6 +248,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(lblMusicLicenseText, gridBagConstraints);
 
         txtMusicAuthor.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicAuthor.text")); // NOI18N
+        txtMusicAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getAttributionData().getAuthor())) {
+                    music.getAttributionData().setAuthor(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -256,6 +267,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicAuthor, gridBagConstraints);
 
         txtMusicWebsite.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicWebsite.text")); // NOI18N
+        txtMusicWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getAttributionData().getWebsite())) {
+                    music.getAttributionData().setWebsite(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -264,6 +285,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicWebsite, gridBagConstraints);
 
         txtMusicLicenseLink.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenseLink.text")); // NOI18N
+        txtMusicLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getAttributionData().getLicenseLink())) {
+                    music.getAttributionData().setLicenseLink(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -272,6 +303,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicLicenseLink, gridBagConstraints);
 
         txtMusicLicenceText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenceText.text")); // NOI18N
+        txtMusicLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getAttributionData().getLicenseText())) {
+                    music.getAttributionData().setLicenseText(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -340,6 +381,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicEditor.add(lblMusicTags, gridBagConstraints);
 
         txtMusicTags.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicTags.text")); // NOI18N
+        txtMusicTags.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Music music = (Music) controller.getSelectedAsset();
+                if(!newValue.equals(music.getTags())) {
+                    music.setTags(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -431,6 +482,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(lblSpriteLicenseText, gridBagConstraints);
 
         txtSpriteAuthor.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteAuthor.text")); // NOI18N
+        txtSpriteAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getAttributionData().getAuthor())) {
+                    sprite.getAttributionData().setAuthor(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -440,6 +501,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteAuthor, gridBagConstraints);
 
         txtSpriteWebsite.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteWebsite.text")); // NOI18N
+        txtSpriteWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getAttributionData().getWebsite())) {
+                    sprite.getAttributionData().setWebsite(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -448,6 +519,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteWebsite, gridBagConstraints);
 
         txtSpriteLicenseLink.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenseLink.text")); // NOI18N
+        txtSpriteLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {
+                    sprite.getAttributionData().setLicenseLink(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -456,6 +537,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteLicenseLink, gridBagConstraints);
 
         txtSpriteLicenceText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenceText.text")); // NOI18N
+        txtSpriteLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {
+                    sprite.getAttributionData().setLicenseText(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -498,6 +589,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblSpriteName, gridBagConstraints);
 
         txtSpriteName.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteName.text")); // NOI18N
+        txtSpriteName.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getName())) {
+                    sprite.setName(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -514,6 +615,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblSpriteTags, gridBagConstraints);
 
         txtSpriteTags.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteTags.text")); // NOI18N
+        txtSpriteTags.getDocument().addDocumentListener(new AssetUpdateListener() {
+            @Override
+            protected void updateAssetProperty(final String newValue) {
+                final Sprite sprite = (Sprite) controller.getSelectedAsset();
+                if(!newValue.equals(sprite.getTags())) {
+                    sprite.setTags(newValue);
+                    btnSaveAsset.setEnabled(true);
+                }
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -742,7 +853,7 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         private String getCurrentState(final DocumentEvent e) {
             try {
-                return e.getDocument().getText(0, e.getLength());
+                return e.getDocument().getText(0, e.getDocument().getLength());
             } catch (BadLocationException ex) {
                 logger.log(Level.WARNING, "Failed to get text of JTextField", ex);
                 return "";

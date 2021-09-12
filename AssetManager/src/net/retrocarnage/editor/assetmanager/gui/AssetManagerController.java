@@ -68,28 +68,28 @@ class AssetManagerController {
     }
 
     boolean saveChanges() {
-        try (final InputStream in = new FileInputStream(newAssetResource)) {
-            if (null == selectedAsset.getId()) {
+        if (null == selectedAsset.getId()) {
+            try (final InputStream in = new FileInputStream(newAssetResource)) {
                 selectedAsset.setId(UUID.randomUUID().toString());
                 if (selectedAsset instanceof Music) {
                     assetService.addMusic((Music) selectedAsset, in);
                 } else {
                     assetService.addSprite((Sprite) selectedAsset, in);
                 }
-            } else {
-                if (selectedAsset instanceof Music) {
-                    assetService.updateMusicInfo((Music) selectedAsset);
-                } else {
-                    assetService.updateSpriteInfo((Sprite) selectedAsset);
-                }
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "Failed to add asset", ex);
+                return false;
             }
-            assets = getAssetList();
-            assetTableModel.fireTableDataChanged();
-            return true;
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to add asset", ex);
-            return false;
+        } else {
+            if (selectedAsset instanceof Music) {
+                assetService.updateMusicInfo((Music) selectedAsset);
+            } else {
+                assetService.updateSpriteInfo((Sprite) selectedAsset);
+            }
         }
+        assets = getAssetList();
+        assetTableModel.fireTableDataChanged();
+        return true;
     }
 
     /**
@@ -124,16 +124,24 @@ class AssetManagerController {
         };
     }
 
+    /**
+     * Replaces the currently selected asset.
+     *
+     * @param newValue the new asset.
+     */
     private void replaceAsset(final Asset<?> newValue) {
-        final Asset<? extends Asset<?>> oldValue = null;
+        Asset<?> oldValue = null;
         if (null != selectedAsset) {
-            selectedAsset = oldValue.deepCopy();
+            oldValue = selectedAsset.deepCopy();
         }
 
         selectedAsset = newValue;
         this.propertyChangeSupport.firePropertyChange(PROPERTY_SELECTED_ASSET, oldValue, selectedAsset);
     }
 
+    /**
+     * The TableModel used by the asset table.
+     */
     private class AssetTableModel extends AbstractTableModel {
 
         final String[] columnNames = {"ID", "Name", "Type", "Tags"};
