@@ -245,19 +245,30 @@ public class AssetServiceImpl extends AssetService {
         }
 
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(thumbnailPath))) {
-            final BufferedImage sourceImage = ImageIO.read(spritePath.toFile());
-            final int maxDimension = Math.max(sourceImage.getHeight(), sourceImage.getWidth());
-            final float scale = THUMBNAIL_SIZE / (float) maxDimension;
-            final int targetWidth = (int) (sourceImage.getWidth() * scale);
-            final int targetHeight = (int) (sourceImage.getHeight() * scale);
-            final Image scaledImage = sourceImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-            final BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
-            outputImage.getGraphics().drawImage(scaledImage, 0, 0, null);
-            ImageIO.write(outputImage, "PNG", out);
+            ImageIO.write(getThumbnailImage(spritePath.toFile()), "PNG", out);
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to create sprite thumbnail: {0}", spritePath.toString());
             throw new IOException("Failed to create sprite thumbnail " + spritePath.toString(), ex);
         }
+    }
+
+    /**
+     * Scales the given image to THUMBNAIL_SIZE and returns it.
+     *
+     * @param inputFile some image file
+     * @return a scaled rendered image
+     * @throws IOException when things blow up
+     */
+    public static BufferedImage getThumbnailImage(final File inputFile) throws IOException {
+        final BufferedImage sourceImage = ImageIO.read(inputFile);
+        final int maxDimension = Math.max(sourceImage.getHeight(), sourceImage.getWidth());
+        final float scale = THUMBNAIL_SIZE / (float) maxDimension;
+        final int targetWidth = (int) (sourceImage.getWidth() * scale);
+        final int targetHeight = (int) (sourceImage.getHeight() * scale);
+        final Image scaledImage = sourceImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        final BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        outputImage.getGraphics().drawImage(scaledImage, 0, 0, null);
+        return outputImage;
     }
 
 }

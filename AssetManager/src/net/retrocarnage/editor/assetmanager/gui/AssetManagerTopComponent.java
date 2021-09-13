@@ -3,8 +3,13 @@ package net.retrocarnage.editor.assetmanager.gui;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -12,9 +17,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.BadLocationException;
+import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
 import net.retrocarnage.editor.assetmanager.model.Asset;
 import net.retrocarnage.editor.assetmanager.model.Music;
 import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.FilenameUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -65,7 +72,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             txtMusicAuthor,
             txtMusicWebsite,
             txtMusicLicenseLink,
-            txtMusicLicenceText
+            txtMusicLicenseText
         };
         spriteEditorFields = new JTextField[]{
             txtSpriteName,
@@ -73,7 +80,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             txtSpriteAuthor,
             txtSpriteWebsite,
             txtSpriteLicenseLink,
-            txtSpriteLicenceText
+            txtSpriteLicenseText
         };
 
         setName(Bundle.CTL_AssetManagerTopComponent());
@@ -111,7 +118,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         txtMusicAuthor = new javax.swing.JTextField();
         txtMusicWebsite = new javax.swing.JTextField();
         txtMusicLicenseLink = new javax.swing.JTextField();
-        txtMusicLicenceText = new javax.swing.JTextField();
+        txtMusicLicenseText = new javax.swing.JTextField();
         lblMusicId = new javax.swing.JLabel();
         lblMusicIdDisplay = new javax.swing.JLabel();
         lblMusicName = new javax.swing.JLabel();
@@ -121,6 +128,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicSpacer = new javax.swing.JPanel();
         pnlSpriteEditor = new javax.swing.JPanel();
         pnlSpriteThumbnail = new javax.swing.JPanel();
+        lblSpriteThumbnail = new javax.swing.JLabel();
         pnlSpriteAttribution = new javax.swing.JPanel();
         lblSpriteAuthor = new javax.swing.JLabel();
         lblSpriteWebsite = new javax.swing.JLabel();
@@ -129,7 +137,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         txtSpriteAuthor = new javax.swing.JTextField();
         txtSpriteWebsite = new javax.swing.JTextField();
         txtSpriteLicenseLink = new javax.swing.JTextField();
-        txtSpriteLicenceText = new javax.swing.JTextField();
+        txtSpriteLicenseText = new javax.swing.JTextField();
         lblSpriteId = new javax.swing.JLabel();
         lblSpriteIdDisplay = new javax.swing.JLabel();
         lblSpriteName = new javax.swing.JLabel();
@@ -185,7 +193,7 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         tblAssets.setModel(controller.getTableModel());
         tblAssets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblAssets.getSelectionModel().addListSelectionListener(controller.getTableSelectionListener());
+        tblAssets.getSelectionModel().addListSelectionListener(controller.getTableSelectionListener(tblAssets));
         scrTable.setViewportView(tblAssets);
 
         pnlTable.add(scrTable, java.awt.BorderLayout.CENTER);
@@ -194,6 +202,7 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         pnlEditor.setLayout(new java.awt.CardLayout());
 
+        pnlMusicEditor.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         pnlMusicEditor.setLayout(new java.awt.GridBagLayout());
 
         pnlMusicPlayer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -215,6 +224,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.pnlMusicAttribution.border.title"))); // NOI18N
         pnlMusicAttribution.setLayout(new java.awt.GridBagLayout());
 
+        lblMusicAuthor.setLabelFor(txtMusicAuthor);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicAuthor, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicAuthor.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -223,6 +233,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlMusicAttribution.add(lblMusicAuthor, gridBagConstraints);
 
+        lblMusicWebsite.setLabelFor(txtMusicWebsite);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicWebsite, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicWebsite.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -231,6 +242,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlMusicAttribution.add(lblMusicWebsite, gridBagConstraints);
 
+        lblMusicLicenseLink.setLabelFor(txtMusicLicenseLink);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicLicenseLink, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicLicenseLink.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -238,6 +250,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlMusicAttribution.add(lblMusicLicenseLink, gridBagConstraints);
 
+        lblMusicLicenseText.setLabelFor(txtMusicLicenseText);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicLicenseText, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicLicenseText.text")); // NOI18N
         lblMusicLicenseText.setToolTipText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicLicenseText.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -302,8 +315,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlMusicAttribution.add(txtMusicLicenseLink, gridBagConstraints);
 
-        txtMusicLicenceText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenceText.text")); // NOI18N
-        txtMusicLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {
+        txtMusicLicenseText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenseText.text")); // NOI18N
+        txtMusicLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
@@ -318,7 +331,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        pnlMusicAttribution.add(txtMusicLicenceText, gridBagConstraints);
+        pnlMusicAttribution.add(txtMusicLicenseText, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -345,8 +358,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlMusicEditor.add(lblMusicIdDisplay, gridBagConstraints);
 
+        lblMusicName.setLabelFor(txtMusicName);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicName, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicName.text")); // NOI18N
-        lblMusicName.setToolTipText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicName.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -372,6 +385,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlMusicEditor.add(txtMusicName, gridBagConstraints);
 
+        lblMusicTags.setLabelFor(txtMusicTags);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusicTags, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblMusicTags.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -386,7 +400,12 @@ public final class AssetManagerTopComponent extends TopComponent {
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
                 if(!newValue.equals(music.getTags())) {
-                    music.setTags(newValue);
+                    music.setTags(Arrays
+                        .asList(newValue.split("\\s+"))
+                        .stream()
+                        .map(str -> str.trim())
+                        .distinct()
+                        .collect(Collectors.toList()));
                     btnSaveAsset.setEnabled(true);
                 }
             }
@@ -399,7 +418,6 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicEditor.add(txtMusicTags, gridBagConstraints);
 
         pnlMusicSpacer.setPreferredSize(new java.awt.Dimension(0, 0));
-        pnlMusicSpacer.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout pnlMusicSpacerLayout = new javax.swing.GroupLayout(pnlMusicSpacer);
         pnlMusicSpacer.setLayout(pnlMusicSpacerLayout);
@@ -426,17 +444,10 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         pnlSpriteThumbnail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlSpriteThumbnail.setPreferredSize(new java.awt.Dimension(100, 100));
+        pnlSpriteThumbnail.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnlSpriteThumbnailLayout = new javax.swing.GroupLayout(pnlSpriteThumbnail);
-        pnlSpriteThumbnail.setLayout(pnlSpriteThumbnailLayout);
-        pnlSpriteThumbnailLayout.setHorizontalGroup(
-            pnlSpriteThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        pnlSpriteThumbnailLayout.setVerticalGroup(
-            pnlSpriteThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 102, Short.MAX_VALUE)
-        );
+        lblSpriteThumbnail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pnlSpriteThumbnail.add(lblSpriteThumbnail, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -449,6 +460,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.pnlSpriteAttribution.border.title"))); // NOI18N
         pnlSpriteAttribution.setLayout(new java.awt.GridBagLayout());
 
+        lblSpriteAuthor.setLabelFor(txtSpriteAuthor);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteAuthor, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteAuthor.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -457,6 +469,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteAuthor, gridBagConstraints);
 
+        lblSpriteWebsite.setLabelFor(txtSpriteWebsite);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteWebsite, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteWebsite.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -465,6 +478,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteWebsite, gridBagConstraints);
 
+        lblSpriteLicenseLink.setLabelFor(txtSpriteLicenseLink);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseLink, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteLicenseLink.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -472,8 +486,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteLicenseLink, gridBagConstraints);
 
+        lblSpriteLicenseText.setLabelFor(txtSpriteLicenseText);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseText, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteLicenseText.text")); // NOI18N
-        lblSpriteLicenseText.setToolTipText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteLicenseText.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -536,8 +550,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteAttribution.add(txtSpriteLicenseLink, gridBagConstraints);
 
-        txtSpriteLicenceText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenceText.text")); // NOI18N
-        txtSpriteLicenceText.getDocument().addDocumentListener(new AssetUpdateListener() {
+        txtSpriteLicenseText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenseText.text")); // NOI18N
+        txtSpriteLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
@@ -552,7 +566,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        pnlSpriteAttribution.add(txtSpriteLicenceText, gridBagConstraints);
+        pnlSpriteAttribution.add(txtSpriteLicenseText, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -579,8 +593,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteEditor.add(lblSpriteIdDisplay, gridBagConstraints);
 
+        lblSpriteName.setLabelFor(txtSpriteName);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteName, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteName.text")); // NOI18N
-        lblSpriteName.setToolTipText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteName.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -606,6 +620,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteEditor.add(txtSpriteName, gridBagConstraints);
 
+        lblSpriteTags.setLabelFor(txtSpriteTags);
         org.openide.awt.Mnemonics.setLocalizedText(lblSpriteTags, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.lblSpriteTags.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -620,7 +635,12 @@ public final class AssetManagerTopComponent extends TopComponent {
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
                 if(!newValue.equals(sprite.getTags())) {
-                    sprite.setTags(newValue);
+                    sprite.setTags(Arrays
+                        .asList(newValue.split("\\s+"))
+                        .stream()
+                        .map(str -> str.trim())
+                        .distinct()
+                        .collect(Collectors.toList()));
                     btnSaveAsset.setEnabled(true);
                 }
             }
@@ -631,8 +651,6 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteEditor.add(txtSpriteTags, gridBagConstraints);
-
-        pnlSpriteSpacer.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout pnlSpriteSpacerLayout = new javax.swing.GroupLayout(pnlSpriteSpacer);
         pnlSpriteSpacer.setLayout(pnlSpriteSpacerLayout);
@@ -665,6 +683,12 @@ public final class AssetManagerTopComponent extends TopComponent {
         final File selectAssetResource = this.selectAssetResource(new ImageFileFilter());
         if (null != selectAssetResource) {
             controller.newSpriteAsset(selectAssetResource);
+            try {
+                lblSpriteThumbnail.setIcon(new ImageIcon(AssetServiceImpl.getThumbnailImage(selectAssetResource)));
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to get image thumbnail", ex);
+                lblSpriteThumbnail.setIcon(null);
+            }
         }
     }//GEN-LAST:event_btnAddSpriteMouseClicked
 
@@ -705,6 +729,7 @@ public final class AssetManagerTopComponent extends TopComponent {
     private javax.swing.JLabel lblSpriteLicenseText;
     private javax.swing.JLabel lblSpriteName;
     private javax.swing.JLabel lblSpriteTags;
+    private javax.swing.JLabel lblSpriteThumbnail;
     private javax.swing.JLabel lblSpriteWebsite;
     private javax.swing.JPanel pnlEditor;
     private javax.swing.JPanel pnlMenu;
@@ -722,14 +747,14 @@ public final class AssetManagerTopComponent extends TopComponent {
     private javax.swing.JScrollPane scrTable;
     private javax.swing.JTable tblAssets;
     private javax.swing.JTextField txtMusicAuthor;
-    private javax.swing.JTextField txtMusicLicenceText;
     private javax.swing.JTextField txtMusicLicenseLink;
+    private javax.swing.JTextField txtMusicLicenseText;
     private javax.swing.JTextField txtMusicName;
     private javax.swing.JTextField txtMusicTags;
     private javax.swing.JTextField txtMusicWebsite;
     private javax.swing.JTextField txtSpriteAuthor;
-    private javax.swing.JTextField txtSpriteLicenceText;
     private javax.swing.JTextField txtSpriteLicenseLink;
+    private javax.swing.JTextField txtSpriteLicenseText;
     private javax.swing.JTextField txtSpriteName;
     private javax.swing.JTextField txtSpriteTags;
     private javax.swing.JTextField txtSpriteWebsite;
@@ -763,6 +788,13 @@ public final class AssetManagerTopComponent extends TopComponent {
                 editorToShow = "music";
             } else {
                 populateAssetEditor(lblSpriteIdDisplay, spriteEditorFields);
+                final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+                final Path appFolderPath = appFolderService.getApplicationFolder();
+                final String thumbnailPath = Path.of(
+                        appFolderPath.toString(),
+                        ((Sprite) pce.getNewValue()).getRelativePathThumbnail()
+                ).toString();
+                lblSpriteThumbnail.setIcon(new ImageIcon(thumbnailPath));
                 editorToShow = "sprite";
             }
 

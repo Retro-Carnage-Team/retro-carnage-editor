@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -116,10 +117,10 @@ class AssetManagerController {
      *
      * @return the ListSelectionListener
      */
-    ListSelectionListener getTableSelectionListener() {
+    ListSelectionListener getTableSelectionListener(final JTable table) {
         return (ListSelectionEvent lse) -> {
             if (!lse.getValueIsAdjusting()) {
-                replaceAsset(assets.get(lse.getFirstIndex()));
+                replaceAsset(assets.get(table.getSelectedRow()));
             }
         };
     }
