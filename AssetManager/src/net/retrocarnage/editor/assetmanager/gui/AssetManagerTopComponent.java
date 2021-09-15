@@ -12,6 +12,12 @@ import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.CANCEL_OPTION;
+import static javax.swing.JOptionPane.CLOSED_OPTION;
+import static javax.swing.JOptionPane.NO_OPTION;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -151,26 +157,26 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMenu.setLayout(new java.awt.BorderLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddSprite, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnAddSprite.text")); // NOI18N
-        btnAddSprite.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAddSpriteMouseClicked(evt);
+        btnAddSprite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSpriteActionPerformed(evt);
             }
         });
         pnlMenuLeft.add(btnAddSprite);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddMusic, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.jButton2.text")); // NOI18N
-        btnAddMusic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAddMusicMouseClicked(evt);
+        btnAddMusic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMusicActionPerformed(evt);
             }
         });
         pnlMenuLeft.add(btnAddMusic);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnSaveAsset, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnSaveAsset.text_1")); // NOI18N
         btnSaveAsset.setEnabled(false);
-        btnSaveAsset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSaveAssetMouseClicked(evt);
+        btnSaveAsset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveAssetActionPerformed(evt);
             }
         });
         pnlMenuLeft.add(btnSaveAsset);
@@ -179,10 +185,20 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnCancel.text_1")); // NOI18N
         btnCancel.setEnabled(false);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         pnlMenuRight.add(btnCancel);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnDelete, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnDelete.text")); // NOI18N
         btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         pnlMenuRight.add(btnDelete);
 
         pnlMenu.add(pnlMenuRight, java.awt.BorderLayout.EAST);
@@ -268,6 +284,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(music.getAttributionData().getAuthor())) {
                     music.getAttributionData().setAuthor(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -287,6 +304,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(music.getAttributionData().getWebsite())) {
                     music.getAttributionData().setWebsite(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -305,6 +323,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(music.getAttributionData().getLicenseLink())) {
                     music.getAttributionData().setLicenseLink(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -323,6 +342,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(music.getAttributionData().getLicenseText())) {
                     music.getAttributionData().setLicenseText(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -375,6 +395,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(music.getName())) {
                     music.setName(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -407,6 +428,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                         .distinct()
                         .collect(Collectors.toList()));
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -503,6 +525,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(sprite.getAttributionData().getAuthor())) {
                     sprite.getAttributionData().setAuthor(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -522,6 +545,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(sprite.getAttributionData().getWebsite())) {
                     sprite.getAttributionData().setWebsite(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -540,6 +564,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {
                     sprite.getAttributionData().setLicenseLink(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -558,6 +583,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {
                     sprite.getAttributionData().setLicenseText(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -610,6 +636,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                 if(!newValue.equals(sprite.getName())) {
                     sprite.setName(newValue);
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -642,6 +669,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                         .distinct()
                         .collect(Collectors.toList()));
                     btnSaveAsset.setEnabled(true);
+                    btnCancel.setEnabled(true);
                 }
             }
         });
@@ -675,37 +703,47 @@ public final class AssetManagerTopComponent extends TopComponent {
         add(pnlEditor, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddSpriteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddSpriteMouseClicked
-        if (btnSaveAsset.isEnabled()) {
-            // TODO: Ask user to save changes
-        }
+    private void btnSaveAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAssetActionPerformed
+        final boolean saved = controller.saveChanges();
+        btnSaveAsset.setEnabled(!saved);
+        btnCancel.setEnabled(!saved);
+    }//GEN-LAST:event_btnSaveAssetActionPerformed
 
-        final File selectAssetResource = this.selectAssetResource(new ImageFileFilter());
-        if (null != selectAssetResource) {
-            controller.newSpriteAsset(selectAssetResource);
-            try {
-                lblSpriteThumbnail.setIcon(new ImageIcon(AssetServiceImpl.getThumbnailImage(selectAssetResource)));
-            } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to get image thumbnail", ex);
-                lblSpriteThumbnail.setIcon(null);
+    private void btnAddMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMusicActionPerformed
+        if (handleUnsavedChanges()) {
+            final File selectAssetResource = this.selectAssetResource(new ImageMusicFilter());
+            if (null != selectAssetResource) {
+                controller.newMusicAsset(selectAssetResource);
             }
         }
-    }//GEN-LAST:event_btnAddSpriteMouseClicked
+    }//GEN-LAST:event_btnAddMusicActionPerformed
 
-    private void btnAddMusicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMusicMouseClicked
-        if (btnSaveAsset.isEnabled()) {
-            // TODO: Ask user to save changes
+    private void btnAddSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSpriteActionPerformed
+        if (handleUnsavedChanges()) {
+            final File selectAssetResource = this.selectAssetResource(new ImageFileFilter());
+            if (null != selectAssetResource) {
+                controller.newSpriteAsset(selectAssetResource);
+                try {
+                    lblSpriteThumbnail.setIcon(new ImageIcon(AssetServiceImpl.getThumbnailImage(selectAssetResource)));
+                } catch (IOException ex) {
+                    logger.log(Level.WARNING, "Failed to get image thumbnail", ex);
+                    lblSpriteThumbnail.setIcon(null);
+                }
+            }
         }
+    }//GEN-LAST:event_btnAddSpriteActionPerformed
 
-        final File selectAssetResource = this.selectAssetResource(new ImageMusicFilter());
-        if (null != selectAssetResource) {
-            controller.newMusicAsset(selectAssetResource);
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        final String message = "Unsaved changes will be discarded. Do you want to continue?";
+        final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+        if (selectedOption == YES_OPTION) {
+            discardChanges();
         }
-    }//GEN-LAST:event_btnAddMusicMouseClicked
+    }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnSaveAssetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveAssetMouseClicked
-        btnSaveAsset.setEnabled(!controller.saveChanges());
-    }//GEN-LAST:event_btnSaveAssetMouseClicked
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO:
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMusic;
@@ -778,6 +816,36 @@ public final class AssetManagerTopComponent extends TopComponent {
 
     void readProperties(final java.util.Properties p) {
         // String version = p.getProperty("version");
+    }
+
+    /**
+     * Checks if there are unsaved changes to one of the editors. Asks the user how to proceed and invokes the selected
+     * option.
+     *
+     * @return true if the calling process should continue
+     */
+    private boolean handleUnsavedChanges() {
+        if (btnSaveAsset.isEnabled()) {
+            final String message = "There are unsaved changes. Do you want to save them first?";
+            final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+            switch (selectedOption) {
+                case YES_OPTION:
+                    btnSaveAssetActionPerformed(null);
+                    return true;
+                case NO_OPTION:
+                    discardChanges();
+                    return true;
+                case CLOSED_OPTION:
+                case CANCEL_OPTION:
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void discardChanges() {
+        // TODO:
     }
 
     private void controllerPropertyChanged(final PropertyChangeEvent pce) {

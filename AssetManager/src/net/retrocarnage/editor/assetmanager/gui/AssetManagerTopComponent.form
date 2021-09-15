@@ -62,7 +62,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddSpriteMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddSpriteActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAddMusic">
@@ -72,7 +72,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddMusicMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddMusicActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnSaveAsset">
@@ -83,7 +83,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSaveAssetMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveAssetActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -104,6 +104,9 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnDelete">
               <Properties>
@@ -112,6 +115,9 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -300,7 +306,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getAuthor())) {&#xa;            music.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getAuthor())) {&#xa;            music.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -315,7 +321,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getWebsite())) {&#xa;            music.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getWebsite())) {&#xa;            music.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -330,7 +336,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseLink())) {&#xa;            music.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseLink())) {&#xa;            music.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -345,7 +351,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseText())) {&#xa;            music.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getAttributionData().getLicenseText())) {&#xa;            music.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -401,7 +407,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicName.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getName())) {&#xa;            music.setName(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicName.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getName())) {&#xa;            music.setName(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -431,7 +437,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getTags())) {             &#xa;            music.setTags(Arrays&#xa;                    .asList(newValue.split(&quot;\\s+&quot;))&#xa;                    .stream()&#xa;                    .map(str -&gt; str.trim())&#xa;                    .distinct()&#xa;                    .collect(Collectors.toList()));                   &#xa;            btnSaveAsset.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtMusicTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Music music = (Music) controller.getSelectedAsset();&#xa;        if(!newValue.equals(music.getTags())) {             &#xa;            music.setTags(Arrays&#xa;                    .asList(newValue.split(&quot;\\s+&quot;))&#xa;                    .stream()&#xa;                    .map(str -&gt; str.trim())&#xa;                    .distinct()&#xa;                    .collect(Collectors.toList()));                   &#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -598,7 +604,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getAuthor())) {&#xa;            sprite.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getAuthor())) {&#xa;            sprite.getAttributionData().setAuthor(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -613,7 +619,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getWebsite())) {&#xa;            sprite.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getWebsite())) {&#xa;            sprite.getAttributionData().setWebsite(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -628,7 +634,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {&#xa;            sprite.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {&#xa;            sprite.getAttributionData().setLicenseLink(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -643,7 +649,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {&#xa;            sprite.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {&#xa;            sprite.getAttributionData().setLicenseText(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -699,7 +705,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteName.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getName())) {&#xa;            sprite.setName(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteName.getDocument().addDocumentListener(new AssetUpdateListener() {&#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getName())) {&#xa;            sprite.setName(newValue);&#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }&#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -729,7 +735,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getTags())) {             &#xa;            sprite.setTags(Arrays&#xa;                    .asList(newValue.split(&quot;\\s+&quot;))&#xa;                    .stream()&#xa;                    .map(str -&gt; str.trim())&#xa;                    .distinct()&#xa;                    .collect(Collectors.toList()));                   &#xa;            btnSaveAsset.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="txtSpriteTags.getDocument().addDocumentListener(new AssetUpdateListener() {     &#xa;    @Override&#xa;    protected void updateAssetProperty(final String newValue) {&#xa;        final Sprite sprite = (Sprite) controller.getSelectedAsset();&#xa;        if(!newValue.equals(sprite.getTags())) {             &#xa;            sprite.setTags(Arrays&#xa;                    .asList(newValue.split(&quot;\\s+&quot;))&#xa;                    .stream()&#xa;                    .map(str -&gt; str.trim())&#xa;                    .distinct()&#xa;                    .collect(Collectors.toList()));                   &#xa;            btnSaveAsset.setEnabled(true);&#xa;            btnCancel.setEnabled(true);&#xa;        }     &#xa;    } &#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
