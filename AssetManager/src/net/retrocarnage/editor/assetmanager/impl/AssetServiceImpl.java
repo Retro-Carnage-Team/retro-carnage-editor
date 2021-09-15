@@ -132,7 +132,17 @@ public class AssetServiceImpl extends AssetService {
 
     @Override
     public void removeMusic(final String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final Music music = assets.getMusic().get(id);
+        if (null != music) {
+            final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+            final Path appFolderPath = appFolderService.getApplicationFolder();
+            final File musicFile = Paths.get(appFolderPath.toString(), music.getRelativePath()).toFile();
+            if (musicFile.exists() && !musicFile.delete()) {
+                musicFile.deleteOnExit();
+                logger.warning("Failed to delete music file immediatly. Scheduling delete on exit.");
+            }
+            assets.getMusic().remove(id);
+        }
     }
 
     @Override

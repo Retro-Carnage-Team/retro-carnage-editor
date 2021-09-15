@@ -281,7 +281,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getAttributionData().getAuthor())) {
+                if((null != music) && !newValue.equals(music.getAttributionData().getAuthor())) {
                     music.getAttributionData().setAuthor(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -301,7 +301,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getAttributionData().getWebsite())) {
+                if((null != music) && !newValue.equals(music.getAttributionData().getWebsite())) {
                     music.getAttributionData().setWebsite(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -320,7 +320,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getAttributionData().getLicenseLink())) {
+                if((null != music) && !newValue.equals(music.getAttributionData().getLicenseLink())) {
                     music.getAttributionData().setLicenseLink(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -339,7 +339,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getAttributionData().getLicenseText())) {
+                if((null != music) && !newValue.equals(music.getAttributionData().getLicenseText())) {
                     music.getAttributionData().setLicenseText(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -392,7 +392,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getName())) {
+                if((null != music) && !newValue.equals(music.getName())) {
                     music.setName(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -420,7 +420,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Music music = (Music) controller.getSelectedAsset();
-                if(!newValue.equals(music.getTags())) {
+                if((null != music) && !newValue.equals(music.getTags())) {
                     music.setTags(Arrays
                         .asList(newValue.split("\\s+"))
                         .stream()
@@ -522,7 +522,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getAttributionData().getAuthor())) {
+                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getAuthor())) {
                     sprite.getAttributionData().setAuthor(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -542,7 +542,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getAttributionData().getWebsite())) {
+                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getWebsite())) {
                     sprite.getAttributionData().setWebsite(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -561,7 +561,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getAttributionData().getLicenseLink())) {
+                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseLink())) {
                     sprite.getAttributionData().setLicenseLink(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -580,7 +580,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getAttributionData().getLicenseText())) {
+                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseText())) {
                     sprite.getAttributionData().setLicenseText(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -633,7 +633,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getName())) {
+                if((null != sprite) && !newValue.equals(sprite.getName())) {
                     sprite.setName(newValue);
                     btnSaveAsset.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -661,7 +661,7 @@ public final class AssetManagerTopComponent extends TopComponent {
             @Override
             protected void updateAssetProperty(final String newValue) {
                 final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if(!newValue.equals(sprite.getTags())) {
+                if((null != sprite) && !newValue.equals(sprite.getTags())) {
                     sprite.setTags(Arrays
                         .asList(newValue.split("\\s+"))
                         .stream()
@@ -742,7 +742,12 @@ public final class AssetManagerTopComponent extends TopComponent {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO:
+        final String message = "This will delete the selected asset. Do you want to continue?";
+        final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+        if (selectedOption == YES_OPTION) {
+            controller.deleteAsset();
+            discardChanges();
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -845,25 +850,48 @@ public final class AssetManagerTopComponent extends TopComponent {
     }
 
     private void discardChanges() {
-        // TODO:
+        controller.discardChanges();
+        for (JTextField textField : musicEditorFields) {
+            textField.setText("");
+        }
+        for (JTextField textField : spriteEditorFields) {
+            textField.setText("");
+        }
+        lblMusicIdDisplay.setText("");
+        lblSpriteIdDisplay.setText("");
+
+        btnCancel.setEnabled(false);
+        btnSaveAsset.setEnabled(false);
+        btnDelete.setEnabled(null != controller.getSelectedAsset() && null != controller.getSelectedAsset().getId());
     }
 
     private void controllerPropertyChanged(final PropertyChangeEvent pce) {
         if (AssetManagerController.PROPERTY_SELECTED_ASSET.equals(pce.getPropertyName())) {
-            String editorToShow;
+            String editorToShow = "music";
+            btnDelete.setEnabled(true);
             if (pce.getNewValue() instanceof Music) {
                 populateAssetEditor(lblMusicIdDisplay, musicEditorFields);
-                editorToShow = "music";
-            } else {
+                btnCancel.setEnabled(false);
+                btnSaveAsset.setEnabled(false);
+            } else if (pce.getNewValue() instanceof Sprite) {
                 populateAssetEditor(lblSpriteIdDisplay, spriteEditorFields);
+                btnCancel.setEnabled(false);
+                btnSaveAsset.setEnabled(false);
                 final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
                 final Path appFolderPath = appFolderService.getApplicationFolder();
-                final String thumbnailPath = Path.of(
-                        appFolderPath.toString(),
-                        ((Sprite) pce.getNewValue()).getRelativePathThumbnail()
-                ).toString();
-                lblSpriteThumbnail.setIcon(new ImageIcon(thumbnailPath));
+                if (null != ((Sprite) pce.getNewValue()).getRelativePathThumbnail()) {
+                    final String thumbnailPath = Path.of(
+                            appFolderPath.toString(),
+                            ((Sprite) pce.getNewValue()).getRelativePathThumbnail()
+                    ).toString();
+                    lblSpriteThumbnail.setIcon(new ImageIcon(thumbnailPath));
+                }
                 editorToShow = "sprite";
+            } else {
+                discardChanges();
+                btnCancel.setEnabled(false);
+                btnSaveAsset.setEnabled(false);
+                btnDelete.setEnabled(false);
             }
 
             ((CardLayout) (pnlEditor.getLayout())).show(pnlEditor, editorToShow);

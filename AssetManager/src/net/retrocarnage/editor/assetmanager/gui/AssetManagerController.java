@@ -93,6 +93,24 @@ class AssetManagerController {
         return true;
     }
 
+    void discardChanges() {
+        newAssetResource = null;
+        selectedAsset = null;
+    }
+
+    void deleteAsset() {
+        if ((null != selectedAsset) && (null != selectedAsset.getId())) {
+            if (selectedAsset instanceof Music) {
+                assetService.removeMusic(selectedAsset.getId());
+            } else {
+                assetService.removeSprite(selectedAsset.getId());
+            }
+        }
+        replaceAsset(null);
+        assets = getAssetList();
+        assetTableModel.fireTableDataChanged();
+    }
+
     /**
      * @return the Asset that the user selected
      */
@@ -119,8 +137,9 @@ class AssetManagerController {
      */
     ListSelectionListener getTableSelectionListener(final JTable table) {
         return (ListSelectionEvent lse) -> {
-            if (!lse.getValueIsAdjusting()) {
-                replaceAsset(assets.get(table.getSelectedRow()));
+            final int selectedRow = table.getSelectedRow();
+            if ((!lse.getValueIsAdjusting()) && (selectedRow > -1) && (selectedRow < assets.size())) {
+                replaceAsset(assets.get(selectedRow));
             }
         };
     }
