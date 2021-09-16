@@ -1,5 +1,5 @@
 
-package net.retrocarnage.editor.model.game;
+package net.retrocarnage.editor.model;
 
 import java.util.ArrayList;
 import java.util.List;

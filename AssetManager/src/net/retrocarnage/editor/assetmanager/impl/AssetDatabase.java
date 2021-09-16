@@ -20,17 +20,17 @@ class AssetDatabase {
     private final Map<String, Music> music;
     private final Map<String, Sprite> sprites;
 
-    public AssetDatabase() {
+    AssetDatabase() {
         // We need concorrent maps here as we want to do the media handling outside of the UI thread
         music = new ConcurrentHashMap<>();
         sprites = new ConcurrentHashMap<>();
     }
 
-    public Map<String, Music> getMusic() {
+    Map<String, Music> getMusic() {
         return music;
     }
 
-    public Map<String, Sprite> getSprites() {
+    Map<String, Sprite> getSprites() {
         return sprites;
     }
 
@@ -40,19 +40,15 @@ class AssetDatabase {
      * @param in InputStream containing the persisted state.
      * @throws IOException
      */
-    public void load(final InputStream in) throws IOException {
+    void load(final InputStream in) throws IOException {
         final ObjectMapper xmlMapper = new XmlMapper();
         final AssetDatabaseFile dataStore = xmlMapper.readValue(in, AssetDatabaseFile.class);
 
         music.clear();
-        for (Music m : dataStore.getMusic()) {
-            music.put(m.getId(), m);
-        }
+        dataStore.getMusic().forEach(m -> music.put(m.getId(), m));
 
         sprites.clear();
-        for (Sprite s : dataStore.getSprites()) {
-            sprites.put(s.getId(), s);
-        }
+        dataStore.getSprites().forEach(s -> sprites.put(s.getId(), s));
     }
 
     /**
@@ -61,7 +57,7 @@ class AssetDatabase {
      * @param out Stream to write to
      * @throws IOException
      */
-    public void save(final OutputStream out) throws IOException {
+    void save(final OutputStream out) throws IOException {
         final AssetDatabaseFile dataStore = new AssetDatabaseFile();
         dataStore.getMusic().addAll(music.values());
         dataStore.getSprites().addAll(sprites.values());

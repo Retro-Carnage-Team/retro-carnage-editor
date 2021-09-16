@@ -1,5 +1,5 @@
 
-package net.retrocarnage.editor.model.game;
+package net.retrocarnage.editor.model;
 
 /**
  * EnemyAction is something that an Enemy does. 

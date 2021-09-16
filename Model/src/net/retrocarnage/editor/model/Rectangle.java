@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model.game;
+package net.retrocarnage.editor.model;
 
 /**
  * A Position of something.

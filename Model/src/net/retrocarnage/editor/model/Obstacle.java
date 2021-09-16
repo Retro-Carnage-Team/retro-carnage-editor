@@ -1,5 +1,5 @@
 
-package net.retrocarnage.editor.model.game;
+package net.retrocarnage.editor.model;
 
 /**
  * Obstacle is something that blocks the movement of Players. Some obstacles block bullets, too.

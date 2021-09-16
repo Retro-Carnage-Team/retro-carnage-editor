@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: net.retrocarnage.editor.missionmanager
+OpenIDE-Module-Install: net/retrocarnage/editor/missionmanager/impl/Installer.class
+OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/missionmanager/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

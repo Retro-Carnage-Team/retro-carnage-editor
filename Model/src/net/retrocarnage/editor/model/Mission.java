@@ -1,50 +1,58 @@
-
-package net.retrocarnage.editor.model.game;
+package net.retrocarnage.editor.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A mission for Retro-Carnage.
- * 
+ *
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/mission.go
  */
 public class Mission {
 
+    private String id;
     private String briefing;
-    private String client;
+    private String clientAssetId;
     private Location location;
     private String song;
     private String name;
     private int reward;
-    private List<Segment> segments;    
-    
+    private List<Segment> segments;
+
     public Mission() {
         segments = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public String getBriefing() {
         return briefing;
     }
 
-    public void setBriefing(String briefing) {
+    public void setBriefing(final String briefing) {
         this.briefing = briefing;
     }
 
-    public String getClient() {
-        return client;
+    public String getClientAssetId() {
+        return clientAssetId;
     }
 
-    public void setClient(String client) {
-        this.client = client;
+    public void setClientAssetId(final String client) {
+        this.clientAssetId = client;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 
@@ -52,7 +60,7 @@ public class Mission {
         return song;
     }
 
-    public void setSong(String song) {
+    public void setSong(final String song) {
         this.song = song;
     }
 
@@ -60,7 +68,7 @@ public class Mission {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -68,7 +76,7 @@ public class Mission {
         return reward;
     }
 
-    public void setReward(int reward) {
+    public void setReward(final int reward) {
         this.reward = reward;
     }
 
@@ -76,8 +84,8 @@ public class Mission {
         return segments;
     }
 
-    public void setSegments(List<Segment> segments) {
+    public void setSegments(final List<Segment> segments) {
         this.segments = segments;
     }
-    
+
 }
