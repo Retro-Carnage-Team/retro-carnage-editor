@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.assetmanager.model;
+package net.retrocarnage.editor.model;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

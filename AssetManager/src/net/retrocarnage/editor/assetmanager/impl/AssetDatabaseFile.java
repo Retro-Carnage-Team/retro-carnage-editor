@@ -2,8 +2,8 @@ package net.retrocarnage.editor.assetmanager.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.retrocarnage.editor.assetmanager.model.Music;
-import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 
 /**
  * POJO used to serialize / deserialize the asset database.

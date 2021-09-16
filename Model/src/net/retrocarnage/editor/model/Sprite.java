@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.assetmanager.model;
+package net.retrocarnage.editor.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

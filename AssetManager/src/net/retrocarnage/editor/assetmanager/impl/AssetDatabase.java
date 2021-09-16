@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import net.retrocarnage.editor.assetmanager.model.Music;
-import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 
 /**
  * A database containing various types of assets.

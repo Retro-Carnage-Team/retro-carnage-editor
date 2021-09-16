@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
-import net.retrocarnage.editor.assetmanager.model.Asset;
-import net.retrocarnage.editor.assetmanager.model.Music;
-import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.model.Asset;
+import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 
 /**
  * Manages the assets used to create a level.

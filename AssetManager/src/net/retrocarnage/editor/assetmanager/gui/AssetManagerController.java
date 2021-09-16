@@ -17,10 +17,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
-import net.retrocarnage.editor.assetmanager.model.Asset;
-import net.retrocarnage.editor.assetmanager.model.AttributionData;
-import net.retrocarnage.editor.assetmanager.model.Music;
-import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.model.Asset;
+import net.retrocarnage.editor.model.AttributionData;
+import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 
 /**
  * Controller for the AssetManagerTopComponent.

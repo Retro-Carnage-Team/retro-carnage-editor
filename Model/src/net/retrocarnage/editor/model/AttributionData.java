@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.assetmanager.model;
+package net.retrocarnage.editor.model;
 
 /**
  * This class holds license information about an asset.

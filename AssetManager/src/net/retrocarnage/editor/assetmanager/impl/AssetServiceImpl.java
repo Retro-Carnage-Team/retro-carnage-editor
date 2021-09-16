@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.assetmanager.AssetService;
-import net.retrocarnage.editor.assetmanager.model.Asset;
-import net.retrocarnage.editor.assetmanager.model.Music;
-import net.retrocarnage.editor.assetmanager.model.Sprite;
+import net.retrocarnage.editor.model.Asset;
+import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.IOUtils;
 
