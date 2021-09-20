@@ -12,7 +12,7 @@ class EditorController {
     private final EditorViewModel viewModel;
     private MissionTableModel missionTableModel;
 
-    private EditorController() {
+    EditorController() {
         viewModel = new EditorViewModel();
     }
 

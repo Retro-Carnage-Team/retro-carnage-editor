@@ -12,13 +12,13 @@ import net.retrocarnage.editor.model.Mission;
  */
 class MissionBean extends Mission {
 
-    public final String PROPERTY_ID = "id";
-    public final String PROPERTY_BRIEFING = "briefing";
-    public final String PROPERTY_CLIENT_ASSET_ID = "clientAssetId";
-    public final String PROPERTY_LOCATION = "location";
-    public final String PROPERTY_SONG = "song";
-    public final String PROPERTY_NAME = "name";
-    public final String PROPERTY_REWARD = "reward";
+    public static final String PROPERTY_ID = "id";
+    public static final String PROPERTY_BRIEFING = "briefing";
+    public static final String PROPERTY_CLIENT_ASSET_ID = "clientAssetId";
+    public static final String PROPERTY_LOCATION = "location";
+    public static final String PROPERTY_SONG = "song";
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_REWARD = "reward";
 
     private final PropertyChangeSupport propertyChangeSupport;
     private Mission delegate;

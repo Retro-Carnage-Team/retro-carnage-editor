@@ -23,7 +23,7 @@ class EditorViewModel {
     private final PropertyChangeSupport propertyChangeSupport;
 
     private List<Mission> missions;
-    private MissionBean selectedMissionBean;
+    private final MissionBean selectedMissionBean;
     private boolean unsavedChanges = false;
 
     EditorViewModel() {
