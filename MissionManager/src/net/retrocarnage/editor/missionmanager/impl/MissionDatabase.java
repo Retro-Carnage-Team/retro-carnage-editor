@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import net.retrocarnage.editor.model.Mission;
@@ -22,12 +23,20 @@ class MissionDatabase {
         missions = new ConcurrentHashMap<>();
     }
 
+    Collection<Mission> getMissions() {
+        return missions.values();
+    }
+
     Mission getMission(final String id) {
         return missions.get(id);
     }
 
     void putMission(final Mission mission) {
         missions.put(mission.getId(), mission);
+    }
+
+    void remove(final String id) {
+        missions.remove(id);
     }
 
     /**

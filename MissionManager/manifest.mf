@@ -3,5 +3,6 @@ AutoUpdate-Show-In-Client: true
 OpenIDE-Module: net.retrocarnage.editor.missionmanager
 OpenIDE-Module-Install: net/retrocarnage/editor/missionmanager/impl/Installer.class
 OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/missionmanager/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.WindowManager
 OpenIDE-Module-Specification-Version: 1.0
 

@@ -1,0 +1,124 @@
+package net.retrocarnage.editor.missionmanager.editor;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import net.retrocarnage.editor.model.Location;
+import net.retrocarnage.editor.model.Mission;
+
+/**
+ * A Mission that can notify listeners about changes.
+ *
+ * @author Thomas Werner
+ */
+class MissionBean extends Mission {
+
+    public final String PROPERTY_ID = "id";
+    public final String PROPERTY_BRIEFING = "briefing";
+    public final String PROPERTY_CLIENT_ASSET_ID = "clientAssetId";
+    public final String PROPERTY_LOCATION = "location";
+    public final String PROPERTY_SONG = "song";
+    public final String PROPERTY_NAME = "name";
+    public final String PROPERTY_REWARD = "reward";
+
+    private final PropertyChangeSupport propertyChangeSupport;
+    private Mission delegate;
+
+    MissionBean() {
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+
+    void setMission(final Mission mission) {
+        this.delegate = mission.getPartialCopyOfMetaData();
+    }
+
+    void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public void setId(final String id) {
+        final String oldValue = delegate.getId();
+        delegate.setId(id);
+
+        if (isStringChanged(oldValue, id)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_ID, oldValue, id);
+        }
+    }
+
+    @Override
+    public void setBriefing(final String briefing) {
+        final String oldValue = delegate.getBriefing();
+        delegate.setBriefing(briefing);
+
+        if (isStringChanged(oldValue, briefing)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_BRIEFING, oldValue, briefing);
+        }
+    }
+
+    @Override
+    public void setClientAssetId(final String client) {
+        final String oldValue = delegate.getClientAssetId();
+        delegate.setClientAssetId(client);
+
+        if (isStringChanged(oldValue, client)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_CLIENT_ASSET_ID, oldValue, client);
+        }
+    }
+
+    @Override
+    public void setLocation(final Location location) {
+        final Location oldValue = delegate.getLocation();
+        delegate.setLocation(location);
+
+        if (isLocationChanged(oldValue, location)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_LOCATION, oldValue, location);
+        }
+    }
+
+    @Override
+    public void setSong(final String song) {
+        final String oldValue = delegate.getSong();
+        delegate.setSong(song);
+
+        if (isStringChanged(oldValue, song)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SONG, oldValue, song);
+        }
+    }
+
+    @Override
+    public void setName(final String name) {
+        final String oldValue = delegate.getName();
+        delegate.setName(name);
+
+        if (isStringChanged(oldValue, name)) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_NAME, oldValue, name);
+        }
+    }
+
+    @Override
+    public void setReward(final int reward) {
+        final int oldValue = delegate.getReward();
+        delegate.setReward(reward);
+
+        if (oldValue != reward) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_REWARD, oldValue, reward);
+        }
+    }
+
+    private static boolean isStringChanged(final String oldValue, final String newValue) {
+        return (((oldValue != null) && (newValue == null))
+                || ((oldValue == null) && (newValue != null))
+                || ((oldValue != null) && !oldValue.equals(newValue)));
+    }
+
+    private static boolean isLocationChanged(final Location oldValue, final Location newValue) {
+        final String oldString = null == oldValue ? null : oldValue.toString();
+        final String newString = null == newValue ? null : newValue.toString();
+        return isStringChanged(oldString, newString);
+    }
+
+}

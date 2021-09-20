@@ -88,4 +88,24 @@ public class Mission {
         this.segments = segments;
     }
 
+    /**
+     * This creates a copy of this Mission - but only of those properties that are required to manage the mission. Thus
+     * the copy will contain no information about gameplay data of the mission.
+     *
+     * @return a partial copy
+     */
+    public Mission getPartialCopyOfMetaData() {
+        final Mission partialCopy = new Mission();
+        partialCopy.setBriefing(getBriefing());
+        partialCopy.setClientAssetId(getClientAssetId());
+        partialCopy.setId(getId());
+        if (null != getLocation()) {
+            partialCopy.setLocation(new Location(getLocation().getLatitude(), getLocation().getLongitude()));
+        }
+        partialCopy.setName(getName());
+        partialCopy.setReward(getReward());
+        partialCopy.setSong(getSong());
+        return partialCopy;
+    }
+
 }

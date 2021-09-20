@@ -1,12 +1,12 @@
 package net.retrocarnage.editor.missionmanager.impl;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
@@ -23,7 +23,6 @@ public class MissionServiceImpl extends MissionService {
     private static final String MISSION_FOLDER_NAME = "missions";
     private static final Logger logger = Logger.getLogger(MissionServiceImpl.class.getName());
 
-    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     private final MissionDatabase missions;
     private final Path missionFolder;
 
@@ -33,16 +32,6 @@ public class MissionServiceImpl extends MissionService {
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
         missionFolder = Paths.get(appFolderPath.toString(), MISSION_FOLDER_NAME);
-    }
-
-    @Override
-    public void addPropertyChangeListener(final PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(final PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     void loadMissions(final InputStream in) throws IOException {
@@ -60,33 +49,23 @@ public class MissionServiceImpl extends MissionService {
     }
 
     @Override
-    public Iterable<Mission> getMissions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Collection<Mission> getMissions() {
+        return Collections.unmodifiableCollection(missions.getMissions());
     }
 
     @Override
-    public Mission getMission(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Mission getMission(final String id) {
+        return missions.getMission(id);
     }
 
     @Override
-    public void addMission(Mission msn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addMission(final Mission msn) {
+        missions.putMission(msn);
     }
 
     @Override
-    public void removeMission(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Mission getSelectedMission() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSelectedMission(Mission mission) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeMission(final String id) {
+        missions.remove(id);
     }
 
 }
