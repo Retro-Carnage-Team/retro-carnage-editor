@@ -108,4 +108,20 @@ public class Mission {
         return partialCopy;
     }
 
+    /**
+     * This overwrites the values of this instance with the values of the given Mission - but only of those properties
+     * that are required to manage the mission. Thus gameplay will not be affected.
+     *
+     * @param otherMission Mission object to copy the values from
+     */
+    public void applyPartialChangesOfMetaData(final Mission otherMission) {
+        setBriefing(otherMission.getBriefing());
+        setClientAssetId(otherMission.getClientAssetId());
+        setId(otherMission.getId());
+        setLocation(otherMission.getLocation());
+        setName(otherMission.getName());
+        setReward(otherMission.getReward());
+        setSong(otherMission.getSong());
+    }
+
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/NetBeansModuleDevelopment-files/templateTopComponent637.java to edit this template
- */
 package net.retrocarnage.editor.missionmanager.editor;
 
 import org.netbeans.api.settings.ConvertAsProperties;

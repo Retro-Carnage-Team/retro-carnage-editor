@@ -1,6 +1,15 @@
 package net.retrocarnage.editor.missionmanager.editor;
 
+import java.util.UUID;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.CANCEL_OPTION;
+import static javax.swing.JOptionPane.CLOSED_OPTION;
+import static javax.swing.JOptionPane.NO_OPTION;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.AbstractTableModel;
+import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.model.Mission;
 
 /**
  * A Controller for the EditorTopComponent.
@@ -10,30 +19,85 @@ import javax.swing.table.AbstractTableModel;
 class EditorController {
 
     private final EditorViewModel viewModel;
+    private final EditorTopComponent view;
     private MissionTableModel missionTableModel;
 
-    EditorController() {
+    EditorController(final EditorTopComponent editorTopComponent) {
         viewModel = new EditorViewModel();
+        viewModel.updateMissionsFromService();
+        view = editorTopComponent;
     }
 
     EditorViewModel getViewModel() {
         return viewModel;
     }
 
+    /**
+     * Adds a new mission.
+     */
     void addMission() {
-        throw new UnsupportedOperationException("Oh oh!");
+        if (viewModel.isModified()) {
+            final String message = "There are unsaved changes. Do you want to save them first?";
+            final int selectedOption = JOptionPane.showConfirmDialog(view, message, "alert", YES_NO_CANCEL_OPTION);
+            switch (selectedOption) {
+                case YES_OPTION:
+                    saveChanges();
+                    break;
+                case NO_OPTION:
+                    discardChanges();
+                    break;
+                case CLOSED_OPTION:
+                case CANCEL_OPTION:
+                    return;
+            }
+        }
+        viewModel.setSelectedMission(new Mission());
     }
 
+    /**
+     * Deletes the currently selected mission.
+     */
     void deleteMission() {
-        throw new UnsupportedOperationException("Oh oh!");
+        final String message = "This will delete the selected mission. Do you want to continue?";
+        final int selectedOption = JOptionPane.showConfirmDialog(view, message, "alert", YES_NO_CANCEL_OPTION);
+        if (selectedOption == YES_OPTION) {
+            if (null != viewModel.getSelectedMission().getId()) {
+                final MissionService service = MissionService.getDefault();
+                service.removeMission(viewModel.getSelectedMission().getId());
+            }
+            viewModel.setSelectedMission(null);
+            viewModel.updateMissionsFromService();
+        }
     }
 
+    /**
+     * Saves the changes.
+     */
     void saveChanges() {
-        throw new UnsupportedOperationException("Oh oh!");
+        final MissionService service = MissionService.getDefault();
+        final Mission changedMission = viewModel.getSelectedMission();
+        if (null != changedMission.getId()) {
+            final Mission original = service.getMission(changedMission.getId());
+            original.applyPartialChangesOfMetaData(changedMission);
+        } else {
+            changedMission.setId(UUID.randomUUID().toString());
+            service.addMission(viewModel.getSelectedMission());
+        }
+        viewModel.setChangesSaved();
     }
 
+    /**
+     * Discards any changes that have been made to the model.
+     */
     void discardChanges() {
-        throw new UnsupportedOperationException("Oh oh!");
+        if (null != viewModel.getSelectedMission()) {
+            if (null != viewModel.getSelectedMission().getId()) {
+                viewModel.selectMission(new SelectableMission(viewModel.getSelectedMission()));
+            } else {
+                viewModel.setSelectedMission(null);
+            }
+        }
+        viewModel.setChangesSaved();
     }
 
     /**

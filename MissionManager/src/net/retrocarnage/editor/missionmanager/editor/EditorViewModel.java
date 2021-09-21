@@ -28,8 +28,6 @@ class EditorViewModel {
 
     EditorViewModel() {
         propertyChangeSupport = new PropertyChangeSupport(this);
-        updateMissionsFromService();
-
         selectedMissionBean = new MissionBean();
         selectedMissionBean.addPropertyChangeListener(pce -> {
             if (!unsavedChanges) {
@@ -57,6 +55,11 @@ class EditorViewModel {
         return selectedMissionBean;
     }
 
+    void setSelectedMission(final Mission mission) {
+        selectedMissionBean.setMission(mission);
+        unsavedChanges = false;
+    }
+
     void selectMission(final SelectableMission mission) {
         selectedMissionBean.setMission(
                 missions.stream()
@@ -67,12 +70,20 @@ class EditorViewModel {
         this.propertyChangeSupport.firePropertyChange(PROPERTY_SELECTED_MISSION, null, selectedMissionBean);
     }
 
+    boolean isEnabled() {
+        return null != selectedMissionBean.getMission();
+    }
+
+    boolean isModified() {
+        return unsavedChanges;
+    }
+
     void setChangesSaved() {
         this.unsavedChanges = false;
         this.propertyChangeSupport.firePropertyChange(PROPERTY_UNSAVED_CHANGED, true, false);
     }
 
-    private void updateMissionsFromService() {
+    void updateMissionsFromService() {
         final MissionServiceImpl service = (MissionServiceImpl) MissionService.getDefault();
         missions = new ArrayList<>();
         missions.addAll(service.getMissions());
