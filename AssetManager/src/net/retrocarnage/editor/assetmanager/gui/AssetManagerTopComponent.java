@@ -24,10 +24,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.BadLocationException;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
+import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
-import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.FilenameUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -842,6 +842,7 @@ public final class AssetManagerTopComponent extends TopComponent {
                     return true;
                 case CLOSED_OPTION:
                 case CANCEL_OPTION:
+                default:
                     return false;
             }
         }

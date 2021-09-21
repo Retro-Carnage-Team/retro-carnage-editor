@@ -48,6 +48,7 @@ class EditorController {
                     break;
                 case CLOSED_OPTION:
                 case CANCEL_OPTION:
+                default:
                     return;
             }
         }
@@ -76,12 +77,12 @@ class EditorController {
     void saveChanges() {
         final MissionService service = MissionService.getDefault();
         final Mission changedMission = viewModel.getSelectedMission();
-        if (null != changedMission.getId()) {
-            final Mission original = service.getMission(changedMission.getId());
-            original.applyPartialChangesOfMetaData(changedMission);
-        } else {
+        if (null == changedMission.getId()) {
             changedMission.setId(UUID.randomUUID().toString());
             service.addMission(viewModel.getSelectedMission());
+        } else {
+            final Mission original = service.getMission(changedMission.getId());
+            original.applyPartialChangesOfMetaData(changedMission);
         }
         viewModel.setChangesSaved();
     }
@@ -91,10 +92,10 @@ class EditorController {
      */
     void discardChanges() {
         if (null != viewModel.getSelectedMission()) {
-            if (null != viewModel.getSelectedMission().getId()) {
-                viewModel.selectMission(new SelectableMission(viewModel.getSelectedMission()));
-            } else {
+            if (null == viewModel.getSelectedMission().getId()) {
                 viewModel.setSelectedMission(null);
+            } else {
+                viewModel.selectMission(new SelectableMission(viewModel.getSelectedMission()));
             }
         }
         viewModel.setChangesSaved();
