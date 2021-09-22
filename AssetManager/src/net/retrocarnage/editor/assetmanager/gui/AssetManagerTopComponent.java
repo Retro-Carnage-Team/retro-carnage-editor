@@ -55,9 +55,9 @@ import org.openide.windows.TopComponent;
         preferredID = "AssetManagerTopComponent"
 )
 @Messages({
-    "CTL_AssetManagerAction=AssetManager",
-    "CTL_AssetManagerTopComponent=AssetManager Window",
-    "HINT_AssetManagerTopComponent=This is a AssetManager window"
+    "CTL_AssetManagerAction=Asset Manager",
+    "CTL_AssetManagerTopComponent=Asset Manager",
+    "HINT_AssetManagerTopComponent=Manage your sound and graphic assets"
 })
 public final class AssetManagerTopComponent extends TopComponent {
 

@@ -1,6 +1,10 @@
 package net.retrocarnage.editor.missionmanager.editor;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.CANCEL_OPTION;
 import static javax.swing.JOptionPane.CLOSED_OPTION;
@@ -8,8 +12,10 @@ import static javax.swing.JOptionPane.NO_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.AbstractTableModel;
+import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Music;
 
 /**
  * A Controller for the EditorTopComponent.
@@ -111,6 +117,23 @@ class EditorController {
             missionTableModel = new MissionTableModel();
         }
         return missionTableModel;
+    }
+
+    ComboBoxModel<Music> getSongSelectionModel() {
+        final AssetService assetService = AssetService.getDefault();
+        final List<Music> songs = new LinkedList<>();
+        assetService
+                .findAssets(null)
+                .stream()
+                .filter(a -> a instanceof Music)
+                .forEach(a -> songs.add((Music) a));
+
+        final Music[] musicArray = new Music[songs.size()];
+        for (int m = 0; m < songs.size(); m++) {
+            musicArray[m] = songs.get(m);
+        }
+
+        return new DefaultComboBoxModel<>(musicArray);
     }
 
     /**
