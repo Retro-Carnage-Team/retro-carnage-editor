@@ -11,6 +11,10 @@ class SelectableMission {
 
     private final Mission delegate;
 
+    SelectableMission() {
+        delegate = new Mission();
+    }
+
     SelectableMission(final Mission mission) {
         delegate = mission;
     }

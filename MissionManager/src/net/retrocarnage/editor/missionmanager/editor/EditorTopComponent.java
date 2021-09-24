@@ -1,9 +1,12 @@
 package net.retrocarnage.editor.missionmanager.editor;
 
 import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -47,6 +50,25 @@ public final class EditorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_EditorTopComponent());
         setToolTipText(Bundle.HINT_EditorTopComponent());
+
+        model.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                switch (pce.getPropertyName()) {
+                    case EditorViewModel.PROPERTY_UNSAVED_CHANGES:
+                        modelPropertyUnsavedChangesChanged((boolean) pce.getNewValue());
+                        break;
+                    case EditorViewModel.PROPERTY_MISSIONS:
+                        controller.getTableModel().fireTableDataChanged();
+                        break;
+                    case EditorViewModel.PROPERTY_SELECTED_MISSION:
+                        modelPropertySelectedMissionChanged((Mission) pce.getNewValue());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     /**
@@ -75,8 +97,16 @@ public final class EditorTopComponent extends TopComponent {
         lblMusic = new javax.swing.JLabel();
         cmbMusic = new javax.swing.JComboBox<>();
         btnPlaySong = new javax.swing.JButton();
+        btnStopSong = new javax.swing.JButton();
         scrTable = new javax.swing.JScrollPane();
         tblMissions = new javax.swing.JTable();
+        pnlActions = new javax.swing.JPanel();
+        pnlActionsLeft = new javax.swing.JPanel();
+        btnNewMission = new javax.swing.JButton();
+        btnSaveMission = new javax.swing.JButton();
+        pnlActionsRight = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -113,7 +143,7 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtId, gridBagConstraints);
@@ -130,7 +160,7 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtName, gridBagConstraints);
@@ -152,7 +182,7 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -170,7 +200,7 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtReward, gridBagConstraints);
@@ -201,6 +231,13 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(btnPlaySong, gridBagConstraints);
 
+        btnStopSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-stop.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        pnlInput.add(btnStopSong, gridBagConstraints);
+
         pnlEditor.add(pnlInput, java.awt.BorderLayout.CENTER);
 
         add(pnlEditor, java.awt.BorderLayout.PAGE_END);
@@ -209,10 +246,75 @@ public final class EditorTopComponent extends TopComponent {
         scrTable.setViewportView(tblMissions);
 
         add(scrTable, java.awt.BorderLayout.CENTER);
+
+        pnlActions.setLayout(new java.awt.BorderLayout());
+
+        pnlActionsLeft.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnNewMission, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnNewMission.text")); // NOI18N
+        btnNewMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewMissionActionPerformed(evt);
+            }
+        });
+        pnlActionsLeft.add(btnNewMission);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnSaveMission, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnSaveMission.text")); // NOI18N
+        btnSaveMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveMissionActionPerformed(evt);
+            }
+        });
+        pnlActionsLeft.add(btnSaveMission);
+
+        pnlActions.add(pnlActionsLeft, java.awt.BorderLayout.CENTER);
+
+        pnlActionsRight.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnCancel.text")); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        pnlActionsRight.add(btnCancel);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnDelete, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnDelete.text")); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        pnlActionsRight.add(btnDelete);
+
+        pnlActions.add(pnlActionsRight, java.awt.BorderLayout.EAST);
+
+        add(pnlActions, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNewMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewMissionActionPerformed
+        controller.addMission();
+    }//GEN-LAST:event_btnNewMissionActionPerformed
+
+    private void btnSaveMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveMissionActionPerformed
+        controller.saveChanges();
+    }//GEN-LAST:event_btnSaveMissionActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        controller.discardChanges();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        controller.deleteMission();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnNewMission;
     private javax.swing.JButton btnPlaySong;
+    private javax.swing.JButton btnSaveMission;
+    private javax.swing.JButton btnStopSong;
     private javax.swing.JComboBox<Music> cmbMusic;
     private javax.swing.JLabel lblBriefing;
     private javax.swing.JLabel lblClient;
@@ -221,6 +323,9 @@ public final class EditorTopComponent extends TopComponent {
     private javax.swing.JLabel lblMusic;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblReward;
+    private javax.swing.JPanel pnlActions;
+    private javax.swing.JPanel pnlActionsLeft;
+    private javax.swing.JPanel pnlActionsRight;
     private javax.swing.JPanel pnlClient;
     private javax.swing.JPanel pnlEditor;
     private javax.swing.JPanel pnlInput;
@@ -256,6 +361,18 @@ public final class EditorTopComponent extends TopComponent {
         // TODO read your settings according to their version
     }
 
+    private void modelPropertyUnsavedChangesChanged(final boolean unsavedChanges) {
+        btnCancel.setEnabled(unsavedChanges);
+        btnSaveMission.setEnabled(unsavedChanges);
+    }
+
+    private void modelPropertySelectedMissionChanged(final Mission mission) {
+        // TODO: Update the state of the editor component
+    }
+
+    /**
+     * Displays the name of a Music asset in a list cell.
+     */
     private static class MusicCellRenderer implements ListCellRenderer {
 
         private final JLabel stamp = new JLabel();

@@ -11,6 +11,9 @@ import static javax.swing.JOptionPane.CLOSED_OPTION;
 import static javax.swing.JOptionPane.NO_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.YES_OPTION;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionmanager.MissionService;
@@ -42,6 +45,10 @@ class EditorController {
      * Adds a new mission.
      */
     void addMission() {
+        selectMission(new SelectableMission());
+    }
+
+    void selectMission(final SelectableMission mission) {
         if (viewModel.isModified()) {
             final String message = "There are unsaved changes. Do you want to save them first?";
             final int selectedOption = JOptionPane.showConfirmDialog(view, message, "alert", YES_NO_CANCEL_OPTION);
@@ -58,7 +65,11 @@ class EditorController {
                     return;
             }
         }
-        viewModel.setSelectedMission(new Mission());
+        if (null == mission.getId()) {
+            viewModel.setSelectedMission(new Mission());
+        } else {
+            viewModel.selectMission(mission);
+        }
     }
 
     /**
@@ -117,6 +128,21 @@ class EditorController {
             missionTableModel = new MissionTableModel();
         }
         return missionTableModel;
+    }
+
+    /**
+     * Builds a ListSelectionListener for the table of Missions.
+     *
+     * @return the ListSelectionListener
+     */
+    ListSelectionListener getTableSelectionListener(final JTable table) {
+        return (ListSelectionEvent lse) -> {
+            final int selectedRow = table.getSelectedRow();
+            if ((!lse.getValueIsAdjusting()) && (selectedRow > -1) && (selectedRow < viewModel.getMissions().size())) {
+                final SelectableMission newSelection = viewModel.getMissions().get(selectedRow);
+                selectMission(newSelection);
+            }
+        };
     }
 
     ComboBoxModel<Music> getSongSelectionModel() {

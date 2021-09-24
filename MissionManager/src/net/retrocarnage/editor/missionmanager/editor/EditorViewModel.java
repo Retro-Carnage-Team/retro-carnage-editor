@@ -17,7 +17,7 @@ import net.retrocarnage.editor.model.Mission;
 class EditorViewModel {
 
     static final String PROPERTY_SELECTED_MISSION = "selectedMission";
-    static final String PROPERTY_UNSAVED_CHANGED = "unsavedChanges";
+    static final String PROPERTY_UNSAVED_CHANGES = "unsavedChanges";
     static final String PROPERTY_MISSIONS = "missions";
 
     private final PropertyChangeSupport propertyChangeSupport;
@@ -32,7 +32,7 @@ class EditorViewModel {
         selectedMissionBean.addPropertyChangeListener(pce -> {
             if (!unsavedChanges) {
                 unsavedChanges = true;
-                this.propertyChangeSupport.firePropertyChange(PROPERTY_UNSAVED_CHANGED, false, true);
+                this.propertyChangeSupport.firePropertyChange(PROPERTY_UNSAVED_CHANGES, false, true);
             }
         });
     }
@@ -55,11 +55,22 @@ class EditorViewModel {
         return selectedMissionBean;
     }
 
+    /**
+     * Used to reset the mission or set a new mission (that has not been saved, yet)
+     *
+     * @param mission the Mission to be set
+     */
     void setSelectedMission(final Mission mission) {
         selectedMissionBean.setMission(mission);
         unsavedChanges = false;
+        this.propertyChangeSupport.firePropertyChange(PROPERTY_SELECTED_MISSION, null, selectedMissionBean);
     }
 
+    /**
+     * Used to select an existing mission from the Mission service.
+     *
+     * @param mission specifies the Mission to be selected
+     */
     void selectMission(final SelectableMission mission) {
         selectedMissionBean.setMission(
                 missions.stream()
@@ -80,7 +91,7 @@ class EditorViewModel {
 
     void setChangesSaved() {
         this.unsavedChanges = false;
-        this.propertyChangeSupport.firePropertyChange(PROPERTY_UNSAVED_CHANGED, true, false);
+        this.propertyChangeSupport.firePropertyChange(PROPERTY_UNSAVED_CHANGES, true, false);
     }
 
     void updateMissionsFromService() {
