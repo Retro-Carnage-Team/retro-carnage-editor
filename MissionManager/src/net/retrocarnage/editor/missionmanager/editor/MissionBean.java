@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.missionmanager.editor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import net.retrocarnage.editor.model.Location;
@@ -27,6 +28,7 @@ class MissionBean extends Mission {
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
+    @JsonIgnore
     Mission getMission() {
         return delegate;
     }
@@ -44,6 +46,11 @@ class MissionBean extends Mission {
     }
 
     @Override
+    public String getId() {
+        return null != delegate ? delegate.getId() : null;
+    }
+
+    @Override
     public void setId(final String id) {
         if (null != delegate) {
             final String oldValue = delegate.getId();
@@ -53,6 +60,11 @@ class MissionBean extends Mission {
                 propertyChangeSupport.firePropertyChange(PROPERTY_ID, oldValue, id);
             }
         }
+    }
+
+    @Override
+    public String getBriefing() {
+        return null != delegate ? delegate.getBriefing() : null;
     }
 
     @Override
@@ -68,6 +80,11 @@ class MissionBean extends Mission {
     }
 
     @Override
+    public String getClient() {
+        return null != delegate ? delegate.getClient() : null;
+    }
+
+    @Override
     public void setClient(final String client) {
         if (null != delegate) {
             final String oldValue = delegate.getClient();
@@ -77,6 +94,11 @@ class MissionBean extends Mission {
                 propertyChangeSupport.firePropertyChange(PROPERTY_CLIENT_ASSET_ID, oldValue, client);
             }
         }
+    }
+
+    @Override
+    public Location getLocation() {
+        return null != delegate ? delegate.getLocation() : null;
     }
 
     @Override
@@ -92,6 +114,11 @@ class MissionBean extends Mission {
     }
 
     @Override
+    public String getSong() {
+        return null != delegate ? delegate.getSong() : null;
+    }
+
+    @Override
     public void setSong(final String song) {
         if (null != delegate) {
             final String oldValue = delegate.getSong();
@@ -104,6 +131,11 @@ class MissionBean extends Mission {
     }
 
     @Override
+    public String getName() {
+        return null != delegate ? delegate.getName() : null;
+    }
+
+    @Override
     public void setName(final String name) {
         if (null != delegate) {
             final String oldValue = delegate.getName();
@@ -113,6 +145,11 @@ class MissionBean extends Mission {
                 propertyChangeSupport.firePropertyChange(PROPERTY_NAME, oldValue, name);
             }
         }
+    }
+
+    @Override
+    public int getReward() {
+        return null != delegate ? delegate.getReward() : 0;
     }
 
     @Override

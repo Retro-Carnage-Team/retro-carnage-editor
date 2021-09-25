@@ -208,6 +208,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlTable.setLayout(new java.awt.BorderLayout());
 
         tblAssets.setModel(controller.getTableModel());
+        tblAssets.setRowHeight(24);
         tblAssets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblAssets.getSelectionModel().addListSelectionListener(controller.getTableSelectionListener(tblAssets));
         scrTable.setViewportView(tblAssets);

@@ -23,7 +23,7 @@ public class Location {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(final int latitude) {
         this.latitude = latitude;
     }
 
@@ -31,7 +31,7 @@ public class Location {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(final int longitude) {
         this.longitude = longitude;
     }
 

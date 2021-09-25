@@ -237,7 +237,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((PlainDocument) txtReward.getDocument()).setDocumentFilter(new IntDocumentFilter());&#xa;txtReward.getDocument().addDocumentListener(new AbstractDocumentListener() {&#xa;    @Override&#xa;    protected void handleChange(DocumentEvent de) {&#xa;        model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((PlainDocument) txtReward.getDocument()).setDocumentFilter(new IntDocumentFilter());&#xa;txtReward.getDocument().addDocumentListener(new AbstractDocumentListener() {&#xa;    @Override&#xa;    protected void handleChange(final DocumentEvent de) {&#xa;        try {&#xa;            model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));&#xa;        } catch(NumberFormatException nfe) { }        &#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -443,7 +443,11 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="controller.getTableModel()" type="code"/>
             </Property>
+            <Property name="rowHeight" type="int" value="24"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="tblMissions&#xa;        .getSelectionModel()&#xa;        .addListSelectionListener(controller.getTableSelectionListener(tblMissions));"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

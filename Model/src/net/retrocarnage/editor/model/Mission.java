@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class Mission {
      *
      * @return a partial copy
      */
+    @JsonIgnore
     public Mission getPartialCopyOfMetaData() {
         final Mission partialCopy = new Mission();
         partialCopy.setBriefing(getBriefing());

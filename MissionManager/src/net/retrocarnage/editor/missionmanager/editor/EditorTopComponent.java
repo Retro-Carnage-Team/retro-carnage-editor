@@ -80,6 +80,8 @@ public final class EditorTopComponent extends TopComponent {
                     break;
             }
         });
+        cmbClient.setSelectedIndex(-1);
+        cmbMusic.setSelectedIndex(-1);
     }
 
     /**
@@ -237,8 +239,10 @@ public final class EditorTopComponent extends TopComponent {
         ((PlainDocument) txtReward.getDocument()).setDocumentFilter(new IntDocumentFilter());
         txtReward.getDocument().addDocumentListener(new AbstractDocumentListener() {
             @Override
-            protected void handleChange(DocumentEvent de) {
-                model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));
+            protected void handleChange(final DocumentEvent de) {
+                try {
+                    model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));
+                } catch(NumberFormatException nfe) { }
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -369,6 +373,10 @@ public final class EditorTopComponent extends TopComponent {
         add(pnlEditor, java.awt.BorderLayout.PAGE_END);
 
         tblMissions.setModel(controller.getTableModel());
+        tblMissions.setRowHeight(24);
+        tblMissions
+        .getSelectionModel()
+        .addListSelectionListener(controller.getTableSelectionListener(tblMissions));
         scrTable.setViewportView(tblMissions);
 
         add(scrTable, java.awt.BorderLayout.CENTER);
@@ -554,8 +562,18 @@ public final class EditorTopComponent extends TopComponent {
                 }
             }
         }
-        spnLocationX.setValue(null == mission || null == mission.getLocation() ? 0 : mission.getLocation().getLatitude());
-        spnLocationY.setValue(null == mission || null == mission.getLocation() ? 0 : mission.getLocation().getLongitude());
+
+        if (null == mission || null == mission.getLocation()) {
+            spnLocationX.setValue(0);
+            spnLocationY.setValue(0);
+        } else {
+            // Looks clumsy but prevents the location object from being changed by the spinner's listener
+            int lat = mission.getLocation().getLatitude();
+            int lng = mission.getLocation().getLongitude();
+            spnLocationX.setValue(lat);
+            spnLocationY.setValue(lng);
+        }
+
         cmbMusic.setSelectedIndex(-1);
         if (null != mission) {
             for (int i = 0; i < cmbMusic.getModel().getSize(); i++) {
