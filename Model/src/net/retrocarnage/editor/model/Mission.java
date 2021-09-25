@@ -13,7 +13,7 @@ public class Mission {
 
     private String id;
     private String briefing;
-    private String clientAssetId;
+    private String client;
     private Location location;
     private String song;
     private String name;
@@ -40,12 +40,20 @@ public class Mission {
         this.briefing = briefing;
     }
 
-    public String getClientAssetId() {
-        return clientAssetId;
+    /**
+     * @return the ID of a sprite asset used for the client
+     */
+    public String getClient() {
+        return client;
     }
 
-    public void setClientAssetId(final String client) {
-        this.clientAssetId = client;
+    /**
+     * Updates the client for the mission.
+     *
+     * @param client ID of a sprite asset
+     */
+    public void setClient(final String client) {
+        this.client = client;
     }
 
     public Location getLocation() {
@@ -56,10 +64,18 @@ public class Mission {
         this.location = location;
     }
 
+    /**
+     * @return the ID of a music asset used as background music
+     */
     public String getSong() {
         return song;
     }
 
+    /**
+     * Updates the song used as background music for the mission.
+     *
+     * @param song ID of a music asset
+     */
     public void setSong(final String song) {
         this.song = song;
     }
@@ -97,7 +113,7 @@ public class Mission {
     public Mission getPartialCopyOfMetaData() {
         final Mission partialCopy = new Mission();
         partialCopy.setBriefing(getBriefing());
-        partialCopy.setClientAssetId(getClientAssetId());
+        partialCopy.setClient(getClient());
         partialCopy.setId(getId());
         if (null != getLocation()) {
             partialCopy.setLocation(new Location(getLocation().getLatitude(), getLocation().getLongitude()));
@@ -116,7 +132,7 @@ public class Mission {
      */
     public void applyPartialChangesOfMetaData(final Mission otherMission) {
         setBriefing(otherMission.getBriefing());
-        setClientAssetId(otherMission.getClientAssetId());
+        setClient(otherMission.getClient());
         setId(otherMission.getId());
         setLocation(otherMission.getLocation());
         setName(otherMission.getName());

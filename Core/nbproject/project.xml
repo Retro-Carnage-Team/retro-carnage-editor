@@ -33,6 +33,7 @@
             </module-dependencies>
             <public-packages>
                 <package>net.retrocarnage.editor.core</package>
+                <package>net.retrocarnage.editor.core.gui</package>
             </public-packages>
         </data>
     </configuration>

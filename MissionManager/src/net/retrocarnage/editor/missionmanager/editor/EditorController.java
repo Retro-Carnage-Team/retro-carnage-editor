@@ -19,6 +19,7 @@ import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 
 /**
  * A Controller for the EditorTopComponent.
@@ -143,6 +144,23 @@ class EditorController {
                 selectMission(newSelection);
             }
         };
+    }
+
+    ComboBoxModel<Sprite> getClientSelectionModel() {
+        final AssetService assetService = AssetService.getDefault();
+        final List<Sprite> clients = new LinkedList<>();
+        assetService
+                .findAssets("client")
+                .stream()
+                .filter(a -> a instanceof Sprite)
+                .forEach(a -> clients.add((Sprite) a));
+
+        final Sprite[] spriteArray = new Sprite[clients.size()];
+        for (int m = 0; m < clients.size(); m++) {
+            spriteArray[m] = clients.get(m);
+        }
+
+        return new DefaultComboBoxModel<>(spriteArray);
     }
 
     ComboBoxModel<Music> getSongSelectionModel() {

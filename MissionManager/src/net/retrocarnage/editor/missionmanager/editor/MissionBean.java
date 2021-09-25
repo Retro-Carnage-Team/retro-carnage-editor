@@ -68,10 +68,10 @@ class MissionBean extends Mission {
     }
 
     @Override
-    public void setClientAssetId(final String client) {
+    public void setClient(final String client) {
         if (null != delegate) {
-            final String oldValue = delegate.getClientAssetId();
-            delegate.setClientAssetId(client);
+            final String oldValue = delegate.getClient();
+            delegate.setClient(client);
 
             if (isStringChanged(oldValue, client)) {
                 propertyChangeSupport.firePropertyChange(PROPERTY_CLIENT_ASSET_ID, oldValue, client);

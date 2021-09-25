@@ -2,12 +2,24 @@ package net.retrocarnage.editor.missionmanager.editor;
 
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.nio.file.Path;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.text.PlainDocument;
+import net.retrocarnage.editor.core.ApplicationFolderService;
+import net.retrocarnage.editor.core.gui.AbstractDocumentListener;
+import net.retrocarnage.editor.core.gui.IntDocumentFilter;
+import net.retrocarnage.editor.model.Asset;
+import net.retrocarnage.editor.model.Location;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
+import net.retrocarnage.editor.model.Sprite;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -40,6 +52,8 @@ import org.openide.windows.TopComponent;
 })
 public final class EditorTopComponent extends TopComponent {
 
+    private static final Logger logger = Logger.getLogger(EditorTopComponent.class.getName());
+
     private final EditorController controller;
     private final EditorViewModel model;
 
@@ -51,22 +65,19 @@ public final class EditorTopComponent extends TopComponent {
         setName(Bundle.CTL_EditorTopComponent());
         setToolTipText(Bundle.HINT_EditorTopComponent());
 
-        model.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent pce) {
-                switch (pce.getPropertyName()) {
-                    case EditorViewModel.PROPERTY_UNSAVED_CHANGES:
-                        modelPropertyUnsavedChangesChanged((boolean) pce.getNewValue());
-                        break;
-                    case EditorViewModel.PROPERTY_MISSIONS:
-                        controller.getTableModel().fireTableDataChanged();
-                        break;
-                    case EditorViewModel.PROPERTY_SELECTED_MISSION:
-                        modelPropertySelectedMissionChanged((Mission) pce.getNewValue());
-                        break;
-                    default:
-                        break;
-                }
+        model.addPropertyChangeListener((PropertyChangeEvent pce) -> {
+            switch (pce.getPropertyName()) {
+                case EditorViewModel.PROPERTY_UNSAVED_CHANGES:
+                    modelPropertyUnsavedChangesChanged((boolean) pce.getNewValue());
+                    break;
+                case EditorViewModel.PROPERTY_MISSIONS:
+                    controller.getTableModel().fireTableDataChanged();
+                    break;
+                case EditorViewModel.PROPERTY_SELECTED_MISSION:
+                    modelPropertySelectedMissionChanged((Mission) pce.getNewValue());
+                    break;
+                default:
+                    break;
             }
         });
     }
@@ -81,9 +92,9 @@ public final class EditorTopComponent extends TopComponent {
 
         pnlEditor = new javax.swing.JPanel();
         pnlLocation = new javax.swing.JPanel();
-        lblLocation = new javax.swing.JLabel();
+        lblLocationImage = new javax.swing.JLabel();
         pnlClient = new javax.swing.JPanel();
-        lblClient = new javax.swing.JLabel();
+        lblClientImage = new javax.swing.JLabel();
         pnlInput = new javax.swing.JPanel();
         lblId = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
@@ -98,6 +109,14 @@ public final class EditorTopComponent extends TopComponent {
         cmbMusic = new javax.swing.JComboBox<>();
         btnPlaySong = new javax.swing.JButton();
         btnStopSong = new javax.swing.JButton();
+        lblClient = new javax.swing.JLabel();
+        lblLocation = new javax.swing.JLabel();
+        cmbClient = new javax.swing.JComboBox<>();
+        pnlLocationInput = new javax.swing.JPanel();
+        spnLocationX = new javax.swing.JSpinner();
+        spnLocationY = new javax.swing.JSpinner();
+        lblLocationX = new javax.swing.JLabel();
+        lblLocationY = new javax.swing.JLabel();
         scrTable = new javax.swing.JScrollPane();
         tblMissions = new javax.swing.JTable();
         pnlActions = new javax.swing.JPanel();
@@ -115,21 +134,23 @@ public final class EditorTopComponent extends TopComponent {
         pnlLocation.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.pnlLocation.border.title"))); // NOI18N
         pnlLocation.setLayout(new java.awt.BorderLayout());
 
-        lblLocation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/world-map.jpg"))); // NOI18N
-        pnlLocation.add(lblLocation, java.awt.BorderLayout.CENTER);
+        lblLocationImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/world-map.jpg"))); // NOI18N
+        pnlLocation.add(lblLocationImage, java.awt.BorderLayout.CENTER);
 
         pnlEditor.add(pnlLocation, java.awt.BorderLayout.EAST);
 
         pnlClient.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.pnlClient.border.title"))); // NOI18N
         pnlClient.setLayout(new java.awt.BorderLayout());
 
-        lblClient.setPreferredSize(new java.awt.Dimension(300, 300));
-        pnlClient.add(lblClient, java.awt.BorderLayout.CENTER);
+        lblClientImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblClientImage.setPreferredSize(new java.awt.Dimension(300, 300));
+        pnlClient.add(lblClientImage, java.awt.BorderLayout.CENTER);
 
         pnlEditor.add(pnlClient, java.awt.BorderLayout.WEST);
 
         pnlInput.setLayout(new java.awt.GridBagLayout());
 
+        lblId.setLabelFor(txtId);
         org.openide.awt.Mnemonics.setLocalizedText(lblId, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -148,6 +169,7 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtId, gridBagConstraints);
 
+        lblName.setLabelFor(txtName);
         org.openide.awt.Mnemonics.setLocalizedText(lblName, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -157,6 +179,12 @@ public final class EditorTopComponent extends TopComponent {
         pnlInput.add(lblName, gridBagConstraints);
 
         txtName.setEnabled(false);
+        txtName.getDocument().addDocumentListener(new AbstractDocumentListener() {
+            @Override
+            protected void handleChange(DocumentEvent de) {
+                model.getSelectedMission().setName(txtName.getText());
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -165,11 +193,12 @@ public final class EditorTopComponent extends TopComponent {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtName, gridBagConstraints);
 
+        lblBriefing.setLabelFor(txtBriefing);
         org.openide.awt.Mnemonics.setLocalizedText(lblBriefing, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblBriefing.text")); // NOI18N
         lblBriefing.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlInput.add(lblBriefing, gridBagConstraints);
@@ -177,48 +206,69 @@ public final class EditorTopComponent extends TopComponent {
         txtBriefing.setColumns(20);
         txtBriefing.setRows(5);
         txtBriefing.setEnabled(false);
+        txtBriefing.getDocument().addDocumentListener(new AbstractDocumentListener() {
+            @Override
+            protected void handleChange(DocumentEvent de) {
+                model.getSelectedMission().setBriefing(txtBriefing.getText());
+            }
+        });
         scrBriefing.setViewportView(txtBriefing);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(scrBriefing, gridBagConstraints);
 
+        lblReward.setLabelFor(txtReward);
         org.openide.awt.Mnemonics.setLocalizedText(lblReward, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblReward.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlInput.add(lblReward, gridBagConstraints);
 
+        txtReward.setText(org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.txtReward.text")); // NOI18N
         txtReward.setEnabled(false);
+        ((PlainDocument) txtReward.getDocument()).setDocumentFilter(new IntDocumentFilter());
+        txtReward.getDocument().addDocumentListener(new AbstractDocumentListener() {
+            @Override
+            protected void handleChange(DocumentEvent de) {
+                model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(txtReward, gridBagConstraints);
 
+        lblMusic.setLabelFor(cmbMusic);
         org.openide.awt.Mnemonics.setLocalizedText(lblMusic, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblMusic.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlInput.add(lblMusic, gridBagConstraints);
 
         cmbMusic.setModel(controller.getSongSelectionModel());
         cmbMusic.setEnabled(false);
-        cmbMusic.setRenderer(new MusicCellRenderer());
+        cmbMusic.setRenderer(new AssetCellRenderer());
+        cmbMusic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMusicActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -227,16 +277,92 @@ public final class EditorTopComponent extends TopComponent {
         btnPlaySong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-start.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(btnPlaySong, gridBagConstraints);
 
         btnStopSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-stop.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlInput.add(btnStopSong, gridBagConstraints);
+
+        lblClient.setLabelFor(cmbClient);
+        org.openide.awt.Mnemonics.setLocalizedText(lblClient, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblClient.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
+        pnlInput.add(lblClient, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(lblLocation, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblLocation.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
+        pnlInput.add(lblLocation, gridBagConstraints);
+
+        cmbClient.setModel(controller.getClientSelectionModel());
+        cmbClient.setEnabled(false);
+        cmbClient.setRenderer(new AssetCellRenderer());
+        cmbClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbClientActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        pnlInput.add(cmbClient, gridBagConstraints);
+
+        pnlLocationInput.setLayout(new java.awt.GridBagLayout());
+
+        spnLocationX.setModel(new javax.swing.SpinnerNumberModel(0, 0, 1279, 1));
+        spnLocationX.setEnabled(false);
+        addLocationSpinnerHandler(spnLocationX);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnlLocationInput.add(spnLocationX, gridBagConstraints);
+
+        spnLocationY.setModel(new javax.swing.SpinnerNumberModel(0, 0, 782, 1));
+        spnLocationY.setEnabled(false);
+        addLocationSpinnerHandler(spnLocationY);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        pnlLocationInput.add(spnLocationY, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(lblLocationX, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblLocationX.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnlLocationInput.add(lblLocationX, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(lblLocationY, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.lblLocationY.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnlLocationInput.add(lblLocationY, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        pnlInput.add(pnlLocationInput, gridBagConstraints);
 
         pnlEditor.add(pnlInput, java.awt.BorderLayout.CENTER);
 
@@ -260,6 +386,7 @@ public final class EditorTopComponent extends TopComponent {
         pnlActionsLeft.add(btnNewMission);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnSaveMission, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnSaveMission.text")); // NOI18N
+        btnSaveMission.setEnabled(false);
         btnSaveMission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveMissionActionPerformed(evt);
@@ -272,6 +399,7 @@ public final class EditorTopComponent extends TopComponent {
         pnlActionsRight.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnCancel.text")); // NOI18N
+        btnCancel.setEnabled(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -280,6 +408,7 @@ public final class EditorTopComponent extends TopComponent {
         pnlActionsRight.add(btnCancel);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnDelete, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnDelete.text")); // NOI18N
+        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -308,6 +437,29 @@ public final class EditorTopComponent extends TopComponent {
         controller.deleteMission();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void cmbClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClientActionPerformed
+        ImageIcon newIcon = null;
+        if (cmbClient.getSelectedItem() instanceof Sprite) {
+            final Sprite sprite = (Sprite) cmbClient.getSelectedItem();
+            model.getSelectedMission().setClient(sprite.getId());
+            final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+            final Path appFolderPath = appFolderService.getApplicationFolder();
+            final String thumbnailPath = Path.of(
+                    appFolderPath.toString(),
+                    sprite.getRelativePathThumbnail()
+            ).toString();
+            newIcon = new ImageIcon(thumbnailPath);
+        }
+        lblClientImage.setIcon(newIcon);
+    }//GEN-LAST:event_cmbClientActionPerformed
+
+    private void cmbMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMusicActionPerformed
+        if (cmbMusic.getSelectedItem() instanceof Music) {
+            final Music music = (Music) cmbMusic.getSelectedItem();
+            model.getSelectedMission().setSong(music.getId());
+        }
+    }//GEN-LAST:event_cmbMusicActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
@@ -315,11 +467,16 @@ public final class EditorTopComponent extends TopComponent {
     private javax.swing.JButton btnPlaySong;
     private javax.swing.JButton btnSaveMission;
     private javax.swing.JButton btnStopSong;
+    private javax.swing.JComboBox<Sprite> cmbClient;
     private javax.swing.JComboBox<Music> cmbMusic;
     private javax.swing.JLabel lblBriefing;
     private javax.swing.JLabel lblClient;
+    private javax.swing.JLabel lblClientImage;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblLocation;
+    private javax.swing.JLabel lblLocationImage;
+    private javax.swing.JLabel lblLocationX;
+    private javax.swing.JLabel lblLocationY;
     private javax.swing.JLabel lblMusic;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblReward;
@@ -330,8 +487,11 @@ public final class EditorTopComponent extends TopComponent {
     private javax.swing.JPanel pnlEditor;
     private javax.swing.JPanel pnlInput;
     private javax.swing.JPanel pnlLocation;
+    private javax.swing.JPanel pnlLocationInput;
     private javax.swing.JScrollPane scrBriefing;
     private javax.swing.JScrollPane scrTable;
+    private javax.swing.JSpinner spnLocationX;
+    private javax.swing.JSpinner spnLocationY;
     private javax.swing.JTable tblMissions;
     private javax.swing.JTextArea txtBriefing;
     private javax.swing.JTextField txtId;
@@ -349,14 +509,14 @@ public final class EditorTopComponent extends TopComponent {
         // TODO add custom code on component closing
     }
 
-    void writeProperties(java.util.Properties p) {
+    void writeProperties(final java.util.Properties p) {
         // better to version settings since initial version as advocated at
         // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
         // TODO store your settings
     }
 
-    void readProperties(java.util.Properties p) {
+    void readProperties(final java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
@@ -367,21 +527,74 @@ public final class EditorTopComponent extends TopComponent {
     }
 
     private void modelPropertySelectedMissionChanged(final Mission mission) {
-        // TODO: Update the state of the editor component
+        enableEditorFields(null != mission);
+        setEditorContent(mission);
+    }
+
+    private void enableEditorFields(final boolean enabled) {
+        txtName.setEnabled(enabled);
+        cmbClient.setEnabled(enabled);
+        spnLocationX.setEnabled(enabled);
+        spnLocationY.setEnabled(enabled);
+        txtBriefing.setEnabled(enabled);
+        txtReward.setEnabled(enabled);
+        cmbMusic.setEnabled(enabled);
+    }
+
+    private void setEditorContent(final Mission mission) {
+        txtName.setText(null == mission ? "" : mission.getName());
+        txtBriefing.setText(null == mission ? "" : mission.getBriefing());
+        txtReward.setText(null == mission ? "0" : Integer.toString(mission.getReward()));
+        cmbClient.setSelectedIndex(-1);
+        if (null != mission) {
+            for (int i = 0; i < cmbClient.getModel().getSize(); i++) {
+                if (cmbClient.getModel().getElementAt(i).getId().equals(mission.getClient())) {
+                    cmbClient.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+        spnLocationX.setValue(null == mission || null == mission.getLocation() ? 0 : mission.getLocation().getLatitude());
+        spnLocationY.setValue(null == mission || null == mission.getLocation() ? 0 : mission.getLocation().getLongitude());
+        cmbMusic.setSelectedIndex(-1);
+        if (null != mission) {
+            for (int i = 0; i < cmbMusic.getModel().getSize(); i++) {
+                if (cmbMusic.getModel().getElementAt(i).getId().equals(mission.getSong())) {
+                    cmbMusic.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void addLocationSpinnerHandler(final JSpinner spinner) {
+        final JTextField jtf = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
+        jtf.getDocument().addDocumentListener(new AbstractDocumentListener() {
+            @Override
+            protected void handleChange(DocumentEvent de) {
+                final Location newLocation = new Location(
+                        (int) spnLocationX.getValue(),
+                        (int) spnLocationY.getValue()
+                );
+                model.getSelectedMission().setLocation(newLocation);
+            }
+        });
     }
 
     /**
      * Displays the name of a Music asset in a list cell.
      */
-    private static class MusicCellRenderer implements ListCellRenderer {
+    private static class AssetCellRenderer implements ListCellRenderer {
 
         private final JLabel stamp = new JLabel();
 
         @Override
-        public Component getListCellRendererComponent(JList jlist, Object e, int i, boolean bln, boolean bln1) {
+        public Component getListCellRendererComponent(
+                final JList jlist, final Object e, final int i, final boolean bln, final boolean bln1
+        ) {
             stamp.setText("");
-            if (e instanceof Music) {
-                stamp.setText(((Music) e).getName());
+            if (e instanceof Asset) {
+                stamp.setText(((Asset) e).getName());
             }
             return stamp;
         }
