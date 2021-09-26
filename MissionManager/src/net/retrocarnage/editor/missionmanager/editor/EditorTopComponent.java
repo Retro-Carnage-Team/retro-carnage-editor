@@ -2,7 +2,12 @@ package net.retrocarnage.editor.missionmanager.editor;
 
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -12,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.PlainDocument;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.core.gui.AbstractDocumentListener;
 import net.retrocarnage.editor.core.gui.IntDocumentFilter;
@@ -56,6 +63,7 @@ public final class EditorTopComponent extends TopComponent {
 
     private final EditorController controller;
     private final EditorViewModel model;
+    private Player musicPlayer;
 
     public EditorTopComponent() {
         controller = new EditorController(this);
@@ -279,6 +287,12 @@ public final class EditorTopComponent extends TopComponent {
         pnlInput.add(cmbMusic, gridBagConstraints);
 
         btnPlaySong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-start.png"))); // NOI18N
+        btnPlaySong.setEnabled(false);
+        btnPlaySong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlaySongActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -286,6 +300,12 @@ public final class EditorTopComponent extends TopComponent {
         pnlInput.add(btnPlaySong, gridBagConstraints);
 
         btnStopSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-stop.png"))); // NOI18N
+        btnStopSong.setEnabled(false);
+        btnStopSong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopSongActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
@@ -431,6 +451,7 @@ public final class EditorTopComponent extends TopComponent {
 
     private void btnNewMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewMissionActionPerformed
         controller.addMission();
+        stopMusic();
     }//GEN-LAST:event_btnNewMissionActionPerformed
 
     private void btnSaveMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveMissionActionPerformed
@@ -439,10 +460,12 @@ public final class EditorTopComponent extends TopComponent {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         controller.discardChanges();
+        stopMusic();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         controller.deleteMission();
+        stopMusic();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void cmbClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClientActionPerformed
@@ -462,11 +485,44 @@ public final class EditorTopComponent extends TopComponent {
     }//GEN-LAST:event_cmbClientActionPerformed
 
     private void cmbMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMusicActionPerformed
-        if (cmbMusic.getSelectedItem() instanceof Music) {
+        final boolean musicSelected = cmbMusic.getSelectedItem() instanceof Music;
+        stopMusic();
+
+        btnPlaySong.setEnabled(musicSelected);
+        if (musicSelected) {
             final Music music = (Music) cmbMusic.getSelectedItem();
             model.getSelectedMission().setSong(music.getId());
         }
     }//GEN-LAST:event_cmbMusicActionPerformed
+
+    private void btnPlaySongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaySongActionPerformed
+        stopMusic();
+
+        final Music music = (Music) cmbMusic.getSelectedItem();
+        if (null != music) {
+            final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+            final Path appFolderPath = appFolderService.getApplicationFolder();
+            final Path musicPath = Path.of(appFolderPath.toString(), music.getRelativePath());
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        final InputStream fileInput = new BufferedInputStream(new FileInputStream(musicPath.toFile()));
+                        musicPlayer = new Player(fileInput);
+                        musicPlayer.play();
+                    } catch (FileNotFoundException | JavaLayerException ex) {
+                        logger.log(Level.WARNING, "Failed to load/play music file", ex);
+                    }
+                }
+            }.start();
+            btnPlaySong.setEnabled(false);
+            btnStopSong.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnPlaySongActionPerformed
+
+    private void btnStopSongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSongActionPerformed
+        stopMusic();
+    }//GEN-LAST:event_btnStopSongActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -509,24 +565,28 @@ public final class EditorTopComponent extends TopComponent {
 
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        stopMusic();
     }
 
     void writeProperties(final java.util.Properties p) {
-        // better to version settings since initial version as advocated at
-        // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
-        // TODO store your settings
     }
 
     void readProperties(final java.util.Properties p) {
-        String version = p.getProperty("version");
-        // TODO read your settings according to their version
+        // String version = p.getProperty("version");
+    }
+
+    private void stopMusic() {
+        if (null != musicPlayer) {
+            musicPlayer.close();
+            musicPlayer = null;
+            btnPlaySong.setEnabled(true);
+            btnStopSong.setEnabled(false);
+        }
     }
 
     private void modelPropertyUnsavedChangesChanged(final boolean unsavedChanges) {
