@@ -99,8 +99,7 @@ class EditorController {
             changedMission.setId(UUID.randomUUID().toString());
             service.addMission(changedMission);
         } else {
-            final Mission original = service.getMission(changedMission.getId());
-            original.applyPartialChangesOfMetaData(changedMission);
+            service.updateMission(changedMission);
         }
         viewModel.setChangesSaved();
     }
