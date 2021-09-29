@@ -82,7 +82,7 @@ public final class SelectorTopComponent extends TopComponent {
         final Rectangle r = lstMissions.getCellBounds(0, lstMissions.getLastVisibleIndex());
         if (r != null && r.contains(evt.getPoint())) {
             final int selectedIndex = lstMissions.locationToIndex(evt.getPoint());
-            // TODO: Open mission in mission editor (not the mission manager)
+            controller.editMission(selectedIndex);
         }
 
     }//GEN-LAST:event_lstMissionsMouseClicked

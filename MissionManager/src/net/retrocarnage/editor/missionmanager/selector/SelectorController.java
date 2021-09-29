@@ -2,11 +2,15 @@ package net.retrocarnage.editor.missionmanager.selector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
+import net.retrocarnage.editor.missionmanager.MissionEditor;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import static net.retrocarnage.editor.missionmanager.MissionService.PROPERTY_MISSIONS;
 import net.retrocarnage.editor.model.Mission;
+import org.openide.util.Lookup;
 
 /**
  * Controller for the SelectorTopComponent.
@@ -14,6 +18,8 @@ import net.retrocarnage.editor.model.Mission;
  * @author Thomas Werner
  */
 class SelectorController {
+
+    private static final Logger logger = Logger.getLogger(SelectorController.class.getName());
 
     private final PropertyChangeListener serviceChangeListener;
     private DefaultListModel<Mission> listModel;
@@ -39,6 +45,16 @@ class SelectorController {
             listModel.addAll(MissionService.getDefault().getMissions());
         }
         return listModel;
+    }
+
+    void editMission(int selectedIndex) {
+        final Mission mission = listModel.get(selectedIndex);
+        final MissionEditor editor = Lookup.getDefault().lookup(MissionEditor.class);
+        if (null != editor) {
+            editor.open(mission);
+        } else {
+            logger.log(Level.WARNING, "Found no implementation of MissionEditor interface :(");
+        }
     }
 
 }

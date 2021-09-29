@@ -36,3 +36,5 @@ hs_err_pid*
 /MissionManager/build/
 /MissionManager/nbproject/private/
 /JLayer/build/
+/Application/nbproject/private/
+/GamePlayEditor/build/
