@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.gameplayeditor;
 
+import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.Mission;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle.Messages;
@@ -25,17 +26,15 @@ import org.openide.windows.TopComponent;
 })
 public final class GamePlayEditorTopComponent extends TopComponent {
 
-    private Mission mission;
-
-    public Mission getMission() {
-        return mission;
-    }
-
-    public void setMission(Mission mission) {
-        this.mission = mission;
-    }
+    private final Mission mission;
 
     public GamePlayEditorTopComponent() {
+        this(null);
+    }
+
+    public GamePlayEditorTopComponent(final Mission mission) {
+        this.mission = mission;
+
         initComponents();
         setName(Bundle.CTL_GamePlayEditorTopComponent());
         setToolTipText(Bundle.HINT_GamePlayEditorTopComponent());
@@ -64,23 +63,23 @@ public final class GamePlayEditorTopComponent extends TopComponent {
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        if (null != mission) {
+            GamePlayEditorRepository.INSTANCE.register(mission.getId(), this);
+        }
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        if (null != mission) {
+            GamePlayEditorRepository.INSTANCE.unregister(mission.getId(), this);
+        }
     }
 
     void writeProperties(java.util.Properties p) {
-        // better to version settings since initial version as advocated at
-        // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
-        // TODO store your settings
     }
 
     void readProperties(java.util.Properties p) {
-        String version = p.getProperty("version");
-        // TODO read your settings according to their version
+        // String version = p.getProperty("version");
     }
 }
