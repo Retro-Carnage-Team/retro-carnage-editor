@@ -102,7 +102,7 @@ public final class EditorTopComponent extends TopComponent {
 
         pnlEditor = new javax.swing.JPanel();
         pnlLocation = new javax.swing.JPanel();
-        lblLocationImage = new javax.swing.JLabel();
+        lblLocationImage = new LocationLabel();
         pnlClient = new javax.swing.JPanel();
         lblClientImage = new javax.swing.JLabel();
         pnlInput = new javax.swing.JPanel();
@@ -214,7 +214,9 @@ public final class EditorTopComponent extends TopComponent {
         pnlInput.add(lblBriefing, gridBagConstraints);
 
         txtBriefing.setColumns(20);
+        txtBriefing.setLineWrap(true);
         txtBriefing.setRows(5);
+        txtBriefing.setWrapStyleWord(true);
         txtBriefing.setEnabled(false);
         txtBriefing.getDocument().addDocumentListener(new AbstractDocumentListener() {
             @Override
@@ -597,6 +599,7 @@ public final class EditorTopComponent extends TopComponent {
     private void modelPropertySelectedMissionChanged(final Mission mission) {
         enableEditorFields(null != mission);
         setEditorContent(mission);
+        model.setChangesSaved();
     }
 
     private void enableEditorFields(final boolean enabled) {
@@ -630,8 +633,8 @@ public final class EditorTopComponent extends TopComponent {
             // Looks clumsy but prevents the location object from being changed by the spinner's listener
             int lat = mission.getLocation().getLatitude();
             int lng = mission.getLocation().getLongitude();
-            spnLocationX.setValue(lat);
-            spnLocationY.setValue(lng);
+            spnLocationX.setValue(lng);
+            spnLocationY.setValue(lat);
         }
 
         cmbMusic.setSelectedIndex(-1);
@@ -655,6 +658,7 @@ public final class EditorTopComponent extends TopComponent {
                         (int) spnLocationY.getValue()
                 );
                 model.getSelectedMission().setLocation(newLocation);
+                ((LocationLabel) lblLocationImage).setLocation(newLocation);
             }
         });
     }

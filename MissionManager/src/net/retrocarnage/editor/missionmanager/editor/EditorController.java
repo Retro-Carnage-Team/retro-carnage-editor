@@ -102,6 +102,7 @@ class EditorController {
             service.updateMission(changedMission);
         }
         viewModel.setChangesSaved();
+        viewModel.updateMissionsFromService();
     }
 
     /**
@@ -184,7 +185,7 @@ class EditorController {
      */
     private class MissionTableModel extends AbstractTableModel {
 
-        final String[] columnNames = {"ID", "Name"};
+        final String[] columnNames = {"Name"};
 
         @Override
         public String getColumnName(int col) {
@@ -206,8 +207,6 @@ class EditorController {
             final SelectableMission mission = viewModel.getMissions().get(row);
             switch (column) {
                 case 0:
-                    return mission.getId();
-                case 1:
                     return mission.getName();
                 default:
                     return "";

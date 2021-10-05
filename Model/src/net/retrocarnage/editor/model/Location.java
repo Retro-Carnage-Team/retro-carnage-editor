@@ -8,15 +8,15 @@ package net.retrocarnage.editor.model;
  */
 public class Location {
 
-    private int latitude;
-    private int longitude;
+    private int longitude;  // X
+    private int latitude;   // Y
 
     public Location() {
     }
 
-    public Location(final int lat, final int lng) {
-        latitude = lat;
+    public Location(final int lng, final int lat) {
         longitude = lng;
+        latitude = lat;
     }
 
     public int getLatitude() {
@@ -33,6 +33,11 @@ public class Location {
 
     public void setLongitude(final int longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public Location clone() {
+        return new Location(longitude, latitude);
     }
 
     @Override

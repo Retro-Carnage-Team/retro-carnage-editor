@@ -118,7 +118,7 @@ public class Mission {
         partialCopy.setClient(getClient());
         partialCopy.setId(getId());
         if (null != getLocation()) {
-            partialCopy.setLocation(new Location(getLocation().getLatitude(), getLocation().getLongitude()));
+            partialCopy.setLocation(getLocation().clone());
         }
         partialCopy.setName(getName());
         partialCopy.setReward(getReward());
