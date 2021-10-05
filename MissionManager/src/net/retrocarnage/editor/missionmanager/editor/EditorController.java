@@ -94,8 +94,11 @@ class EditorController {
      */
     void saveChanges() {
         final MissionService service = MissionService.getDefault();
-        final Mission changedMission = viewModel.getSelectedMission();
+        Mission changedMission = viewModel.getSelectedMission();
         if (null == changedMission.getId()) {
+            if (changedMission instanceof MissionBean) {
+                changedMission = ((MissionBean) changedMission).getMission();
+            }
             changedMission.setId(UUID.randomUUID().toString());
             service.addMission(changedMission);
         } else {

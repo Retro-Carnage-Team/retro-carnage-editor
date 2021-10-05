@@ -600,6 +600,7 @@ public final class EditorTopComponent extends TopComponent {
         enableEditorFields(null != mission);
         setEditorContent(mission);
         model.setChangesSaved();
+        btnDelete.setEnabled(null != mission && null != mission.getId());
     }
 
     private void enableEditorFields(final boolean enabled) {
