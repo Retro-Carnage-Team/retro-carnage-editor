@@ -1,6 +1,6 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.impl;
 
-import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
+import net.retrocarnage.editor.gameplayeditor.GamePlayEditorTopComponent;
 import net.retrocarnage.editor.missionmanager.MissionEditor;
 import net.retrocarnage.editor.model.Mission;
 import org.openide.util.lookup.ServiceProvider;
@@ -13,7 +13,7 @@ import org.openide.util.lookup.ServiceProvider;
  * @author Thomas Werner
  */
 @ServiceProvider(service = MissionEditor.class)
-public class MissionEditorService implements MissionEditor {
+public class MissionEditorImpl implements MissionEditor {
 
     @Override
     public void open(final Mission mission) {

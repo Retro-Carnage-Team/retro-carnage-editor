@@ -21,7 +21,7 @@ class MissionDatabaseFile {
         return missions;
     }
 
-    public void setMissions(List<Mission> missions) {
+    public void setMissions(final List<Mission> missions) {
         this.missions = missions;
     }
 

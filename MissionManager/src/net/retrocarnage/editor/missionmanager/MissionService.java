@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import net.retrocarnage.editor.missionmanager.impl.MissionServiceImpl;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.gameplay.GamePlay;
 
 /**
  * A service that manages the missions.
@@ -29,6 +30,10 @@ public abstract class MissionService {
     public abstract void updateMission(final Mission mission);
 
     public abstract void removeMission(final String id);
+
+    public abstract GamePlay loadGamePlay(final String missionId);
+
+    public abstract void saveGamePlay(final GamePlay gameplay);
 
     /**
      * @return an instance of this service
