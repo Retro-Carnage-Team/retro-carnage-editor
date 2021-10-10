@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.gui;
 
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
@@ -24,9 +24,9 @@ class GamePlayEditorController {
         this.saveCookie = new SaveGamePlayAction(gamePlay);
 
         lookupContent = new InstanceContent();
-        lookupContent.add(mission);
+        lookupContent.add(gamePlay);
 
-        // TODO: Add save cookie to lookupContent whenever the gameplay data changed
+        // TODO: Place save cookie in lookupContent whenever the gameplay data changed
         lookupContent.add(saveCookie);
     }
 

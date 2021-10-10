@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: net.retrocarnage.editor.sectioneditor
+OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/sectioneditor/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.WindowManager
+OpenIDE-Module-Specification-Version: 1.0
+

@@ -42,7 +42,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "EditorTopComponent",
-        iconBase = "net/retrocarnage/editor/missionmanager/editor/internet-web-browser.png",
+        iconBase = "net/retrocarnage/editor/missionmanager/editor/icon.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)

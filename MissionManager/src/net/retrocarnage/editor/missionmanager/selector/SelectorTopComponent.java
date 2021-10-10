@@ -19,7 +19,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "SelectorTopComponent",
-        iconBase = "net/retrocarnage/editor/missionmanager/selector/package-x-generic.png",
+        iconBase = "net/retrocarnage/editor/missionmanager/selector/icon.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "leftSlidingSide", openAtStartup = true)

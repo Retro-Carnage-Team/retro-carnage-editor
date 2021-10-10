@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.gui;
 
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.Mission;
@@ -17,7 +17,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "GamePlayEditorTopComponent",
-        iconBase = "net/retrocarnage/editor/gameplayeditor/accessories-text-editor.png",
+        iconBase = "net/retrocarnage/editor/gameplayeditor/gui/accessories-text-editor.png",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)

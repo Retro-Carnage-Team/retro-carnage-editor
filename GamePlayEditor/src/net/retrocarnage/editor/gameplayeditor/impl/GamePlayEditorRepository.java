@@ -2,7 +2,7 @@ package net.retrocarnage.editor.gameplayeditor.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorTopComponent;
+import net.retrocarnage.editor.gameplayeditor.gui.GamePlayEditorTopComponent;
 import net.retrocarnage.editor.model.Mission;
 
 /**

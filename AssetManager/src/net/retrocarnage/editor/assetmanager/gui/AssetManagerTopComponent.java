@@ -44,7 +44,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "AssetManagerTopComponent",
-        iconBase = "net/retrocarnage/editor/assetmanager/gui/emblem-photos.png",
+        iconBase = "net/retrocarnage/editor/assetmanager/gui/icon.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)

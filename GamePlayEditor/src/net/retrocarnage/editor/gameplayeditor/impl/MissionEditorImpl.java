@@ -1,6 +1,6 @@
 package net.retrocarnage.editor.gameplayeditor.impl;
 
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorTopComponent;
+import net.retrocarnage.editor.gameplayeditor.gui.GamePlayEditorTopComponent;
 import net.retrocarnage.editor.missionmanager.MissionEditor;
 import net.retrocarnage.editor.model.Mission;
 import org.openide.util.lookup.ServiceProvider;

@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.io.IOException;
 import net.retrocarnage.editor.missionmanager.MissionService;
