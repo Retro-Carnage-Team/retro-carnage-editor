@@ -2,6 +2,7 @@ package net.retrocarnage.editor.sectioneditor;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+import java.util.Objects;
 import javax.swing.AbstractAction;
 import net.retrocarnage.editor.model.gameplay.Section;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -69,7 +70,7 @@ public final class SectionEditorTopComponent extends TopComponent {
         pnlPreview.setLayout(pnlPreviewLayout);
         pnlPreviewLayout.setHorizontalGroup(
             pnlPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGap(0, 406, Short.MAX_VALUE)
         );
         pnlPreviewLayout.setVerticalGroup(
             pnlPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +106,10 @@ public final class SectionEditorTopComponent extends TopComponent {
 
         add(scrSections, java.awt.BorderLayout.CENTER);
 
-        pnlActions.setLayout(new java.awt.GridLayout());
+        pnlActions.setLayout(new java.awt.GridLayout(1, 0));
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddSection, org.openide.util.NbBundle.getMessage(SectionEditorTopComponent.class, "SectionEditorTopComponent.btnAddSection.text")); // NOI18N
+        btnAddSection.setEnabled(false);
         btnAddSection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddSectionActionPerformed(evt);
@@ -116,6 +118,7 @@ public final class SectionEditorTopComponent extends TopComponent {
         pnlActions.add(btnAddSection);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnRemoveSection, org.openide.util.NbBundle.getMessage(SectionEditorTopComponent.class, "SectionEditorTopComponent.btnRemoveSection.text")); // NOI18N
+        btnRemoveSection.setEnabled(false);
         btnRemoveSection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoveSectionActionPerformed(evt);
@@ -162,6 +165,13 @@ public final class SectionEditorTopComponent extends TopComponent {
 
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
         switch (pce.getPropertyName()) {
+            case SectionEditorController.PROPERTY_ENABLED:
+                btnAddSection.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
+                btnRemoveSection.setEnabled(
+                        Objects.equals(Boolean.TRUE, pce.getNewValue())
+                        && (null != controller.getSelectedSection())
+                );
+                break;
             case SectionEditorController.PROPERTY_SELECTION:
                 btnRemoveSection.setEnabled(null != pce.getNewValue());
                 break;

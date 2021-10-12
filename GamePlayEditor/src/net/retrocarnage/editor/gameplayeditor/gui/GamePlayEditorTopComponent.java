@@ -1,5 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.Mission;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -26,7 +28,7 @@ import org.openide.windows.TopComponent;
     "CTL_GamePlayEditorTopComponent=GamePlayEditor Window",
     "HINT_GamePlayEditorTopComponent=This is a GamePlayEditor window"
 })
-public final class GamePlayEditorTopComponent extends TopComponent {
+public final class GamePlayEditorTopComponent extends TopComponent implements PropertyChangeListener {
 
     private InstanceContent content = new InstanceContent();
     private final GamePlayEditorController controller;
@@ -37,6 +39,7 @@ public final class GamePlayEditorTopComponent extends TopComponent {
 
     public GamePlayEditorTopComponent(final Mission mission) {
         controller = new GamePlayEditorController(mission);
+        controller.addPropertyChangeListener(this);
 
         initComponents();
 
@@ -83,6 +86,8 @@ public final class GamePlayEditorTopComponent extends TopComponent {
         if (null != mission) {
             GamePlayEditorRepository.INSTANCE.unregister(mission.getId(), this);
         }
+        controller.removePropertyChangeListener(this);
+        controller.close();
     }
 
     void writeProperties(java.util.Properties p) {
@@ -91,5 +96,13 @@ public final class GamePlayEditorTopComponent extends TopComponent {
 
     void readProperties(java.util.Properties p) {
         // String version = p.getProperty("version");
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent pce) {
+        if (controller == pce.getSource() && GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())) {
+            // TODO: Update the view
+            System.out.println("GamePlayEditor has to be refreshed due to an external update");
+        }
     }
 }

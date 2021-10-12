@@ -9,12 +9,13 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
 import net.retrocarnage.editor.model.gameplay.GamePlay;
 import net.retrocarnage.editor.model.gameplay.Section;
+import net.retrocarnage.editor.model.gameplay.SectionDirection;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
-import org.openide.util.Utilities;
 
 /**
  * GUI Controller class for the SectionEditor.
@@ -23,6 +24,7 @@ import org.openide.util.Utilities;
  */
 public class SectionEditorController {
 
+    static final String PROPERTY_ENABLED = "enabled";
     static final String PROPERTY_SECTIONS = "sections";
     static final String PROPERTY_SELECTION = "selection";
 
@@ -31,6 +33,7 @@ public class SectionEditorController {
     private final Lookup.Result<GamePlay> lookupResult;
 
     private Section selectedSection;
+    private GamePlay gamePlay;
     private List<Section> sections;
     private SectionTableModel tableModel;
 
@@ -39,7 +42,7 @@ public class SectionEditorController {
         sections = Collections.emptyList();
 
         lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
-        lookupResult = Utilities.actionsGlobalContext().lookupResult(GamePlay.class);
+        lookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(GamePlay.class);
         lookupResult.addLookupListener(lookupListener);
     }
 
@@ -100,7 +103,25 @@ public class SectionEditorController {
      * Adds a new section at the end of the current list of sections
      */
     void addSection() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (null != gamePlay) {
+            final Section newSection = new Section();
+            if (sections.isEmpty()) {
+                newSection.setDirection(SectionDirection.UP);
+                sections.add(newSection);
+            } else {
+                final SectionDirection nextDirection = sections.get(sections.size() - 1)
+                        .getDirection()
+                        .getPossibleSuccessors()
+                        .iterator().next();
+                newSection.setDirection(nextDirection);
+                sections.add(newSection);
+            }
+            gamePlay.firePropertyChanged();
+
+            if (null != tableModel) {
+                tableModel.fireTableDataChanged();
+            }
+        }
     }
 
     /**
@@ -111,13 +132,20 @@ public class SectionEditorController {
     }
 
     private void handleLookupResultChanged() {
-        final Collection<? extends GamePlay> items = lookupResult.allInstances();
-        final List<Section> oldValue = sections;
-        sections = items.isEmpty()
-                ? Collections.emptyList()
-                : items.iterator().next().getSections();
-        propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, oldValue, sections);
+        final boolean oldEnabled = null != gamePlay;
+        final List<Section> oldSections = sections;
 
+        gamePlay = null;
+        sections = Collections.emptyList();
+
+        final Collection<? extends GamePlay> items = lookupResult.allInstances();
+        if (!items.isEmpty()) {
+            gamePlay = items.iterator().next();
+            sections = gamePlay.getSections();
+        }
+
+        propertyChangeSupport.firePropertyChange(PROPERTY_ENABLED, oldEnabled, null != gamePlay);
+        propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, oldSections, sections);
         if (null != tableModel) {
             tableModel.fireTableDataChanged();
         }
