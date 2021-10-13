@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.Objects;
 import javax.swing.AbstractAction;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import net.retrocarnage.editor.model.gameplay.Section;
+import net.retrocarnage.editor.model.gameplay.SectionDirection;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -102,6 +105,12 @@ public final class SectionEditorTopComponent extends TopComponent {
         tblSections
         .getSelectionModel()
         .addListSelectionListener(controller.getTableSelectionListener(tblSections));
+
+        final JComboBox cmbDirections = new JComboBox();
+        for(SectionDirection sd: SectionDirection.values()) {
+            cmbDirections.addItem(sd);
+        }
+        tblSections.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cmbDirections));
         scrSections.setViewportView(tblSections);
 
         add(scrSections, java.awt.BorderLayout.CENTER);

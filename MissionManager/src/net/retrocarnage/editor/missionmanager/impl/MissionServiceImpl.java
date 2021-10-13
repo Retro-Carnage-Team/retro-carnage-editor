@@ -23,6 +23,8 @@ import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.gameplay.GamePlay;
+import net.retrocarnage.editor.model.gameplay.Section;
+import net.retrocarnage.editor.model.gameplay.SectionDirection;
 
 /**
  * Implementation of the MissionService.
@@ -114,7 +116,18 @@ public class MissionServiceImpl extends MissionService {
             }
         }
 
-        return new GamePlay(missionId);
+        return initializeGamePlay(missionId);
+    }
+
+    private GamePlay initializeGamePlay(final String missionId) {
+        final GamePlay result = new GamePlay(missionId);
+
+        final Section firstSection = new Section();
+        firstSection.setDirection(SectionDirection.UP);
+        firstSection.setNumberOfScreens(1);
+
+        result.getSections().add(firstSection);
+        return result;
     }
 
     @Override

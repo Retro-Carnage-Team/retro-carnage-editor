@@ -92,11 +92,14 @@ public class SectionEditorController {
     }
 
     void increaseLengthOfSection(Section section) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        section.setNumberOfScreens(section.getNumberOfScreens() + 1);
     }
 
     void decreaseLengthOfSection(Section section) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final int currentNumber = section.getNumberOfScreens();
+        if (1 < currentNumber) {
+            section.setNumberOfScreens(currentNumber - 1);
+        }
     }
 
     /**
@@ -176,7 +179,7 @@ public class SectionEditorController {
         }
 
         @Override
-        public Object getValueAt(int row, int column) {
+        public Object getValueAt(final int row, final int column) {
             if (null == sections || sections.size() <= row) {
                 return null;
             }
@@ -184,7 +187,7 @@ public class SectionEditorController {
             final Section section = sections.get(row);
             switch (column) {
                 case 0:
-                    return section.getDirection().getExportName();
+                    return section.getDirection().toString();
                 case 1:
                     return section.getNumberOfScreens();
                 case 2:
@@ -197,8 +200,44 @@ public class SectionEditorController {
         }
 
         @Override
+        public void setValueAt(final Object value, final int row, final int column) {
+            switch (column) {
+                case 0:
+                    updateDirection((SectionDirection) value, row);
+                    break;
+                case 2:
+                    fireTableCellUpdated(row, 1);
+                    break;
+                case 3:
+                    fireTableCellUpdated(row, 1);
+                    break;
+                default:
+            }
+        }
+
+        @Override
         public boolean isCellEditable(int row, int col) {
-            return false;
+            return col != 1;
+        }
+
+        private void updateDirection(final SectionDirection newDirection, final int row) {
+            boolean updateAllowed = true;
+            if (row > 0) {
+                final SectionDirection predecessor = sections.get(row - 1).getDirection();
+                if (!predecessor.getPossibleSuccessors().contains(newDirection)) {
+                    updateAllowed = false;
+                }
+            }
+            if (row < sections.size() - 1) {
+                final SectionDirection successor = sections.get(row + 1).getDirection();
+                if (!newDirection.getPossibleSuccessors().contains(successor)) {
+                    updateAllowed = false;
+                }
+            }
+            if (updateAllowed) {
+                sections.get(row).setDirection(newDirection);
+                gamePlay.firePropertyChanged();
+            }
         }
     }
 
