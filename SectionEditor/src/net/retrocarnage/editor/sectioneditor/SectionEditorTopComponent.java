@@ -2,6 +2,7 @@ package net.retrocarnage.editor.sectioneditor;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
@@ -59,6 +60,7 @@ public final class SectionEditorTopComponent extends TopComponent {
     private void initComponents() {
 
         pnlPreview = new javax.swing.JPanel();
+        lblMap = new SectionMapLabel();
         scrSections = new javax.swing.JScrollPane();
         tblSections = new javax.swing.JTable();
         pnlActions = new javax.swing.JPanel();
@@ -69,15 +71,23 @@ public final class SectionEditorTopComponent extends TopComponent {
 
         pnlPreview.setPreferredSize(new java.awt.Dimension(411, 411));
 
+        lblMap.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout pnlPreviewLayout = new javax.swing.GroupLayout(pnlPreview);
         pnlPreview.setLayout(pnlPreviewLayout);
         pnlPreviewLayout.setHorizontalGroup(
             pnlPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
+            .addGroup(pnlPreviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMap, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlPreviewLayout.setVerticalGroup(
             pnlPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGroup(pnlPreviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMap, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         add(pnlPreview, java.awt.BorderLayout.PAGE_START);
@@ -149,6 +159,7 @@ public final class SectionEditorTopComponent extends TopComponent {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSection;
     private javax.swing.JButton btnRemoveSection;
+    private javax.swing.JLabel lblMap;
     private javax.swing.JPanel pnlActions;
     private javax.swing.JPanel pnlPreview;
     private javax.swing.JScrollPane scrSections;
@@ -185,6 +196,7 @@ public final class SectionEditorTopComponent extends TopComponent {
                 btnRemoveSection.setEnabled(null != pce.getNewValue());
                 break;
             case SectionEditorController.PROPERTY_SECTIONS:
+                ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
                 break;
         }
     }

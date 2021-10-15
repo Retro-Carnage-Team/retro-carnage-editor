@@ -93,12 +93,14 @@ public class SectionEditorController {
 
     void increaseLengthOfSection(Section section) {
         section.setNumberOfScreens(section.getNumberOfScreens() + 1);
+        propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
     }
 
     void decreaseLengthOfSection(Section section) {
         final int currentNumber = section.getNumberOfScreens();
         if (1 < currentNumber) {
             section.setNumberOfScreens(currentNumber - 1);
+            propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
         }
     }
 
@@ -110,20 +112,22 @@ public class SectionEditorController {
             final Section newSection = new Section();
             if (sections.isEmpty()) {
                 newSection.setDirection(SectionDirection.UP);
-                sections.add(newSection);
             } else {
                 final SectionDirection nextDirection = sections.get(sections.size() - 1)
                         .getDirection()
                         .getPossibleSuccessors()
                         .iterator().next();
                 newSection.setDirection(nextDirection);
-                sections.add(newSection);
             }
+            newSection.setNumberOfScreens(1);
+            sections.add(newSection);
+
             gamePlay.firePropertyChanged();
 
             if (null != tableModel) {
                 tableModel.fireTableDataChanged();
             }
+            propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
         }
     }
 
@@ -131,6 +135,7 @@ public class SectionEditorController {
      * Deletes the selected section - if possible
      */
     void deleteSection() {
+        propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -237,6 +242,7 @@ public class SectionEditorController {
             if (updateAllowed) {
                 sections.get(row).setDirection(newDirection);
                 gamePlay.firePropertyChanged();
+                propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
             }
         }
     }
