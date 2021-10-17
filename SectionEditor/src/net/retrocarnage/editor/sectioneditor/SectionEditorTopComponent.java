@@ -16,7 +16,9 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 /**
- * Top component which displays something.
+ * Top component which displays the sections of the selected mission.
+ *
+ * The form shows a preview of the mission in a mini-map and has various controls to modify the sections.
  */
 @ConvertAsProperties(
         dtd = "-//net.retrocarnage.editor.sectioneditor//SectionEditor//EN",
@@ -36,8 +38,8 @@ import org.openide.windows.TopComponent;
 )
 @Messages({
     "CTL_SectionEditorAction=Sections",
-    "CTL_SectionEditorTopComponent=Section",
-    "HINT_SectionEditorTopComponent=Section of the selected mission"
+    "CTL_SectionEditorTopComponent=Sections",
+    "HINT_SectionEditorTopComponent=Sections of the selected mission"
 })
 public final class SectionEditorTopComponent extends TopComponent {
 
@@ -198,6 +200,8 @@ public final class SectionEditorTopComponent extends TopComponent {
             case SectionEditorController.PROPERTY_SECTIONS:
                 ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
                 break;
+            default:
+            // ignore this
         }
     }
 }

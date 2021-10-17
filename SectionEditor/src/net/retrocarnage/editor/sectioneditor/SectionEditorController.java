@@ -135,8 +135,10 @@ public class SectionEditorController {
      * Deletes the selected section - if possible
      */
     void deleteSection() {
-        propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (!sections.isEmpty() && sections.get(sections.size() - 1) == selectedSection) {
+            sections.remove(sections.size() - 1);
+            propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
+        }
     }
 
     private void handleLookupResultChanged() {

@@ -13,7 +13,7 @@ import javax.swing.UIManager;
 import net.retrocarnage.editor.model.gameplay.Section;
 
 /**
- * A JLabel that displays a map of the sections that the user configured.
+ * A JLabel that displays a mini-map of the sections that the user configured.
  *
  * @author Thomas Werner
  */
@@ -25,6 +25,13 @@ class SectionMapLabel extends JLabel {
     private int mapHeight, mapWidth;
     private int startX, startY;
 
+    /**
+     * Updates the sections to be drawn.
+     *
+     * Changes to the given list will not be monitored. To update the map you'll have to call this method again.
+     *
+     * @param sections the sections to be drawn.
+     */
     public void setSections(final List<Section> sections) {
         if (null == sections) {
             this.sections = null;
@@ -84,6 +91,13 @@ class SectionMapLabel extends JLabel {
         g2d.fillRect(x, y, w, h);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(x, y, w, h);
+
+        g2d.drawLine(
+                (posX + 1) * gameScreenWidth,
+                (mapHeight - posY - 1) * gameScreenWidth,
+                (posX + 1) * gameScreenWidth,
+                (mapHeight - posY) * gameScreenWidth
+        );
     }
 
     private void paintSectionToTop(
@@ -97,6 +111,15 @@ class SectionMapLabel extends JLabel {
         g2d.fillRect(x, y, w, h);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(x, y, w, h);
+
+        if (posX != startX || posY != startY) {
+            g2d.drawLine(
+                    posX * gameScreenWidth,
+                    (mapHeight - posY - 1) * gameScreenWidth,
+                    (posX + 1) * gameScreenWidth,
+                    (mapHeight - posY - 1) * gameScreenWidth
+            );
+        }
     }
 
     private void paintSectionToLeft(
@@ -110,12 +133,19 @@ class SectionMapLabel extends JLabel {
         g2d.fillRect(x, y, w, h);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(x, y, w, h);
+
+        g2d.drawLine(
+                posX * gameScreenWidth,
+                (mapHeight - posY - 1) * gameScreenWidth,
+                posX * gameScreenWidth,
+                (mapHeight - posY) * gameScreenWidth
+        );
     }
 
     private void paintEndScreenSymbol(final Graphics2D g2d, final int posX, final int gameScreenWidth) {
         g2d.drawOval(
-                (int) (posX * gameScreenWidth + gameScreenWidth / 10),
-                (int) (gameScreenWidth / 10),
+                posX * gameScreenWidth + gameScreenWidth / 10,
+                gameScreenWidth / 10,
                 (int) (gameScreenWidth * 0.8),
                 (int) (gameScreenWidth * 0.8)
         );
@@ -123,19 +153,19 @@ class SectionMapLabel extends JLabel {
 
     private void paintStartScreenSymbol(final Graphics2D g2d, final int gameScreenWidth) {
         g2d.drawLine(
-                (int) (startX * gameScreenWidth + (gameScreenWidth + 3) / 2),
+                startX * gameScreenWidth + (gameScreenWidth + 3) / 2,
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.1),
-                (int) (startX * gameScreenWidth + (gameScreenWidth + 3) / 2),
+                startX * gameScreenWidth + (gameScreenWidth + 3) / 2,
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.8)
         );
         g2d.drawLine(
-                (int) (startX * gameScreenWidth + (gameScreenWidth + 3) / 2),
+                startX * gameScreenWidth + (gameScreenWidth + 3) / 2,
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.1),
                 (int) (startX * gameScreenWidth + gameScreenWidth * 0.25),
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.45)
         );
         g2d.drawLine(
-                (int) (startX * gameScreenWidth + (gameScreenWidth + 3) / 2),
+                startX * gameScreenWidth + (gameScreenWidth + 3) / 2,
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.1),
                 (int) (startX * gameScreenWidth + gameScreenWidth * 0.75),
                 (int) ((mapHeight - 1) * gameScreenWidth + gameScreenWidth * 0.45)
