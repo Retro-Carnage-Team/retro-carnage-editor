@@ -4,10 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
 import org.openide.windows.TopComponent;
 
 /**
@@ -30,7 +30,6 @@ import org.openide.windows.TopComponent;
 })
 public final class GamePlayEditorTopComponent extends TopComponent implements PropertyChangeListener {
 
-    private InstanceContent content = new InstanceContent();
     private final GamePlayEditorController controller;
 
     public GamePlayEditorTopComponent() {
@@ -40,6 +39,7 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     public GamePlayEditorTopComponent(final Mission mission) {
         controller = new GamePlayEditorController(mission);
         controller.addPropertyChangeListener(this);
+        ZoomService.getDefault().addPropertyChangeListener(this);
 
         initComponents();
 
@@ -57,19 +57,19 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        scrPane = new javax.swing.JScrollPane();
+        lblGamePlayDisplay = new javax.swing.JLabel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        scrPane.setViewportView(lblGamePlayDisplay);
+
+        add(scrPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblGamePlayDisplay;
+    private javax.swing.JScrollPane scrPane;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
@@ -86,6 +86,7 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
         if (null != mission) {
             GamePlayEditorRepository.INSTANCE.unregister(mission.getId(), this);
         }
+        ZoomService.getDefault().removePropertyChangeListener(this);
         controller.removePropertyChangeListener(this);
         controller.close();
     }
@@ -100,9 +101,12 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
 
     @Override
     public void propertyChange(final PropertyChangeEvent pce) {
-        if (controller == pce.getSource() && GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())) {
+        if (GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())) {
             // TODO: Update the view
             System.out.println("GamePlayEditor has to be refreshed due to an external update");
+        } else if (ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
+            // TODO: Update the view
+            System.out.println("GamePlayEditor has to be refreshed due to change of zoom level");
         }
     }
 }
