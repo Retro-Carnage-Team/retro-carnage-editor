@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
-import net.retrocarnage.editor.model.gameplay.Section;
+import net.retrocarnage.editor.model.Section;
 
 /**
  * A JLabel that displays a mini-map of the sections that the user configured.

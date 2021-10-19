@@ -6,7 +6,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
-import net.retrocarnage.editor.model.gameplay.GamePlay;
+import net.retrocarnage.editor.model.GamePlay;
 import org.openide.util.lookup.InstanceContent;
 
 /**

@@ -22,9 +22,9 @@ import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
-import net.retrocarnage.editor.model.gameplay.GamePlay;
-import net.retrocarnage.editor.model.gameplay.Section;
-import net.retrocarnage.editor.model.gameplay.SectionDirection;
+import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Section;
+import net.retrocarnage.editor.model.SectionDirection;
 
 /**
  * Implementation of the MissionService.

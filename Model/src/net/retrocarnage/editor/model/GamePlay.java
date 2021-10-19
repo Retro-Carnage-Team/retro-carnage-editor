@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model.gameplay;
+package net.retrocarnage.editor.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -17,10 +17,12 @@ public class GamePlay {
     private final PropertyChangeSupport propertyChangeSupport;
 
     private String missionId;
+    private List<Layer> layers;
     private List<Section> sections;
 
     public GamePlay() {
         propertyChangeSupport = new PropertyChangeSupport(this);
+        layers = new ArrayList<>();
         sections = new ArrayList<>();
     }
 
@@ -52,6 +54,14 @@ public class GamePlay {
 
     public void setMissionId(String missionId) {
         this.missionId = missionId;
+    }
+
+    public List<Layer> getLayers() {
+        return layers;
+    }
+
+    public void setLayers(List<Layer> layers) {
+        this.layers = layers;
     }
 
     public List<Section> getSections() {

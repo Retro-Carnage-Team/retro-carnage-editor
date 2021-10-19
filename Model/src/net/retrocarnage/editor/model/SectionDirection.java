@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.model.gameplay;
+package net.retrocarnage.editor.model;
 
 import java.util.Arrays;
 import java.util.Collection;

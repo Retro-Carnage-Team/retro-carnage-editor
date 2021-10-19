@@ -2,7 +2,7 @@ package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.io.IOException;
 import net.retrocarnage.editor.missionmanager.MissionService;
-import net.retrocarnage.editor.model.gameplay.GamePlay;
+import net.retrocarnage.editor.model.GamePlay;
 import org.netbeans.spi.actions.AbstractSavable;
 
 /**

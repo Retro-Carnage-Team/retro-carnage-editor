@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import net.retrocarnage.editor.missionmanager.impl.MissionServiceImpl;
 import net.retrocarnage.editor.model.Mission;
-import net.retrocarnage.editor.model.gameplay.GamePlay;
+import net.retrocarnage.editor.model.GamePlay;
 
 /**
  * A service that manages the missions.
