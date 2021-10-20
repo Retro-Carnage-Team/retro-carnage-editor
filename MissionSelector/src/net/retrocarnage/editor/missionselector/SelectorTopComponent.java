@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.missionmanager.selector;
+package net.retrocarnage.editor.missionselector;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -14,16 +14,16 @@ import org.openide.windows.TopComponent;
  * on it.
  */
 @ConvertAsProperties(
-        dtd = "-//net.retrocarnage.editor.missionmanager.selector//Selector//EN",
+        dtd = "-//net.retrocarnage.editor.missionselector//Selector//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "SelectorTopComponent",
-        iconBase = "net/retrocarnage/editor/missionmanager/selector/icon.png",
+        iconBase = "net/retrocarnage/editor/missionselector/icon.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "leftSlidingSide", openAtStartup = true)
-@ActionID(category = "Window", id = "net.retrocarnage.editor.missionmanager.selector.SelectorTopComponent")
+@ActionID(category = "Window", id = "net.retrocarnage.editor.missionselector.SelectorTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_SelectorAction",

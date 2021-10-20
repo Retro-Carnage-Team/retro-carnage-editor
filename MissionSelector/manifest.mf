@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: net.retrocarnage.editor.missionselector
+OpenIDE-Module-Localizing-Bundle: net/retrocarnage/editor/missionselector/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

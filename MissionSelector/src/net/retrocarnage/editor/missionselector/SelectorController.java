@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.missionmanager.selector;
+package net.retrocarnage.editor.missionselector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
