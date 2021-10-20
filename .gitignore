@@ -46,3 +46,4 @@ hs_err_pid*
 /MissionSelector/build/
 /MissionSelector/nbproject/private/
 /EditorNodes/nbproject/private/
+/Renderer/build/
