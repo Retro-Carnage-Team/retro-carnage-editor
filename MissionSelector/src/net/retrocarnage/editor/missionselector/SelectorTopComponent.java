@@ -1,17 +1,20 @@
 package net.retrocarnage.editor.missionselector;
 
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import net.retrocarnage.editor.model.Mission;
+import java.awt.BorderLayout;
+import javax.swing.ActionMap;
+import net.retrocarnage.editor.nodes.MissionChildren;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.ExplorerUtils;
+import org.openide.explorer.view.ListView;
+import org.openide.nodes.AbstractNode;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 /**
- * Top component which displays the list of Missions. Clicking on a mission will open a editor so that the user can work
- * on it.
+ * Top component which displays the list of Missions.
  */
 @ConvertAsProperties(
         dtd = "-//net.retrocarnage.editor.missionselector//Selector//EN",
@@ -34,14 +37,20 @@ import org.openide.windows.TopComponent;
     "CTL_SelectorTopComponent=Missions",
     "HINT_SelectorTopComponent=List of missions"
 })
-public final class SelectorTopComponent extends TopComponent {
+public final class SelectorTopComponent extends TopComponent implements ExplorerManager.Provider {
 
-    private final SelectorController controller;
+    private final ExplorerManager explorerManager = new ExplorerManager();
 
     public SelectorTopComponent() {
-        controller = new SelectorController();
+        final ActionMap map = getActionMap();
+        associateLookup(ExplorerUtils.createLookup(explorerManager, map));
 
         initComponents();
+
+        final ListView view = new ListView();
+        explorerManager.setRootContext(new AbstractNode(new MissionChildren()));
+        add(view, BorderLayout.CENTER);
+
         setName(Bundle.CTL_SelectorTopComponent());
         setToolTipText(Bundle.HINT_SelectorTopComponent());
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
@@ -57,49 +66,24 @@ public final class SelectorTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrMissions = new javax.swing.JScrollPane();
-        lstMissions = new javax.swing.JList<>();
-
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
-
-        lstMissions.setModel(controller.getListModel());
-        lstMissions.setCellRenderer(new MissionListCellRenderer());
-        lstMissions.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lstMissionsMouseClicked(evt);
-            }
-        });
-        scrMissions.setViewportView(lstMissions);
-
-        add(scrMissions);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lstMissionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstMissionsMouseClicked
-        if ((evt.getButton() != MouseEvent.BUTTON1) || (evt.getClickCount() != 2)) {
-            return;
-        }
-
-        final Rectangle r = lstMissions.getCellBounds(0, lstMissions.getLastVisibleIndex());
-        if (r != null && r.contains(evt.getPoint())) {
-            final int selectedIndex = lstMissions.locationToIndex(evt.getPoint());
-            controller.editMission(selectedIndex);
-        }
-
-    }//GEN-LAST:event_lstMissionsMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<Mission> lstMissions;
-    private javax.swing.JScrollPane scrMissions;
     // End of variables declaration//GEN-END:variables
-
     @Override
-    public void componentOpened() {
-        // TODO add custom code on component opening
+    protected void componentActivated() {
+        ExplorerUtils.activateActions(explorerManager, true);
     }
 
     @Override
-    public void componentClosed() {
-        controller.close();
+    protected void componentDeactivated() {
+        ExplorerUtils.activateActions(explorerManager, false);
+    }
+
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return explorerManager;
     }
 
     void writeProperties(java.util.Properties p) {

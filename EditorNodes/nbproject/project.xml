@@ -55,7 +55,10 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>net.retrocarnage.editor.nodes</package>
+                <package>net.retrocarnage.editor.nodes.actions</package>
+            </public-packages>
         </data>
     </configuration>
 </project>
