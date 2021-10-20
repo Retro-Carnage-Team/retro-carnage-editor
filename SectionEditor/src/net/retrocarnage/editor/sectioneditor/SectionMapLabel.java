@@ -1,8 +1,8 @@
 package net.retrocarnage.editor.sectioneditor;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JLabel;
@@ -42,9 +42,9 @@ class SectionMapLabel extends JLabel {
             final Graphics2D g2d = (Graphics2D) g;
 
             final MinimapRenderer renderer = new MinimapRenderer(sections);
-            final Point mapSize = renderer.getSize(getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
-            g2d.translate((getWidth() - mapSize.x) / 2, (getHeight() - mapSize.y) / 2);
-            renderer.renderMinimap(g2d, getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
+            final Dimension mapSize = renderer.getSize(getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
+            g2d.translate((getWidth() - mapSize.getWidth()) / 2, (getHeight() - mapSize.getHeight()) / 2);
+            renderer.render(g2d, getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
         }
     }
 

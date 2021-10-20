@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.renderer.minimap;
+package net.retrocarnage.editor.renderer.editor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,38 +6,36 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-import java.util.List;
 import javax.swing.UIManager;
+import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
+import net.retrocarnage.editor.zoom.ZoomService;
 
 /**
- * Renders a minimap (showing the section structure only) for a mission.
+ * Renders a mission.
  *
  * @author Thomas Werner
  */
-public class MinimapRenderer {
+public class EditorRenderer {
 
     private static final int STROKE = 2;
 
-    private final List<Section> sections;
+    private final GamePlay gamePlay;
     private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
 
-    public MinimapRenderer(final List<Section> sections) {
-        this.sections = sections;
-        this.sectionAnalysis = new SectionAnalyzer().analyzeMapStructure(sections);
+    public EditorRenderer(final GamePlay gamePlay) {
+        this.gamePlay = gamePlay;
+        this.sectionAnalysis = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
     }
 
     /**
-     * Calculates the actual dimensions of the generated graphic based on the given max width and height of the target
-     * graphic.
+     * Calculates the dimensions required to display the generated graphic.
      *
-     * @param width max width of the target graphic
-     * @param height max height of the target graphic
      * @return the actual dimensions of the generated graphic
      */
-    public Dimension getSize(final int width, final int height) {
-        final int gameScreenWidth = calculateGameScreenWidth(width, height);
+    public Dimension getSize() {
+        final int gameScreenWidth = calculateGameScreenWidth();
         return new Dimension(
                 sectionAnalysis.getMapWidth() * gameScreenWidth,
                 sectionAnalysis.getMapHeight() * gameScreenWidth
@@ -48,21 +46,20 @@ public class MinimapRenderer {
      * Renders the minimap onto a given graphics context.
      *
      * @param g2d the graphics context
-     * @param width max width of the target graphic
-     * @param height max height of the target graphic
      */
-    public void render(final Graphics2D g2d, final int width, final int height) {
-        if (null != sections && !sections.isEmpty()) {
+    public void render(final Graphics2D g2d) {
+        if (null != gamePlay && null != gamePlay.getSections() && !gamePlay.getSections().isEmpty()) {
+            final Dimension dimension = getSize();
             g2d.setColor(UIManager.getColor("Panel.background"));
-            g2d.fillRect(0, 0, width, height);
+            g2d.fillRect(0, 0, (int) dimension.getWidth(), (int) dimension.getHeight());
             g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
             g2d.setStroke(new BasicStroke(STROKE));
 
-            final int gameScreenWidth = calculateGameScreenWidth(width, height);
+            final int gameScreenWidth = calculateGameScreenWidth();
 
             int posX = sectionAnalysis.getStartX();
             int posY = sectionAnalysis.getStartY();
-            for (Section section : sections) {
+            for (Section section : gamePlay.getSections()) {
                 switch (section.getDirection()) {
                     case LEFT:
                         paintSectionToLeft(posX, section, gameScreenWidth, posY, g2d);
@@ -80,9 +77,6 @@ public class MinimapRenderer {
                         break;
                 }
             }
-
-            paintStartScreenSymbol(g2d, gameScreenWidth);
-            paintEndScreenSymbol(g2d, posX, gameScreenWidth);
         }
     }
 
@@ -148,39 +142,9 @@ public class MinimapRenderer {
         );
     }
 
-    private void paintEndScreenSymbol(final Graphics2D g2d, final int posX, final int gameScreenWidth) {
-        g2d.drawOval(
-                posX * gameScreenWidth + gameScreenWidth / 10,
-                gameScreenWidth / 10,
-                (int) (gameScreenWidth * 0.8),
-                (int) (gameScreenWidth * 0.8)
-        );
-    }
-
-    private void paintStartScreenSymbol(final Graphics2D g2d, final int gameScreenWidth) {
-        g2d.drawLine(
-                sectionAnalysis.getStartX() * gameScreenWidth + (gameScreenWidth + 3) / 2,
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.1),
-                sectionAnalysis.getStartX() * gameScreenWidth + (gameScreenWidth + 3) / 2,
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.8)
-        );
-        g2d.drawLine(
-                sectionAnalysis.getStartX() * gameScreenWidth + (gameScreenWidth + 3) / 2,
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.1),
-                (int) (sectionAnalysis.getStartX() * gameScreenWidth + gameScreenWidth * 0.25),
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.45)
-        );
-        g2d.drawLine(
-                sectionAnalysis.getStartX() * gameScreenWidth + (gameScreenWidth + 3) / 2,
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.1),
-                (int) (sectionAnalysis.getStartX() * gameScreenWidth + gameScreenWidth * 0.75),
-                (int) ((sectionAnalysis.getMapHeight() - 1) * gameScreenWidth + gameScreenWidth * 0.45)
-        );
-    }
-
-    private int calculateGameScreenWidth(final int targetWidth, final int targetHeight) {
-        final int minDimension = Math.min(targetWidth, targetHeight);
-        return minDimension / Math.max(sectionAnalysis.getMapHeight(), sectionAnalysis.getMapWidth());
+    private int calculateGameScreenWidth() {
+        final double scale = 100.0 / ZoomService.getDefault().getZoomLevel();
+        return (int) (Math.max(sectionAnalysis.getMapHeight(), sectionAnalysis.getMapWidth()) * 1500 * scale);
     }
 
 }

@@ -3,6 +3,7 @@ package net.retrocarnage.editor.gameplayeditor.gui;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
+import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -41,12 +42,12 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
         controller.addPropertyChangeListener(this);
         ZoomService.getDefault().addPropertyChangeListener(this);
 
+        associateLookup(new AbstractLookup(controller.getLookupContent()));
+
         initComponents();
 
         setName(Bundle.CTL_GamePlayEditorTopComponent());
         setToolTipText(Bundle.HINT_GamePlayEditorTopComponent());
-
-        associateLookup(new AbstractLookup(controller.getLookupContent()));
     }
 
     /**
@@ -58,17 +59,18 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     private void initComponents() {
 
         scrPane = new javax.swing.JScrollPane();
-        lblGamePlayDisplay = new javax.swing.JLabel();
+        pnlDisplay = new GamePlayDisplay(scrPane);
+        ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
 
         setLayout(new java.awt.BorderLayout());
 
-        scrPane.setViewportView(lblGamePlayDisplay);
+        scrPane.setViewportView(pnlDisplay);
 
         add(scrPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblGamePlayDisplay;
+    private javax.swing.JPanel pnlDisplay;
     private javax.swing.JScrollPane scrPane;
     // End of variables declaration//GEN-END:variables
     @Override
@@ -102,10 +104,10 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     @Override
     public void propertyChange(final PropertyChangeEvent pce) {
         if (GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())) {
-            // TODO: Update the view
+            ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
             System.out.println("GamePlayEditor has to be refreshed due to an external update");
         } else if (ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
-            // TODO: Update the view
+            ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
             System.out.println("GamePlayEditor has to be refreshed due to change of zoom level");
         }
     }

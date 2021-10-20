@@ -1,0 +1,70 @@
+package net.retrocarnage.editor.renderer;
+
+import java.util.List;
+import net.retrocarnage.editor.model.Section;
+
+/**
+ * Analyses the structure of a map (defined by it's sections).
+ *
+ * @author Thomas Werner
+ */
+public class SectionAnalyzer {
+
+    public SectionAnalysis analyzeMapStructure(final List<Section> sections) {
+        int mapHeight = 1;
+        int x = 0, minX = 0, maxX = 0;
+        for (final Section s : sections) {
+            if (null != s.getDirection()) {
+                switch (s.getDirection()) {
+                    case LEFT:
+                        x -= s.getNumberOfScreens() - 1;
+                        minX = Math.min(x, minX);
+                        break;
+                    case RIGHT:
+                        x += s.getNumberOfScreens() - 1;
+                        maxX = Math.max(x, maxX);
+                        break;
+                    case UP:
+                        mapHeight += s.getNumberOfScreens() - 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return new SectionAnalysis(maxX - minX + 1, mapHeight, 0 - minX, 0);
+    }
+
+    public static class SectionAnalysis {
+
+        private final int mapHeight;
+        private final int mapWidth;
+        private final int startX;
+        private final int startY;
+
+        private SectionAnalysis(int mapWidth, int mapHeight, int startX, int startY) {
+            this.mapHeight = mapHeight;
+            this.mapWidth = mapWidth;
+            this.startX = startX;
+            this.startY = startY;
+        }
+
+        public int getMapHeight() {
+            return mapHeight;
+        }
+
+        public int getMapWidth() {
+            return mapWidth;
+        }
+
+        public int getStartX() {
+            return startX;
+        }
+
+        public int getStartY() {
+            return startY;
+        }
+
+    }
+
+}
