@@ -143,8 +143,7 @@ public class EditorRenderer {
     }
 
     private int calculateGameScreenWidth() {
-        final double scale = 100.0 / ZoomService.getDefault().getZoomLevel();
-        return (int) (Math.max(sectionAnalysis.getMapHeight(), sectionAnalysis.getMapWidth()) * 1500 * scale);
+        return (int) (1_500 * ZoomService.getDefault().getZoomLevel() / 100.0);
     }
 
 }
