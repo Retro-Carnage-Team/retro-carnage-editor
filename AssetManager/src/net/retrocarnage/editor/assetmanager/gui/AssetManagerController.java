@@ -164,7 +164,7 @@ class AssetManagerController {
      */
     private class AssetTableModel extends AbstractTableModel {
 
-        final String[] columnNames = {"ID", "Name", "Type", "Tags"};
+        final String[] columnNames = {"Name", "Type", "Tags"};
 
         @Override
         public String getColumnName(int col) {
@@ -186,12 +186,10 @@ class AssetManagerController {
             final Asset<?> asset = assets.get(row);
             switch (column) {
                 case 0:
-                    return asset.getId();
-                case 1:
                     return asset.getName();
-                case 2:
+                case 1:
                     return (asset instanceof Music) ? "Music" : "Sprite";
-                case 3:
+                case 2:
                     final List<String> tags = new ArrayList<>(asset.getTags());
                     Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
                     return String.join(", ", tags);
