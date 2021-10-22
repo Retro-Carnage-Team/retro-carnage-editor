@@ -70,6 +70,11 @@ public abstract class AssetService {
     public abstract void removeSprite(String id);
 
     /**
+     * @return all (distinct) tags assigned sprite assets
+     */
+    public abstract Collection<String> getSpriteTags();
+
+    /**
      * @return an instance of this service
      */
     public static AssetService getDefault() {

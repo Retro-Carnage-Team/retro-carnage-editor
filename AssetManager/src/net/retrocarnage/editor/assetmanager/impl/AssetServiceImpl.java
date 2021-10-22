@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -19,10 +20,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
-import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -279,6 +280,13 @@ public class AssetServiceImpl extends AssetService {
         final BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
         outputImage.getGraphics().drawImage(scaledImage, 0, 0, null);
         return outputImage;
+    }
+
+    @Override
+    public Collection<String> getSpriteTags() {
+        final Collection<String> result = new HashSet<>();
+        assets.getSprites().values().stream().forEach((sprite) -> result.addAll(sprite.getTags()));
+        return result;
     }
 
 }

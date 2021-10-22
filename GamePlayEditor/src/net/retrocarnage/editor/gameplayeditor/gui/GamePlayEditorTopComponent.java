@@ -2,6 +2,7 @@ package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.TransferHandler;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
@@ -12,7 +13,7 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.windows.TopComponent;
 
 /**
- * Top component which displays something.
+ * Top component which displays the GamePlay of a Mission.
  */
 @ConvertAsProperties(
         dtd = "-//net.retrocarnage.editor.gameplayeditor//GamePlayEditor//EN",
@@ -32,6 +33,7 @@ import org.openide.windows.TopComponent;
 public final class GamePlayEditorTopComponent extends TopComponent implements PropertyChangeListener {
 
     private final GamePlayEditorController controller;
+    private final TransferHandler transferHandler = new DragAndDropTransferHandler();
 
     public GamePlayEditorTopComponent() {
         this(null);
@@ -64,6 +66,7 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
 
         setLayout(new java.awt.BorderLayout());
 
+        pnlDisplay.setTransferHandler(transferHandler);
         scrPane.setViewportView(pnlDisplay);
 
         add(scrPane, java.awt.BorderLayout.CENTER);

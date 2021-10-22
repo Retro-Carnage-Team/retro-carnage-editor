@@ -1,8 +1,12 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +24,9 @@ import org.apache.commons.io.IOUtils;
  *
  * @author Thomas Werner
  */
-public class Sprite extends Asset<Sprite> {
+public class Sprite extends Asset<Sprite> implements Transferable {
+
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(Sprite.class, "sprite");
 
     private static final Logger logger = Logger.getLogger(Sprite.class.getName());
 
@@ -62,6 +68,7 @@ public class Sprite extends Asset<Sprite> {
      *
      * @return the copy
      */
+    @Override
     public Sprite deepCopy() {
         try {
             final ObjectMapper xmlMapper = new XmlMapper();
@@ -70,6 +77,25 @@ public class Sprite extends Asset<Sprite> {
             logger.log(Level.SEVERE, "Failed to serialize / deserialize Sprite instance", ex);
             throw new IllegalArgumentException("Sprite can't be serialized / deserialized", ex);
         }
+    }
+
+    @JsonIgnore
+    @Override
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{DATA_FLAVOR};
+    }
+
+    @Override
+    public boolean isDataFlavorSupported(final DataFlavor df) {
+        return DATA_FLAVOR == df;
+    }
+
+    @Override
+    public Object getTransferData(final DataFlavor df) throws UnsupportedFlavorException, IOException {
+        if (DATA_FLAVOR == df) {
+            return this;
+        }
+        throw new UnsupportedFlavorException(df);
     }
 
 }

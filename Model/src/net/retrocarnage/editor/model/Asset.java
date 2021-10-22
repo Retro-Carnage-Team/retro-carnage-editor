@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils;
  */
 public abstract class Asset<T extends Asset<?>> {
 
-    private static final Logger logger = Logger.getLogger(Music.class.getName());
+    private static final Logger logger = Logger.getLogger(Asset.class.getName());
 
     private String id;
     private AttributionData attributionData;

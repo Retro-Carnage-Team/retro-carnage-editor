@@ -50,6 +50,7 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new GamePlayDisplay(scrPane);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pnlDisplay.setTransferHandler(transferHandler);"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
