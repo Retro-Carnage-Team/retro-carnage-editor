@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.assetmanager.gui;
 
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -21,6 +23,8 @@ import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 
 /**
  * Controller for the AssetManagerTopComponent.
@@ -30,7 +34,8 @@ import net.retrocarnage.editor.model.Sprite;
 class AssetManagerController {
 
     public static final String PROPERTY_SELECTED_ASSET = "selectedAsset";
-    private static final Logger logger = Logger.getLogger(AssetManagerTopComponent.class.getName());
+
+    private static final Logger logger = Logger.getLogger(AssetManagerController.class.getName());
 
     private final AssetService assetService = AssetService.getDefault();
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -61,11 +66,18 @@ class AssetManagerController {
     }
 
     void newSpriteAsset(final File assetResourceFile) {
-        newAssetResource = assetResourceFile;
-
-        final Sprite newSprite = new Sprite();
-        newSprite.setAttributionData(new AttributionData());
-        replaceAsset(newSprite);
+        try {
+            final BufferedImage tempImage = ImageIO.read(assetResourceFile);
+            newAssetResource = assetResourceFile;
+            final Sprite newSprite = new Sprite();
+            newSprite.setAttributionData(new AttributionData());
+            newSprite.setWidth(tempImage.getWidth());
+            newSprite.setHeight(tempImage.getHeight());
+            replaceAsset(newSprite);
+        } catch (IOException | NullPointerException ex) {
+            logger.log(Level.WARNING, "Failed to read image provided by user", ex);
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The specified image can't be read."));
+        }
     }
 
     boolean saveChanges() {

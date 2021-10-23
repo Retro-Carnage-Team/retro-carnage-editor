@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -32,6 +33,8 @@ import org.apache.commons.io.IOUtils;
  * @author Thomas Werner
  */
 public class AssetServiceImpl extends AssetService {
+
+    private static final String ASSET_DATABASE_FILENAME = "assetDatabase.xml";
 
     private static final String MUSIC_FOLDER_NAME = "music";
     private static final String SPRITE_FOLDER_NAME = "sprites";
@@ -58,8 +61,30 @@ public class AssetServiceImpl extends AssetService {
         assets.load(in);
     }
 
+    void loadAssets() {
+        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+        final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
+        if (databaseFile.toFile().exists()) {
+            try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
+                loadAssets(database);
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to read the asset database file", ex.getMessage());
+            }
+        }
+    }
+
     void saveAssets(OutputStream out) throws IOException {
         assets.save(out);
+    }
+
+    void saveAssets() {
+        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
+        final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
+        try (final OutputStream database = Files.newOutputStream(databaseFile)) {
+            saveAssets(database);
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, "Failed to write the asset database file", ex.getMessage());
+        }
     }
 
     void initializeFolderStructure() {
@@ -115,6 +140,7 @@ public class AssetServiceImpl extends AssetService {
         storeMusicToDisk(in, Paths.get(appFolderPath.toString(), music.getRelativePath()));
 
         assets.getMusic().put(music.getId(), music.deepCopy());
+        saveAssets();
     }
 
     @Override
@@ -124,6 +150,7 @@ public class AssetServiceImpl extends AssetService {
             throw new IllegalArgumentException("No such asset for given id: " + music.getId());
         }
         assets.getMusic().put(music.getId(), music.deepCopy());
+        saveAssets();
     }
 
     @Override
@@ -143,6 +170,7 @@ public class AssetServiceImpl extends AssetService {
                 logger.warning("Failed to delete music file immediatly. Scheduling delete on exit.");
             }
             assets.getMusic().remove(id);
+            saveAssets();
         }
     }
 
@@ -164,6 +192,7 @@ public class AssetServiceImpl extends AssetService {
         final Path thumbnailPath = Paths.get(appFolderPath.toString(), sprite.getRelativePathThumbnail());
         storeSpriteToDisk(in, spritePath, thumbnailPath);
         assets.getSprites().put(sprite.getId(), sprite.deepCopy());
+        saveAssets();
     }
 
     @Override
@@ -173,6 +202,7 @@ public class AssetServiceImpl extends AssetService {
             throw new IllegalArgumentException("No such asset for given id: " + sprite.getId());
         }
         assets.getSprites().put(sprite.getId(), sprite.deepCopy());
+        saveAssets();
     }
 
     @Override
@@ -208,6 +238,7 @@ public class AssetServiceImpl extends AssetService {
                 logger.warning("Failed to delete thumbnail file immediatly. Scheduling delete on exit.");
             }
             assets.getSprites().remove(id);
+            saveAssets();
         }
     }
 

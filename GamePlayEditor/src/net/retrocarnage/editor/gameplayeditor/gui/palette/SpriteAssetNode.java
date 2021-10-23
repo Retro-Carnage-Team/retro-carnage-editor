@@ -32,7 +32,6 @@ public class SpriteAssetNode extends AbstractNode {
 
     @Override
     public String getHtmlDisplayName() {
-        // TODO: It would be great to have additional information about the size (x * y) of the sprite
         return "<b>" + sprite.getName() + "</b>";
     }
 
@@ -64,7 +63,14 @@ public class SpriteAssetNode extends AbstractNode {
                 .append("           <td><b>Name</b></td>")
                 .append("           <td>").append(sprite.getName()).append("</td>")
                 .append("       </tr>")
-                // TODO: width, height, size (in bytes)
+                .append("       <tr>")
+                .append("           <td><b>Type</b></td>")
+                .append("           <td>").append(sprite.isTile() ? "Tile" : "Sprite").append("</td>")
+                .append("       </tr>")
+                .append("       <tr>")
+                .append("           <td><b>Size</b></td>")
+                .append("           <td>").append(sprite.getWidth()).append(" * ").append(sprite.getHeight()).append("</td>")
+                .append("       </tr>")
                 .append("   </table>")
                 .append("</html>")
                 .toString();

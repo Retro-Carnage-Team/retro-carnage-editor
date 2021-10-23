@@ -151,6 +151,8 @@ public final class AssetManagerTopComponent extends TopComponent {
         lblSpriteTags = new javax.swing.JLabel();
         txtSpriteTags = new javax.swing.JTextField();
         pnlSpriteSpacer = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        chkTile = new javax.swing.JCheckBox();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -597,7 +599,7 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(20, 2, 2, 2);
@@ -699,6 +701,27 @@ public final class AssetManagerTopComponent extends TopComponent {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlSpriteEditor.add(pnlSpriteSpacer, gridBagConstraints);
 
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
+        pnlSpriteEditor.add(jLabel1, gridBagConstraints);
+
+        chkTile.setPreferredSize(new java.awt.Dimension(18, 39));
+        chkTile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTileActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        pnlSpriteEditor.add(chkTile, gridBagConstraints);
+
         pnlEditor.add(pnlSpriteEditor, "sprite");
 
         add(pnlEditor, java.awt.BorderLayout.SOUTH);
@@ -751,12 +774,23 @@ public final class AssetManagerTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void chkTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTileActionPerformed
+        final Sprite sprite = (Sprite) controller.getSelectedAsset();
+        if ((null != sprite)) {
+            sprite.setTile(chkTile.isSelected());
+            btnSaveAsset.setEnabled(true);
+            btnCancel.setEnabled(true);
+        }
+    }//GEN-LAST:event_chkTileActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMusic;
     private javax.swing.JButton btnAddSprite;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSaveAsset;
+    private javax.swing.JCheckBox chkTile;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblMusicAuthor;
     private javax.swing.JLabel lblMusicId;
     private javax.swing.JLabel lblMusicIdDisplay;
@@ -804,19 +838,7 @@ public final class AssetManagerTopComponent extends TopComponent {
     private javax.swing.JTextField txtSpriteWebsite;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void componentOpened() {
-        // TODO add custom code on component opening
-    }
-
-    @Override
-    public void componentClosed() {
-        // TODO add custom code on component closing
-    }
-
     void writeProperties(final java.util.Properties p) {
-        // better to version settings since initial version as advocated at
-        // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
     }
 
@@ -876,15 +898,17 @@ public final class AssetManagerTopComponent extends TopComponent {
                 btnCancel.setEnabled(false);
                 btnSaveAsset.setEnabled(false);
             } else if (pce.getNewValue() instanceof Sprite) {
+                final Sprite sprite = (Sprite) pce.getNewValue();
                 populateAssetEditor(lblSpriteIdDisplay, spriteEditorFields);
+                chkTile.setSelected(sprite.isTile());
                 btnCancel.setEnabled(false);
                 btnSaveAsset.setEnabled(false);
                 final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
                 final Path appFolderPath = appFolderService.getApplicationFolder();
-                if (null != ((Sprite) pce.getNewValue()).getRelativePathThumbnail()) {
+                if (null != sprite.getRelativePathThumbnail()) {
                     final String thumbnailPath = Path.of(
                             appFolderPath.toString(),
-                            ((Sprite) pce.getNewValue()).getRelativePathThumbnail()
+                            sprite.getRelativePathThumbnail()
                     ).toString();
                     lblSpriteThumbnail.setIcon(new ImageIcon(thumbnailPath));
                 }
