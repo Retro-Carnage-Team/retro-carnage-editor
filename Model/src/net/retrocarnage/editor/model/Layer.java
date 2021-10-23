@@ -12,8 +12,9 @@ import java.util.List;
  */
 public class Layer {
 
+    public static final String DEFAULT_LAYER_NAME = "Default";
+
     private boolean locked;
-    private int position;
     private String name;
     private boolean visible;
     private List<VisualAsset> visualAssets;
@@ -28,14 +29,6 @@ public class Layer {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     public String getName() {

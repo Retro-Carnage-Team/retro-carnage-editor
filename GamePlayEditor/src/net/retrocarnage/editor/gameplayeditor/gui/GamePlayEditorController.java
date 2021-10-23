@@ -1,5 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -8,10 +10,14 @@ import net.retrocarnage.editor.gameplayeditor.gui.palette.DummyPaletteActions;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Sprite;
+import net.retrocarnage.editor.model.VisualAsset;
 import org.netbeans.spi.palette.PaletteActions;
 import org.netbeans.spi.palette.PaletteController;
 import org.netbeans.spi.palette.PaletteFactory;
+import org.openide.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
@@ -28,6 +34,7 @@ class GamePlayEditorController {
 
     private final InstanceContent lookupContent;
     private final GamePlay gamePlay;
+    private final LayerControllerImpl layerControllerImpl;
     private final Mission mission;
     private final SaveGamePlayAction savable;
     private final PropertyChangeListener gamePlayChangeListener;
@@ -59,8 +66,10 @@ class GamePlayEditorController {
         final Node paletteRoot = new AbstractNode(Children.create(new GroupNodeFactory(), false));
         final PaletteActions paletteActions = new DummyPaletteActions();
         final PaletteController paletteController = PaletteFactory.createPalette(paletteRoot, paletteActions);
-
         lookupContent.add(paletteController);
+
+        layerControllerImpl = new LayerControllerImpl(this);
+        lookupContent.add(layerControllerImpl);
     }
 
     void addPropertyChangeListener(final PropertyChangeListener listener) {
@@ -86,6 +95,28 @@ class GamePlayEditorController {
     void close() {
         gamePlay.removePropertyChangeListener(gamePlayChangeListener);
         savable.close();
+    }
+
+    void addSprite(final Sprite sprite, final Point position) {
+        final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
+        if (selectedLayer.isLocked()) {
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+        } else {
+            final Rectangle rectangle = new Rectangle();
+            rectangle.setLocation(position.x - (sprite.getWidth() / 2), position.y - (sprite.getHeight() / 2));
+            rectangle.setSize(sprite.getWidth(), sprite.getHeight());
+
+            final VisualAsset visualAsset = new VisualAsset();
+            visualAsset.setAssetId(sprite.getId());
+            visualAsset.setPosition(rectangle);
+            selectedLayer.getVisualAssets().add(visualAsset);
+
+            fireGamePlayChanged();
+        }
+    }
+
+    void fireGamePlayChanged() {
+        propertyChangeSupport.firePropertyChange(PROPERTY_GAMEPLAY, null, gamePlay);
     }
 
 }

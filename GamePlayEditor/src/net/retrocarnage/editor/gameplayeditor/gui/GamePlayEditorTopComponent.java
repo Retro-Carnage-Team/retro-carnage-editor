@@ -33,7 +33,7 @@ import org.openide.windows.TopComponent;
 public final class GamePlayEditorTopComponent extends TopComponent implements PropertyChangeListener {
 
     private final GamePlayEditorController controller;
-    private final TransferHandler transferHandler = new DragAndDropTransferHandler();
+    private final TransferHandler transferHandler;
 
     public GamePlayEditorTopComponent() {
         this(null);
@@ -42,6 +42,7 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     public GamePlayEditorTopComponent(final Mission mission) {
         controller = new GamePlayEditorController(mission);
         controller.addPropertyChangeListener(this);
+        transferHandler = new DragAndDropTransferHandler(controller);
         ZoomService.getDefault().addPropertyChangeListener(this);
 
         associateLookup(new AbstractLookup(controller.getLookupContent()));

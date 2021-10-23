@@ -16,7 +16,10 @@ public class DragAndDropTransferHandler extends TransferHandler {
 
     private static final Logger logger = Logger.getLogger(DragAndDropTransferHandler.class.getName());
 
-    public DragAndDropTransferHandler() {
+    private final GamePlayEditorController controller;
+
+    DragAndDropTransferHandler(final GamePlayEditorController controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -28,12 +31,12 @@ public class DragAndDropTransferHandler extends TransferHandler {
     public boolean importData(final TransferSupport support) {
         try {
             final Sprite sprite = (Sprite) support.getTransferable().getTransferData(Sprite.DATA_FLAVOR);
-            logger.log(Level.INFO, "Sprite has been dropped on editor: " + support.getDropLocation().getDropPoint().toString());
+            controller.addSprite(sprite, support.getDropLocation().getDropPoint());
             return true;
         } catch (UnsupportedFlavorException | IOException ex) {
             logger.log(Level.WARNING, "Failed to handle D&D operation with Sprite", ex);
             return false;
         }
-
     }
+
 }

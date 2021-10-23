@@ -21,8 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.missionmanager.MissionService;
-import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.model.SectionDirection;
 
@@ -119,14 +120,25 @@ public class MissionServiceImpl extends MissionService {
         return initializeGamePlay(missionId);
     }
 
+    /**
+     * Initializes a GamePlay object with default values.
+     *
+     * @param missionId ID of the mission that the new GamePlay belongs to
+     * @return the initialized GamePlay object
+     */
     private GamePlay initializeGamePlay(final String missionId) {
         final GamePlay result = new GamePlay(missionId);
 
         final Section firstSection = new Section();
         firstSection.setDirection(SectionDirection.UP);
         firstSection.setNumberOfScreens(1);
-
         result.getSections().add(firstSection);
+
+        final Layer defaultLayer = new Layer();
+        defaultLayer.setName(Layer.DEFAULT_LAYER_NAME);
+        defaultLayer.setVisible(true);
+        result.getLayers().add(defaultLayer);
+
         return result;
     }
 

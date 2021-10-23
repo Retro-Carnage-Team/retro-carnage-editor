@@ -3,18 +3,29 @@ package net.retrocarnage.editor.model;
 import java.awt.Rectangle;
 
 /**
- * Some visual thing that is placed on the screen.
+ * A visual asset.
  *
  * @author Thomas Werner
  */
-public interface VisualAsset {
+public class VisualAsset {
 
-    String getAssetId();
+    private String assetId;
+    private Rectangle position;
 
-    void setAssetId(final String assetId);
+    public String getAssetId() {
+        return assetId;
+    }
 
-    Rectangle getPosition();
+    public void setAssetId(final String assetId) {
+        this.assetId = assetId;
+    }
 
-    void setPosition(final Rectangle position);
+    public Rectangle getPosition() {
+        return position;
+    }
+
+    public void setPosition(final Rectangle position) {
+        this.position = position;
+    }
 
 }
