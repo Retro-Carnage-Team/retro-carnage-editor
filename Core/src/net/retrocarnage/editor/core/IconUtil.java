@@ -1,10 +1,11 @@
-package net.retrocarnage.editor.nodes.impl;
+package net.retrocarnage.editor.core;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,9 +20,9 @@ public class IconUtil {
     private static final Logger logger = Logger.getLogger(IconUtil.class.getName());
     private static final Image EMPTY_ICON = buildEmptyIcon();
 
-    public static Image loadIcon(final String resourcePath) {
+    public static Image loadIcon(final InputStream resource) {
         try {
-            return ImageIO.read(IconUtil.class.getResourceAsStream(resourcePath));
+            return ImageIO.read(resource);
         } catch (final IOException ex) {
             logger.log(Level.WARNING, "Failed to load icon for MissionNode", ex);
             return EMPTY_ICON;

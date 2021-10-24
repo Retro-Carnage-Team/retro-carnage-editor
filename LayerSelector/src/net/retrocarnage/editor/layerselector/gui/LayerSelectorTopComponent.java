@@ -1,8 +1,8 @@
-package net.retrocarnage.editor.missionselector;
+package net.retrocarnage.editor.layerselector.gui;
 
 import java.awt.BorderLayout;
 import javax.swing.ActionMap;
-import net.retrocarnage.editor.nodes.MissionChildren;
+import net.retrocarnage.editor.layerselector.nodes.LayerChildren;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -14,45 +14,46 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 /**
- * Top component which displays the list of Missions.
+ * Top component which displays the Layers of the GamePlayEditor.
  */
 @ConvertAsProperties(
-        dtd = "-//net.retrocarnage.editor.missionselector//Selector//EN",
+        dtd = "-//net.retrocarnage.editor.layerselector.gui//LayerSelector//EN",
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "SelectorTopComponent",
-        iconBase = "net/retrocarnage/editor/missionselector/icon.png",
+        preferredID = "LayerSelectorTopComponent",
+        iconBase = "/net/retrocarnage/editor/layerselector/icon.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "leftSlidingSide", openAtStartup = true)
-@ActionID(category = "Window", id = "net.retrocarnage.editor.missionselector.SelectorTopComponent")
+@TopComponent.Registration(mode = "rightSlidingSide", openAtStartup = true)
+@ActionID(category = "Window", id = "net.retrocarnage.editor.layerselector.gui.LayerSelectorTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
-        displayName = "#CTL_SelectorAction",
-        preferredID = "SelectorTopComponent"
+        displayName = "#CTL_LayerSelectorAction",
+        preferredID = "LayerSelectorTopComponent"
 )
 @Messages({
-    "CTL_SelectorAction=Select a mission",
-    "CTL_SelectorTopComponent=Missions",
-    "HINT_SelectorTopComponent=List of missions"
+    "CTL_LayerSelectorAction=Layers",
+    "CTL_LayerSelectorTopComponent=Layers",
+    "HINT_LayerSelectorTopComponent=List of Layers"
 })
-public final class SelectorTopComponent extends TopComponent implements ExplorerManager.Provider {
+public final class LayerSelectorTopComponent extends TopComponent implements ExplorerManager.Provider {
 
     private final ExplorerManager explorerManager = new ExplorerManager();
 
-    public SelectorTopComponent() {
+    public LayerSelectorTopComponent() {
         final ActionMap map = getActionMap();
         associateLookup(ExplorerUtils.createLookup(explorerManager, map));
 
         initComponents();
 
         final ListView view = new ListView();
-        explorerManager.setRootContext(new AbstractNode(new MissionChildren()));
+        explorerManager.setRootContext(new AbstractNode(new LayerChildren()));
         add(view, BorderLayout.CENTER);
 
-        setName(Bundle.CTL_SelectorTopComponent());
-        setToolTipText(Bundle.HINT_SelectorTopComponent());
+        setName(Bundle.CTL_LayerSelectorTopComponent());
+        setToolTipText(Bundle.HINT_LayerSelectorTopComponent());
+
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
     }
 
@@ -63,10 +64,28 @@ public final class SelectorTopComponent extends TopComponent implements Explorer
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        pnlActions = new javax.swing.JPanel();
+        btnAddLayer = new javax.swing.JButton();
+        btnRemoveLayer = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        pnlActions.setLayout(new java.awt.GridLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnAddLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnAddLayer.text")); // NOI18N
+        pnlActions.add(btnAddLayer);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnRemoveLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnRemoveLayer.text")); // NOI18N
+        btnRemoveLayer.setEnabled(false);
+        pnlActions.add(btnRemoveLayer);
+
+        add(pnlActions, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddLayer;
+    private javax.swing.JButton btnRemoveLayer;
+    private javax.swing.JPanel pnlActions;
     // End of variables declaration//GEN-END:variables
     @Override
     protected void componentActivated() {
@@ -90,5 +109,4 @@ public final class SelectorTopComponent extends TopComponent implements Explorer
     void readProperties(java.util.Properties p) {
         // String version = p.getProperty("version");
     }
-
 }

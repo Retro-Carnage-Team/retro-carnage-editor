@@ -50,3 +50,7 @@ hs_err_pid*
 /nbproject/private/
 /build/
 /JLayer/nbproject/private/
+/Apache-Commons-IO/nbproject/private/
+/Jackson-annotations/nbproject/private/
+/LayerSelector/build/
+/LayerSelector/nbproject/private/

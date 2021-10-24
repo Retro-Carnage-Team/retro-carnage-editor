@@ -41,6 +41,7 @@ class LayerControllerImpl implements LayerController {
 
     @Override
     public List<Layer> getLayers() {
+        getDefaultLayer();                                                                                              // make sure that there's a default layer
         return Collections.unmodifiableList(controller.getGamePlay().getLayers());
     }
 
