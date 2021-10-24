@@ -13,8 +13,8 @@
                 <package>javazoom.jl.player.advanced</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/jlayer-1.0.1.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jlayer-1.0.1.jar</binary-origin>
+                <runtime-relative-path>ext/jlayer-1.0.1.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jlayer-1.0.1.4.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
