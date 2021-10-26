@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.gameplayeditor;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import net.retrocarnage.editor.model.Layer;
 
@@ -10,6 +11,13 @@ import net.retrocarnage.editor.model.Layer;
  * @author Thomas Werner
  */
 public interface LayerController {
+
+    public static final String PROPERTY_LAYERS = "layers";
+    public static final String PROPERTY_LAYER = "layer";
+
+    void addPropertyChangeListener(PropertyChangeListener listener);
+
+    void removePropertyChangeListener(PropertyChangeListener listener);
 
     Layer getSelectedLayer();
 

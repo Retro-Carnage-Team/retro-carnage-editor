@@ -1,8 +1,12 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.retrocarnage.editor.gameplayeditor.LayerController;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.DialogDisplayer;
@@ -15,11 +19,25 @@ import org.openide.NotifyDescriptor;
  */
 class LayerControllerImpl implements LayerController {
 
+    private static final Logger logger = Logger.getLogger(LayerControllerImpl.class.getName());
+
+    private final PropertyChangeSupport propertyChangeSupport;
     private final GamePlayEditorController controller;
     private Layer selectedLayer;
 
     public LayerControllerImpl(final GamePlayEditorController controller) {
         this.controller = controller;
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+
+    @Override
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     @Override
@@ -37,6 +55,7 @@ class LayerControllerImpl implements LayerController {
         } else {
             selectedLayer = layer;
         }
+        fireLayerChange();
     }
 
     @Override
@@ -49,11 +68,13 @@ class LayerControllerImpl implements LayerController {
     public void toggleVisibility(final Layer layer) {
         layer.setVisible(!layer.isVisible());
         controller.fireGamePlayChanged();
+        fireLayerChange(layer);
     }
 
     @Override
     public void toggleLock(final Layer layer) {
         layer.setLocked(!layer.isLocked());
+        fireLayerChange(layer);
     }
 
     @Override
@@ -62,6 +83,7 @@ class LayerControllerImpl implements LayerController {
         if (layer.getVisualAssets().size() > 0) {
             controller.fireGamePlayChanged();
         }
+        fireLayerChange();
     }
 
     @Override
@@ -71,6 +93,7 @@ class LayerControllerImpl implements LayerController {
         } else {
             controller.getGamePlay().getLayers().remove(layer);
             controller.fireGamePlayChanged();
+            fireLayerChange();
         }
     }
 
@@ -82,6 +105,7 @@ class LayerControllerImpl implements LayerController {
             DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("That name is not valid, sorry."));
         } else {
             layer.setName(name);
+            fireLayerChange(layer);
         }
     }
 
@@ -93,6 +117,7 @@ class LayerControllerImpl implements LayerController {
             controller.getGamePlay().getLayers().set(idxOfLayer - 1, layer);
             controller.getGamePlay().getLayers().set(idxOfLayer, tmp);
             controller.fireGamePlayChanged();
+            fireLayerChange();
         }
     }
 
@@ -104,6 +129,7 @@ class LayerControllerImpl implements LayerController {
             controller.getGamePlay().getLayers().set(idxOfLayer + 1, layer);
             controller.getGamePlay().getLayers().set(idxOfLayer, tmp);
             controller.fireGamePlayChanged();
+            fireLayerChange();
         }
     }
 
@@ -122,6 +148,30 @@ class LayerControllerImpl implements LayerController {
             return defaultLayer;
         }
         return possibleDefaultLayer.get();
+    }
+
+    /**
+     * Fires a change that indicates that the set of Layers changed.
+     */
+    private void fireLayerChange() {
+        try {
+            propertyChangeSupport.firePropertyChange(PROPERTY_LAYERS, null, getLayers());
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "Failed to inform listeners about Layer change", ex);
+        }
+    }
+
+    /**
+     * Fires a change that indicates that a specific Layer changed.
+     *
+     * @param specificLayer the Layer that changed
+     */
+    private void fireLayerChange(final Layer specificLayer) {
+        try {
+            propertyChangeSupport.firePropertyChange(PROPERTY_LAYER, null, specificLayer);
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "Failed to inform listeners about Layer change", ex);
+        }
     }
 
 }

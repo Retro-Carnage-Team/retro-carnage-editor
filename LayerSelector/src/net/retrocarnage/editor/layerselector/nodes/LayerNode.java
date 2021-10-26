@@ -41,7 +41,7 @@ public class LayerNode extends AbstractNode {
 
     @Override
     public String getHtmlDisplayName() {
-        return "<b>" + getLayer().getName() + "</b>";
+        return getLabel(getLayer());
     }
 
     @Override
@@ -57,8 +57,7 @@ public class LayerNode extends AbstractNode {
     }
 
     private String getLabel(final Layer layer) {
-        final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class
-        );
+        final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
         final boolean isSelected = (null != layerCtrl) && (layerCtrl.getSelectedLayer() == layer);
         final StringBuilder result = new StringBuilder();
         if (!layer.isVisible()) {

@@ -2,8 +2,13 @@ package net.retrocarnage.editor.layerselector.gui;
 
 import java.awt.BorderLayout;
 import javax.swing.ActionMap;
+import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.LayerController;
 import net.retrocarnage.editor.layerselector.nodes.LayerChildren;
+import net.retrocarnage.editor.model.Layer;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.explorer.ExplorerManager;
@@ -39,6 +44,9 @@ import org.openide.windows.TopComponent;
 })
 public final class LayerSelectorTopComponent extends TopComponent implements ExplorerManager.Provider {
 
+    private static final String NEW_LAYER_TEXT = "Name";
+    private static final String NEW_LAYER_TITLE = "Please specify a name for the new Layer";
+
     private final ExplorerManager explorerManager = new ExplorerManager();
 
     public LayerSelectorTopComponent() {
@@ -70,9 +78,14 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         setLayout(new java.awt.BorderLayout());
 
-        pnlActions.setLayout(new java.awt.GridLayout());
+        pnlActions.setLayout(new java.awt.GridLayout(1, 0));
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnAddLayer.text")); // NOI18N
+        btnAddLayer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLayerActionPerformed(evt);
+            }
+        });
         pnlActions.add(btnAddLayer);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnRemoveLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnRemoveLayer.text")); // NOI18N
@@ -81,6 +94,23 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         add(pnlActions, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLayerActionPerformed
+        final LayerController controller = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
+        if (null == controller) {
+            return;
+        }
+
+        final NotifyDescriptor.InputLine inputLine = new NotifyDescriptor.InputLine(NEW_LAYER_TEXT, NEW_LAYER_TITLE);
+        final Object result = DialogDisplayer.getDefault().notify(inputLine);
+        if (NotifyDescriptor.OK_OPTION.equals(result)) {
+            final Layer newLayer = new Layer();
+            newLayer.setLocked(false);
+            newLayer.setName(inputLine.getInputText());
+            newLayer.setVisible(true);
+            controller.addLayer(newLayer);
+        }
+    }//GEN-LAST:event_btnAddLayerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLayer;

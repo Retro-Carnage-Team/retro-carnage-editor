@@ -1,7 +1,10 @@
 package net.retrocarnage.editor.layerselector.nodes;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.LayerController;
 import net.retrocarnage.editor.model.Layer;
@@ -16,7 +19,7 @@ import org.openide.util.LookupListener;
  *
  * @author Thomas Werner
  */
-public class LayerChildren extends Children.Keys {
+public class LayerChildren extends Children.Keys implements PropertyChangeListener {
 
     private final LookupListener lookupListener;
     private final Lookup.Result<LayerController> lookupResult;
@@ -43,10 +46,26 @@ public class LayerChildren extends Children.Keys {
     }
 
     private void handleLookupResultChanged() {
+        if (null != controller) {
+            controller.removePropertyChangeListener(this);
+        }
+
         final Collection<? extends LayerController> items = lookupResult.allInstances();
         controller = items.isEmpty() ? null : items.iterator().next();
-        // TODO: Add listener to controller. Use events to update list of Layer nodes
+        if (null != controller) {
+            controller.addPropertyChangeListener(this);
+        }
+
         addNotify();
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent pce) {
+        if (LayerController.PROPERTY_LAYERS.equals(pce.getPropertyName())) {
+            setKeys((List<Layer>) pce.getNewValue());
+        } else if (LayerController.PROPERTY_LAYER.equals(pce.getPropertyName())) {
+            refreshKey(pce.getNewValue());
+        }
     }
 
 }
