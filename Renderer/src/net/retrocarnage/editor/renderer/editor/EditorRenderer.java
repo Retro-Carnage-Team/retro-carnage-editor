@@ -1,24 +1,29 @@
 package net.retrocarnage.editor.renderer.editor;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import net.retrocarnage.editor.model.GamePlay;
-import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.zoom.ZoomService;
+import org.apache.commons.lang3.time.StopWatch;
 
 /**
- * Renders a mission.
+ * Renders a mission inside the editor screen.
+ *
+ * This is the most sophisticated renderer - as it supports all kinds of visual items, selections, and more.
  *
  * @author Thomas Werner
  */
 public class EditorRenderer {
 
+    private static final Logger logger = Logger.getLogger(EditorRenderer.class.getName());
     private static final int STROKE = 2;
 
     private final GamePlay gamePlay;
@@ -48,6 +53,8 @@ public class EditorRenderer {
      * @param g2d the graphics context
      */
     public void render(final Graphics2D g2d) {
+        final StopWatch stopWatch = StopWatch.createStarted();
+
         if (null != gamePlay && null != gamePlay.getSections() && !gamePlay.getSections().isEmpty()) {
             final Dimension dimension = getSize();
             g2d.setColor(UIManager.getColor("Panel.background"));
@@ -56,90 +63,13 @@ public class EditorRenderer {
             g2d.setStroke(new BasicStroke(STROKE));
 
             final int gameScreenWidth = calculateGameScreenWidth();
-
-            int posX = sectionAnalysis.getStartX();
-            int posY = sectionAnalysis.getStartY();
-            for (Section section : gamePlay.getSections()) {
-                switch (section.getDirection()) {
-                    case LEFT:
-                        paintSectionToLeft(posX, section, gameScreenWidth, posY, g2d);
-                        posX -= (section.getNumberOfScreens() - 1);
-                        break;
-                    case RIGHT:
-                        paintSectionToRight(posX, gameScreenWidth, posY, section, g2d);
-                        posX += (section.getNumberOfScreens() - 1);
-                        break;
-                    case UP:
-                        paintSectionToTop(posX, gameScreenWidth, posY, section, g2d);
-                        posY += (section.getNumberOfScreens() - 1);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
+            new SpritePainter(gamePlay.getLayers(), g2d).paintSprites();
         }
-    }
 
-    private void paintSectionToRight(
-            final int posX, final int gameScreenWidth, final int posY, final Section section, final Graphics2D g2d
-    ) {
-        final int x = posX * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
-        final int w = section.getNumberOfScreens() * gameScreenWidth;
-        final int h = gameScreenWidth;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, w, h);
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y, w, h);
-
-        g2d.drawLine(
-                (posX + 1) * gameScreenWidth,
-                (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth,
-                (posX + 1) * gameScreenWidth,
-                (sectionAnalysis.getMapHeight() - posY) * gameScreenWidth
-        );
-    }
-
-    private void paintSectionToTop(
-            final int posX, final int gameScreenWidth, final int posY, final Section section, final Graphics2D g2d
-    ) {
-        final int x = posX * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - section.getNumberOfScreens()) * gameScreenWidth;
-        final int w = gameScreenWidth;
-        final int h = section.getNumberOfScreens() * gameScreenWidth;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, w, h);
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y, w, h);
-
-        if (posX != sectionAnalysis.getStartX() || posY != sectionAnalysis.getStartY()) {
-            g2d.drawLine(
-                    posX * gameScreenWidth,
-                    (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth,
-                    (posX + 1) * gameScreenWidth,
-                    (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth
-            );
-        }
-    }
-
-    private void paintSectionToLeft(
-            final int posX, final Section section, final int gameScreenWidth, final int posY, final Graphics2D g2d
-    ) {
-        final int x = (posX - section.getNumberOfScreens() + 1) * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
-        final int w = section.getNumberOfScreens() * gameScreenWidth;
-        final int h = gameScreenWidth;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, w, h);
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y, w, h);
-
-        g2d.drawLine(
-                posX * gameScreenWidth,
-                (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth,
-                posX * gameScreenWidth,
-                (sectionAnalysis.getMapHeight() - posY) * gameScreenWidth
-        );
+        stopWatch.stop();
+        final long duration = stopWatch.getTime(TimeUnit.MILLISECONDS);
+        logger.log(Level.INFO, String.format("Rendering the mission took %d ms", duration));
     }
 
     private int calculateGameScreenWidth() {

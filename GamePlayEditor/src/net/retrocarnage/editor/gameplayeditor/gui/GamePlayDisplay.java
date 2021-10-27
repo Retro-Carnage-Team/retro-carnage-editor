@@ -14,7 +14,8 @@ import net.retrocarnage.editor.renderer.editor.EditorRenderer;
  */
 public class GamePlayDisplay extends JPanel {
 
-    private static final int BORDER_WIDTH = 200;
+    static final int BORDER_WIDTH = 200;
+
     private final JScrollPane container;
     private GamePlay gamePlay;
     private Dimension gamePlaySize = new Dimension(1, 1);

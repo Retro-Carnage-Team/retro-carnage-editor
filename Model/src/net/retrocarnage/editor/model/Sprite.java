@@ -38,6 +38,7 @@ public class Sprite extends Asset<Sprite> implements Transferable {
     private int height;
     private boolean tile;
     private String relativePathThumbnail;
+    private BufferedImage cachedImage;
 
     /**
      * @return the width in pixel
@@ -45,7 +46,7 @@ public class Sprite extends Asset<Sprite> implements Transferable {
     public int getWidth() {
         if (width == 0) {
             try {
-                return readImage().getWidth();
+                return getImage().getWidth();
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to read image for Sprite " + getId(), ex);
             }
@@ -68,7 +69,7 @@ public class Sprite extends Asset<Sprite> implements Transferable {
     public int getHeight() {
         if (height == 0) {
             try {
-                return readImage().getHeight();
+                return getImage().getHeight();
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to read image for Sprite " + getId(), ex);
             }
@@ -176,13 +177,16 @@ public class Sprite extends Asset<Sprite> implements Transferable {
      * @return a BufferedImage containing the Sprite data
      * @throws IOException in case that the sprite file cannot be found / read
      */
-    private BufferedImage readImage() throws IOException {
-        final ByteArrayOutputStream bufferWriter = new ByteArrayOutputStream();
-        getThumbnail(bufferWriter);
+    public BufferedImage getImage() throws IOException {
+        if (null == cachedImage) {
+            final ByteArrayOutputStream bufferWriter = new ByteArrayOutputStream();
+            getData(bufferWriter);
 
-        final byte[] buffer = bufferWriter.toByteArray();
-        final ByteArrayInputStream bufferReader = new ByteArrayInputStream(buffer);
-        return ImageIO.read(bufferReader);
+            final byte[] buffer = bufferWriter.toByteArray();
+            final ByteArrayInputStream bufferReader = new ByteArrayInputStream(buffer);
+            cachedImage = ImageIO.read(bufferReader);
+        }
+        return cachedImage;
     }
 
 }

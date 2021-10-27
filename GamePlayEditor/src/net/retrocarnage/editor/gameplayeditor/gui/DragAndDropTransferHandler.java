@@ -1,10 +1,12 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.TransferHandler;
+import static net.retrocarnage.editor.gameplayeditor.gui.GamePlayDisplay.BORDER_WIDTH;
 import net.retrocarnage.editor.model.Sprite;
 
 /**
@@ -31,7 +33,9 @@ public class DragAndDropTransferHandler extends TransferHandler {
     public boolean importData(final TransferSupport support) {
         try {
             final Sprite sprite = (Sprite) support.getTransferable().getTransferData(Sprite.DATA_FLAVOR);
-            controller.addSprite(sprite, support.getDropLocation().getDropPoint());
+            final Point dropLocation = support.getDropLocation().getDropPoint();
+            dropLocation.translate(-BORDER_WIDTH, -BORDER_WIDTH);
+            controller.addSprite(sprite, dropLocation);
             return true;
         } catch (UnsupportedFlavorException | IOException ex) {
             logger.log(Level.WARNING, "Failed to handle D&D operation with Sprite", ex);
