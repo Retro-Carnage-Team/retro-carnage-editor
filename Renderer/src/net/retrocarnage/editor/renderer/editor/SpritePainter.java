@@ -2,6 +2,7 @@ package net.retrocarnage.editor.renderer.editor;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collections;
@@ -44,20 +45,26 @@ class SpritePainter {
             return;
         }
 
-        if (sprite.isTile()) {
-            // TODO: paint image tiles to fill rect
-        } else {
-            paintScaledSprite(sprite, va.getPosition());
-        }
-    }
-
-    private void paintScaledSprite(final Sprite sprite, final Rectangle position) {
         try {
             final BufferedImage image = sprite.getImage();
-            g2d.drawImage(image, position.x, position.y, position.width, position.height, null);
+            if (sprite.isTile()) {
+                paintTiledSprite(image, va.getPosition());
+            } else {
+                paintScaledSprite(image, va.getPosition());
+            }
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to read Sprite image", ex);
         }
+
     }
 
+    private void paintScaledSprite(final BufferedImage image, final Rectangle position) {
+        g2d.drawImage(image, position.x, position.y, position.width, position.height, null);
+    }
+
+    private void paintTiledSprite(final BufferedImage image, final Rectangle position) {
+        final Rectangle anchor = new Rectangle(0, 0, position.width, position.height);
+        g2d.setPaint(new TexturePaint(image, anchor));
+        g2d.fill(position);
+    }
 }

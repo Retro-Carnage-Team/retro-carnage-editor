@@ -7,7 +7,7 @@ import java.awt.Rectangle;
  *
  * @author Thomas Werner
  */
-public class VisualAsset {
+public class VisualAsset implements Selectable {
 
     private String assetId;
     private Rectangle position;
@@ -20,12 +20,24 @@ public class VisualAsset {
         this.assetId = assetId;
     }
 
+    @Override
     public Rectangle getPosition() {
         return position;
     }
 
+    @Override
     public void setPosition(final Rectangle position) {
         this.position = position;
+    }
+
+    @Override
+    public boolean isMovable() {
+        return true;
+    }
+
+    @Override
+    public boolean isResizable() {
+        return true;
     }
 
 }

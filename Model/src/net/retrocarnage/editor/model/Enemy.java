@@ -1,12 +1,12 @@
-
 package net.retrocarnage.editor.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Enemy is the serialized definition of an enemy.
- * 
+ *
  * @author Thomas Werner
  */
 public class Enemy {
@@ -79,5 +79,5 @@ public class Enemy {
     public void setActions(List<EnemyAction> actions) {
         this.actions = actions;
     }
-    
+
 }

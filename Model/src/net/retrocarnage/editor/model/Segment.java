@@ -1,12 +1,12 @@
-
 package net.retrocarnage.editor.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Segment is a part of the Mission that follows one specific direction.
- * 
+ *
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/segment.go
  */
@@ -14,7 +14,7 @@ public class Segment {
 
     private List<String> backgrounds;
     private String direction;
-    private List<Enemy>	enemies;
+    private List<Enemy> enemies;
     private Rectangle goal;
     private List<Obstacle> obstacles;
 
@@ -22,8 +22,8 @@ public class Segment {
         backgrounds = new ArrayList<>();
         enemies = new ArrayList<>();
         obstacles = new ArrayList<>();
-    }    
-    
+    }
+
     public List<String> getBackgrounds() {
         return backgrounds;
     }
@@ -62,6 +62,6 @@ public class Segment {
 
     public void setObstacles(List<Obstacle> obstacles) {
         this.obstacles = obstacles;
-    }        
-    
+    }
+
 }
