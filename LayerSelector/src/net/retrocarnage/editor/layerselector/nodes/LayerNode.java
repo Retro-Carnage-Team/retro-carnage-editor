@@ -31,7 +31,7 @@ public class LayerNode extends AbstractNode {
     }
 
     public Layer getLayer() {
-        return (Layer) getLookup().lookup(Layer.class);
+        return getLookup().lookup(Layer.class);
     }
 
     @Override

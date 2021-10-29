@@ -55,3 +55,5 @@ hs_err_pid*
 /LayerSelector/build/
 /LayerSelector/nbproject/private/
 /Apache-Commons-Lang/build/
+/FlatLAF/build/
+/FlatLAF/nbproject/private/

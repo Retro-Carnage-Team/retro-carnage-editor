@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.renderer.editor;
 
+import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
@@ -22,13 +23,16 @@ import net.retrocarnage.editor.model.VisualAsset;
 class SpritePainter {
 
     private static final Logger logger = Logger.getLogger(SpritePainter.class.getName());
+    private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();
 
     private final List<Layer> layers;
     private final Graphics2D g2d;
+    private final float scalingFactor;
 
-    public SpritePainter(final List<Layer> layers, final Graphics2D g2d) {
+    public SpritePainter(final List<Layer> layers, final Graphics2D g2d, final float scalingFactor) {
         this.layers = layers;
         this.g2d = g2d;
+        this.scalingFactor = scalingFactor;
     }
 
     public void paintSprites() {
@@ -46,11 +50,14 @@ class SpritePainter {
         }
 
         try {
-            final BufferedImage image = sprite.getImage();
+            final BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
+            final Rectangle scaledPosition = (1.0f == scalingFactor)
+                    ? va.getPosition()
+                    : va.getScaledPosition(scalingFactor);
             if (sprite.isTile()) {
-                paintTiledSprite(image, va.getPosition());
+                paintTiledSprite(scaledImage, scaledPosition);
             } else {
-                paintScaledSprite(image, va.getPosition());
+                paintScaledSprite(scaledImage, scaledPosition);
             }
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to read Sprite image", ex);
@@ -67,4 +74,5 @@ class SpritePainter {
         g2d.setPaint(new TexturePaint(image, anchor));
         g2d.fill(position);
     }
+
 }

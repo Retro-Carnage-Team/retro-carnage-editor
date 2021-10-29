@@ -62,14 +62,20 @@ public class EditorRenderer {
             g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
             g2d.setStroke(new BasicStroke(STROKE));
 
-            final int gameScreenWidth = calculateGameScreenWidth();
-            new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
-            new SpritePainter(gamePlay.getLayers(), g2d).paintSprites();
+            paintContent(g2d);
         }
 
         stopWatch.stop();
         final long duration = stopWatch.getTime(TimeUnit.MILLISECONDS);
         logger.log(Level.INFO, String.format("Rendering the mission took %d ms", duration));
+    }
+
+    private void paintContent(final Graphics2D g2d) {
+        final int gameScreenWidth = calculateGameScreenWidth();
+        final float scaling = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
+
+        new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
+        new SpritePainter(gamePlay.getLayers(), g2d, scaling).paintSprites();
     }
 
     private int calculateGameScreenWidth() {
