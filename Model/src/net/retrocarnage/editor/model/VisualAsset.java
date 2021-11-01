@@ -36,6 +36,7 @@ public class VisualAsset implements Selectable {
      * @param factor scaling factor to be applied
      * @return the scaled position
      */
+    @Override
     public Rectangle getScaledPosition(float factor) {
         return new Rectangle(
                 (int) (position.x * factor),

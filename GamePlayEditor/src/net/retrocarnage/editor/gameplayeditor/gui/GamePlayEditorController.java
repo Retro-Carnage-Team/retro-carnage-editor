@@ -12,6 +12,7 @@ import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import org.netbeans.spi.palette.PaletteActions;
@@ -37,6 +38,7 @@ class GamePlayEditorController {
     private final LayerControllerImpl layerControllerImpl;
     private final Mission mission;
     private final SaveGamePlayAction savable;
+    private final SelectionControllerImpl selectionControllerImpl;
     private final PropertyChangeListener gamePlayChangeListener;
     private final PropertyChangeSupport propertyChangeSupport;
 
@@ -70,6 +72,9 @@ class GamePlayEditorController {
 
         layerControllerImpl = new LayerControllerImpl(this);
         lookupContent.add(layerControllerImpl);
+
+        selectionControllerImpl = new SelectionControllerImpl(this);
+        lookupContent.add(selectionControllerImpl);
     }
 
     void addPropertyChangeListener(final PropertyChangeListener listener) {
@@ -111,11 +116,31 @@ class GamePlayEditorController {
             visualAsset.setPosition(rectangle);
             selectedLayer.getVisualAssets().add(visualAsset);
 
-            fireGamePlayChanged();
+            requestGamePlayRepaint();
         }
     }
 
-    void fireGamePlayChanged() {
+    void handleSelectionByClick(Point position) {
+        final Selectable oldSelection = selectionControllerImpl.getSelection();
+        for (Layer layer : gamePlay.getLayers()) {
+            for (VisualAsset asset : layer.getVisualAssets()) {
+                if (asset.getPosition().contains(position)) {
+                    if (oldSelection != asset) {
+                        selectionControllerImpl.setSelection(asset);
+                    }
+                    return;
+                }
+            }
+        }
+        if (oldSelection != null) {
+            selectionControllerImpl.setSelection(null);
+        }
+    }
+
+    /**
+     * To be called whenever the GamePlay has to be rerendered.
+     */
+    void requestGamePlayRepaint() {
         propertyChangeSupport.firePropertyChange(PROPERTY_GAMEPLAY, null, gamePlay);
     }
 

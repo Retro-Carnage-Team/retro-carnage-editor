@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.apache.commons.lang3.time.StopWatch;
@@ -27,10 +28,16 @@ public class EditorRenderer {
     private static final int STROKE = 2;
 
     private final GamePlay gamePlay;
+    private Selectable selection;
     private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
 
     public EditorRenderer(final GamePlay gamePlay) {
+        this(gamePlay, null);
+    }
+
+    public EditorRenderer(final GamePlay gamePlay, final Selectable selection) {
         this.gamePlay = gamePlay;
+        this.selection = selection;
         this.sectionAnalysis = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
     }
 
@@ -76,6 +83,7 @@ public class EditorRenderer {
 
         new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
         new SpritePainter(gamePlay.getLayers(), g2d, scaling).paintSprites();
+        new SelectionPainter(g2d, selection, scaling).paintSelectionBorder();
     }
 
     private int calculateGameScreenWidth() {

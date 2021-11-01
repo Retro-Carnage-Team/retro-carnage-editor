@@ -6,9 +6,11 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.renderer.editor.EditorRenderer;
 
 /**
+ * Renders displays the currently set GamePlay.
  *
  * @author Thomas Werner
  */
@@ -18,6 +20,7 @@ public class GamePlayDisplay extends JPanel {
 
     private final JScrollPane container;
     private GamePlay gamePlay;
+    private Selectable selection;
     private Dimension gamePlaySize = new Dimension(1, 1);
 
     public GamePlayDisplay(final JScrollPane container) {
@@ -31,12 +34,14 @@ public class GamePlayDisplay extends JPanel {
      *
      * @param gamePlay the gamePlay to be drawn.
      */
-    public void setGamePlay(final GamePlay gamePlay) {
+    public void updateDisplay(final GamePlay gamePlay, final Selectable selection) {
         if (null == gamePlay) {
             this.gamePlay = null;
+            this.selection = null;
             gamePlaySize = new Dimension(1, 1);
         } else {
             this.gamePlay = gamePlay;
+            this.selection = selection;
             final EditorRenderer renderer = new EditorRenderer(gamePlay);
             gamePlaySize = renderer.getSize();
             container.revalidate();
@@ -57,7 +62,7 @@ public class GamePlayDisplay extends JPanel {
         super.paintComponent(g);
         if (null != gamePlay) {
             final Graphics2D g2d = (Graphics2D) g;
-            final EditorRenderer renderer = new EditorRenderer(gamePlay);
+            final EditorRenderer renderer = new EditorRenderer(gamePlay, selection);
             gamePlaySize = renderer.getSize();
             g2d.translate(BORDER_WIDTH, BORDER_WIDTH);
             renderer.render(g2d);

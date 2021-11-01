@@ -1,11 +1,14 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.TransferHandler;
+import net.retrocarnage.editor.gameplayeditor.SelectionController;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle.Messages;
@@ -63,15 +66,49 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
 
         scrPane = new javax.swing.JScrollPane();
         pnlDisplay = new GamePlayDisplay(scrPane);
-        ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
+        ((GamePlayDisplay) pnlDisplay).updateDisplay(controller.getGamePlay(), null);
 
         setLayout(new java.awt.BorderLayout());
 
         pnlDisplay.setTransferHandler(transferHandler);
+        pnlDisplay.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                pnlDisplayMouseMoved(evt);
+            }
+        });
+        pnlDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlDisplayMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlDisplayMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlDisplayMouseReleased(evt);
+            }
+        });
         scrPane.setViewportView(pnlDisplay);
 
         add(scrPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void pnlDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseClicked
+        final Point location = evt.getPoint();
+        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+        controller.handleSelectionByClick(location);
+    }//GEN-LAST:event_pnlDisplayMouseClicked
+
+    private void pnlDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMousePressed
+        // TODO: Implement moving / resizing of selected sprite
+    }//GEN-LAST:event_pnlDisplayMousePressed
+
+    private void pnlDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseReleased
+        // TODO: Implement moving / resizing of selected sprite
+    }//GEN-LAST:event_pnlDisplayMouseReleased
+
+    private void pnlDisplayMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseMoved
+        // TODO: Implement moving / resizing of selected sprite
+    }//GEN-LAST:event_pnlDisplayMouseMoved
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel pnlDisplay;
@@ -107,12 +144,11 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
 
     @Override
     public void propertyChange(final PropertyChangeEvent pce) {
-        if (GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())) {
-            ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
-            System.out.println("GamePlayEditor has to be refreshed due to an external update");
-        } else if (ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
-            ((GamePlayDisplay) pnlDisplay).setGamePlay(getLookup().lookup(GamePlay.class));
-            System.out.println("GamePlayEditor has to be refreshed due to change of zoom level");
+        if (GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())
+                || ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
+            final GamePlay gamePlay = controller.getGamePlay();
+            final Selectable selection = getLookup().lookup(SelectionController.class).getSelection();
+            ((GamePlayDisplay) pnlDisplay).updateDisplay(gamePlay, selection);
         }
     }
 }

@@ -15,8 +15,10 @@ public interface Selectable {
 
     boolean isResizable();
 
-    public Rectangle getPosition();
+    Rectangle getPosition();
 
     void setPosition(final Rectangle position);
+
+    Rectangle getScaledPosition(float factor);
 
 }

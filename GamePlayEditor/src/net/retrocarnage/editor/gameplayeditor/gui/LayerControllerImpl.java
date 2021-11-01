@@ -67,7 +67,7 @@ class LayerControllerImpl implements LayerController {
     @Override
     public void toggleVisibility(final Layer layer) {
         layer.setVisible(!layer.isVisible());
-        controller.fireGamePlayChanged();
+        controller.requestGamePlayRepaint();
         fireLayerChange(layer);
     }
 
@@ -81,7 +81,7 @@ class LayerControllerImpl implements LayerController {
     public void addLayer(final Layer layer) {
         controller.getGamePlay().getLayers().add(layer);
         if (layer.getVisualAssets().size() > 0) {
-            controller.fireGamePlayChanged();
+            controller.requestGamePlayRepaint();
         }
         fireLayerChange();
     }
@@ -92,7 +92,7 @@ class LayerControllerImpl implements LayerController {
             DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Default layer cannot be deleted"));
         } else {
             controller.getGamePlay().getLayers().remove(layer);
-            controller.fireGamePlayChanged();
+            controller.requestGamePlayRepaint();
             fireLayerChange();
         }
     }
@@ -116,7 +116,7 @@ class LayerControllerImpl implements LayerController {
             final Layer tmp = controller.getGamePlay().getLayers().get(idxOfLayer - 1);
             controller.getGamePlay().getLayers().set(idxOfLayer - 1, layer);
             controller.getGamePlay().getLayers().set(idxOfLayer, tmp);
-            controller.fireGamePlayChanged();
+            controller.requestGamePlayRepaint();
             fireLayerChange();
         }
     }
@@ -128,7 +128,7 @@ class LayerControllerImpl implements LayerController {
             final Layer tmp = controller.getGamePlay().getLayers().get(idxOfLayer + 1);
             controller.getGamePlay().getLayers().set(idxOfLayer + 1, layer);
             controller.getGamePlay().getLayers().set(idxOfLayer, tmp);
-            controller.fireGamePlayChanged();
+            controller.requestGamePlayRepaint();
             fireLayerChange();
         }
     }

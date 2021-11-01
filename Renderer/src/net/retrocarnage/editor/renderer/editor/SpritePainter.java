@@ -1,6 +1,5 @@
 package net.retrocarnage.editor.renderer.editor;
 
-import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
@@ -14,6 +13,7 @@ import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
+import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
 
 /**
  * Paints the Sprites that are contained in a stack of Layers.
@@ -39,7 +39,12 @@ class SpritePainter {
         layers.stream()
                 .sorted(Collections.reverseOrder()) // draw higher layers on top of lower layers
                 .filter((l) -> l.isVisible())
-                .forEach((layer) -> layer.getVisualAssets().stream().forEach((va) -> paintVisualAsset(va)));
+                .forEach((layer)
+                        -> layer.getVisualAssets()
+                        .stream()
+                        .sorted(Collections.reverseOrder())
+                        .forEach((va) -> paintVisualAsset(va))
+                );
     }
 
     private void paintVisualAsset(final VisualAsset va) {
