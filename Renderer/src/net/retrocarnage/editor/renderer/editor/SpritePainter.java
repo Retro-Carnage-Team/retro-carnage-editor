@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,14 +36,13 @@ class SpritePainter {
 
     public void paintSprites() {
         layers.stream()
-                .sorted(Collections.reverseOrder()) // draw higher layers on top of lower layers
-                .filter((l) -> l.isVisible())
-                .forEach((layer)
-                        -> layer.getVisualAssets()
-                        .stream()
-                        .sorted(Collections.reverseOrder())
-                        .forEach((va) -> paintVisualAsset(va))
-                );
+                .filter(l -> (l.isVisible()))
+                .map(l -> l.getVisualAssets())
+                .forEachOrdered(visualAssets -> {
+                    for (int idx = visualAssets.size() - 1; idx >= 0; idx--) {
+                        paintVisualAsset(visualAssets.get(idx));
+                    }
+                });
     }
 
     private void paintVisualAsset(final VisualAsset va) {

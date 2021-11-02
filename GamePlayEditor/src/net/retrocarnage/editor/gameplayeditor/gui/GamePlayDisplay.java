@@ -1,13 +1,19 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.renderer.editor.EditorRenderer;
+import net.retrocarnage.editor.zoom.ZoomService;
 
 /**
  * Renders displays the currently set GamePlay.
@@ -25,6 +31,18 @@ public class GamePlayDisplay extends JPanel {
 
     public GamePlayDisplay(final JScrollPane container) {
         this.container = container;
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(final MouseEvent evt) {
+                updateCursor(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent evt) {
+                EventQueue.invokeLater(() -> updateCursor(evt));
+            }
+        });
     }
 
     /**
@@ -66,6 +84,26 @@ public class GamePlayDisplay extends JPanel {
             gamePlaySize = renderer.getSize();
             g2d.translate(BORDER_WIDTH, BORDER_WIDTH);
             renderer.render(g2d);
+        }
+    }
+
+    private void updateCursor(final MouseEvent evt) {
+        Cursor newCursor;
+        if (null == selection) {
+            newCursor = Cursor.getDefaultCursor();
+        } else {
+            float zoomFactor = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
+            final Point positionOnGamePlay = (Point) evt.getPoint().clone();
+            positionOnGamePlay.translate(-BORDER_WIDTH, -BORDER_WIDTH);
+            if (selection.isMovable() && selection.getScaledPosition(zoomFactor).contains(positionOnGamePlay)) {
+                newCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+            } else {
+                newCursor = Cursor.getDefaultCursor();
+            }
+        }
+
+        if (newCursor.getType() != getCursor().getType()) {
+            setCursor(newCursor);
         }
     }
 
