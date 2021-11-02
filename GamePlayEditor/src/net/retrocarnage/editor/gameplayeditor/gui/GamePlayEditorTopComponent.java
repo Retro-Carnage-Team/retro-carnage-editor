@@ -72,13 +72,16 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
 
         pnlDisplay.setTransferHandler(transferHandler);
         pnlDisplay.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                pnlDisplayMouseMoved(evt);
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                pnlDisplayMouseDragged(evt);
             }
         });
         pnlDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlDisplayMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlDisplayMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 pnlDisplayMousePressed(evt);
@@ -95,20 +98,30 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
     private void pnlDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseClicked
         final Point location = evt.getPoint();
         location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-        controller.handleSelectionByClick(location);
+        controller.handleMouseClick(location);
     }//GEN-LAST:event_pnlDisplayMouseClicked
 
     private void pnlDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMousePressed
-        // TODO: Implement moving / resizing of selected sprite
+        final Point location = evt.getPoint();
+        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+        controller.handleMousePressed(location);
     }//GEN-LAST:event_pnlDisplayMousePressed
 
     private void pnlDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseReleased
-        // TODO: Implement moving / resizing of selected sprite
+        final Point location = evt.getPoint();
+        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+        controller.handleMouseReleased(location);
     }//GEN-LAST:event_pnlDisplayMouseReleased
 
-    private void pnlDisplayMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseMoved
-        // TODO: Implement moving / resizing of selected sprite
-    }//GEN-LAST:event_pnlDisplayMouseMoved
+    private void pnlDisplayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseExited
+        controller.handleMouseExited();
+    }//GEN-LAST:event_pnlDisplayMouseExited
+
+    private void pnlDisplayMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseDragged
+        final Point location = evt.getPoint();
+        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+        controller.handleMouseDragged(location);
+    }//GEN-LAST:event_pnlDisplayMouseDragged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel pnlDisplay;

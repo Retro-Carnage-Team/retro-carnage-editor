@@ -12,7 +12,7 @@ import net.retrocarnage.editor.zoom.ZoomService;
  *
  * @author Thomas Werner
  */
-public class SelectionMouseInteractionAnalyzer {
+public class SelectionMousePositionAnalyzer {
 
     static final int RESIZE_PRECISION = 5;
 
@@ -21,6 +21,10 @@ public class SelectionMouseInteractionAnalyzer {
     private final boolean mouseInRightResizeArea;
     private final boolean mouseInBottomResizeArea;
     private final boolean mouseInLeftResizeArea;
+    private final int offsetTop;
+    private final int offsetLeft;
+    private final int offsetBottom;
+    private final int offsetRight;
 
     /**
      * Creates a new instance of SelectionMouseInteractionAnalyzer.
@@ -28,7 +32,7 @@ public class SelectionMouseInteractionAnalyzer {
      * @param selection selected element
      * @param mousePosition mouse position relative to the GamePlay
      */
-    public SelectionMouseInteractionAnalyzer(final Selectable selection, final Point mousePosition) {
+    public SelectionMousePositionAnalyzer(final Selectable selection, final Point mousePosition) {
         float zoomFactor = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
         final Rectangle selectionRect = selection.getScaledPosition(zoomFactor);
 
@@ -46,11 +50,21 @@ public class SelectionMouseInteractionAnalyzer {
                     selectionRect.x + selectionRect.width - RESIZE_PRECISION,
                     selectionRect.y
             ), reducedWidth).contains(mousePosition);
+
+            offsetTop = mousePosition.y - selectionRect.y;
+            offsetLeft = mousePosition.x - selectionRect.x;
+            offsetBottom = selectionRect.y + selectionRect.height - mousePosition.y;
+            offsetRight = selectionRect.x + selectionRect.width - mousePosition.x;
         } else {
             mouseInTopResizeArea = false;
             mouseInRightResizeArea = false;
             mouseInBottomResizeArea = false;
             mouseInLeftResizeArea = false;
+
+            offsetTop = -1;
+            offsetLeft = -1;
+            offsetBottom = -1;
+            offsetRight = -1;
         }
     }
 
@@ -72,6 +86,22 @@ public class SelectionMouseInteractionAnalyzer {
 
     public boolean isMouseInLeftResizeArea() {
         return mouseInLeftResizeArea;
+    }
+
+    public int getOffsetTop() {
+        return offsetTop;
+    }
+
+    public int getOffsetLeft() {
+        return offsetLeft;
+    }
+
+    public int getOffsetBottom() {
+        return offsetBottom;
+    }
+
+    public int getOffsetRight() {
+        return offsetRight;
     }
 
     public Cursor getCursor() {

@@ -42,6 +42,12 @@ class GamePlayEditorController {
     private final PropertyChangeListener gamePlayChangeListener;
     private final PropertyChangeSupport propertyChangeSupport;
 
+    private Operation operation = Operation.NONE;
+    private int offsetTop = 0;
+    private int offsetLeft = 0;
+    private int offsetBottom = 0;
+    private int offsetRight = 0;
+
     GamePlayEditorController(final Mission mission) {
         this.mission = mission;
         gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
@@ -120,7 +126,7 @@ class GamePlayEditorController {
         }
     }
 
-    void handleSelectionByClick(Point position) {
+    void handleMouseClick(final Point position) {
         final Selectable oldSelection = selectionControllerImpl.getSelection();
         for (Layer layer : gamePlay.getLayers()) {
             for (VisualAsset asset : layer.getVisualAssets()) {
@@ -135,6 +141,75 @@ class GamePlayEditorController {
         if (oldSelection != null) {
             selectionControllerImpl.setSelection(null);
         }
+    }
+
+    void handleMousePressed(final Point position) {
+        final Selectable selection = selectionControllerImpl.getSelection();
+        if (null == selection) {
+            return;
+        }
+
+        final SelectionMousePositionAnalyzer smia = new SelectionMousePositionAnalyzer(selection, position);
+        if (!smia.isMouseInSelection()) {
+            return;
+        }
+
+        offsetTop = smia.getOffsetTop();
+        offsetLeft = smia.getOffsetLeft();
+        offsetBottom = smia.getOffsetBottom();
+        offsetRight = smia.getOffsetRight();
+
+        if (selection.isResizable()) {
+            if (smia.isMouseInTopResizeArea() && smia.isMouseInLeftResizeArea()) {
+                operation = Operation.RESIZE_NW;
+            } else if (smia.isMouseInTopResizeArea() && smia.isMouseInRightResizeArea()) {
+                operation = Operation.RESIZE_NE;
+            } else if (smia.isMouseInBottomResizeArea() && smia.isMouseInLeftResizeArea()) {
+                operation = Operation.RESIZE_SW;
+            } else if (smia.isMouseInBottomResizeArea() && smia.isMouseInRightResizeArea()) {
+                operation = Operation.RESIZE_SE;
+            } else if (smia.isMouseInTopResizeArea()) {
+                operation = Operation.RESIZE_N;
+            } else if (smia.isMouseInLeftResizeArea()) {
+                operation = Operation.RESIZE_W;
+            } else if (smia.isMouseInRightResizeArea()) {
+                operation = Operation.RESIZE_E;
+            } else if (smia.isMouseInBottomResizeArea()) {
+                operation = Operation.RESIZE_S;
+            } else {
+                operation = Operation.MOVE;
+            }
+        } else if (selection.isMovable()) {
+            operation = Operation.MOVE;
+        }
+    }
+
+    void handleMouseReleased(final Point position) {
+        operation = Operation.NONE;
+    }
+
+    void handleMouseDragged(final Point position) {
+        final Selectable selection = selectionControllerImpl.getSelection();
+        if ((null == selection) || (Operation.NONE == operation)) {
+            return;
+        }
+
+        switch (operation) {
+            case MOVE:
+                final SelectionMousePositionAnalyzer smia = new SelectionMousePositionAnalyzer(selection, position);
+                int deltaX = smia.getOffsetLeft() - offsetLeft;
+                int deltaY = smia.getOffsetTop() - offsetTop;
+                selectionControllerImpl.moveSelectedElement(deltaX, deltaY);
+                break;
+
+            default:
+                break;
+        }
+        requestGamePlayRepaint();
+    }
+
+    void handleMouseExited() {
+        operation = Operation.NONE;
     }
 
     /**
