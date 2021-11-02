@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.renderer.editor.EditorRenderer;
-import net.retrocarnage.editor.zoom.ZoomService;
 
 /**
  * Renders displays the currently set GamePlay.
@@ -92,11 +91,11 @@ public class GamePlayDisplay extends JPanel {
         if (null == selection) {
             newCursor = Cursor.getDefaultCursor();
         } else {
-            float zoomFactor = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
-            final Point positionOnGamePlay = (Point) evt.getPoint().clone();
-            positionOnGamePlay.translate(-BORDER_WIDTH, -BORDER_WIDTH);
-            if (selection.isMovable() && selection.getScaledPosition(zoomFactor).contains(positionOnGamePlay)) {
-                newCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+            final Point mouse = (Point) evt.getPoint().clone();
+            mouse.translate(-BORDER_WIDTH, -BORDER_WIDTH);
+            final SelectionMouseInteractionAnalyzer smia = new SelectionMouseInteractionAnalyzer(selection, mouse);
+            if (selection.isMovable() && smia.isMouseInSelection()) {
+                newCursor = smia.getCursor();
             } else {
                 newCursor = Cursor.getDefaultCursor();
             }

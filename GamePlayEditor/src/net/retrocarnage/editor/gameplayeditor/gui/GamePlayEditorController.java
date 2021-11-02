@@ -114,7 +114,7 @@ class GamePlayEditorController {
             final VisualAsset visualAsset = new VisualAsset();
             visualAsset.setAssetId(sprite.getId());
             visualAsset.setPosition(rectangle);
-            selectedLayer.getVisualAssets().add(visualAsset);
+            selectedLayer.getVisualAssets().add(0, visualAsset);
 
             requestGamePlayRepaint();
         }
