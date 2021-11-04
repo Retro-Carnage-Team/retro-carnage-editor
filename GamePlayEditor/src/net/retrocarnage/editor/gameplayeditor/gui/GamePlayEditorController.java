@@ -15,6 +15,7 @@ import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
+import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.spi.palette.PaletteActions;
 import org.netbeans.spi.palette.PaletteController;
 import org.netbeans.spi.palette.PaletteFactory;
@@ -113,8 +114,12 @@ class GamePlayEditorController {
         if (selectedLayer.isLocked()) {
             DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
         } else {
+            final Point scaledPosition = scalePosition(position);
             final Rectangle rectangle = new Rectangle();
-            rectangle.setLocation(position.x - (sprite.getWidth() / 2), position.y - (sprite.getHeight() / 2));
+            rectangle.setLocation(
+                    scaledPosition.x - (sprite.getWidth() / 2),
+                    scaledPosition.y - (sprite.getHeight() / 2)
+            );
             rectangle.setSize(sprite.getWidth(), sprite.getHeight());
 
             final VisualAsset visualAsset = new VisualAsset();
@@ -127,10 +132,11 @@ class GamePlayEditorController {
     }
 
     void handleMouseClick(final Point position) {
+        final Point scaledPosition = scalePosition(position);
         final Selectable oldSelection = selectionControllerImpl.getSelection();
         for (Layer layer : gamePlay.getLayers()) {
             for (VisualAsset asset : layer.getVisualAssets()) {
-                if (asset.getPosition().contains(position)) {
+                if (asset.getPosition().contains(scaledPosition)) {
                     if (oldSelection != asset) {
                         selectionControllerImpl.setSelection(asset);
                     }
@@ -217,6 +223,11 @@ class GamePlayEditorController {
      */
     void requestGamePlayRepaint() {
         propertyChangeSupport.firePropertyChange(PROPERTY_GAMEPLAY, null, gamePlay);
+    }
+
+    private Point scalePosition(final Point position) {
+        final float factor = 1f / (ZoomService.getDefault().getZoomLevel() / 100f);
+        return new Point((int) (position.x * factor), (int) (position.y * factor));
     }
 
 }
