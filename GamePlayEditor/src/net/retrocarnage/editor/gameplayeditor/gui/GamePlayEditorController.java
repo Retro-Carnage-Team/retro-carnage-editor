@@ -200,14 +200,39 @@ class GamePlayEditorController {
             return;
         }
 
+        final SelectionMousePositionAnalyzer smia = new SelectionMousePositionAnalyzer(selection, position);
+        final int deltaLeft = smia.getOffsetLeft() - offsetLeft;
+        final int deltaRight = smia.getOffsetRight() - offsetRight;
+        final int deltaTop = smia.getOffsetTop() - offsetTop;
+        final int deltaBottom = smia.getOffsetBottom() - offsetBottom;
         switch (operation) {
             case MOVE:
-                final SelectionMousePositionAnalyzer smia = new SelectionMousePositionAnalyzer(selection, position);
-                int deltaX = smia.getOffsetLeft() - offsetLeft;
-                int deltaY = smia.getOffsetTop() - offsetTop;
-                selectionControllerImpl.moveSelectedElement(deltaX, deltaY);
+                selectionControllerImpl.moveSelectedElement(deltaLeft, deltaTop);
                 break;
-
+            case RESIZE_N:
+                selectionControllerImpl.resizeSelectedElement(0, deltaTop, 0, -1 * deltaTop);
+                break;
+            case RESIZE_NW:
+                selectionControllerImpl.resizeSelectedElement(deltaLeft, deltaTop, -1 * deltaLeft, -1 * deltaTop);
+                break;
+            case RESIZE_NE:
+                selectionControllerImpl.resizeSelectedElement(0, deltaTop, -1 * deltaRight, -1 * deltaTop);
+                break;
+            case RESIZE_W:
+                selectionControllerImpl.resizeSelectedElement(deltaLeft, 0, -1 * deltaLeft, 0);
+                break;
+            case RESIZE_E:
+                selectionControllerImpl.resizeSelectedElement(0, 0, -1 * deltaRight, 0);
+                break;
+            case RESIZE_S:
+                selectionControllerImpl.resizeSelectedElement(0, 0, 0, -1 * deltaBottom);
+                break;
+            case RESIZE_SW:
+                selectionControllerImpl.resizeSelectedElement(deltaLeft, 0, -1 * deltaLeft, -1 * deltaBottom);
+                break;
+            case RESIZE_SE:
+                selectionControllerImpl.resizeSelectedElement(0, 0, -1 * deltaRight, -1 * deltaBottom);
+                break;
             default:
                 break;
         }
