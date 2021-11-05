@@ -43,7 +43,11 @@ public class MemoizedImageScaler {
         final BufferedImage image = sprite.getImage();
         final BufferedImage scaledImage = (1.0f == scalingFactor)
                 ? image
-                : bufferImage(image.getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH));
+                : bufferImage(image.getScaledInstance(
+                        (int) (image.getWidth() * scalingFactor),
+                        (int) (image.getHeight() * scalingFactor),
+                        Image.SCALE_SMOOTH
+                ));
         images.put(sprite.getId(), scaledImage);
         return scaledImage;
     }

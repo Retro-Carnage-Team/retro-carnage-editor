@@ -177,6 +177,7 @@ public class Sprite extends Asset<Sprite> implements Transferable {
      * @return a BufferedImage containing the Sprite data
      * @throws IOException in case that the sprite file cannot be found / read
      */
+    @JsonIgnore
     public BufferedImage getImage() throws IOException {
         if (null == cachedImage) {
             final ByteArrayOutputStream bufferWriter = new ByteArrayOutputStream();

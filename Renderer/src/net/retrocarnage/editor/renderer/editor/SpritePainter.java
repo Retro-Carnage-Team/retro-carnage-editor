@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.renderer.editor;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
@@ -58,7 +59,11 @@ class SpritePainter {
                     ? va.getPosition()
                     : va.getScaledPosition(scalingFactor);
             if (sprite.isTile()) {
-                paintTiledSprite(scaledImage, scaledPosition);
+                paintTiledSprite(
+                        scaledImage,
+                        new Dimension(scaledImage.getWidth(), scaledImage.getHeight()),
+                        scaledPosition
+                );
             } else {
                 paintScaledSprite(scaledImage, scaledPosition);
             }
@@ -72,8 +77,8 @@ class SpritePainter {
         g2d.drawImage(image, position.x, position.y, position.width, position.height, null);
     }
 
-    private void paintTiledSprite(final BufferedImage image, final Rectangle position) {
-        final Rectangle anchor = new Rectangle(0, 0, position.width, position.height);
+    private void paintTiledSprite(final BufferedImage image, final Dimension tileSize, final Rectangle position) {
+        final Rectangle anchor = new Rectangle(0, 0, tileSize.width, tileSize.height);
         g2d.setPaint(new TexturePaint(image, anchor));
         g2d.fill(position);
     }
