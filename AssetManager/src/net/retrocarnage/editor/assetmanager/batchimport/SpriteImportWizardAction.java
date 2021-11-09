@@ -11,7 +11,6 @@ import org.openide.WizardDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle.Messages;
 
 @ActionID(
         category = "Tools",
@@ -22,7 +21,6 @@ import org.openide.util.NbBundle.Messages;
         displayName = "#CTL_SpriteImportWizardAction"
 )
 @ActionReference(path = "Menu/Tools", position = 0)
-@Messages("CTL_SpriteImportWizardAction=Sprite Import Wizard")
 public final class SpriteImportWizardAction implements ActionListener {
 
     @Override
@@ -45,6 +43,8 @@ public final class SpriteImportWizardAction implements ActionListener {
         final WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
         wiz.setTitleFormat(new MessageFormat("{0}"));
         wiz.setTitle("Sprite Import Wizard");
-        DialogDisplayer.getDefault().notify(wiz);
+        if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+            controller.runImport();
+        }
     }
 }

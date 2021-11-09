@@ -31,6 +31,9 @@ public class BatchImportWizardPanel1 implements WizardDescriptor.ValidatingPanel
         if (component.getAuthor().isBlank()) {
             throw new WizardValidationException(null, "Please specify the author if the tiles", null);
         }
+        if (null == component.getImportFolder() || !component.getImportFolder().exists()) {
+            throw new WizardValidationException(null, "Please select a folder to import", null);
+        }
         if (component.getLicenseLink().isBlank() && component.getLicenseText().isBlank()) {
             throw new WizardValidationException(null, "Please specify a license for the tiles", null);
         }

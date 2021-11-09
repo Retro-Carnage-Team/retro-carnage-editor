@@ -1,8 +1,12 @@
 package net.retrocarnage.editor.assetmanager.batchimport;
 
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 public final class BatchImportVisualPanel1 extends JPanel {
+
+    private File importFolder;
 
     /**
      * Creates new form BatchImportVisualPanel1
@@ -20,48 +24,32 @@ public final class BatchImportVisualPanel1 extends JPanel {
         return txtSpriteTags.getText();
     }
 
-    void setTags(final String tags) {
-        txtSpriteTags.setText(tags);
-    }
-
     boolean isTile() {
         return chkTile.isSelected();
-    }
-
-    void setTile(final boolean tile) {
-        chkTile.setSelected(tile);
     }
 
     String getAuthor() {
         return txtSpriteAuthor.getText();
     }
 
-    void setAuthor(final String author) {
-        txtSpriteAuthor.setText(author);
-    }
-
     String getWebsite() {
         return txtSpriteWebsite.getText();
-    }
-
-    void setWebsite(final String website) {
-        txtSpriteWebsite.setText(website);
     }
 
     String getLicenseLink() {
         return txtSpriteLicenseLink.getText();
     }
 
-    void setLicenseLink(final String link) {
-        txtSpriteLicenseLink.setText(link);
-    }
-
     String getLicenseText() {
         return txtSpriteLicenseText.getText();
     }
 
-    void setLicenseText(final String text) {
-        txtSpriteLicenseText.setText(text);
+    File getImportFolder() {
+        return importFolder;
+    }
+
+    boolean isRecursive() {
+        return chkRecursive.isSelected();
     }
 
     /**
@@ -72,6 +60,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jButton1 = new javax.swing.JButton();
         lblSpriteTags = new javax.swing.JLabel();
         txtSpriteTags = new javax.swing.JTextField();
         lblTile = new javax.swing.JLabel();
@@ -85,6 +74,13 @@ public final class BatchImportVisualPanel1 extends JPanel {
         txtSpriteWebsite = new javax.swing.JTextField();
         txtSpriteLicenseLink = new javax.swing.JTextField();
         txtSpriteLicenseText = new javax.swing.JTextField();
+        lblPath = new javax.swing.JLabel();
+        txtPath = new javax.swing.JTextField();
+        btnPath = new javax.swing.JButton();
+        lblRecursive = new javax.swing.JLabel();
+        chkRecursive = new javax.swing.JCheckBox();
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.jButton1.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -100,6 +96,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -117,6 +114,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         add(chkTile, gridBagConstraints);
@@ -190,15 +188,73 @@ public final class BatchImportVisualPanel1 extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(20, 2, 2, 2);
         add(pnlSpriteAttribution, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(lblPath, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblPath.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
+        add(lblPath, gridBagConstraints);
+
+        txtPath.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        add(txtPath, gridBagConstraints);
+
+        btnPath.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/assetmanager/batchimport/outline_folder_open_black_24dp.png"))); // NOI18N
+        btnPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPathActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        add(btnPath, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(lblRecursive, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblRecursive.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
+        add(lblRecursive, gridBagConstraints);
+
+        chkRecursive.setPreferredSize(new java.awt.Dimension(18, 39));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        add(chkRecursive, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPathActionPerformed
+        final JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(this)) {
+            importFolder = fileChooser.getSelectedFile();
+            txtPath.setText(importFolder.getPath());
+        }
+    }//GEN-LAST:event_btnPathActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPath;
+    private javax.swing.JCheckBox chkRecursive;
     private javax.swing.JCheckBox chkTile;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel lblPath;
+    private javax.swing.JLabel lblRecursive;
     private javax.swing.JLabel lblSpriteAuthor;
     private javax.swing.JLabel lblSpriteLicenseLink;
     private javax.swing.JLabel lblSpriteLicenseText;
@@ -206,6 +262,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
     private javax.swing.JLabel lblSpriteWebsite;
     private javax.swing.JLabel lblTile;
     private javax.swing.JPanel pnlSpriteAttribution;
+    private javax.swing.JTextField txtPath;
     private javax.swing.JTextField txtSpriteAuthor;
     private javax.swing.JTextField txtSpriteLicenseLink;
     private javax.swing.JTextField txtSpriteLicenseText;
