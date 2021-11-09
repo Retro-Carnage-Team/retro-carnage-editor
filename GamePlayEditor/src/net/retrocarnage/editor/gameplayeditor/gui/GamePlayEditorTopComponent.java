@@ -1,6 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.TransferHandler;
@@ -90,6 +91,11 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
                 pnlDisplayMouseReleased(evt);
             }
         });
+        pnlDisplay.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pnlDisplayKeyTyped(evt);
+            }
+        });
         scrPane.setViewportView(pnlDisplay);
 
         add(scrPane, java.awt.BorderLayout.CENTER);
@@ -99,6 +105,7 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
         final Point location = evt.getPoint();
         location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
         controller.handleMouseClick(location);
+        pnlDisplay.requestFocus();
     }//GEN-LAST:event_pnlDisplayMouseClicked
 
     private void pnlDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMousePressed
@@ -122,6 +129,12 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Pr
         location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
         controller.handleMouseDragged(location);
     }//GEN-LAST:event_pnlDisplayMouseDragged
+
+    private void pnlDisplayKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pnlDisplayKeyTyped
+        if (KeyEvent.VK_DELETE == evt.getKeyChar()) {
+            controller.removeSelectedElement();
+        }
+    }//GEN-LAST:event_pnlDisplayKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel pnlDisplay;

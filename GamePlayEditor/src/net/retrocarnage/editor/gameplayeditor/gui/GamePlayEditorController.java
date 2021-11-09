@@ -131,6 +131,19 @@ class GamePlayEditorController {
         }
     }
 
+    void removeSelectedElement() {
+        final Selectable selection = selectionControllerImpl.getSelection();
+        if (null != selection) {
+            for (Layer layer : layerControllerImpl.getLayers()) {
+                if (!layer.isLocked() && layer.getVisualAssets().contains(selection)) {
+                    layer.getVisualAssets().remove(selection);
+                    selectionControllerImpl.setSelection(null);
+                    break;
+                }
+            }
+        }
+    }
+
     void handleMouseClick(final Point position) {
         final Point scaledPosition = scalePosition(position);
         final Selectable oldSelection = selectionControllerImpl.getSelection();
