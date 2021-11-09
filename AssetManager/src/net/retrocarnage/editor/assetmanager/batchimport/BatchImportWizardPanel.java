@@ -5,18 +5,17 @@ import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 
-public class BatchImportWizardPanel1 implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
+public class BatchImportWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
     /**
-     * The visual component that displays this panel. If you need to access the component from this class, just use
-     * getComponent().
+     * The visual component that displays this panel.
      */
-    private BatchImportVisualPanel1 component;
+    private BatchImportVisualPanel component;
 
     @Override
-    public BatchImportVisualPanel1 getComponent() {
+    public BatchImportVisualPanel getComponent() {
         if (component == null) {
-            component = new BatchImportVisualPanel1();
+            component = new BatchImportVisualPanel();
         }
         return component;
     }
@@ -46,20 +45,22 @@ public class BatchImportWizardPanel1 implements WizardDescriptor.ValidatingPanel
 
     @Override
     public void addChangeListener(ChangeListener l) {
+        // specified in interface but not required for our use case
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
+        // specified in interface but not required for our use case
     }
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
-        // use wiz.getProperty to retrieve previous panel state
+        // specified in interface but not required for our use case
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
-        // use wiz.putProperty to remember current panel state
+        // specified in interface but not required for our use case
     }
 
 }

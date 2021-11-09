@@ -4,14 +4,14 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-public final class BatchImportVisualPanel1 extends JPanel {
+public final class BatchImportVisualPanel extends JPanel {
 
     private File importFolder;
 
     /**
      * Creates new form BatchImportVisualPanel1
      */
-    public BatchImportVisualPanel1() {
+    public BatchImportVisualPanel() {
         initComponents();
     }
 
@@ -80,11 +80,11 @@ public final class BatchImportVisualPanel1 extends JPanel {
         lblRecursive = new javax.swing.JLabel();
         chkRecursive = new javax.swing.JCheckBox();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.jButton1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.jButton1.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteTags, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblSpriteTags.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteTags, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblSpriteTags.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -92,7 +92,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         add(lblSpriteTags, gridBagConstraints);
 
-        txtSpriteTags.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.txtSpriteTags.text")); // NOI18N
+        txtSpriteTags.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.txtSpriteTags.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -102,7 +102,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         add(txtSpriteTags, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblTile, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblTile.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblTile, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblTile.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -119,10 +119,10 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         add(chkTile, gridBagConstraints);
 
-        pnlSpriteAttribution.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.pnlSpriteAttribution.border.title"))); // NOI18N
+        pnlSpriteAttribution.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.pnlSpriteAttribution.border.title"))); // NOI18N
         pnlSpriteAttribution.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteAuthor, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblSpriteAuthor.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteAuthor, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblSpriteAuthor.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -130,7 +130,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteAuthor, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteWebsite, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblSpriteWebsite.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteWebsite, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblSpriteWebsite.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -138,14 +138,14 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteWebsite, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseLink, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblSpriteLicenseLink.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseLink, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblSpriteLicenseLink.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteLicenseLink, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseText, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblSpriteLicenseText.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpriteLicenseText, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblSpriteLicenseText.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -153,7 +153,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         pnlSpriteAttribution.add(lblSpriteLicenseText, gridBagConstraints);
 
-        txtSpriteAuthor.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.txtSpriteAuthor.text")); // NOI18N
+        txtSpriteAuthor.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.txtSpriteAuthor.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -162,7 +162,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteAttribution.add(txtSpriteAuthor, gridBagConstraints);
 
-        txtSpriteWebsite.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.txtSpriteWebsite.text")); // NOI18N
+        txtSpriteWebsite.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.txtSpriteWebsite.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -170,7 +170,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteAttribution.add(txtSpriteWebsite, gridBagConstraints);
 
-        txtSpriteLicenseLink.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.txtSpriteLicenseLink.text")); // NOI18N
+        txtSpriteLicenseLink.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.txtSpriteLicenseLink.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -178,7 +178,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         pnlSpriteAttribution.add(txtSpriteLicenseLink, gridBagConstraints);
 
-        txtSpriteLicenseText.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.txtSpriteLicenseText.text")); // NOI18N
+        txtSpriteLicenseText.setText(org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.txtSpriteLicenseText.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -194,7 +194,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(20, 2, 2, 2);
         add(pnlSpriteAttribution, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblPath, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblPath.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblPath, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblPath.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -223,7 +223,7 @@ public final class BatchImportVisualPanel1 extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         add(btnPath, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblRecursive, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel1.class, "BatchImportVisualPanel1.lblRecursive.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(lblRecursive, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.lblRecursive.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;

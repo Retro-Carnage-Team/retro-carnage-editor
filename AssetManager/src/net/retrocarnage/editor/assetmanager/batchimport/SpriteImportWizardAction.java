@@ -29,7 +29,7 @@ public final class SpriteImportWizardAction implements ActionListener {
         final List<WizardDescriptor.Panel<WizardDescriptor>> panels = controller.getPanels();
         final String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
-            Component c = panels.get(i).getComponent();
+            final Component c = panels.get(i).getComponent();
             steps[i] = c.getName();
             if (c instanceof JComponent) {
                 final JComponent jc = (JComponent) c;

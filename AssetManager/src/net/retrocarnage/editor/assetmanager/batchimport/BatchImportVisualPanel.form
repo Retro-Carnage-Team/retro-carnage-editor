@@ -26,7 +26,7 @@
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.jButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.jButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -49,7 +49,7 @@
     <Component class="javax.swing.JLabel" name="lblSpriteTags">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblSpriteTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblSpriteTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -61,7 +61,7 @@
     <Component class="javax.swing.JTextField" name="txtSpriteTags">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.txtSpriteTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.txtSpriteTags.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -73,7 +73,7 @@
     <Component class="javax.swing.JLabel" name="lblTile">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblTile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblTile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -99,7 +99,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Attribution">
-              <ResourceString PropertyName="titleX" bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.pnlSpriteAttribution.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.pnlSpriteAttribution.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -115,7 +115,7 @@
         <Component class="javax.swing.JLabel" name="lblSpriteAuthor">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblSpriteAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblSpriteAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -127,7 +127,7 @@
         <Component class="javax.swing.JLabel" name="lblSpriteWebsite">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblSpriteWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblSpriteWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -139,7 +139,7 @@
         <Component class="javax.swing.JLabel" name="lblSpriteLicenseLink">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblSpriteLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblSpriteLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -151,7 +151,7 @@
         <Component class="javax.swing.JLabel" name="lblSpriteLicenseText">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblSpriteLicenseText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblSpriteLicenseText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -163,7 +163,7 @@
         <Component class="javax.swing.JTextField" name="txtSpriteAuthor">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.txtSpriteAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.txtSpriteAuthor.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -175,7 +175,7 @@
         <Component class="javax.swing.JTextField" name="txtSpriteWebsite">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.txtSpriteWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.txtSpriteWebsite.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -187,7 +187,7 @@
         <Component class="javax.swing.JTextField" name="txtSpriteLicenseLink">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.txtSpriteLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.txtSpriteLicenseLink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -199,7 +199,7 @@
         <Component class="javax.swing.JTextField" name="txtSpriteLicenseText">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.txtSpriteLicenseText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.txtSpriteLicenseText.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -213,7 +213,7 @@
     <Component class="javax.swing.JLabel" name="lblPath">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblPath.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -250,7 +250,7 @@
     <Component class="javax.swing.JLabel" name="lblRecursive">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel1.lblRecursive.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="net/retrocarnage/editor/assetmanager/batchimport/Bundle.properties" key="BatchImportVisualPanel.lblRecursive.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>

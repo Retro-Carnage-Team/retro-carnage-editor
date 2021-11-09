@@ -35,10 +35,10 @@ public class BatchImportController {
 
     private static final Logger logger = Logger.getLogger(BatchImportController.class.getName());
 
-    private final BatchImportWizardPanel1 panel;
+    private final BatchImportWizardPanel panel;
 
     BatchImportController() {
-        panel = new BatchImportWizardPanel1();
+        panel = new BatchImportWizardPanel();
     }
 
     List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
@@ -71,8 +71,7 @@ public class BatchImportController {
                         infinite = false;
                         handle.switchToDeterminate(100);
                     }
-                    final int progress = (Integer) evt.getNewValue();
-                    handle.progress(progress);
+                    handle.progress((Integer) evt.getNewValue());
                 }
             }
         });
