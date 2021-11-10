@@ -13,7 +13,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
-import org.openide.explorer.view.ListView;
+import org.openide.explorer.view.BeanTreeView;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
@@ -55,7 +55,8 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         initComponents();
 
-        final ListView view = new ListView();
+        final BeanTreeView view = new BeanTreeView();
+        view.setRootVisible(false);
         explorerManager.setRootContext(new AbstractNode(new LayerChildren()));
         add(view, BorderLayout.CENTER);
 

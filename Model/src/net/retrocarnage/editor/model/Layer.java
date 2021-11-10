@@ -1,6 +1,5 @@
 package net.retrocarnage.editor.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,17 +16,17 @@ public class Layer {
     private boolean locked;
     private String name;
     private boolean visible;
-    private List<VisualAsset> visualAssets;
+    private final ObservableList<VisualAsset> visualAssets;
 
     public Layer() {
-        visualAssets = new ArrayList<>();
+        visualAssets = new ObservableList<>();
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public void setLocked(boolean locked) {
+    public void setLocked(final boolean locked) {
         this.locked = locked;
     }
 
@@ -35,7 +34,7 @@ public class Layer {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -43,16 +42,17 @@ public class Layer {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         this.visible = visible;
     }
 
-    public List<VisualAsset> getVisualAssets() {
+    public ObservableList<VisualAsset> getVisualAssets() {
         return visualAssets;
     }
 
-    public void setVisualAssets(List<VisualAsset> visualAssets) {
-        this.visualAssets = visualAssets;
+    public void setVisualAssets(final List<VisualAsset> visualAssets) {
+        this.visualAssets.clear();
+        this.visualAssets.addAll(visualAssets);
     }
 
 }

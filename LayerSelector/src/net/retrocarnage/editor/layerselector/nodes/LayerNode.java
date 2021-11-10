@@ -10,7 +10,6 @@ import net.retrocarnage.editor.layerselector.actions.ToggleLockAction;
 import net.retrocarnage.editor.layerselector.actions.ToggleVisibilityAction;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.nodes.AbstractNode;
-import org.openide.nodes.Children;
 import org.openide.util.lookup.Lookups;
 
 /**
@@ -26,7 +25,7 @@ public class LayerNode extends AbstractNode {
     private static final Image ICON_UNLOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_UNLOCKED_PATH));
 
     public LayerNode(final Layer layer) {
-        super(Children.LEAF, Lookups.singleton(layer));
+        super(new VisualAssetChildren(layer), Lookups.singleton(layer));
         setDisplayName(getLabel(layer));
     }
 
@@ -37,6 +36,11 @@ public class LayerNode extends AbstractNode {
     @Override
     public Image getIcon(final int type) {
         return getLayer().isLocked() ? ICON_LOCKED : ICON_UNLOCKED;
+    }
+
+    @Override
+    public Image getOpenedIcon(int type) {
+        return getIcon(type);
     }
 
     @Override

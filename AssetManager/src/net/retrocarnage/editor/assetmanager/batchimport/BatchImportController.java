@@ -23,6 +23,7 @@ import javax.swing.SwingWorker;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Sprite;
+import org.apache.commons.io.FilenameUtils;
 import org.netbeans.api.progress.*;
 import org.openide.WizardDescriptor;
 
@@ -144,6 +145,7 @@ public class BatchImportController {
             attribution.setLicenseText(licenseText);
 
             final Sprite newSprite = new Sprite();
+            newSprite.setName(FilenameUtils.removeExtension(spritePath.getFileName().toString()));
             newSprite.setAttributionData(attribution);
             newSprite.setWidth(tempImage.getWidth());
             newSprite.setHeight(tempImage.getHeight());
