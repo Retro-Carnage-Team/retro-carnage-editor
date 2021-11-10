@@ -2,6 +2,7 @@ package net.retrocarnage.editor.layerselector.nodes;
 
 import java.awt.Image;
 import java.util.logging.Logger;
+import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.VisualAsset;
 import org.openide.nodes.AbstractNode;
@@ -19,16 +20,18 @@ public class VisualAssetNode extends AbstractNode {
     private static final Logger logger = Logger.getLogger(VisualAssetNode.class.getName());
 
     private final VisualAsset visualAsset;
+    private final String name;
 
     public VisualAssetNode(final VisualAsset visualAsset) {
         super(Children.LEAF);
         this.visualAsset = visualAsset;
-        setDisplayName(visualAsset.getAssetId());
+        this.name = AssetService.getDefault().getSprite(visualAsset.getAssetId()).getName();
+        setDisplayName(name);
     }
 
     @Override
     public String getHtmlDisplayName() {
-        return "<b>" + visualAsset.getAssetId() + "</b>";
+        return "<b>" + name + "</b>";
     }
 
     @Override
