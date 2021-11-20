@@ -1,11 +1,22 @@
 package net.retrocarnage.editor.layerselector.gui;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ActionMap;
+import javax.swing.SwingUtilities;
+import javax.swing.tree.TreeSelectionModel;
 import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.LayerController;
+import net.retrocarnage.editor.gameplayeditor.SelectionController;
 import net.retrocarnage.editor.layerselector.nodes.LayerChildren;
+import net.retrocarnage.editor.layerselector.nodes.VisualAssetNode;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.model.Selectable;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -15,6 +26,11 @@ import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
 import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
@@ -44,10 +60,16 @@ import org.openide.windows.TopComponent;
 })
 public final class LayerSelectorTopComponent extends TopComponent implements ExplorerManager.Provider {
 
+    private static final Logger logger = Logger.getLogger(LayerSelectorTopComponent.class.getName());
     private static final String NEW_LAYER_TEXT = "Name";
     private static final String NEW_LAYER_TITLE = "Please specify a name for the new Layer";
 
     private final ExplorerManager explorerManager = new ExplorerManager();
+    private final PropertyChangeListener selectionChangeListener;
+    private final LookupListener lookupListener;
+    private final Lookup.Result<SelectionController> selectionCtrlLookupResult;
+
+    private SelectionController selectionCtrl;
 
     public LayerSelectorTopComponent() {
         final ActionMap map = getActionMap();
@@ -55,9 +77,20 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         initComponents();
 
+        lookupListener = (final LookupEvent le) -> handleSelectionControllerChanged();
+        selectionCtrlLookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(SelectionController.class);
+        selectionCtrlLookupResult.addLookupListener(lookupListener);
+        selectionChangeListener = (final PropertyChangeEvent pce) -> handleSelectionChanged(pce);
+
         final BeanTreeView view = new BeanTreeView();
         view.setRootVisible(false);
+        view.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         explorerManager.setRootContext(new AbstractNode(new LayerChildren()));
+        explorerManager.addPropertyChangeListener((pce) -> {
+            if ("selectedNodes".equals(pce.getPropertyName())) {
+                handleExplorerNodeChange(pce);
+            }
+        });
         add(view, BorderLayout.CENTER);
 
         setName(Bundle.CTL_LayerSelectorTopComponent());
@@ -140,4 +173,105 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     void readProperties(java.util.Properties p) {
         // String version = p.getProperty("version");
     }
+
+    /**
+     * Invoked when the user selected a visual asset.
+     *
+     * Used to synchronize the selection in the SelectionController of the current editor window.
+     *
+     * @param pce the event that caused this
+     */
+    void handleExplorerNodeChange(final PropertyChangeEvent pce) {
+        if (null == selectionCtrl) {
+            logger.log(Level.SEVERE, "Inconsistent state in component");
+            return;
+        }
+
+        final Node[] selectedNodes = (Node[]) pce.getNewValue();
+        if ((null != selectedNodes) && (1 == selectedNodes.length) && (selectedNodes[0] instanceof VisualAssetNode)) {
+            final VisualAssetNode selectedNode = (VisualAssetNode) selectedNodes[0];
+            if (null == selectionCtrl.getSelection()
+                    || !selectionCtrl.getSelection().equals(selectedNode.getVisualAsset())) {
+                selectionCtrl.setSelection(selectedNode.getVisualAsset());
+            }
+        }
+    }
+
+    /**
+     * Called by a prop listener when the editor window changed - and thus the selection controller changes as well.
+     */
+    private void handleSelectionControllerChanged() {
+        if (null != selectionCtrl) {
+            selectionCtrl.removePropertyChangeListener(selectionChangeListener);
+        }
+
+        final Collection<? extends SelectionController> items = selectionCtrlLookupResult.allInstances();
+        selectionCtrl = items.isEmpty() ? null : items.iterator().next();
+        if (null != selectionCtrl) {
+            selectionCtrl.addPropertyChangeListener(selectionChangeListener);
+            SwingUtilities.invokeLater(() -> changeSelection(selectionCtrl.getSelection()));
+        }
+    }
+
+    /**
+     * Called by a prop listener when the selection within a editor window changed. This means we have to synchronize
+     * the selection in the bean tree view.
+     *
+     * @param pce the event that caused this
+     */
+    private void handleSelectionChanged(final PropertyChangeEvent pce) {
+        if (SelectionController.PROPERTY_SELECTION.equals(pce.getPropertyName())) {
+            changeSelection((Selectable) pce.getNewValue());
+        }
+    }
+
+    /**
+     * Changes the node selection to match the given Selectable
+     *
+     * @param currentSelection the thing to be selected
+     */
+    private void changeSelection(final Selectable currentSelection) {
+        try {
+            boolean clearSelection = true;
+            if (null != currentSelection) {
+                final Node nodeForSelection = findNodeForSelection(
+                        explorerManager.getRootContext(),
+                        currentSelection
+                );
+                if (null != nodeForSelection) {
+                    explorerManager.setSelectedNodes(new Node[]{nodeForSelection});
+                    clearSelection = false;
+                }
+            }
+            if (clearSelection) {
+                explorerManager.setSelectedNodes(new Node[]{});
+            }
+        } catch (PropertyVetoException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
+    /**
+     * Recursively searches a tree of Nodes for something that matches the current selection.
+     *
+     * @param parent the node parent to be searched
+     * @param selection the current selection (to be matched by the node)
+     * @return the matching Node or null
+     */
+    private static Node findNodeForSelection(final Node parent, final Selectable selection) {
+        if (parent instanceof VisualAssetNode) {
+            final VisualAssetNode vaNode = (VisualAssetNode) parent;
+            if (vaNode.getVisualAsset() == selection) {
+                return vaNode;
+            }
+        }
+        for (Node child : parent.getChildren().getNodes()) {
+            final Node childMatch = findNodeForSelection(child, selection);
+            if (null != childMatch) {
+                return childMatch;
+            }
+        }
+        return null;
+    }
+
 }

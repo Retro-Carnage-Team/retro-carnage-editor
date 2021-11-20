@@ -39,4 +39,8 @@ public class VisualAssetNode extends AbstractNode {
         return ICON;
     }
 
+    public VisualAsset getVisualAsset() {
+        return visualAsset;
+    }
+
 }
