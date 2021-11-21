@@ -32,53 +32,13 @@ class BackgroundPainter {
     }
 
     public void paintBackground() {
-        int posX = sectionAnalysis.getStartX();
-        int posY = sectionAnalysis.getStartY();
-        for (Section section : sections) {
-            switch (section.getDirection()) {
-                case LEFT:
-                    paintSectionToLeft(posX, section, gameScreenWidth, posY);
-                    posX -= (section.getNumberOfScreens() - 1);
-                    break;
-                case RIGHT:
-                    paintSectionToRight(posX, gameScreenWidth, posY, section);
-                    posX += (section.getNumberOfScreens() - 1);
-                    break;
-                case UP:
-                    paintSectionToTop(posX, gameScreenWidth, posY, section);
-                    posY += (section.getNumberOfScreens() - 1);
-                    break;
-                default:
-                    break;
+        new SectionPathRunner(sectionAnalysis, sections, gameScreenWidth) {
+            @Override
+            protected void processSectionRect(final int x, final int y, final int w, final int h) {
+                g2d.setColor(BACKGROUND);
+                g2d.fillRect(x, y, w, h);
             }
-        }
-    }
-
-    private void paintSectionToRight(final int posX, final int gameScreenWidth, final int posY, final Section section) {
-        final int x = posX * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
-        final int w = section.getNumberOfScreens() * gameScreenWidth;
-        final int h = gameScreenWidth;
-        g2d.setColor(BACKGROUND);
-        g2d.fillRect(x, y, w, h);
-    }
-
-    private void paintSectionToTop(final int posX, final int gameScreenWidth, final int posY, final Section section) {
-        final int x = posX * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - section.getNumberOfScreens()) * gameScreenWidth;
-        final int w = gameScreenWidth;
-        final int h = section.getNumberOfScreens() * gameScreenWidth;
-        g2d.setColor(BACKGROUND);
-        g2d.fillRect(x, y, w, h);
-    }
-
-    private void paintSectionToLeft(final int posX, final Section section, final int gameScreenWidth, final int posY) {
-        final int x = (posX - section.getNumberOfScreens() + 1) * gameScreenWidth;
-        final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
-        final int w = section.getNumberOfScreens() * gameScreenWidth;
-        final int h = gameScreenWidth;
-        g2d.setColor(BACKGROUND);
-        g2d.fillRect(x, y, w, h);
+        }.run();
     }
 
 }

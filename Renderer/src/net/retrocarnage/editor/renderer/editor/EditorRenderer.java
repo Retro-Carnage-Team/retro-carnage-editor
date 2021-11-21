@@ -82,7 +82,11 @@ public class EditorRenderer {
         final float scaling = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
 
         new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
+
+        g2d.setClip(new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build());
         new SpritePainter(gamePlay.getLayers(), g2d, scaling).paintSprites();
+        g2d.setClip(null);
+
         new SelectionPainter(g2d, selection, scaling).paintSelectionBorder();
     }
 
