@@ -2,28 +2,29 @@ package net.retrocarnage.editor.layerselector.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import static javax.swing.Action.NAME;
 import net.retrocarnage.editor.gameplayeditor.LayerController;
 import net.retrocarnage.editor.model.Layer;
 
 /**
- * Changes the lock status of a layer (to allow or disallow changes to the layer).
+ * Changes the visibility of a layer.
  *
  * @author Thomas Werner
  */
-public class ToggleLockAction extends AbstractAction {
+public class LayerToggleVisibilityAction extends AbstractAction {
 
     private final Layer layer;
     private final LayerController layerCtrl;
 
-    public ToggleLockAction(final Layer layer, final LayerController layerCtrl) {
+    public LayerToggleVisibilityAction(final Layer layer, final LayerController layerCtrl) {
         this.layer = layer;
         this.layerCtrl = layerCtrl;
-        putValue(NAME, layer.isLocked() ? "Unlock" : "Lock");
+        putValue(NAME, layer.isVisible() ? "Hide" : "Show");
     }
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        layerCtrl.toggleLock(layer);
+        layerCtrl.toggleVisibility(layer);
     }
 
 }

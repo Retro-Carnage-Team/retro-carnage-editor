@@ -13,7 +13,7 @@ import org.openide.NotifyDescriptor;
  *
  * @author Thomas Werner
  */
-public class RenameAction extends AbstractAction {
+public class LayerRenameAction extends AbstractAction {
 
     private static final String DIALOG_TEXT = "Name";
     private static final String DIALOG_TITLE = "Please specify the new name for the Layer";
@@ -21,7 +21,7 @@ public class RenameAction extends AbstractAction {
     private final Layer layer;
     private final LayerController layerCtrl;
 
-    public RenameAction(final Layer layer, final LayerController layerCtrl) {
+    public LayerRenameAction(final Layer layer, final LayerController layerCtrl) {
         this.layer = layer;
         this.layerCtrl = layerCtrl;
         putValue(NAME, "Rename");

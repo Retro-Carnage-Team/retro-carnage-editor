@@ -5,9 +5,9 @@ import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.LayerController;
-import net.retrocarnage.editor.layerselector.actions.RenameAction;
-import net.retrocarnage.editor.layerselector.actions.ToggleLockAction;
-import net.retrocarnage.editor.layerselector.actions.ToggleVisibilityAction;
+import net.retrocarnage.editor.layerselector.actions.LayerRenameAction;
+import net.retrocarnage.editor.layerselector.actions.LayerToggleLockAction;
+import net.retrocarnage.editor.layerselector.actions.LayerToggleVisibilityAction;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
@@ -54,9 +54,9 @@ public class LayerNode extends AbstractNode {
         final Layer layer = getLayer();
         // TODO: Add actions to move layer up / down
         return new Action[]{
-            new ToggleLockAction(layer, layerCtrl),
-            new ToggleVisibilityAction(layer, layerCtrl),
-            new RenameAction(layer, layerCtrl)
+            new LayerToggleLockAction(layer, layerCtrl),
+            new LayerToggleVisibilityAction(layer, layerCtrl),
+            new LayerRenameAction(layer, layerCtrl)
         };
     }
 

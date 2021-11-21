@@ -2,8 +2,13 @@ package net.retrocarnage.editor.layerselector.nodes;
 
 import java.awt.Image;
 import java.util.logging.Logger;
+import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.layerselector.actions.VisualAssetRemoveAction;
+import net.retrocarnage.editor.layerselector.actions.VisualAssetToBackAction;
+import net.retrocarnage.editor.layerselector.actions.VisualAssetToFrontAction;
+import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -41,6 +46,16 @@ public class VisualAssetNode extends AbstractNode {
 
     public VisualAsset getVisualAsset() {
         return visualAsset;
+    }
+
+    @Override
+    public Action[] getActions(final boolean popup) {
+        final Layer layer = ((LayerNode) getParentNode()).getLayer();
+        return new Action[]{
+            new VisualAssetToFrontAction(layer, visualAsset),
+            new VisualAssetToBackAction(layer, visualAsset),
+            new VisualAssetRemoveAction(layer, visualAsset)
+        };
     }
 
 }
