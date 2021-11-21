@@ -1,10 +1,10 @@
 package net.retrocarnage.editor.layerselector.nodes;
 
 import java.awt.Image;
-import java.util.logging.Logger;
 import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.layerselector.actions.VisualAssetCloneAction;
 import net.retrocarnage.editor.layerselector.actions.VisualAssetRemoveAction;
 import net.retrocarnage.editor.layerselector.actions.VisualAssetToBackAction;
 import net.retrocarnage.editor.layerselector.actions.VisualAssetToFrontAction;
@@ -22,7 +22,6 @@ public class VisualAssetNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/layerselector/icons/visualAsset.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
-    private static final Logger logger = Logger.getLogger(VisualAssetNode.class.getName());
 
     private final VisualAsset visualAsset;
     private final String name;
@@ -54,6 +53,7 @@ public class VisualAssetNode extends AbstractNode {
         return new Action[]{
             new VisualAssetToFrontAction(layer, visualAsset),
             new VisualAssetToBackAction(layer, visualAsset),
+            new VisualAssetCloneAction(layer, visualAsset),
             new VisualAssetRemoveAction(layer, visualAsset)
         };
     }

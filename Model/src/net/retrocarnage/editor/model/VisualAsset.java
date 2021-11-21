@@ -12,6 +12,19 @@ public class VisualAsset implements Selectable {
     private String assetId;
     private Rectangle position;
 
+    @Override
+    public VisualAsset clone() {
+        final VisualAsset clone = new VisualAsset();
+        clone.setAssetId(assetId);
+        clone.setPosition(new Rectangle(
+                (int) position.getX(),
+                (int) position.getY(),
+                (int) position.getWidth(),
+                (int) position.getHeight()
+        ));
+        return clone;
+    }
+
     public String getAssetId() {
         return assetId;
     }
