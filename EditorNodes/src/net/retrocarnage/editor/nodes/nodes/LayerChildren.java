@@ -1,12 +1,12 @@
-package net.retrocarnage.editor.layerselector.nodes;
+package net.retrocarnage.editor.nodes.nodes;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
-import net.retrocarnage.editor.gameplayeditor.LayerController;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
@@ -15,7 +15,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
 /**
- * Provides child nodes for all Layers of a GamePlay.
+ * Provides Nodes for all Layers of a GamePlay.
  *
  * @author Thomas Werner
  */

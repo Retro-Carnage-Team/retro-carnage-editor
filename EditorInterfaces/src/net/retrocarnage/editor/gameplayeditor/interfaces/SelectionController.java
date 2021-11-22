@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.interfaces;
 
 import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.model.Selectable;
@@ -27,6 +27,11 @@ public interface SelectionController {
      * @param selection the new selection
      */
     void setSelection(Selectable selection);
+
+    /**
+     * To be called when a property of the selected element has been updated.
+     */
+    void selectionModified();
 
     /**
      * Moves the selected element on screen.

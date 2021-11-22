@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.nodes;
+package net.retrocarnage.editor.nodes.nodes;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

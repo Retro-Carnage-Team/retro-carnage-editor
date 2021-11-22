@@ -16,9 +16,11 @@ public class Layer {
     private boolean locked;
     private String name;
     private boolean visible;
+    private final ObservableList<Obstacle> obstacles;
     private final ObservableList<VisualAsset> visualAssets;
 
     public Layer() {
+        obstacles = new ObservableList<>();
         visualAssets = new ObservableList<>();
     }
 
@@ -44,6 +46,15 @@ public class Layer {
 
     public void setVisible(final boolean visible) {
         this.visible = visible;
+    }
+
+    public ObservableList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public void setObstacles(final List<Obstacle> obstacles) {
+        this.obstacles.clear();
+        this.obstacles.addAll(obstacles);
     }
 
     public ObservableList<VisualAsset> getVisualAssets() {

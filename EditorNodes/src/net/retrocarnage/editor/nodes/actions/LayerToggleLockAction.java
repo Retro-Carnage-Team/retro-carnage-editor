@@ -1,8 +1,8 @@
-package net.retrocarnage.editor.layerselector.actions;
+package net.retrocarnage.editor.nodes.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import net.retrocarnage.editor.gameplayeditor.LayerController;
+import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
 
 /**

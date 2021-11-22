@@ -1,8 +1,8 @@
-package net.retrocarnage.editor.gameplayeditor.impl;
+package net.retrocarnage.editor.gameplayeditor.interfaces.impl;
 
 import java.beans.PropertyChangeEvent;
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
-import net.retrocarnage.editor.gameplayeditor.gui.GamePlayEditorTopComponent;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditor;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
@@ -31,7 +31,7 @@ public class GamePlayEditorProxyImpl extends GamePlayEditorProxy {
     }
 
     private void handleTopComponentRegistryChange(final PropertyChangeEvent pce) {
-        if (PROP_ACTIVATED.equals(pce.getPropertyName()) && (pce.getNewValue() instanceof GamePlayEditorTopComponent)) {
+        if (PROP_ACTIVATED.equals(pce.getPropertyName()) && (pce.getNewValue() instanceof GamePlayEditor)) {
             final TopComponent tc = (TopComponent) pce.getNewValue();
             controller.setLookups(tc.getLookup());
         } else if (PROP_TC_CLOSED.equals(pce.getPropertyName())) {
@@ -39,7 +39,7 @@ public class GamePlayEditorProxyImpl extends GamePlayEditorProxy {
                     .getRegistry()
                     .getOpened()
                     .stream()
-                    .filter((tc) -> tc instanceof GamePlayEditorTopComponent)
+                    .filter((tc) -> tc instanceof GamePlayEditor)
                     .count();
             if (0 == numberOfGamePlayEditors) {
                 controller.setLookups();

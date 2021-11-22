@@ -7,7 +7,23 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
+                    <code-name-base>net.retrocarnage.editor.assetmanager</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>net.retrocarnage.editor.core</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>net.retrocarnage.editor.gameplayeditor.interfaces</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
@@ -28,6 +44,14 @@
                     <compile-dependency/>
                     <run-dependency>
                         <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.openide.dialogs</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>7.55</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -64,8 +88,8 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>net.retrocarnage.editor.nodes</package>
                 <package>net.retrocarnage.editor.nodes.actions</package>
+                <package>net.retrocarnage.editor.nodes.nodes</package>
             </public-packages>
         </data>
     </configuration>

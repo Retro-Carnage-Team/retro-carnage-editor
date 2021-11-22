@@ -19,6 +19,20 @@ public interface Selectable {
 
     void setPosition(final Rectangle position);
 
-    Rectangle getScaledPosition(float factor);
+    /**
+     * Returns the position - scaled by a given factor.
+     *
+     * @param factor scaling factor to be applied
+     * @return the scaled position
+     */
+    default Rectangle getScaledPosition(float factor) {
+        final Rectangle position = getPosition();
+        return new Rectangle(
+                (int) (position.x * factor),
+                (int) (position.y * factor),
+                (int) (position.width * factor),
+                (int) (position.height * factor)
+        );
+    }
 
 }

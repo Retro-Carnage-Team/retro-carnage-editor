@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.model.SectionDirection;

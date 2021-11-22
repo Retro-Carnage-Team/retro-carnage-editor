@@ -1,6 +1,6 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.interfaces;
 
-import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorProxyImpl;
+import net.retrocarnage.editor.gameplayeditor.interfaces.impl.GamePlayEditorProxyImpl;
 import org.openide.util.Lookup;
 
 /**

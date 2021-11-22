@@ -43,22 +43,6 @@ public class VisualAsset implements Selectable {
         this.position = position;
     }
 
-    /**
-     * Returns the position - scaled by a given factor.
-     *
-     * @param factor scaling factor to be applied
-     * @return the scaled position
-     */
-    @Override
-    public Rectangle getScaledPosition(float factor) {
-        return new Rectangle(
-                (int) (position.x * factor),
-                (int) (position.y * factor),
-                (int) (position.width * factor),
-                (int) (position.height * factor)
-        );
-    }
-
     @Override
     public boolean isMovable() {
         return true;

@@ -1,14 +1,14 @@
-package net.retrocarnage.editor.layerselector.nodes;
+package net.retrocarnage.editor.nodes.nodes;
 
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
-import net.retrocarnage.editor.gameplayeditor.GamePlayEditorProxy;
-import net.retrocarnage.editor.gameplayeditor.LayerController;
-import net.retrocarnage.editor.layerselector.actions.LayerRenameAction;
-import net.retrocarnage.editor.layerselector.actions.LayerToggleLockAction;
-import net.retrocarnage.editor.layerselector.actions.LayerToggleVisibilityAction;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.nodes.actions.LayerRenameAction;
+import net.retrocarnage.editor.nodes.actions.LayerToggleLockAction;
+import net.retrocarnage.editor.nodes.actions.LayerToggleVisibilityAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
 
@@ -19,13 +19,13 @@ import org.openide.util.lookup.Lookups;
  */
 public class LayerNode extends AbstractNode {
 
-    private static final String ICON_LOCKED_PATH = "/net/retrocarnage/editor/layerselector/icons/locked.png";
-    private static final String ICON_UNLOCKED_PATH = "/net/retrocarnage/editor/layerselector/icons/unlocked.png";
+    private static final String ICON_LOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/locked.png";
+    private static final String ICON_UNLOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/unlocked.png";
     private static final Image ICON_LOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_LOCKED_PATH));
     private static final Image ICON_UNLOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_UNLOCKED_PATH));
 
     public LayerNode(final Layer layer) {
-        super(new VisualAssetChildren(layer), Lookups.singleton(layer));
+        super(new LayerGroupsChildren(layer), Lookups.singleton(layer));
         setDisplayName(getLabel(layer));
     }
 
@@ -52,7 +52,6 @@ public class LayerNode extends AbstractNode {
     public Action[] getActions(boolean popup) {
         final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
         final Layer layer = getLayer();
-        // TODO: Add actions to move layer up / down
         return new Action[]{
             new LayerToggleLockAction(layer, layerCtrl),
             new LayerToggleVisibilityAction(layer, layerCtrl),

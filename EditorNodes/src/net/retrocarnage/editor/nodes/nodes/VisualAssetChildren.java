@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.layerselector.nodes;
+package net.retrocarnage.editor.nodes.nodes;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

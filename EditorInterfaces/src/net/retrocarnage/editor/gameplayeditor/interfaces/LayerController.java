@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.gameplayeditor;
+package net.retrocarnage.editor.gameplayeditor.interfaces;
 
 import java.beans.PropertyChangeListener;
 import java.util.List;

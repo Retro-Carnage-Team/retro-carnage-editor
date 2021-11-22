@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.layerselector.actions;
+package net.retrocarnage.editor.nodes.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;

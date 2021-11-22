@@ -5,8 +5,9 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.TransferHandler;
-import net.retrocarnage.editor.gameplayeditor.SelectionController;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditor;
+import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
@@ -34,7 +35,7 @@ import org.openide.windows.TopComponent;
     "CTL_GamePlayEditorTopComponent=GamePlayEditor Window",
     "HINT_GamePlayEditorTopComponent=This is a GamePlayEditor window"
 })
-public final class GamePlayEditorTopComponent extends TopComponent implements PropertyChangeListener {
+public final class GamePlayEditorTopComponent extends TopComponent implements GamePlayEditor, PropertyChangeListener {
 
     private final GamePlayEditorController controller;
     private final TransferHandler transferHandler;

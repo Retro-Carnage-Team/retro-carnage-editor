@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.gameplayeditor.LayerController;
+import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;

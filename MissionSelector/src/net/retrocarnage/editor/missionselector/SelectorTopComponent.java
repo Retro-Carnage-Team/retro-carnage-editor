@@ -2,7 +2,7 @@ package net.retrocarnage.editor.missionselector;
 
 import java.awt.BorderLayout;
 import javax.swing.ActionMap;
-import net.retrocarnage.editor.nodes.MissionChildren;
+import net.retrocarnage.editor.nodes.nodes.MissionChildren;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;

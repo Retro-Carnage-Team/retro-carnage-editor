@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.gameplayeditor.SelectionController;
+import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Selectable;
 
 /**
@@ -44,6 +44,14 @@ public class SelectionControllerImpl implements SelectionController {
     @Override
     public void setSelection(final Selectable selection) {
         this.selection = selection;
+        fireChange();
+    }
+
+    /**
+     * To be called when a property of the selected element has been updated.
+     */
+    @Override
+    public void selectionModified() {
         fireChange();
     }
 

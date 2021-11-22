@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.nodes;
+package net.retrocarnage.editor.nodes.nodes;
 
 import java.awt.Image;
 import javax.swing.Action;
