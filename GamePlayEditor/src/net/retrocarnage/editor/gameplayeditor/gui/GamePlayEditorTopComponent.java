@@ -2,10 +2,13 @@ package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
+import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.JPopupMenu;
 import javax.swing.TransferHandler;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditor;
@@ -132,10 +135,22 @@ public final class GamePlayEditorTopComponent
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseClicked
-        final Point location = evt.getPoint();
-        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-        controller.handleMouseClick(location);
-        pnlDisplay.requestFocus();
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            Point location = evt.getPoint();
+            location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+            controller.handleMouseClick(location);
+            pnlDisplay.requestFocus();
+        } else if (evt.getButton() == MouseEvent.BUTTON3) {
+            final Node[] selectedNodes = getExplorerManager().getSelectedNodes();
+            if (null != selectedNodes && 1 == selectedNodes.length && !(selectedNodes[0] instanceof GamePlayNode)) {
+                final JPopupMenu popup = new JPopupMenu();
+                for (Action action : selectedNodes[0].getActions(true)) {
+                    popup.add(action);
+                }
+                popup.show(pnlDisplay, evt.getPoint().x, evt.getPoint().y);
+            }
+            pnlDisplay.requestFocus();
+        }
     }//GEN-LAST:event_pnlDisplayMouseClicked
 
     private void pnlDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMousePressed
