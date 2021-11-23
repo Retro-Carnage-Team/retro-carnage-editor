@@ -15,7 +15,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Selectable;
-import net.retrocarnage.editor.nodes.nodes.LayerChildren;
+import net.retrocarnage.editor.nodes.nodes.LayerChildrenCurrentEditor;
 import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
@@ -85,7 +85,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         final BeanTreeView view = new BeanTreeView();
         view.setRootVisible(false);
         view.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        explorerManager.setRootContext(new AbstractNode(new LayerChildren()));
+        explorerManager.setRootContext(new AbstractNode(new LayerChildrenCurrentEditor()));
         explorerManager.addPropertyChangeListener((pce) -> {
             if ("selectedNodes".equals(pce.getPropertyName())) {
                 handleExplorerNodeChange(pce);

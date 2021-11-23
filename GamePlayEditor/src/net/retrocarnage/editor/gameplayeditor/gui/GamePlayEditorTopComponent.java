@@ -4,17 +4,27 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import javax.swing.ActionMap;
 import javax.swing.TransferHandler;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditor;
+import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
+import net.retrocarnage.editor.nodes.nodes.GamePlayNode;
+import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.ExplorerUtils;
+import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
 
 /**
@@ -35,8 +45,11 @@ import org.openide.windows.TopComponent;
     "CTL_GamePlayEditorTopComponent=GamePlayEditor Window",
     "HINT_GamePlayEditorTopComponent=This is a GamePlayEditor window"
 })
-public final class GamePlayEditorTopComponent extends TopComponent implements GamePlayEditor, PropertyChangeListener {
+public final class GamePlayEditorTopComponent
+        extends TopComponent
+        implements ExplorerManager.Provider, GamePlayEditor, PropertyChangeListener {
 
+    private final ExplorerManager explorerManager = new ExplorerManager();
     private final GamePlayEditorController controller;
     private final TransferHandler transferHandler;
 
@@ -50,7 +63,23 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Ga
         transferHandler = new DragAndDropTransferHandler(controller);
         ZoomService.getDefault().addPropertyChangeListener(this);
 
-        associateLookup(new AbstractLookup(controller.getLookupContent()));
+        final ActionMap map = getActionMap();
+        associateLookup(new ProxyLookup(
+                ExplorerUtils.createLookup(explorerManager, map),
+                new AbstractLookup(controller.getLookupContent())
+        ));
+
+        getLookup().lookup(SelectionController.class).addPropertyChangeListener(this);
+        final GamePlayNode rootNode = new GamePlayNode(
+                controller.getGamePlay(),
+                getLookup().lookup(LayerController.class)
+        );
+        explorerManager.setRootContext(rootNode);
+        try {
+            explorerManager.setSelectedNodes(new Node[]{rootNode});
+        } catch (PropertyVetoException ex) {
+            Exceptions.printStackTrace(ex);
+        }
 
         initComponents();
 
@@ -141,6 +170,22 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Ga
     private javax.swing.JPanel pnlDisplay;
     private javax.swing.JScrollPane scrPane;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return explorerManager;
+    }
+
+    @Override
+    protected void componentActivated() {
+        ExplorerUtils.activateActions(explorerManager, true);
+    }
+
+    @Override
+    protected void componentDeactivated() {
+        ExplorerUtils.activateActions(explorerManager, false);
+    }
+
     @Override
     public void componentOpened() {
         final Mission mission = controller.getMission();
@@ -176,6 +221,38 @@ public final class GamePlayEditorTopComponent extends TopComponent implements Ga
             final GamePlay gamePlay = controller.getGamePlay();
             final Selectable selection = getLookup().lookup(SelectionController.class).getSelection();
             ((GamePlayDisplay) pnlDisplay).updateDisplay(gamePlay, selection);
+        } else if (SelectionController.PROPERTY_SELECTION.equals(pce.getPropertyName())) {
+            try {
+                if (null == pce.getNewValue()) {
+                    explorerManager.setSelectedNodes(new Node[]{explorerManager.getRootContext()});
+                } else {
+                    Node nodeToSelect = getNodeForSelection(explorerManager.getRootContext(), (Selectable) pce.getNewValue());
+                    if (null != nodeToSelect) {
+                        explorerManager.setSelectedNodes(new Node[]{nodeToSelect});
+                    } else {
+                        explorerManager.setSelectedNodes(new Node[]{explorerManager.getRootContext()});
+                    }
+                }
+            } catch (PropertyVetoException ex) {
+                Exceptions.printStackTrace(ex);
+            }
         }
     }
+
+    private Node getNodeForSelection(final Node parent, final Selectable selection) {
+        if (parent instanceof VisualAssetNode) {
+            if (((VisualAssetNode) parent).getVisualAsset() == selection) {
+                return parent;
+            }
+        } else {
+            for (Node child : parent.getChildren().getNodes()) {
+                final Node match = getNodeForSelection(child, selection);
+                if (null != match) {
+                    return match;
+                }
+            }
+        }
+        return null;
+    }
+
 }

@@ -26,7 +26,7 @@ public class LayerNode extends AbstractNode {
 
     public LayerNode(final Layer layer) {
         super(new LayerGroupsChildren(layer), Lookups.singleton(layer));
-        setDisplayName(getLabel(layer));
+        setDisplayName(layer.getName());
     }
 
     public Layer getLayer() {
