@@ -12,6 +12,7 @@ import net.retrocarnage.editor.nodes.actions.VisualAssetCloneAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetRemoveAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetToBackAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetToFrontAction;
+import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -74,31 +75,56 @@ public class VisualAssetNode extends AbstractNode {
     protected Sheet createSheet() {
         final Sheet sheet = Sheet.createDefault();
 
+        sheet.put(buildPositionSet());
+        sheet.put(buildBlockerSet());
+
+        return sheet;
+    }
+
+    private Sheet.Set buildPositionSet() {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
-        // Position
-        final Sheet.Set set = Sheet.createPropertiesSet();
-        set.setName("Position");
+        final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setName("Position");
 
         final Property posXProp = SelectablePropsFactory.buildXProperty(visualAsset, layer.isLocked());
         posXProp.setName("X");
-        set.put(posXProp);
+        positionSet.put(posXProp);
 
         final Property posYProp = SelectablePropsFactory.buildYProperty(visualAsset, layer.isLocked());
         posYProp.setName("Y");
-        set.put(posYProp);
+        positionSet.put(posYProp);
 
         final Property posWidthProp = SelectablePropsFactory.buildWidthProperty(visualAsset, layer.isLocked());
         posWidthProp.setName("Width");
-        set.put(posWidthProp);
+        positionSet.put(posWidthProp);
 
         final Property posHeightProp = SelectablePropsFactory.buildHeightProperty(visualAsset, layer.isLocked());
         posHeightProp.setName("Height");
-        set.put(posHeightProp);
+        positionSet.put(posHeightProp);
 
-        sheet.put(set);
+        return positionSet;
+    }
 
-        return sheet;
+    private Sheet.Set buildBlockerSet() {
+        final Sprite sprite = AssetService.getDefault().getSprite(visualAsset.getAssetId());
+
+        final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setName("Blocker");
+
+        final Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(visualAsset, false);
+        obstacleProp.setName("Obstacle");
+        positionSet.put(obstacleProp);
+
+        final Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(visualAsset, false);
+        bulletsProp.setName("Stops bullets");
+        positionSet.put(bulletsProp);
+
+        final Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(visualAsset, false);
+        explosivesProp.setName("Stops explosives");
+        positionSet.put(explosivesProp);
+
+        return positionSet;
     }
 
 }

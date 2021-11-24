@@ -34,7 +34,7 @@ public class SelectionMousePositionAnalyzer {
      */
     public SelectionMousePositionAnalyzer(final Selectable selection, final Point mousePosition) {
         float zoomFactor = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
-        final Rectangle selectionRect = selection.getScaledPosition(zoomFactor);
+        final Rectangle selectionRect = selection.getScaledPosition(zoomFactor).toRectangle();
 
         mouseInSelection = selectionRect.contains(mousePosition);
         if (mouseInSelection) {

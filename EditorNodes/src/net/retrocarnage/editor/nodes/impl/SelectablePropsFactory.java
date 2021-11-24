@@ -7,7 +7,7 @@ import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;
 
 /**
- * A factory that builds properties for Rectangles.
+ * A factory that builds properties for Selectables.
  *
  * @author Thomas Werner
  */
@@ -18,13 +18,13 @@ public class SelectablePropsFactory {
 
             @Override
             public Integer getValue() {
-                return selectable.getPosition().x;
+                return selectable.getPosition().getX();
             }
 
             @Override
             public void setValue(final Integer t) {
                 if (!readonly) {
-                    selectable.getPosition().x = t;
+                    selectable.getPosition().setX(t);
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -46,13 +46,13 @@ public class SelectablePropsFactory {
 
             @Override
             public Integer getValue() {
-                return selectable.getPosition().y;
+                return selectable.getPosition().getY();
             }
 
             @Override
             public void setValue(final Integer t) {
                 if (!readonly) {
-                    selectable.getPosition().y = t;
+                    selectable.getPosition().setY(t);
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -74,13 +74,13 @@ public class SelectablePropsFactory {
 
             @Override
             public Integer getValue() {
-                return selectable.getPosition().width;
+                return selectable.getPosition().getWidth();
             }
 
             @Override
             public void setValue(final Integer t) {
                 if (!readonly) {
-                    selectable.getPosition().width = t;
+                    selectable.getPosition().setWidth(t);
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -102,13 +102,13 @@ public class SelectablePropsFactory {
 
             @Override
             public Integer getValue() {
-                return selectable.getPosition().height;
+                return selectable.getPosition().getHeight();
             }
 
             @Override
             public void setValue(final Integer t) {
                 if (!readonly) {
-                    selectable.getPosition().height = t;
+                    selectable.getPosition().setHeight(t);
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }

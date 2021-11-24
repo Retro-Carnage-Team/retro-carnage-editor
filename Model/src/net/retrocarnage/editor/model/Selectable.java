@@ -1,6 +1,6 @@
 package net.retrocarnage.editor.model;
 
-import java.awt.Rectangle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Something that can be selected.
@@ -15,9 +15,9 @@ public interface Selectable {
 
     boolean isResizable();
 
-    Rectangle getPosition();
+    Position getPosition();
 
-    void setPosition(final Rectangle position);
+    void setPosition(final Position position);
 
     /**
      * Returns the position - scaled by a given factor.
@@ -25,13 +25,14 @@ public interface Selectable {
      * @param factor scaling factor to be applied
      * @return the scaled position
      */
-    default Rectangle getScaledPosition(float factor) {
-        final Rectangle position = getPosition();
-        return new Rectangle(
-                (int) (position.x * factor),
-                (int) (position.y * factor),
-                (int) (position.width * factor),
-                (int) (position.height * factor)
+    @JsonIgnore
+    default Position getScaledPosition(float factor) {
+        final Position position = getPosition();
+        return new Position(
+                (int) (position.getX() * factor),
+                (int) (position.getY() * factor),
+                (int) (position.getWidth() * factor),
+                (int) (position.getHeight() * factor)
         );
     }
 

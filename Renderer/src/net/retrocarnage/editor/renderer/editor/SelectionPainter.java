@@ -3,7 +3,7 @@ package net.retrocarnage.editor.renderer.editor;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Selectable;
 
 /**
@@ -25,10 +25,15 @@ class SelectionPainter {
 
     public void paintSelectionBorder() {
         if (null != selection) {
-            final Rectangle selectionRect = selection.getScaledPosition(scalingFactor);
+            final Position selectionRect = selection.getScaledPosition(scalingFactor);
             g2d.setColor(Color.ORANGE);
             g2d.setStroke(new BasicStroke(3));
-            g2d.drawRect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+            g2d.drawRect(
+                    selectionRect.getX(),
+                    selectionRect.getY(),
+                    selectionRect.getWidth(),
+                    selectionRect.getHeight()
+            );
         }
     }
 

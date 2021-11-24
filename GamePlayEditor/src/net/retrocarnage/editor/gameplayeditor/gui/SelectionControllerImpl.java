@@ -1,11 +1,11 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
-import java.awt.Rectangle;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Selectable;
 
 /**
@@ -62,12 +62,12 @@ public class SelectionControllerImpl implements SelectionController {
             return;
         }
 
-        final Rectangle oldPosition = selection.getPosition();
-        selection.setPosition(new Rectangle(
-                oldPosition.x + deltaX,
-                oldPosition.y + deltaY,
-                oldPosition.width,
-                oldPosition.height
+        final Position oldPosition = selection.getPosition();
+        selection.setPosition(new Position(
+                oldPosition.getX() + deltaX,
+                oldPosition.getY() + deltaY,
+                oldPosition.getWidth(),
+                oldPosition.getHeight()
         ));
         controller.requestGamePlayRepaint();
     }
@@ -83,12 +83,12 @@ public class SelectionControllerImpl implements SelectionController {
             return;
         }
 
-        final Rectangle oldPosition = selection.getPosition();
-        selection.setPosition(new Rectangle(
-                oldPosition.x + positionDeltaX,
-                oldPosition.y + positionDeltaY,
-                oldPosition.width + sizeDeltaX,
-                oldPosition.height + sizeDeltaY
+        final Position oldPosition = selection.getPosition();
+        selection.setPosition(new Position(
+                oldPosition.getX() + positionDeltaX,
+                oldPosition.getY() + positionDeltaY,
+                oldPosition.getWidth() + sizeDeltaX,
+                oldPosition.getHeight() + sizeDeltaY
         ));
         controller.requestGamePlayRepaint();
     }

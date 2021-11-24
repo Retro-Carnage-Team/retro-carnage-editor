@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
@@ -55,7 +56,7 @@ class SpritePainter {
 
         try {
             final BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
-            final Rectangle scaledPosition = (1.0f == scalingFactor)
+            final Position scaledPosition = (1.0f == scalingFactor)
                     ? va.getPosition()
                     : va.getScaledPosition(scalingFactor);
             if (sprite.isTile()) {
@@ -73,14 +74,14 @@ class SpritePainter {
 
     }
 
-    private void paintScaledSprite(final BufferedImage image, final Rectangle position) {
-        g2d.drawImage(image, position.x, position.y, position.width, position.height, null);
+    private void paintScaledSprite(final BufferedImage image, final Position position) {
+        g2d.drawImage(image, position.getX(), position.getY(), position.getWidth(), position.getHeight(), null);
     }
 
-    private void paintTiledSprite(final BufferedImage image, final Dimension tileSize, final Rectangle position) {
+    private void paintTiledSprite(final BufferedImage image, final Dimension tileSize, final Position position) {
         final Rectangle anchor = new Rectangle(0, 0, tileSize.width, tileSize.height);
         g2d.setPaint(new TexturePaint(image, anchor));
-        g2d.fill(position);
+        g2d.fill(position.toRectangle());
     }
 
 }

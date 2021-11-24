@@ -1,7 +1,6 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -12,6 +11,7 @@ import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
@@ -115,12 +115,11 @@ class GamePlayEditorController {
             DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
         } else {
             final Point scaledPosition = scalePosition(position);
-            final Rectangle rectangle = new Rectangle();
-            rectangle.setLocation(
-                    scaledPosition.x - (sprite.getWidth() / 2),
-                    scaledPosition.y - (sprite.getHeight() / 2)
-            );
-            rectangle.setSize(sprite.getWidth(), sprite.getHeight());
+            final Position rectangle = new Position();
+            rectangle.setX(scaledPosition.x - (sprite.getWidth() / 2));
+            rectangle.setY(scaledPosition.y - (sprite.getHeight() / 2));
+            rectangle.setWidth(sprite.getWidth());
+            rectangle.setHeight(sprite.getHeight());
 
             final VisualAsset visualAsset = new VisualAsset();
             visualAsset.setAssetId(sprite.getId());
@@ -149,7 +148,7 @@ class GamePlayEditorController {
         final Selectable oldSelection = selectionControllerImpl.getSelection();
         for (Layer layer : gamePlay.getLayers()) {
             for (VisualAsset asset : layer.getVisualAssets()) {
-                if (asset.getPosition().contains(scaledPosition)) {
+                if (asset.getPosition().toRectangle().contains(scaledPosition)) {
                     if (oldSelection != asset) {
                         selectionControllerImpl.setSelection(asset);
                     }
