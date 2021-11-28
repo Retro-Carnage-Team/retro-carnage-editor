@@ -6,9 +6,7 @@ import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
-import net.retrocarnage.editor.nodes.actions.LayerRenameAction;
-import net.retrocarnage.editor.nodes.actions.LayerToggleLockAction;
-import net.retrocarnage.editor.nodes.actions.LayerToggleVisibilityAction;
+import net.retrocarnage.editor.nodes.actions.*;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
 
@@ -53,9 +51,13 @@ public class LayerNode extends AbstractNode {
         final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
         final Layer layer = getLayer();
         return new Action[]{
+            new LayerMoveUpAction(layer, layerCtrl),
+            new LayerMoveDownAction(layer, layerCtrl),
+            new LayerSelectAction(layer, layerCtrl),
             new LayerToggleLockAction(layer, layerCtrl),
             new LayerToggleVisibilityAction(layer, layerCtrl),
-            new LayerRenameAction(layer, layerCtrl)
+            new LayerRenameAction(layer, layerCtrl),
+            new LayerRemoveAction(layer, layerCtrl)
         };
     }
 

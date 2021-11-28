@@ -59,14 +59,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddLayerActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnRemoveLayer">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/retrocarnage/editor/layerselector/gui/Bundle.properties" key="LayerSelectorTopComponent.btnRemoveLayer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-            </Property>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

@@ -9,7 +9,7 @@ import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
 
 /**
- * Removes the VisualAsset from the mission.
+ * Removes the VisualAsset from the gameplay.
  *
  * @author Thomas Werner
  */

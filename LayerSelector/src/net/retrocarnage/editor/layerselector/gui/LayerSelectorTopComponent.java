@@ -108,7 +108,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         pnlActions = new javax.swing.JPanel();
         btnAddLayer = new javax.swing.JButton();
-        btnRemoveLayer = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -121,10 +120,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
             }
         });
         pnlActions.add(btnAddLayer);
-
-        org.openide.awt.Mnemonics.setLocalizedText(btnRemoveLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnRemoveLayer.text")); // NOI18N
-        btnRemoveLayer.setEnabled(false);
-        pnlActions.add(btnRemoveLayer);
 
         add(pnlActions, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
@@ -148,7 +143,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLayer;
-    private javax.swing.JButton btnRemoveLayer;
     private javax.swing.JPanel pnlActions;
     // End of variables declaration//GEN-END:variables
     @Override

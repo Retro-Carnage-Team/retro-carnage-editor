@@ -53,9 +53,11 @@ class LayerControllerImpl implements LayerController {
         if (null == layer) {
             selectedLayer = getDefaultLayer();
         } else {
+            final Layer oldSelection = selectedLayer;
             selectedLayer = layer;
+            fireLayerChange(oldSelection);
+            fireLayerChange(layer);
         }
-        fireLayerChange();
     }
 
     @Override

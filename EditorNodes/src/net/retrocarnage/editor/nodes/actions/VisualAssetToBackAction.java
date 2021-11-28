@@ -9,9 +9,9 @@ import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
 
 /**
- * Moves the VisualAsset to the foreground.
+ * Moves the VisualAsset to the background.
  *
- * This is done by moving it one step to the beginning of the list of the layer's visual assets.
+ * This is done by moving it one step to the end of the list of the layer's visual assets.
  *
  * @author Thomas Werner
  */
