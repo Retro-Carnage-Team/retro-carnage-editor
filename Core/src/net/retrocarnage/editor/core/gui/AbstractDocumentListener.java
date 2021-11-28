@@ -25,7 +25,10 @@ public abstract class AbstractDocumentListener implements DocumentListener {
         handleChange(e);
     }
 
-    protected void handleChange(DocumentEvent e) {
-
-    }
+    /**
+     * Handles change / remove / insert events.
+     *
+     * @param e DocumentEvent that has happened.
+     */
+    protected abstract void handleChange(DocumentEvent e);
 }

@@ -20,6 +20,10 @@ public class IconUtil {
     private static final Logger logger = Logger.getLogger(IconUtil.class.getName());
     private static final Image EMPTY_ICON = buildEmptyIcon();
 
+    private IconUtil() {
+        // You are not expected to create instances of this class.
+    }
+
     public static Image loadIcon(final InputStream resource) {
         try {
             return ImageIO.read(resource);
