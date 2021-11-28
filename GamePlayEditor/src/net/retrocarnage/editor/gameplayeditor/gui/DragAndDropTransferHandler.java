@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.TransferHandler;
 import static net.retrocarnage.editor.gameplayeditor.gui.GamePlayDisplay.BORDER_WIDTH;
+import net.retrocarnage.editor.model.Obstacle;
 import net.retrocarnage.editor.model.Sprite;
 
 /**
@@ -26,19 +27,26 @@ public class DragAndDropTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(final TransferSupport support) {
-        return support.isDataFlavorSupported(Sprite.DATA_FLAVOR);
+        return support.isDataFlavorSupported(Sprite.DATA_FLAVOR)
+                || support.isDataFlavorSupported(Obstacle.DATA_FLAVOR);
     }
 
     @Override
     public boolean importData(final TransferSupport support) {
         try {
-            final Sprite sprite = (Sprite) support.getTransferable().getTransferData(Sprite.DATA_FLAVOR);
             final Point dropLocation = support.getDropLocation().getDropPoint();
             dropLocation.translate(-BORDER_WIDTH, -BORDER_WIDTH);
-            controller.addSprite(sprite, dropLocation);
+
+            if (support.isDataFlavorSupported(Sprite.DATA_FLAVOR)) {
+                final Sprite sprite = (Sprite) support.getTransferable().getTransferData(Sprite.DATA_FLAVOR);
+                controller.addSprite(sprite, dropLocation);
+            } else if (support.isDataFlavorSupported(Obstacle.DATA_FLAVOR)) {
+                final Obstacle obstacle = (Obstacle) support.getTransferable().getTransferData(Obstacle.DATA_FLAVOR);
+                controller.addObstacle(obstacle, dropLocation);
+            }
             return true;
         } catch (UnsupportedFlavorException | IOException ex) {
-            logger.log(Level.WARNING, "Failed to handle D&D operation with Sprite", ex);
+            logger.log(Level.SEVERE, "Failed to handle D&D operation on GamePlayEditor", ex);
             return false;
         }
     }

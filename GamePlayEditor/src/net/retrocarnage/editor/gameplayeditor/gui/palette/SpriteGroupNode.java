@@ -8,9 +8,9 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class GroupNode extends AbstractNode {
+public class SpriteGroupNode extends AbstractNode {
 
-    public GroupNode(final String groupName) {
+    public SpriteGroupNode(final String groupName) {
         super(Children.create(new SpriteAssetNodeFactory(groupName), false));
         setDisplayName(groupName);
     }

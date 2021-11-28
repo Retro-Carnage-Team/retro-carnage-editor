@@ -88,7 +88,17 @@ public class EditorRenderer {
 
         // Sprites
         // Output of SpritePainter is restricted to intersection of visible component area and gameplay sections.
-        final Rectangle originalClip = (Rectangle) g2d.getClip();
+        // TODO: This is a ton of logic here.
+        //       The clipping code should be moved to the SpritePainter or some other wrapper class instead.
+        Rectangle originalClip = null;
+        if (g2d.getClip() instanceof java.awt.geom.Rectangle2D) {
+            originalClip = ((java.awt.geom.Rectangle2D) g2d.getClip()).getBounds();
+        } else if (g2d.getClip() instanceof java.awt.Rectangle) {
+            originalClip = (Rectangle) g2d.getClip();
+        } else {
+            logger.log(Level.WARNING, "Unknown clipping shape!");
+        }
+
         final Area componentArea = new Area(originalClip);
         final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
         gameArea.intersect(componentArea);

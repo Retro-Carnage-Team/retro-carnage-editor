@@ -28,7 +28,7 @@ public class IconUtil {
         try {
             return ImageIO.read(resource);
         } catch (final IOException ex) {
-            logger.log(Level.WARNING, "Failed to load icon for MissionNode", ex);
+            logger.log(Level.WARNING, "Failed to load icon", ex);
             return EMPTY_ICON;
         }
     }

@@ -14,9 +14,12 @@ import org.openide.nodes.Node;
  */
 public class GroupNodeFactory extends ChildFactory<String> {
 
+    private static final String OBSTACLE_GROUP = "obstacle group key";
+
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
         final List<String> sortedEntries = new ArrayList<>(AssetService.getDefault().getSpriteTags());
+        sortedEntries.add(OBSTACLE_GROUP);
         Collections.sort(sortedEntries);
         toPopulate.addAll(sortedEntries);
         return true;
@@ -24,7 +27,10 @@ public class GroupNodeFactory extends ChildFactory<String> {
 
     @Override
     protected Node[] createNodesForKey(final String key) {
-        return new Node[]{new GroupNode(key)};
+        if (OBSTACLE_GROUP.equals(key)) {
+            return new Node[]{new ObstacleGroupNode()};
+        }
+        return new Node[]{new SpriteGroupNode(key)};
     }
 
 }

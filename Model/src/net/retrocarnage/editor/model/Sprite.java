@@ -160,12 +160,12 @@ public class Sprite extends Asset<Sprite> implements Transferable {
 
     @Override
     public boolean isDataFlavorSupported(final DataFlavor df) {
-        return DATA_FLAVOR == df;
+        return DATA_FLAVOR.equals(df);
     }
 
     @Override
     public Object getTransferData(final DataFlavor df) throws UnsupportedFlavorException, IOException {
-        if (DATA_FLAVOR == df) {
+        if (DATA_FLAVOR.equals(df)) {
             return this;
         }
         throw new UnsupportedFlavorException(df);

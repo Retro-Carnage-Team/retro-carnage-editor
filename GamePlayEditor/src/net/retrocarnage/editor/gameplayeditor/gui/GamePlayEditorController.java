@@ -11,6 +11,7 @@ import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Obstacle;
 import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.model.Sprite;
@@ -107,6 +108,28 @@ class GamePlayEditorController {
     void close() {
         gamePlay.removePropertyChangeListener(gamePlayChangeListener);
         savable.close();
+    }
+
+    void addObstacle(final Obstacle obstacle, final Point position) {
+        final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
+        if (selectedLayer.isLocked()) {
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+        } else {
+            final Point scaledPosition = scalePosition(position);
+            final Position targetPosition = new Position();
+            targetPosition.setX(scaledPosition.x - 50);
+            targetPosition.setY(scaledPosition.y - 50);
+            targetPosition.setWidth(100);
+            targetPosition.setHeight(100);
+
+            final Obstacle newObstacle = new Obstacle();
+            newObstacle.setPosition(targetPosition);
+            newObstacle.setBulletStopper(obstacle.isBulletStopper());
+            newObstacle.setExplosiveStopper(obstacle.isExplosiveStopper());
+            selectedLayer.getObstacles().add(0, newObstacle);
+
+            requestGamePlayRepaint();
+        }
     }
 
     void addSprite(final Sprite sprite, final Point position) {

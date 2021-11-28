@@ -3,7 +3,6 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
-import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Obstacle;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -15,7 +14,7 @@ import org.openide.nodes.Children;
  */
 public class ObstacleNode extends AbstractNode {
 
-    private static final String ICON_PATH = "/net/retrocarnage/editor/layerselector/icons/obstacle.png";
+    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacle.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
 
     private final Obstacle obstacle;
@@ -45,7 +44,6 @@ public class ObstacleNode extends AbstractNode {
 
     @Override
     public Action[] getActions(final boolean popup) {
-        final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
         return new Action[]{};
     }
 
