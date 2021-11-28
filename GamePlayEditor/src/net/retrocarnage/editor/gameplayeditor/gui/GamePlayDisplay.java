@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
@@ -78,9 +79,11 @@ public class GamePlayDisplay extends JPanel {
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (null != gamePlay) {
-            final Graphics2D g2d = (Graphics2D) g;
-            final EditorRenderer renderer = new EditorRenderer(gamePlay, selection);
+            final Rectangle visibleRect = container.getViewport().getViewRect();
+            final EditorRenderer renderer = new EditorRenderer(gamePlay, selection, visibleRect);
             gamePlaySize = renderer.getSize();
+
+            final Graphics2D g2d = (Graphics2D) g;
             g2d.translate(BORDER_WIDTH, BORDER_WIDTH);
             renderer.render(g2d);
         }

@@ -1,7 +1,6 @@
 package net.retrocarnage.editor.nodes.nodes;
 
 import java.awt.Image;
-import java.util.logging.Logger;
 import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
@@ -29,7 +28,6 @@ public class VisualAssetNode extends AbstractNode {
     private static final String TILE_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/tile.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
     private static final Image TILE_ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(TILE_ICON_PATH));
-    private static final Logger logger = Logger.getLogger(VisualAssetNode.class.getName());
 
     private final VisualAsset visualAsset;
     private final String name;

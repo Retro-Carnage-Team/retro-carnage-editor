@@ -1,7 +1,6 @@
 package net.retrocarnage.editor.renderer.editor;
 
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.List;
 import net.retrocarnage.editor.model.Section;
@@ -27,7 +26,7 @@ class ClipShapeFactory {
         this.gameScreenWidth = gameScreenWidth;
     }
 
-    public Shape build() {
+    public Area build() {
         return new ShapeBuilder(sectionAnalysis, sections, gameScreenWidth).build();
     }
 
@@ -49,7 +48,7 @@ class ClipShapeFactory {
             }
         }
 
-        public Shape build() {
+        public Area build() {
             run();
             return result;
         }

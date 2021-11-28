@@ -19,6 +19,7 @@ import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.nodes.nodes.GamePlayNode;
 import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
+import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.explorer.ExplorerManager;
@@ -64,6 +65,7 @@ public final class GamePlayEditorTopComponent
         controller = new GamePlayEditorController(mission);
         controller.addPropertyChangeListener(this);
         transferHandler = new DragAndDropTransferHandler(controller);
+        PlayerModelOverlayService.getDefault().addPropertyChangeListener(this);
         ZoomService.getDefault().addPropertyChangeListener(this);
 
         final ActionMap map = getActionMap();
@@ -216,6 +218,7 @@ public final class GamePlayEditorTopComponent
         if (null != mission) {
             GamePlayEditorRepository.INSTANCE.unregister(mission.getId(), this);
         }
+        PlayerModelOverlayService.getDefault().removePropertyChangeListener(this);
         ZoomService.getDefault().removePropertyChangeListener(this);
         controller.removePropertyChangeListener(this);
         controller.close();
@@ -232,7 +235,8 @@ public final class GamePlayEditorTopComponent
     @Override
     public void propertyChange(final PropertyChangeEvent pce) {
         if (GamePlayEditorController.PROPERTY_GAMEPLAY.equals(pce.getPropertyName())
-                || ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
+                || ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())
+                || PlayerModelOverlayService.PROPERTY_VISIBILITY.equals(pce.getPropertyName())) {
             final GamePlay gamePlay = controller.getGamePlay();
             final Selectable selection = getLookup().lookup(SelectionController.class).getSelection();
             ((GamePlayDisplay) pnlDisplay).updateDisplay(gamePlay, selection);

@@ -23,6 +23,40 @@ public class MemoizedImageScaler {
     }
 
     /**
+     * Returns a scaled instance of the given image.
+     *
+     * @param image BufferedImage to be scaled
+     * @param key A String that identifies the given image
+     * @param scalingFactor scaling factor to be applied
+     * @return scaled instance of the sprite
+     * @throws IOException when something goes wrong
+     */
+    public BufferedImage getScaledImage(
+            final BufferedImage image,
+            final String key,
+            float scalingFactor
+    ) throws IOException {
+        if (lastScalingFactor != scalingFactor) {
+            images.clear();
+            lastScalingFactor = scalingFactor;
+        }
+
+        if (images.containsKey(key)) {
+            return images.get(key);
+        }
+
+        final BufferedImage scaledImage = (1.0f == scalingFactor)
+                ? image
+                : bufferImage(image.getScaledInstance(
+                        (int) (image.getWidth() * scalingFactor),
+                        (int) (image.getHeight() * scalingFactor),
+                        Image.SCALE_SMOOTH
+                ));
+        images.put(key, scaledImage);
+        return scaledImage;
+    }
+
+    /**
      * Returns a scaled instance of the given sprite.
      *
      * @param sprite Sprite to be scaled

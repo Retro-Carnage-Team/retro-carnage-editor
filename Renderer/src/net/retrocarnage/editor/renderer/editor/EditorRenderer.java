@@ -1,16 +1,18 @@
 package net.retrocarnage.editor.renderer.editor;
 
-import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import java.awt.geom.Area;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Selectable;
+import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.apache.commons.lang3.time.StopWatch;
@@ -25,20 +27,21 @@ import org.apache.commons.lang3.time.StopWatch;
 public class EditorRenderer {
 
     private static final Logger logger = Logger.getLogger(EditorRenderer.class.getName());
-    private static final int STROKE = 2;
 
     private final GamePlay gamePlay;
     private Selectable selection;
     private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
+    private final Rectangle viewRect;
 
     public EditorRenderer(final GamePlay gamePlay) {
-        this(gamePlay, null);
+        this(gamePlay, null, null);
     }
 
-    public EditorRenderer(final GamePlay gamePlay, final Selectable selection) {
+    public EditorRenderer(final GamePlay gamePlay, final Selectable selection, final Rectangle viewRect) {
         this.gamePlay = gamePlay;
         this.selection = selection;
         this.sectionAnalysis = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
+        this.viewRect = viewRect;
     }
 
     /**
@@ -67,7 +70,6 @@ public class EditorRenderer {
             g2d.setColor(UIManager.getColor("Panel.background"));
             g2d.fillRect(0, 0, (int) dimension.getWidth(), (int) dimension.getHeight());
             g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-            g2d.setStroke(new BasicStroke(STROKE));
 
             paintContent(g2d);
         }
@@ -81,13 +83,26 @@ public class EditorRenderer {
         final int gameScreenWidth = calculateGameScreenWidth();
         final float scaling = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
 
+        // Background
         new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
 
-        g2d.setClip(new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build());
+        // Sprites
+        // Output of SpritePainter is restricted to intersection of visible component area and gameplay sections.
+        final Rectangle originalClip = (Rectangle) g2d.getClip();
+        final Area componentArea = new Area(originalClip);
+        final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
+        gameArea.intersect(componentArea);
+        g2d.setClip(gameArea);
         new SpritePainter(gamePlay.getLayers(), g2d, scaling).paintSprites();
-        g2d.setClip(null);
+        g2d.setClip(originalClip);
 
+        // Selections
         new SelectionPainter(g2d, selection, scaling).paintSelectionBorder();
+
+        // Player model overlay
+        if (PlayerModelOverlayService.getDefault().isPlayerModelOverlayVisible()) {
+            new PlayerModelPainter(g2d, scaling, viewRect).paintPlayerModel();
+        }
     }
 
     private int calculateGameScreenWidth() {

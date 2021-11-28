@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.zoom.impl.ZoomServiceImpl;
 
 /**
- * A service that can be used to manage / get the current zoom level
+ * A service that can be used to manage / get the current zoom level.
  *
  * @author Thomas Werner
  */
