@@ -9,6 +9,7 @@ import java.beans.PropertyVetoException;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JPopupMenu;
+import javax.swing.JViewport;
 import javax.swing.TransferHandler;
 import net.retrocarnage.editor.gameplayeditor.impl.GamePlayEditorRepository;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditor;
@@ -101,6 +102,7 @@ public final class GamePlayEditorTopComponent
     private void initComponents() {
 
         scrPane = new javax.swing.JScrollPane();
+        scrPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         pnlDisplay = new GamePlayDisplay(scrPane);
         ((GamePlayDisplay) pnlDisplay).updateDisplay(controller.getGamePlay(), null);
 
