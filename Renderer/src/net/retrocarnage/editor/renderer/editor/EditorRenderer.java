@@ -14,6 +14,7 @@ import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
+import net.retrocarnage.editor.renderer.common.GamePlayGraphics2D;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -87,24 +88,10 @@ public class EditorRenderer {
         new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
 
         // Sprites
-        // Output of SpritePainter is restricted to intersection of visible component area and gameplay sections.
-        // TODO: This is a ton of logic here.
-        //       The clipping code should be moved to the SpritePainter or some other wrapper class instead.
-        Rectangle originalClip = null;
-        if (g2d.getClip() instanceof java.awt.geom.Rectangle2D) {
-            originalClip = ((java.awt.geom.Rectangle2D) g2d.getClip()).getBounds();
-        } else if (g2d.getClip() instanceof java.awt.Rectangle) {
-            originalClip = (Rectangle) g2d.getClip();
-        } else {
-            logger.log(Level.WARNING, "Unknown clipping shape!");
-        }
-
-        final Area componentArea = new Area(originalClip);
         final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
-        gameArea.intersect(componentArea);
-        g2d.setClip(gameArea);
-        new SpritePainter(gamePlay.getLayers(), g2d, scaling).paintSprites();
-        g2d.setClip(originalClip);
+        try (GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
+            new SpritePainter(gamePlay.getLayers(), gpg2d, scaling).paintSprites();
+        }
 
         // Selections
         new SelectionPainter(g2d, selection, scaling).paintSelectionBorder();
