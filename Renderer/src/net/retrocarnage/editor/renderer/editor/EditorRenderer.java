@@ -87,10 +87,11 @@ public class EditorRenderer {
         // Background
         new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
 
-        // Sprites
+        // Gameplay content
         final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
         try (GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
             new SpritePainter(gamePlay.getLayers(), gpg2d, scaling).paintSprites();
+            new ObstaclePainter(gamePlay.getLayers(), gpg2d, scaling).paintObstacles();
         }
 
         // Selections

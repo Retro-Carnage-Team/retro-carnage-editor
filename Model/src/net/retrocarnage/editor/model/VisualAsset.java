@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @author Thomas Werner
  */
-public class VisualAsset implements Blocker, Selectable {
+public class VisualAsset implements Blocker {
 
     private String assetId;
     private boolean obstacle;

@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/obstacle.go
  */
-public class Obstacle implements Blocker, Selectable, Transferable {
+public class Obstacle implements Blocker, Transferable {
 
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Obstacle.class, "obstacle");
 

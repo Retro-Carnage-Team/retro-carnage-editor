@@ -5,7 +5,7 @@ package net.retrocarnage.editor.model;
  *
  * @author Thomas Werner
  */
-public interface Blocker {
+public interface Blocker extends Selectable {
 
     boolean isBulletStopper();
 
