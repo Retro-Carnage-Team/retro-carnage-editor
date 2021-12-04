@@ -6,7 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.retrocarnage.editor.model.Blocker;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Position;
@@ -18,6 +20,8 @@ import net.retrocarnage.editor.model.VisualAsset;
  * @author Thomas Werner
  */
 public class ObstaclePainter {
+
+    private static final Map<String, BufferedImage> textureCache = new HashMap<>();
 
     private final List<Layer> layers;
     private final Graphics2D g2d;
@@ -51,6 +55,11 @@ public class ObstaclePainter {
                 });
     }
 
+    /**
+     * Paints a single obstacle. This is done my using a texture to fill the obstacle area.
+     *
+     * @param obstacle the obstacle to be painted
+     */
     private void paintObstacle(final Blocker obstacle) {
         final Position scaledPosition = obstacle.getScaledPosition(scalingFactor);
         final int sideLength = (int) (10 * scalingFactor);
@@ -64,11 +73,24 @@ public class ObstaclePainter {
         g2d.fill(scaledPosition.toRectangle());
     }
 
+    /**
+     * Gets the texture to be used to paint an obstacle with the given parameters.
+     *
+     * @param sideLength specifies the width / height of the texture image. Used for zooming.
+     * @param bullets the texture will have an additional line of it stops bullets.
+     * @param explosives the texture will have a diamond pattern of it stops explosives, too.
+     * @return the texture
+     */
     private static BufferedImage getObstacleTexture(
             final int sideLength,
             final boolean bullets,
             final boolean explosives
     ) {
+        final String imageKey = String.format("%d%b%b", sideLength, bullets, explosives);
+        if (textureCache.containsKey(imageKey)) {
+            return textureCache.get(imageKey);
+        }
+
         final BufferedImage bi = new BufferedImage(sideLength, sideLength, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g2d = bi.createGraphics();
         g2d.setComposite(AlphaComposite.Clear);
@@ -95,6 +117,7 @@ public class ObstaclePainter {
 
         g2d.drawLine(0, sideLength - 1, sideLength - 1, 0);
 
+        textureCache.put(imageKey, bi);
         return bi;
     }
 
