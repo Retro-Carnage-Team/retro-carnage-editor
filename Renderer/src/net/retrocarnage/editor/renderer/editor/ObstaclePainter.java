@@ -96,6 +96,7 @@ public class ObstaclePainter {
         g2d.setComposite(AlphaComposite.Clear);
         g2d.fillRect(0, 0, sideLength, sideLength);
         g2d.setComposite(AlphaComposite.SrcOver);
+
         if (explosives) {
             g2d.setColor(Color.lightGray);
             g2d.fillPolygon(
