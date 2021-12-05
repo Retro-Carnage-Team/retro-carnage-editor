@@ -16,6 +16,7 @@ public class SelectablePropsFactory {
 
     public static Sheet.Set buildPositionSheet(final Selectable selectable, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setDisplayName("Position");
         positionSet.setName("Position");
 
         final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);

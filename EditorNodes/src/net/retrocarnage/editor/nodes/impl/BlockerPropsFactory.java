@@ -16,9 +16,10 @@ public class BlockerPropsFactory {
     public static Sheet.Set buildBlockerSheet(final Blocker blocker, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
         positionSet.setName("Blocker");
+        positionSet.setDisplayName("Blocker");
 
         final Node.Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
-        obstacleProp.setName("Obstacle");
+        obstacleProp.setName("Stops players");
         positionSet.put(obstacleProp);
 
         final Node.Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
