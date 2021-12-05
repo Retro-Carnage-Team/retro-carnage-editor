@@ -19,6 +19,7 @@ import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.nodes.nodes.GamePlayNode;
+import net.retrocarnage.editor.nodes.nodes.ObstacleNode;
 import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.zoom.ZoomService;
@@ -263,6 +264,10 @@ public final class GamePlayEditorTopComponent
     private Node getNodeForSelection(final Node parent, final Selectable selection) {
         if (parent instanceof VisualAssetNode) {
             if (((VisualAssetNode) parent).getVisualAsset() == selection) {
+                return parent;
+            }
+        } else if (parent instanceof ObstacleNode) {
+            if (((ObstacleNode) parent).getObstacle() == selection) {
                 return parent;
             }
         } else {

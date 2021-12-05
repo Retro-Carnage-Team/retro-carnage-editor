@@ -71,58 +71,12 @@ public class VisualAssetNode extends AbstractNode {
 
     @Override
     protected Sheet createSheet() {
-        final Sheet sheet = Sheet.createDefault();
-
-        sheet.put(buildPositionSet());
-        sheet.put(buildBlockerSet());
-
-        return sheet;
-    }
-
-    private Sheet.Set buildPositionSet() {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
-        final Sheet.Set positionSet = Sheet.createPropertiesSet();
-        positionSet.setName("Position");
-
-        final Property posXProp = SelectablePropsFactory.buildXProperty(visualAsset, layer.isLocked());
-        posXProp.setName("X");
-        positionSet.put(posXProp);
-
-        final Property posYProp = SelectablePropsFactory.buildYProperty(visualAsset, layer.isLocked());
-        posYProp.setName("Y");
-        positionSet.put(posYProp);
-
-        final Property posWidthProp = SelectablePropsFactory.buildWidthProperty(visualAsset, layer.isLocked());
-        posWidthProp.setName("Width");
-        positionSet.put(posWidthProp);
-
-        final Property posHeightProp = SelectablePropsFactory.buildHeightProperty(visualAsset, layer.isLocked());
-        posHeightProp.setName("Height");
-        positionSet.put(posHeightProp);
-
-        return positionSet;
-    }
-
-    private Sheet.Set buildBlockerSet() {
-        final Sprite sprite = AssetService.getDefault().getSprite(visualAsset.getAssetId());
-
-        final Sheet.Set positionSet = Sheet.createPropertiesSet();
-        positionSet.setName("Blocker");
-
-        final Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(visualAsset, false);
-        obstacleProp.setName("Obstacle");
-        positionSet.put(obstacleProp);
-
-        final Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(visualAsset, false);
-        bulletsProp.setName("Stops bullets");
-        positionSet.put(bulletsProp);
-
-        final Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(visualAsset, false);
-        explosivesProp.setName("Stops explosives");
-        positionSet.put(explosivesProp);
-
-        return positionSet;
+        final Sheet sheet = Sheet.createDefault();
+        sheet.put(SelectablePropsFactory.buildPositionSheet(visualAsset, layer.isLocked()));
+        sheet.put(BlockerPropsFactory.buildBlockerSheet(visualAsset, layer.isLocked()));
+        return sheet;
     }
 
 }

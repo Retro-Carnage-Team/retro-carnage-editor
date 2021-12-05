@@ -4,6 +4,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Blocker;
 import org.openide.nodes.Node;
+import org.openide.nodes.Sheet;
 
 /**
  * A factory that builds properties for Blockers.
@@ -12,7 +13,26 @@ import org.openide.nodes.Node;
  */
 public class BlockerPropsFactory {
 
-    public static Node.Property buildStoppingBulletsProperty(final Blocker blocker, final boolean readonly) {
+    public static Sheet.Set buildBlockerSheet(final Blocker blocker, final boolean readonly) {
+        final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setName("Blocker");
+
+        final Node.Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
+        obstacleProp.setName("Obstacle");
+        positionSet.put(obstacleProp);
+
+        final Node.Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
+        bulletsProp.setName("Stops bullets");
+        positionSet.put(bulletsProp);
+
+        final Node.Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(blocker, readonly);
+        explosivesProp.setName("Stops explosives");
+        positionSet.put(explosivesProp);
+
+        return positionSet;
+    }
+
+    private static Node.Property buildStoppingBulletsProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override
@@ -40,7 +60,7 @@ public class BlockerPropsFactory {
         };
     }
 
-    public static Node.Property buildStoppingExplosivesProperty(final Blocker blocker, final boolean readonly) {
+    private static Node.Property buildStoppingExplosivesProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override
@@ -68,7 +88,7 @@ public class BlockerPropsFactory {
         };
     }
 
-    public static Node.Property buildObstacleProperty(final Blocker blocker, final boolean readonly) {
+    private static Node.Property buildObstacleProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override

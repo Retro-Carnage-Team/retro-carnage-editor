@@ -5,6 +5,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Selectable;
 import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;
+import org.openide.nodes.Sheet;
 
 /**
  * A factory that builds properties for Selectables.
@@ -13,7 +14,30 @@ import org.openide.nodes.Node.Property;
  */
 public class SelectablePropsFactory {
 
-    public static Property buildXProperty(final Selectable selectable, final boolean readonly) {
+    public static Sheet.Set buildPositionSheet(final Selectable selectable, final boolean readonly) {
+        final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setName("Position");
+
+        final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
+        posXProp.setName("X");
+        positionSet.put(posXProp);
+
+        final Property posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
+        posYProp.setName("Y");
+        positionSet.put(posYProp);
+
+        final Property posWidthProp = SelectablePropsFactory.buildWidthProperty(selectable, readonly);
+        posWidthProp.setName("Width");
+        positionSet.put(posWidthProp);
+
+        final Property posHeightProp = SelectablePropsFactory.buildHeightProperty(selectable, readonly);
+        posHeightProp.setName("Height");
+        positionSet.put(posHeightProp);
+
+        return positionSet;
+    }
+
+    private static Property buildXProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -41,7 +65,7 @@ public class SelectablePropsFactory {
         };
     }
 
-    public static Property buildYProperty(final Selectable selectable, final boolean readonly) {
+    private static Property buildYProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -69,7 +93,7 @@ public class SelectablePropsFactory {
         };
     }
 
-    public static Property buildWidthProperty(final Selectable selectable, final boolean readonly) {
+    private static Property buildWidthProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -97,7 +121,7 @@ public class SelectablePropsFactory {
         };
     }
 
-    public static Property buildHeightProperty(final Selectable selectable, final boolean readonly) {
+    private static Property buildHeightProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override

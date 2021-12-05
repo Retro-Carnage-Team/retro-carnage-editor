@@ -3,9 +3,13 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Obstacle;
+import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
+import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.Sheet;
 
 /**
  * A Node for Obstacles in context of the LayerSelector.
@@ -45,6 +49,16 @@ public class ObstacleNode extends AbstractNode {
     @Override
     public Action[] getActions(final boolean popup) {
         return new Action[]{};
+    }
+
+    @Override
+    protected Sheet createSheet() {
+        final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
+
+        final Sheet sheet = Sheet.createDefault();
+        sheet.put(SelectablePropsFactory.buildPositionSheet(obstacle, layer.isLocked()));
+        sheet.put(BlockerPropsFactory.buildBlockerSheet(obstacle, layer.isLocked()));
+        return sheet;
     }
 
 }

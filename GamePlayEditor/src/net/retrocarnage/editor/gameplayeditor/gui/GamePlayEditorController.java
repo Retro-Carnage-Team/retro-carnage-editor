@@ -5,9 +5,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.stream.Stream;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.DummyPaletteActions;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.model.Blocker;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
@@ -157,10 +160,14 @@ class GamePlayEditorController {
         final Selectable selection = selectionControllerImpl.getSelection();
         if (null != selection) {
             for (Layer layer : layerControllerImpl.getLayers()) {
-                if (!layer.isLocked() && layer.getVisualAssets().contains(selection)) {
-                    layer.getVisualAssets().remove(selection);
-                    selectionControllerImpl.setSelection(null);
-                    break;
+                if (!layer.isLocked()) {
+                    if ((selection instanceof VisualAsset) && layer.getVisualAssets().remove(selection)) {
+                        selectionControllerImpl.setSelection(null);
+                        break;
+                    } else if ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) {
+                        selectionControllerImpl.setSelection(null);
+                        break;
+                    }
                 }
             }
         }
@@ -169,12 +176,16 @@ class GamePlayEditorController {
     void handleMouseClick(final Point position) {
         final Point scaledPosition = scalePosition(position);
         final Selectable oldSelection = selectionControllerImpl.getSelection();
+
         for (Layer layer : gamePlay.getLayers()) {
-            for (VisualAsset asset : layer.getVisualAssets()) {
-                if (asset.getPosition().toRectangle().contains(scaledPosition)) {
-                    if (oldSelection != asset) {
-                        selectionControllerImpl.setSelection(asset);
-                    }
+            final Optional<Blocker> possibleItem = Stream
+                    .concat(layer.getVisualAssets().stream(), layer.getObstacles().stream())
+                    .filter((b) -> b.getPosition().toRectangle().contains(scaledPosition))
+                    .findFirst();
+
+            if (possibleItem.isPresent()) {
+                if (oldSelection != possibleItem.get()) {
+                    selectionControllerImpl.setSelection(possibleItem.get());
                     return;
                 }
             }
