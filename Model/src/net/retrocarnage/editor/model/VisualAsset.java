@@ -12,6 +12,7 @@ public class VisualAsset implements Blocker {
     private String assetId;
     private boolean obstacle;
     private Position position;
+    private Rotation rotation = Rotation.None;
     private boolean stopsBullets;
     private boolean stopsExplosives;
 
@@ -20,6 +21,7 @@ public class VisualAsset implements Blocker {
         final VisualAsset clone = new VisualAsset();
         clone.setAssetId(assetId);
         clone.setPosition(position.clone());
+        clone.setRotation(rotation);
         return clone;
     }
 
@@ -81,6 +83,14 @@ public class VisualAsset implements Blocker {
     @Override
     public void setObstacle(final boolean obstacle) {
         this.obstacle = obstacle;
+    }
+
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(final Rotation rotation) {
+        this.rotation = rotation;
     }
 
 }

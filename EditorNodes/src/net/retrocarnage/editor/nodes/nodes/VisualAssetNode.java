@@ -4,7 +4,10 @@ import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.model.Rotation;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import net.retrocarnage.editor.nodes.actions.VisualAssetCloneAction;
@@ -15,6 +18,7 @@ import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
 import org.openide.nodes.Sheet;
 
 /**
@@ -74,9 +78,46 @@ public class VisualAssetNode extends AbstractNode {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
         final Sheet sheet = Sheet.createDefault();
+        sheet.put(buildVisualAssetSheet(layer.isLocked()));
         sheet.put(SelectablePropsFactory.buildPositionSheet(visualAsset, layer.isLocked()));
         sheet.put(BlockerPropsFactory.buildBlockerSheet(visualAsset, layer.isLocked()));
         return sheet;
+    }
+
+    public Sheet.Set buildVisualAssetSheet(final boolean readonly) {
+        final Sheet.Set positionSet = Sheet.createPropertiesSet();
+        positionSet.setDisplayName("Properties");
+        positionSet.setName("Properties");
+
+        final Property rotation = new Node.Property<Rotation>(Rotation.class) {
+
+            @Override
+            public Rotation getValue() {
+                return visualAsset.getRotation();
+            }
+
+            @Override
+            public void setValue(final Rotation t) {
+                if (!readonly) {
+                    visualAsset.setRotation(t);
+                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                }
+            }
+
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+
+            @Override
+            public boolean canWrite() {
+                return !readonly;
+            }
+        };
+        rotation.setName("Rotation");
+        positionSet.put(rotation);
+
+        return positionSet;
     }
 
 }

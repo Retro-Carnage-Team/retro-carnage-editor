@@ -2,7 +2,9 @@ package net.retrocarnage.editor.missionselector;
 
 import java.awt.BorderLayout;
 import javax.swing.ActionMap;
+import net.retrocarnage.editor.nodes.actions.EditGamePlayAction;
 import net.retrocarnage.editor.nodes.nodes.MissionChildren;
+import net.retrocarnage.editor.nodes.nodes.MissionNode;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -48,6 +50,11 @@ public final class SelectorTopComponent extends TopComponent implements Explorer
         initComponents();
 
         final ListView view = new ListView();
+        view.setDefaultProcessor((ae) -> {
+            if (ae.getSource() instanceof MissionNode) {
+                new EditGamePlayAction(((MissionNode) ae.getSource()).getMission()).actionPerformed(ae);
+            }
+        });
         explorerManager.setRootContext(new AbstractNode(new MissionChildren()));
         add(view, BorderLayout.CENTER);
 

@@ -1,6 +1,5 @@
 package net.retrocarnage.editor.model;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +8,12 @@ import java.util.List;
  *
  * @author Thomas Werner
  */
-public class Enemy {
+public class Enemy implements Selectable {
 
     private double activationDistance;
     private List<EnemyMovement> movements;
     private String direction;
-    private Rectangle position;
+    private Position position;
     private String skin;
     private int type;
     private List<EnemyAction> actions;
@@ -28,7 +27,7 @@ public class Enemy {
         return activationDistance;
     }
 
-    public void setActivationDistance(double activationDistance) {
+    public void setActivationDistance(final double activationDistance) {
         this.activationDistance = activationDistance;
     }
 
@@ -36,7 +35,7 @@ public class Enemy {
         return movements;
     }
 
-    public void setMovements(List<EnemyMovement> movements) {
+    public void setMovements(final List<EnemyMovement> movements) {
         this.movements = movements;
     }
 
@@ -44,15 +43,17 @@ public class Enemy {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirection(final String direction) {
         this.direction = direction;
     }
 
-    public Rectangle getPosition() {
+    @Override
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(Rectangle position) {
+    @Override
+    public void setPosition(final Position position) {
         this.position = position;
     }
 
@@ -60,7 +61,7 @@ public class Enemy {
         return skin;
     }
 
-    public void setSkin(String skin) {
+    public void setSkin(final String skin) {
         this.skin = skin;
     }
 
@@ -68,7 +69,7 @@ public class Enemy {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(final int type) {
         this.type = type;
     }
 
@@ -76,8 +77,18 @@ public class Enemy {
         return actions;
     }
 
-    public void setActions(List<EnemyAction> actions) {
+    public void setActions(final List<EnemyAction> actions) {
         this.actions = actions;
+    }
+
+    @Override
+    public boolean isMovable() {
+        return true;
+    }
+
+    @Override
+    public boolean isResizable() {
+        return false;
     }
 
 }

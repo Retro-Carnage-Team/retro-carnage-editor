@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Position;
+import net.retrocarnage.editor.model.Rotation;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
@@ -55,10 +58,15 @@ class SpritePainter {
         }
 
         try {
-            final BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
+            BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
             final Position scaledPosition = (1.0f == scalingFactor)
                     ? va.getPosition()
                     : va.getScaledPosition(scalingFactor);
+
+            if (Rotation.None != va.getRotation()) {
+                scaledImage = rotateImage(scaledImage, va.getRotation());
+            }
+
             if (sprite.isTile()) {
                 paintTiledSprite(
                         scaledImage,
@@ -71,7 +79,6 @@ class SpritePainter {
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to read Sprite image", ex);
         }
-
     }
 
     private void paintScaledSprite(final BufferedImage image, final Position position) {
@@ -82,6 +89,30 @@ class SpritePainter {
         final Rectangle anchor = new Rectangle(0, 0, tileSize.width, tileSize.height);
         g2d.setPaint(new TexturePaint(image, anchor));
         g2d.fill(position.toRectangle());
+    }
+
+    /**
+     * Rotates a given BufferedImages by a given angle.
+     *
+     * @param image source image to be rotated
+     * @param rotation rotation to be applied
+     * @return the rotated image
+     * @see https://blog.idrsolutions.com/2019/05/image-rotation-in-java/
+     */
+    private static BufferedImage rotateImage(final BufferedImage image, final Rotation rotation) {
+        final double rads = Math.toRadians(rotation.getDegrees());
+        final double sin = Math.abs(Math.sin(rads));
+        final double cos = Math.abs(Math.cos(rads));
+        final int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+        final int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+        final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+        final AffineTransform at = new AffineTransform();
+        at.translate(w / 2, h / 2);
+        at.rotate(rads, 0, 0);
+        at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+        final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        rotateOp.filter(image, rotatedImage);
+        return rotatedImage;
     }
 
 }
