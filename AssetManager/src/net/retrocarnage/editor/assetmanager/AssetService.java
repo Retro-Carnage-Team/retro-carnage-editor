@@ -15,6 +15,8 @@ import net.retrocarnage.editor.model.Sprite;
  */
 public abstract class AssetService {
 
+    public static final String TAG_CLIENT = "client";
+
     private static AssetService assetServiceImpl = new AssetServiceImpl();
 
     /**

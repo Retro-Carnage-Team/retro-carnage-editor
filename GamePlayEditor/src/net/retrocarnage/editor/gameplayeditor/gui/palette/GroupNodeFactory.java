@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
@@ -19,6 +20,7 @@ public class GroupNodeFactory extends ChildFactory<String> {
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
         final List<String> sortedEntries = new ArrayList<>(AssetService.getDefault().getSpriteTags());
+        sortedEntries.remove(TAG_CLIENT);
         sortedEntries.add(OBSTACLE_GROUP);
         Collections.sort(sortedEntries);
         toPopulate.addAll(sortedEntries);

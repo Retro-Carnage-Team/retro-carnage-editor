@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
@@ -153,7 +154,7 @@ class EditorController {
         final AssetService assetService = AssetService.getDefault();
         final List<Sprite> clients = new LinkedList<>();
         assetService
-                .findAssets("client")
+                .findAssets(TAG_CLIENT)
                 .stream()
                 .filter(a -> a instanceof Sprite)
                 .forEach(a -> clients.add((Sprite) a));
