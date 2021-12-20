@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
 
@@ -29,7 +31,9 @@ public class VisualAssetCloneAction extends AbstractAction {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        layer.getVisualAssets().add(visualAsset.clone());
+        final VisualAsset clone = visualAsset.clone();
+        layer.getVisualAssets().add(0, clone);
+        GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).setSelection(clone);
     }
 
 }
