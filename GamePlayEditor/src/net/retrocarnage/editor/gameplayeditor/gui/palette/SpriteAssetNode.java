@@ -56,6 +56,7 @@ public class SpriteAssetNode extends AbstractNode {
     }
 
     private String getLabel() {
+        final String tags = sprite.getTags().stream().reduce("", (t, u) -> t.isEmpty() ? u : t + ", " + u);
         return new StringBuilder()
                 .append("<html>")
                 .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
@@ -66,6 +67,10 @@ public class SpriteAssetNode extends AbstractNode {
                 .append("       <tr>")
                 .append("           <td><b>Type</b></td>")
                 .append("           <td>").append(sprite.isTile() ? "Tile" : "Sprite").append("</td>")
+                .append("       </tr>")
+                .append("       <tr>")
+                .append("           <td><b>Tags</b></td>")
+                .append("           <td>").append(tags).append("</td>")
                 .append("       </tr>")
                 .append("       <tr>")
                 .append("           <td><b>Size</b></td>")

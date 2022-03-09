@@ -1,10 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.gui.palette;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import net.retrocarnage.editor.assetmanager.AssetService;
-import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
@@ -16,13 +13,13 @@ import org.openide.nodes.Node;
 public class GroupNodeFactory extends ChildFactory<String> {
 
     private static final String OBSTACLE_GROUP = "obstacle group key";
+    private static final String BACKGROUND_GROUP = "background group key";
 
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
-        final List<String> sortedEntries = new ArrayList<>(AssetService.getDefault().getSpriteTags());
-        sortedEntries.remove(TAG_CLIENT);
+        final List<String> sortedEntries = new ArrayList<>();
+        sortedEntries.add(BACKGROUND_GROUP);
         sortedEntries.add(OBSTACLE_GROUP);
-        Collections.sort(sortedEntries);
         toPopulate.addAll(sortedEntries);
         return true;
     }
@@ -32,7 +29,10 @@ public class GroupNodeFactory extends ChildFactory<String> {
         if (OBSTACLE_GROUP.equals(key)) {
             return new Node[]{new ObstacleGroupNode()};
         }
-        return new Node[]{new SpriteGroupNode(key)};
+        if (BACKGROUND_GROUP.equals(key)) {
+            return new Node[]{new BackgroundGroupNode()};
+        }
+        return null;
     }
 
 }
