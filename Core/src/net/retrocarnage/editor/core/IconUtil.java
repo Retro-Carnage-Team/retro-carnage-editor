@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
  *
  * @author Thomas Werner
  */
-public class IconUtil {
+public final class IconUtil {
 
     private static final Logger logger = Logger.getLogger(IconUtil.class.getName());
     private static final Image EMPTY_ICON = buildEmptyIcon();

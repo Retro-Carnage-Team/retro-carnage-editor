@@ -11,7 +11,11 @@ import org.openide.nodes.Sheet;
  *
  * @author Thomas Werner
  */
-public class BlockerPropsFactory {
+public final class BlockerPropsFactory {
+
+    private BlockerPropsFactory() {
+        // Intentionally empty.
+    }
 
     public static Sheet.Set buildBlockerSheet(final Blocker blocker, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();

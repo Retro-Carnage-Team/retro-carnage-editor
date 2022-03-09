@@ -12,7 +12,11 @@ import org.openide.nodes.Sheet;
  *
  * @author Thomas Werner
  */
-public class SelectablePropsFactory {
+public final class SelectablePropsFactory {
+
+    private SelectablePropsFactory() {
+        // Intentionally empty.
+    }
 
     public static Sheet.Set buildPositionSheet(final Selectable selectable, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
