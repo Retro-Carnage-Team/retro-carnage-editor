@@ -32,7 +32,7 @@ public class GroupNodeFactory extends ChildFactory<String> {
         if (BACKGROUND_GROUP.equals(key)) {
             return new Node[]{new BackgroundGroupNode()};
         }
-        return null;
+        return new Node[]{};
     }
 
 }

@@ -16,6 +16,7 @@ public class Position {
      * Default constructor. Initializes location and dimension with 0, 0.
      */
     public Position() {
+        // This constructor is intentionally empty.
     }
 
     public Position(final int x, final int y, final int width, final int height) {

@@ -15,6 +15,7 @@ public class Location {
      * Default constructor. Initializes location with 0, 0.
      */
     public Location() {
+        // This constructor is intentionally empty.
     }
 
     public Location(final int lng, final int lat) {

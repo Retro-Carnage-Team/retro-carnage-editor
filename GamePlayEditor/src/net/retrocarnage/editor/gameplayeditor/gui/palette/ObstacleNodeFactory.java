@@ -11,24 +11,20 @@ import org.openide.nodes.Node;
  */
 public class ObstacleNodeFactory extends ChildFactory<String> {
 
-    // private static final String NONE_STOPPER = "none stopper";
-    private static final String BULLET_STOPPER = "bullet stopper";
-    // private static final String FULL_STOPPER = "full stopper";
+    private static final String OBSTACLE_KEY = "bullet stopper";
 
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
-        toPopulate.add(BULLET_STOPPER);
+        toPopulate.add(OBSTACLE_KEY);
         return true;
     }
 
     @Override
     protected Node[] createNodesForKey(final String key) {
-        switch (key) {
-            case BULLET_STOPPER:
-                return new Node[]{new ObstacleNode()};
+        if (OBSTACLE_KEY.equals(key)) {
+            return new Node[]{new ObstacleNode()};
         }
         return new Node[]{};
-
     }
 
 }

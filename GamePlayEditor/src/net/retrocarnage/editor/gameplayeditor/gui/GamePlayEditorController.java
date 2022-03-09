@@ -183,11 +183,9 @@ class GamePlayEditorController {
                     .filter((b) -> b.getPosition().toRectangle().contains(scaledPosition))
                     .findFirst();
 
-            if (possibleItem.isPresent()) {
-                if (oldSelection != possibleItem.get()) {
-                    selectionControllerImpl.setSelection(possibleItem.get());
-                    return;
-                }
+            if (possibleItem.isPresent() && oldSelection != possibleItem.get()) {
+                selectionControllerImpl.setSelection(possibleItem.get());
+                return;
             }
         }
         if (oldSelection != null) {
