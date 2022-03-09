@@ -11,6 +11,9 @@ public class Location {
     private int longitude;  // X
     private int latitude;   // Y
 
+    /**
+     * Default constructor. Initializes location with 0, 0.
+     */
     public Location() {
     }
 

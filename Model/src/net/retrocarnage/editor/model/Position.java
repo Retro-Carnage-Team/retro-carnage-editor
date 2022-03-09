@@ -12,6 +12,9 @@ public class Position {
     private int width;
     private int height;
 
+    /**
+     * Default constructor. Initializes location and dimension with 0, 0.
+     */
     public Position() {
     }
 

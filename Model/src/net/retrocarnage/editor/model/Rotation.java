@@ -12,11 +12,11 @@ public enum Rotation {
     TwoQuarters(180),
     ThreeQuarters(270);
 
+    private final int degrees;
+
     private Rotation(final int degrees) {
         this.degrees = degrees;
     }
-
-    private final int degrees;
 
     public int getDegrees() {
         return degrees;

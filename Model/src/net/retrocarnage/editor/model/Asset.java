@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
@@ -82,7 +83,7 @@ public abstract class Asset<T extends Asset<?>> {
     public boolean isTagged(final String tag) {
         return tags
                 .stream()
-                .anyMatch(t -> t.trim().toLowerCase().startsWith(tag.trim().toLowerCase()));
+                .anyMatch(t -> t.trim().toLowerCase(Locale.ENGLISH).startsWith(tag.trim().toLowerCase(Locale.ENGLISH)));
     }
 
     /**
