@@ -1,14 +1,27 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Enemy is the serialized definition of an enemy.
  *
  * @author Thomas Werner
  */
-public class Enemy implements Selectable {
+public class Enemy implements Selectable, Transferable {
+
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(Enemy.class, "enemy");
+    private static final Logger logger = Logger.getLogger(Enemy.class.getName());
 
     private double activationDistance;
     private List<EnemyMovement> movements;
@@ -89,6 +102,42 @@ public class Enemy implements Selectable {
     @Override
     public boolean isResizable() {
         return false;
+    }
+
+    @JsonIgnore
+    @Override
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{DATA_FLAVOR};
+    }
+
+    @Override
+    public boolean isDataFlavorSupported(final DataFlavor df) {
+        return DATA_FLAVOR.equals(df);
+    }
+
+    @Override
+    public Object getTransferData(final DataFlavor df) throws UnsupportedFlavorException, IOException {
+        if (DATA_FLAVOR.equals(df)) {
+            return this;
+        }
+        throw new UnsupportedFlavorException(df);
+    }
+
+    /**
+     * Creates a deep copy of this object.
+     *
+     * @return the copy
+     * @throws java.lang.CloneNotSupportedException
+     */
+    @Override
+    public Enemy clone() throws CloneNotSupportedException {
+        try {
+            final ObjectMapper xmlMapper = new XmlMapper();
+            return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Enemy.class);
+        } catch (JsonProcessingException ex) {
+            logger.log(Level.SEVERE, "Failed to serialize / deserialize Enemy instance", ex);
+            throw new IllegalArgumentException("Enemy can't be serialized / deserialized", ex);
+        }
     }
 
 }

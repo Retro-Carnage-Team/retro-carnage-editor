@@ -18,13 +18,13 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class SpriteAssetNode extends AbstractNode {
+public class BackgroundNode extends AbstractNode {
 
-    private static final Logger logger = Logger.getLogger(SpriteAssetNode.class.getName());
+    private static final Logger logger = Logger.getLogger(BackgroundNode.class.getName());
 
     private final Sprite sprite;
 
-    public SpriteAssetNode(final String id) {
+    public BackgroundNode(final String id) {
         super(Children.LEAF);
         sprite = AssetService.getDefault().getSprite(id);
         setDisplayName(getLabel());

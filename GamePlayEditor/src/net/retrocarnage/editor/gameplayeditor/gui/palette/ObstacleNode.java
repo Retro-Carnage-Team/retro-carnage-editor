@@ -17,7 +17,7 @@ import org.openide.nodes.Children;
  */
 public class ObstacleNode extends AbstractNode {
 
-    private static final Logger logger = Logger.getLogger(SpriteAssetNode.class.getName());
+    private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());
     private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/diagonal.png";
 
     private static Image icon = null;
@@ -59,10 +59,6 @@ public class ObstacleNode extends AbstractNode {
         return new StringBuilder()
                 .append("<html>")
                 .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
-                .append("       <tr>")
-                .append("           <td><b>Name</b></td>")
-                .append("           <td>").append("Obstacle").append("</td>")
-                .append("       </tr>")
                 .append("       <tr>")
                 .append("           <td><b>Type</b></td>")
                 .append("           <td>").append("Obstacle").append("</td>")

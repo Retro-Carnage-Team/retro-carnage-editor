@@ -29,8 +29,8 @@ public class BackgroundNodeFactory extends ChildFactory<String> {
         return AssetService.getDefault()
                 .findAssets(key).stream()
                 .map((asset) -> asset.getId())
-                .map((k) -> new SpriteAssetNode(k))
-                .toArray(SpriteAssetNode[]::new);
+                .map((k) -> new BackgroundNode(k))
+                .toArray(BackgroundNode[]::new);
     }
 
 }
