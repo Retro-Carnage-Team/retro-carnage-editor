@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.TransferHandler;
 import static net.retrocarnage.editor.gameplayeditor.gui.GamePlayDisplay.BORDER_WIDTH;
+import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.Obstacle;
 import net.retrocarnage.editor.model.Sprite;
 
@@ -27,7 +28,8 @@ public class DragAndDropTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(final TransferSupport support) {
-        return support.isDataFlavorSupported(Sprite.DATA_FLAVOR)
+        return support.isDataFlavorSupported(Enemy.DATA_FLAVOR)
+                || support.isDataFlavorSupported(Sprite.DATA_FLAVOR)
                 || support.isDataFlavorSupported(Obstacle.DATA_FLAVOR);
     }
 
@@ -37,7 +39,10 @@ public class DragAndDropTransferHandler extends TransferHandler {
             final Point dropLocation = support.getDropLocation().getDropPoint();
             dropLocation.translate(-BORDER_WIDTH, -BORDER_WIDTH);
 
-            if (support.isDataFlavorSupported(Sprite.DATA_FLAVOR)) {
+            if (support.isDataFlavorSupported(Enemy.DATA_FLAVOR)) {
+                final Enemy enemy = (Enemy) support.getTransferable().getTransferData(Enemy.DATA_FLAVOR);
+                controller.addEnemy(enemy, dropLocation);
+            } else if (support.isDataFlavorSupported(Sprite.DATA_FLAVOR)) {
                 final Sprite sprite = (Sprite) support.getTransferable().getTransferData(Sprite.DATA_FLAVOR);
                 controller.addSprite(sprite, dropLocation);
             } else if (support.isDataFlavorSupported(Obstacle.DATA_FLAVOR)) {

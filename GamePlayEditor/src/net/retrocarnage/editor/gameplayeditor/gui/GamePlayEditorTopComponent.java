@@ -42,7 +42,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "GamePlayEditorTopComponent",
-        iconBase = "net/retrocarnage/editor/gameplayeditor/gui/accessories-text-editor.png",
+        iconBase = "net/retrocarnage/editor/gameplayeditor/images/accessories-text-editor.png",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)

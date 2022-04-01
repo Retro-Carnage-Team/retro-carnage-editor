@@ -18,23 +18,23 @@ public final class BlockerPropsFactory {
     }
 
     public static Sheet.Set buildBlockerSheet(final Blocker blocker, final boolean readonly) {
-        final Sheet.Set positionSet = Sheet.createPropertiesSet();
-        positionSet.setName("Blocker");
-        positionSet.setDisplayName("Blocker");
+        final Sheet.Set blockerSet = Sheet.createPropertiesSet();
+        blockerSet.setName("Blocker");
+        blockerSet.setDisplayName("Blocker");
 
         final Node.Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
         obstacleProp.setName("Stops players");
-        positionSet.put(obstacleProp);
+        blockerSet.put(obstacleProp);
 
         final Node.Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
         bulletsProp.setName("Stops bullets");
-        positionSet.put(bulletsProp);
+        blockerSet.put(bulletsProp);
 
         final Node.Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(blocker, readonly);
         explosivesProp.setName("Stops explosives");
-        positionSet.put(explosivesProp);
+        blockerSet.put(explosivesProp);
 
-        return positionSet;
+        return blockerSet;
     }
 
     private static Node.Property buildStoppingBulletsProperty(final Blocker blocker, final boolean readonly) {

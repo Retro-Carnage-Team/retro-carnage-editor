@@ -23,7 +23,6 @@ public class Enemy implements Selectable, Transferable {
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Enemy.class, "enemy");
     private static final Logger logger = Logger.getLogger(Enemy.class.getName());
 
-    private double activationDistance;
     private List<EnemyMovement> movements;
     private String direction;
     private Position position;
@@ -34,14 +33,6 @@ public class Enemy implements Selectable, Transferable {
     public Enemy() {
         this.movements = new ArrayList<>();
         this.actions = new ArrayList<>();
-    }
-
-    public double getActivationDistance() {
-        return activationDistance;
-    }
-
-    public void setActivationDistance(final double activationDistance) {
-        this.activationDistance = activationDistance;
     }
 
     public List<EnemyMovement> getMovements() {
@@ -94,11 +85,13 @@ public class Enemy implements Selectable, Transferable {
         this.actions = actions;
     }
 
+    @JsonIgnore
     @Override
     public boolean isMovable() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isResizable() {
         return false;

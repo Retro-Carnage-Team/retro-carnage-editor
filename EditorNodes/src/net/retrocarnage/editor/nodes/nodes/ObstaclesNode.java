@@ -15,8 +15,8 @@ public class ObstaclesNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacles.png";
     private static final String OPEN_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/folder_open.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
-    private static final Image OPEN_ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(OPEN_ICON_PATH));
+    private static final Image ICON = IconUtil.loadIcon(ObstaclesNode.class.getResourceAsStream(ICON_PATH));
+    private static final Image OPEN_ICON = IconUtil.loadIcon(ObstaclesNode.class.getResourceAsStream(OPEN_ICON_PATH));
 
     public ObstaclesNode(final Layer layer) {
         super(new ObstacleChildren(layer), Lookups.singleton(layer));

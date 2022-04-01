@@ -38,7 +38,6 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
     private static Enemy buildPersonTemplate() {
         final Enemy result = new Enemy();
         result.setActions(Collections.emptyList());
-        result.setActivationDistance(0);
         result.setDirection(Direction.Down.getValue());
         result.setMovements(Collections.emptyList());
         result.setSkin(EnemySkin.GreyJumperWithRifle.getName());
@@ -49,7 +48,6 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
     private static Enemy buildLandmineTemplate() {
         final Enemy result = new Enemy();
         result.setActions(Collections.emptyList());
-        result.setActivationDistance(0);
         result.setDirection(Direction.Down.getValue());
         result.setMovements(Collections.emptyList());
         result.setSkin("");

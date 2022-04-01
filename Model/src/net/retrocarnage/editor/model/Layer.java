@@ -3,7 +3,7 @@ package net.retrocarnage.editor.model;
 import java.util.List;
 
 /**
- * Layers are used to organized graphical assets.
+ * Layers are used to organize assets.
  *
  * This makes it easer to work on different aspects of the mission one at a time.
  *
@@ -16,10 +16,12 @@ public class Layer {
     private boolean locked;
     private String name;
     private boolean visible;
+    private final ObservableList<Enemy> enemies;
     private final ObservableList<Obstacle> obstacles;
     private final ObservableList<VisualAsset> visualAssets;
 
     public Layer() {
+        enemies = new ObservableList<>();
         obstacles = new ObservableList<>();
         visualAssets = new ObservableList<>();
     }
@@ -46,6 +48,15 @@ public class Layer {
 
     public void setVisible(final boolean visible) {
         this.visible = visible;
+    }
+
+    public ObservableList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(final List<Enemy> enemies) {
+        this.enemies.clear();
+        this.enemies.addAll(enemies);
     }
 
     public ObservableList<Obstacle> getObstacles() {

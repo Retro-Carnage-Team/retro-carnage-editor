@@ -11,6 +11,7 @@ import net.retrocarnage.editor.gameplayeditor.gui.palette.DummyPaletteActions;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Blocker;
+import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
@@ -111,6 +112,24 @@ class GamePlayEditorController {
     void close() {
         gamePlay.removePropertyChangeListener(gamePlayChangeListener);
         savable.close();
+    }
+
+    void addEnemy(final Enemy enemy, final Point position) {
+        final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
+        if (selectedLayer.isLocked()) {
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+        } else {
+            final Point scaledPosition = scalePosition(position);
+            final Position newPosition = new Position();
+            newPosition.setX(scaledPosition.x - (enemy.getPosition().getWidth() / 2));
+            newPosition.setY(scaledPosition.y - (enemy.getPosition().getHeight() / 2));
+            newPosition.setWidth(enemy.getPosition().getWidth());
+            newPosition.setHeight(enemy.getPosition().getHeight());
+            enemy.setPosition(newPosition);
+
+            selectedLayer.getEnemies().add(0, enemy);
+            requestGamePlayRepaint();
+        }
     }
 
     void addObstacle(final Obstacle obstacle, final Point position) {

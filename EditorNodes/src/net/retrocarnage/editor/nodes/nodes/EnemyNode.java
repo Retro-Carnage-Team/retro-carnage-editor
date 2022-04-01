@@ -3,31 +3,31 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.Layer;
-import net.retrocarnage.editor.model.Obstacle;
-import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
+import net.retrocarnage.editor.nodes.impl.EnemyPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Sheet;
 
 /**
- * A Node for Obstacles in context of the LayerSelector.
+ * A Node for Enemy in context of the LayerSelector.
  *
  * @author Thomas Werner
  */
-public class ObstacleNode extends AbstractNode {
+public class EnemyNode extends AbstractNode {
 
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacle.png";
-    private static final Image ICON = IconUtil.loadIcon(ObstacleNode.class.getResourceAsStream(ICON_PATH));
+    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/enemy.png";
+    private static final Image ICON = IconUtil.loadIcon(EnemyNode.class.getResourceAsStream(ICON_PATH));
 
-    private final Obstacle obstacle;
+    private final Enemy enemy;
     private final String name;
 
-    public ObstacleNode(final Obstacle obstacle) {
+    public EnemyNode(final Enemy enemy) {
         super(Children.LEAF);
-        this.obstacle = obstacle;
-        this.name = "Obstacle";
+        this.enemy = enemy;
+        this.name = "Enemy";
 
         setDisplayName(name);
     }
@@ -42,8 +42,8 @@ public class ObstacleNode extends AbstractNode {
         return ICON;
     }
 
-    public Obstacle getObstacle() {
-        return obstacle;
+    public Enemy getEnemy() {
+        return enemy;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class ObstacleNode extends AbstractNode {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
         final Sheet sheet = Sheet.createDefault();
-        sheet.put(SelectablePropsFactory.buildPositionSheet(obstacle, layer.isLocked()));
-        sheet.put(BlockerPropsFactory.buildBlockerSheet(obstacle, layer.isLocked()));
+        sheet.put(SelectablePropsFactory.buildPositionSheet(enemy, layer.isLocked()));
+        sheet.put(EnemyPropsFactory.buildEnemySheet(enemy, layer.isLocked()));
         return sheet;
     }
 

@@ -25,6 +25,6 @@ public class LayerGroupsChildren extends Children.Keys<String> {
 
     @Override
     protected Node[] createNodes(final String key) {
-        return new Node[]{new VisualAssetsNode(layer), new ObstaclesNode(layer)};
+        return new Node[]{new VisualAssetsNode(layer), new ObstaclesNode(layer), new EnemiesNode(layer)};
     }
 }
