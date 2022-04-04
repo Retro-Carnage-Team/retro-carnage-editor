@@ -21,6 +21,11 @@ import java.util.logging.Logger;
 public class Enemy implements Selectable, Transferable {
 
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Enemy.class, "enemy");
+    public static final int LANDMINE_HEIGHT = 44;
+    public static final int LANDMINE_WIDTH = 50;
+    public static final int PERSON_HEIGHT = 150;
+    public static final int PERSON_WIDTH = 90;
+
     private static final Logger logger = Logger.getLogger(Enemy.class.getName());
 
     private List<EnemyMovement> movements;

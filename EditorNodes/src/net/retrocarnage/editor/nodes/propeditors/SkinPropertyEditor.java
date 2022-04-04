@@ -1,17 +1,23 @@
 package net.retrocarnage.editor.nodes.propeditors;
 
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.EnemySkin;
 import org.openide.explorer.propertysheet.ExPropertyEditor;
 import org.openide.explorer.propertysheet.InplaceEditor;
@@ -42,10 +48,14 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
         return ed;
     }
 
+    /**
+     * InplaceEditor that displays a (non editable) JComboBox.
+     */
     private static class SkinInplaceEditor implements InplaceEditor {
 
         private PropertyEditor editor = null;
         private PropertyModel model = null;
+        private ActionListener actionListener = null;
         private final JComboBox<String> comboBox;
 
         private SkinInplaceEditor() {
@@ -56,11 +66,20 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
                     .toArray(String[]::new);
             comboBox = new JComboBox<>(skins);
             comboBox.setRenderer(new SkinPropertyRenderer());
+            comboBox.addItemListener((ItemEvent ie) -> {
+                if ((ItemEvent.SELECTED == ie.getStateChange()) && (null != actionListener)) {
+                    actionListener.actionPerformed(new ActionEvent(
+                            this,
+                            ActionEvent.ACTION_PERFORMED,
+                            InplaceEditor.COMMAND_SUCCESS
+                    ));
+                }
+            });
         }
 
         @Override
-        public void connect(PropertyEditor pe, PropertyEnv pe1) {
-            this.editor = pe;
+        public void connect(PropertyEditor propertyEditor, PropertyEnv propertyEnvironment) {
+            editor = propertyEditor;
         }
 
         @Override
@@ -98,12 +117,12 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
 
         @Override
         public void addActionListener(ActionListener al) {
-            comboBox.addActionListener(al);
+            actionListener = al;
         }
 
         @Override
         public void removeActionListener(ActionListener al) {
-            comboBox.removeActionListener(al);
+            actionListener = null;
         }
 
         @Override
@@ -133,10 +152,25 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
 
     }
 
+    /**
+     * Renderer component for the InplaceEditor that displays descriptions of the
+     */
     private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer {
+
+        private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/skins/%s.png";
+        private final java.util.Map<String, ImageIcon> skinToIcons;
 
         public SkinPropertyRenderer() {
             setOpaque(true);
+            setHorizontalAlignment(CENTER);
+            setVerticalAlignment(CENTER);
+
+            skinToIcons = new HashMap<>();
+            for (EnemySkin es : EnemySkin.values()) {
+                final String iconPath = String.format(ICON_PATH, es.getName());
+                final Image iconImage = IconUtil.loadIcon(SkinPropertyRenderer.class.getResourceAsStream(iconPath));
+                skinToIcons.put(es.getName(), new ImageIcon(iconImage));
+            }
         }
 
         @Override
@@ -148,11 +182,11 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
             setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
 
             if (null == value) {
-                setText("");
+                setIcon(null);
             } else {
                 for (EnemySkin es : EnemySkin.values()) {
                     if (es.getName().equals(value)) {
-                        setText(es.getLabel());
+                        setIcon(skinToIcons.get(es.getName()));
                         break;
                     }
                 }

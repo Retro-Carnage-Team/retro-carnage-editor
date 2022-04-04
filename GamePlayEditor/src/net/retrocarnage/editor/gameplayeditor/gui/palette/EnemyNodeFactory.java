@@ -7,6 +7,7 @@ import net.retrocarnage.editor.model.Direction;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemySkin;
 import net.retrocarnage.editor.model.EnemyType;
+import net.retrocarnage.editor.model.Position;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 
@@ -40,6 +41,7 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
         result.setActions(Collections.emptyList());
         result.setDirection(Direction.Down.getValue());
         result.setMovements(Collections.emptyList());
+        result.setPosition(new Position(0, 0, Enemy.PERSON_WIDTH, Enemy.PERSON_HEIGHT));
         result.setSkin(EnemySkin.GreyJumperWithRifle.getName());
         result.setType(EnemyType.Person.getValue());
         return result;
@@ -50,6 +52,7 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
         result.setActions(Collections.emptyList());
         result.setDirection(Direction.Down.getValue());
         result.setMovements(Collections.emptyList());
+        result.setPosition(new Position(0, 0, Enemy.LANDMINE_WIDTH, Enemy.LANDMINE_HEIGHT));
         result.setSkin("");
         result.setType(EnemyType.Landmine.getValue());
         return result;
