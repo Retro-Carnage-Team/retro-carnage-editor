@@ -7,10 +7,10 @@ package net.retrocarnage.editor.model;
  */
 public enum EnemySkin {
 
-    WoodlandWithSMG("enemy-0", "Enemy wearing woodland camouflage and a sub machine gun"),
-    GreyJumperWithRifle("enemy-1", "Enemy wearing a grey jumpsuit and a rifle"),
-    DigitalWithPistols("enemy-2", "Enemy wearing digital camouflage and two pistols"),
-    WoodlandWithBulletproofVest("enemy-3", "Enemy wearing woodland camouflage and a bullet proof vest and a pistol");
+    WoodlandWithSMG("enemy-0", "Woodland camouflage / sub machine gun"),
+    GreyJumperWithRifle("enemy-1", "Grey jumpsuit / rifle"),
+    DigitalWithPistols("enemy-2", "Digital camouflage / pistols"),
+    WoodlandWithBulletproofVest("enemy-3", "Woodland camouflage & vest / pistol");
 
     private final String name;
     private final String label;

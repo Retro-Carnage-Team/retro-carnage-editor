@@ -8,7 +8,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.KeyStroke;
+import javax.swing.ListCellRenderer;
 import net.retrocarnage.editor.model.EnemySkin;
 import org.openide.explorer.propertysheet.ExPropertyEditor;
 import org.openide.explorer.propertysheet.InplaceEditor;
@@ -52,7 +55,7 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
                     .collect(Collectors.toList())
                     .toArray(String[]::new);
             comboBox = new JComboBox<>(skins);
-            // TODO: ListCellRenderer einbinden, um lesbare Version des Skins anzuzeigen
+            comboBox.setRenderer(new SkinPropertyRenderer());
         }
 
         @Override
@@ -126,6 +129,36 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
         @Override
         public boolean isKnownComponent(Component cmpnt) {
             return cmpnt == comboBox;
+        }
+
+    }
+
+    private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer {
+
+        public SkinPropertyRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(
+                final JList list, final Object value, final int index, final boolean isSelected,
+                final boolean cellHasFocus
+        ) {
+            setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
+            setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
+
+            if (null == value) {
+                setText("");
+            } else {
+                for (EnemySkin es : EnemySkin.values()) {
+                    if (es.getName().equals(value)) {
+                        setText(es.getLabel());
+                        break;
+                    }
+                }
+            }
+
+            return this;
         }
 
     }
