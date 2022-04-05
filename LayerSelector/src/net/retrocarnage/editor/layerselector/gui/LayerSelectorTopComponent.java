@@ -15,7 +15,9 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Selectable;
+import net.retrocarnage.editor.nodes.nodes.EnemyNode;
 import net.retrocarnage.editor.nodes.nodes.LayerChildrenCurrentEditor;
+import net.retrocarnage.editor.nodes.nodes.ObstacleNode;
 import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
@@ -145,6 +147,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     private javax.swing.JButton btnAddLayer;
     private javax.swing.JPanel pnlActions;
     // End of variables declaration//GEN-END:variables
+
     @Override
     protected void componentActivated() {
         ExplorerUtils.activateActions(explorerManager, true);
@@ -177,16 +180,23 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
      */
     void handleExplorerNodeChange(final PropertyChangeEvent pce) {
         if (null == selectionCtrl) {
-            logger.log(Level.SEVERE, "Inconsistent state in component");
+            logger.log(Level.SEVERE, "Inconsistent component state");
             return;
         }
 
         final Node[] selectedNodes = (Node[]) pce.getNewValue();
-        if ((null != selectedNodes) && (1 == selectedNodes.length) && (selectedNodes[0] instanceof VisualAssetNode)) {
-            final VisualAssetNode selectedNode = (VisualAssetNode) selectedNodes[0];
-            if (null == selectionCtrl.getSelection()
-                    || !selectionCtrl.getSelection().equals(selectedNode.getVisualAsset())) {
-                selectionCtrl.setSelection(selectedNode.getVisualAsset());
+        if ((null != selectedNodes) && (1 == selectedNodes.length)) {
+            Selectable selectable = null;
+            if (selectedNodes[0] instanceof EnemyNode) {
+                selectable = ((EnemyNode) selectedNodes[0]).getEnemy();
+            } else if (selectedNodes[0] instanceof ObstacleNode) {
+                selectable = ((ObstacleNode) selectedNodes[0]).getObstacle();
+            } else if (selectedNodes[0] instanceof VisualAssetNode) {
+                selectable = ((VisualAssetNode) selectedNodes[0]).getVisualAsset();
+            }
+
+            if (null == selectionCtrl.getSelection() || !selectionCtrl.getSelection().equals(selectable)) {
+                selectionCtrl.setSelection(selectable);
             }
         }
     }
@@ -253,11 +263,14 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
      * @return the matching Node or null
      */
     private static Node findNodeForSelection(final Node parent, final Selectable selection) {
-        if (parent instanceof VisualAssetNode) {
-            final VisualAssetNode vaNode = (VisualAssetNode) parent;
-            if (vaNode.getVisualAsset() == selection) {
-                return vaNode;
-            }
+        if ((parent instanceof EnemyNode) && ((EnemyNode) parent).getEnemy() == selection) {
+            return parent;
+        }
+        if ((parent instanceof ObstacleNode) && ((ObstacleNode) parent).getObstacle() == selection) {
+            return parent;
+        }
+        if ((parent instanceof VisualAssetNode) && ((VisualAssetNode) parent).getVisualAsset() == selection) {
+            return parent;
         }
         for (Node child : parent.getChildren().getNodes()) {
             final Node childMatch = findNodeForSelection(child, selection);

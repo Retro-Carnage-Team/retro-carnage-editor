@@ -59,9 +59,7 @@ class SpritePainter {
 
         try {
             BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
-            final Position scaledPosition = (1.0f == scalingFactor)
-                    ? va.getPosition()
-                    : va.getScaledPosition(scalingFactor);
+            final Position scaledPosition = va.getPosition().scale(scalingFactor);
 
             if (Rotation.None != va.getRotation()) {
                 scaledImage = rotateImage(scaledImage, va.getRotation());

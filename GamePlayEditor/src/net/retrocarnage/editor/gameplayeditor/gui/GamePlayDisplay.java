@@ -97,11 +97,7 @@ public class GamePlayDisplay extends JPanel {
             final Point mouse = (Point) evt.getPoint().clone();
             mouse.translate(-BORDER_WIDTH, -BORDER_WIDTH);
             final SelectionMousePositionAnalyzer smia = new SelectionMousePositionAnalyzer(selection, mouse);
-            if (selection.isMovable() && smia.isMouseInSelection()) {
-                newCursor = smia.getCursor();
-            } else {
-                newCursor = Cursor.getDefaultCursor();
-            }
+            newCursor = smia.getCursor(selection.isResizable(), selection.isMovable());
         }
 
         if (newCursor.getType() != getCursor().getType()) {

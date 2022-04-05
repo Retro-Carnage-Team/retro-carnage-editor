@@ -6,11 +6,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Stream;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.DummyPaletteActions;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
-import net.retrocarnage.editor.model.Blocker;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
@@ -197,8 +195,8 @@ class GamePlayEditorController {
         final Selectable oldSelection = selectionControllerImpl.getSelection();
 
         for (Layer layer : gamePlay.getLayers()) {
-            final Optional<Blocker> possibleItem = Stream
-                    .concat(layer.getVisualAssets().stream(), layer.getObstacles().stream())
+            final Optional<Selectable> possibleItem = layer
+                    .streamSelectables()
                     .filter((b) -> b.getPosition().toRectangle().contains(scaledPosition))
                     .findFirst();
 

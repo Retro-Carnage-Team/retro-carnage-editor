@@ -28,4 +28,13 @@ public enum EnemySkin {
         return label;
     }
 
+    public static EnemySkin findByName(final String name) {
+        for (EnemySkin es : EnemySkin.values()) {
+            if (es.getName().equals(name)) {
+                return es;
+            }
+        }
+        return null;
+    }
+
 }

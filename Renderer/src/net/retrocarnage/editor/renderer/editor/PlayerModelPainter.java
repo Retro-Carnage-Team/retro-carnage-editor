@@ -16,7 +16,7 @@ import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
  */
 public class PlayerModelPainter {
 
-    private static final Logger logger = Logger.getLogger(SpritePainter.class.getName());
+    private static final Logger logger = Logger.getLogger(PlayerModelPainter.class.getName());
     private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();
     private static final String MODEL_PATH = "/net/retrocarnage/editor/renderer/images/player.png";
     private static final String MODEL_KEY = "player model";
@@ -49,16 +49,15 @@ public class PlayerModelPainter {
                     null
             );
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to read Sprite image", ex);
+            logger.log(Level.WARNING, "Failed to scale or draw player model image", ex);
         }
-
     }
 
     private BufferedImage loadPlayerImage() {
         try {
             return ImageIO.read(PlayerModelPainter.class.getResource(MODEL_PATH));
         } catch (final IOException ex) {
-            logger.log(Level.WARNING, "Failed to load icon for MissionNode", ex);
+            logger.log(Level.WARNING, "Failed to load resource", ex);
             return null;
         }
     }

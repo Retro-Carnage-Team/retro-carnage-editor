@@ -61,7 +61,7 @@ public class ObstaclePainter {
      * @param obstacle the obstacle to be painted
      */
     private void paintObstacle(final Blocker obstacle) {
-        final Position scaledPosition = obstacle.getScaledPosition(scalingFactor);
+        final Position scaledPosition = obstacle.getPosition().scale(scalingFactor);
         final int sideLength = (int) (10 * scalingFactor);
         final BufferedImage texture = getObstacleTexture(
                 sideLength,

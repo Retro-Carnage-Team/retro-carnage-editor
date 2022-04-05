@@ -1,6 +1,7 @@
 package net.retrocarnage.editor.model;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Layers are used to organize assets.
@@ -75,6 +76,11 @@ public class Layer {
     public void setVisualAssets(final List<VisualAsset> visualAssets) {
         this.visualAssets.clear();
         this.visualAssets.addAll(visualAssets);
+    }
+
+    public Stream<Selectable> streamSelectables() {
+        Stream<Selectable> combined = Stream.concat(getVisualAssets().stream(), getObstacles().stream());
+        return Stream.concat(getEnemies().stream(), combined);
     }
 
 }

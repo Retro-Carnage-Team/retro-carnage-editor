@@ -60,11 +60,13 @@ public class Obstacle implements Blocker, Transferable {
         this.position = position;
     }
 
+    @JsonIgnore
     @Override
     public boolean isMovable() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isResizable() {
         return true;

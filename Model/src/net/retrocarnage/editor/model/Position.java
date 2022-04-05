@@ -26,15 +26,6 @@ public class Position {
         this.height = height;
     }
 
-    @Override
-    public Position clone() {
-        return new Position(x, y, width, height);
-    }
-
-    public java.awt.Rectangle toRectangle() {
-        return new java.awt.Rectangle(x, y, width, height);
-    }
-
     public int getX() {
         return x;
     }
@@ -67,4 +58,30 @@ public class Position {
         this.height = height;
     }
 
+    @Override
+    public Position clone() {
+        return new Position(x, y, width, height);
+    }
+
+    public java.awt.Rectangle toRectangle() {
+        return new java.awt.Rectangle(x, y, width, height);
+    }
+
+    /**
+     * Returns the position - scaled by a given factor.
+     *
+     * @param factor scaling factor to be applied
+     * @return the scaled position
+     */
+    public Position scale(float factor) {
+        if (1.0f == factor) {
+            return this;
+        }
+        return new Position(
+                (int) (getX() * factor),
+                (int) (getY() * factor),
+                (int) (getWidth() * factor),
+                (int) (getHeight() * factor)
+        );
+    }
 }

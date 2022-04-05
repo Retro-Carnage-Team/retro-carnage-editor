@@ -89,9 +89,10 @@ public class EditorRenderer {
 
         // Gameplay content
         final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
-        try (GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
+        try ( GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
             new SpritePainter(gamePlay.getLayers(), gpg2d, scaling).paintSprites();
             new ObstaclePainter(gamePlay.getLayers(), gpg2d, scaling).paintObstacles();
+            new EnemyPainter(gamePlay.getLayers(), gpg2d, scaling).paintEnemies();
         }
 
         // Selections
@@ -104,6 +105,7 @@ public class EditorRenderer {
     }
 
     private int calculateGameScreenWidth() {
+        // TODO: Replace constant value
         return (int) (1_500 * ZoomService.getDefault().getZoomLevel() / 100.0);
     }
 

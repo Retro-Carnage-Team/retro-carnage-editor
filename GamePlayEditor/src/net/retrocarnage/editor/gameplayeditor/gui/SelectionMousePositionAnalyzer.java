@@ -34,7 +34,7 @@ public class SelectionMousePositionAnalyzer {
      */
     public SelectionMousePositionAnalyzer(final Selectable selection, final Point mousePosition) {
         float zoomFactor = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
-        final Rectangle selectionRect = selection.getScaledPosition(zoomFactor).toRectangle();
+        final Rectangle selectionRect = selection.getPosition().scale(zoomFactor).toRectangle();
 
         mouseInSelection = selectionRect.contains(mousePosition);
         if (mouseInSelection) {
@@ -104,25 +104,36 @@ public class SelectionMousePositionAnalyzer {
         return offsetRight;
     }
 
-    public Cursor getCursor() {
-        if (isMouseInTopResizeArea() && isMouseInLeftResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
-        } else if (isMouseInTopResizeArea() && isMouseInRightResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
-        } else if (isMouseInBottomResizeArea() && isMouseInLeftResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
-        } else if (isMouseInBottomResizeArea() && isMouseInRightResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
-        } else if (isMouseInTopResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-        } else if (isMouseInBottomResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-        } else if (isMouseInLeftResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
-        } else if (isMouseInRightResizeArea()) {
-            return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+    public Cursor getCursor(boolean isResizable, boolean isMovable) {
+        if (!isMouseInSelection()) {
+            return Cursor.getDefaultCursor();
         }
-        return Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+
+        if (isResizable) {
+            if (isMouseInTopResizeArea() && isMouseInLeftResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
+            } else if (isMouseInTopResizeArea() && isMouseInRightResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
+            } else if (isMouseInBottomResizeArea() && isMouseInLeftResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
+            } else if (isMouseInBottomResizeArea() && isMouseInRightResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
+            } else if (isMouseInTopResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
+            } else if (isMouseInBottomResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+            } else if (isMouseInLeftResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
+            } else if (isMouseInRightResizeArea()) {
+                return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+            }
+        }
+
+        if (isMovable) {
+            return Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+        }
+
+        return Cursor.getDefaultCursor();
     }
 
 }

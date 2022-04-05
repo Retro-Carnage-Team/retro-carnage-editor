@@ -184,11 +184,9 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
             if (null == value) {
                 setIcon(null);
             } else {
-                for (EnemySkin es : EnemySkin.values()) {
-                    if (es.getName().equals(value)) {
-                        setIcon(skinToIcons.get(es.getName()));
-                        break;
-                    }
+                final EnemySkin es = EnemySkin.findByName((String) value);
+                if (null != es) {
+                    setIcon(skinToIcons.get(es.getName()));
                 }
             }
 

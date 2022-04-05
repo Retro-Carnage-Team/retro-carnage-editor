@@ -25,7 +25,7 @@ class SelectionPainter {
 
     public void paintSelectionBorder() {
         if (null != selection) {
-            final Position selectionRect = selection.getScaledPosition(scalingFactor);
+            final Position selectionRect = selection.getPosition().scale(scalingFactor);
             g2d.setColor(Color.ORANGE);
             g2d.setStroke(new BasicStroke(3));
             g2d.drawRect(
