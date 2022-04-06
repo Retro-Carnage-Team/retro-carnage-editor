@@ -19,8 +19,7 @@ import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.nodes.nodes.GamePlayNode;
-import net.retrocarnage.editor.nodes.nodes.ObstacleNode;
-import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
+import net.retrocarnage.editor.nodes.nodes.SelectableNode;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -248,7 +247,10 @@ public final class GamePlayEditorTopComponent
                 if (null == pce.getNewValue()) {
                     explorerManager.setSelectedNodes(new Node[]{explorerManager.getRootContext()});
                 } else {
-                    Node nodeToSelect = getNodeForSelection(explorerManager.getRootContext(), (Selectable) pce.getNewValue());
+                    final Node nodeToSelect = getNodeForSelection(
+                            explorerManager.getRootContext(),
+                            (Selectable) pce.getNewValue()
+                    );
                     if (null != nodeToSelect) {
                         explorerManager.setSelectedNodes(new Node[]{nodeToSelect});
                     } else {
@@ -262,15 +264,12 @@ public final class GamePlayEditorTopComponent
     }
 
     private Node getNodeForSelection(final Node parent, final Selectable selection) {
-        if (parent instanceof VisualAssetNode) {
-            if (((VisualAssetNode) parent).getVisualAsset() == selection) {
+        if (parent instanceof SelectableNode) {
+            final Selectable selectable = ((SelectableNode) parent).getSelectable();
+            if (selectable == selection) {
                 return parent;
             }
-        } else if (parent instanceof ObstacleNode) {
-            if (((ObstacleNode) parent).getObstacle() == selection) {
-                return parent;
-            }
-        } else {
+        } else if (null != parent) {
             for (Node child : parent.getChildren().getNodes()) {
                 final Node match = getNodeForSelection(child, selection);
                 if (null != match) {

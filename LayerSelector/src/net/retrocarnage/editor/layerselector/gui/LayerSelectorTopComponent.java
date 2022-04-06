@@ -15,10 +15,8 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Selectable;
-import net.retrocarnage.editor.nodes.nodes.EnemyNode;
 import net.retrocarnage.editor.nodes.nodes.LayerChildrenCurrentEditor;
-import net.retrocarnage.editor.nodes.nodes.ObstacleNode;
-import net.retrocarnage.editor.nodes.nodes.VisualAssetNode;
+import net.retrocarnage.editor.nodes.nodes.SelectableNode;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -187,14 +185,9 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         final Node[] selectedNodes = (Node[]) pce.getNewValue();
         if ((null != selectedNodes) && (1 == selectedNodes.length)) {
             Selectable selectable = null;
-            if (selectedNodes[0] instanceof EnemyNode) {
-                selectable = ((EnemyNode) selectedNodes[0]).getEnemy();
-            } else if (selectedNodes[0] instanceof ObstacleNode) {
-                selectable = ((ObstacleNode) selectedNodes[0]).getObstacle();
-            } else if (selectedNodes[0] instanceof VisualAssetNode) {
-                selectable = ((VisualAssetNode) selectedNodes[0]).getVisualAsset();
+            if (selectedNodes[0] instanceof SelectableNode) {
+                selectable = ((SelectableNode) selectedNodes[0]).getSelectable();
             }
-
             if (null == selectionCtrl.getSelection() || !selectionCtrl.getSelection().equals(selectable)) {
                 selectionCtrl.setSelection(selectable);
             }
@@ -263,13 +256,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
      * @return the matching Node or null
      */
     private static Node findNodeForSelection(final Node parent, final Selectable selection) {
-        if ((parent instanceof EnemyNode) && ((EnemyNode) parent).getEnemy() == selection) {
-            return parent;
-        }
-        if ((parent instanceof ObstacleNode) && ((ObstacleNode) parent).getObstacle() == selection) {
-            return parent;
-        }
-        if ((parent instanceof VisualAssetNode) && ((VisualAssetNode) parent).getVisualAsset() == selection) {
+        if ((parent instanceof SelectableNode) && ((SelectableNode) parent).getSelectable() == selection) {
             return parent;
         }
         for (Node child : parent.getChildren().getNodes()) {

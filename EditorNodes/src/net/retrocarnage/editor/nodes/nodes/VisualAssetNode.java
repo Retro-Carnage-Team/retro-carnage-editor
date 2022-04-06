@@ -8,6 +8,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Rotation;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import net.retrocarnage.editor.nodes.actions.VisualAssetCloneAction;
@@ -26,7 +27,7 @@ import org.openide.nodes.Sheet;
  *
  * @author Thomas Werner
  */
-public class VisualAssetNode extends AbstractNode {
+public class VisualAssetNode extends AbstractNode implements SelectableNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/visualAsset.png";
     private static final String TILE_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/tile.png";
@@ -79,7 +80,7 @@ public class VisualAssetNode extends AbstractNode {
 
         final Sheet sheet = Sheet.createDefault();
         sheet.put(buildVisualAssetSheet(layer.isLocked()));
-        sheet.put(SelectablePropsFactory.buildPositionSheet(visualAsset, layer.isLocked()));
+        sheet.put(SelectablePropsFactory.buildFullSheet(visualAsset, layer.isLocked()));
         sheet.put(BlockerPropsFactory.buildBlockerSheet(visualAsset, layer.isLocked()));
         return sheet;
     }
@@ -118,6 +119,11 @@ public class VisualAssetNode extends AbstractNode {
         positionSet.put(rotation);
 
         return positionSet;
+    }
+
+    @Override
+    public Selectable getSelectable() {
+        return getVisualAsset();
     }
 
 }

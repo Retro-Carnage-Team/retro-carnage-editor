@@ -5,6 +5,7 @@ import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Obstacle;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
@@ -16,7 +17,7 @@ import org.openide.nodes.Sheet;
  *
  * @author Thomas Werner
  */
-public class ObstacleNode extends AbstractNode {
+public class ObstacleNode extends AbstractNode implements SelectableNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacle.png";
     private static final Image ICON = IconUtil.loadIcon(ObstacleNode.class.getResourceAsStream(ICON_PATH));
@@ -56,9 +57,14 @@ public class ObstacleNode extends AbstractNode {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
         final Sheet sheet = Sheet.createDefault();
-        sheet.put(SelectablePropsFactory.buildPositionSheet(obstacle, layer.isLocked()));
+        sheet.put(SelectablePropsFactory.buildFullSheet(obstacle, layer.isLocked()));
         sheet.put(BlockerPropsFactory.buildBlockerSheet(obstacle, layer.isLocked()));
         return sheet;
+    }
+
+    @Override
+    public Selectable getSelectable() {
+        return getObstacle();
     }
 
 }

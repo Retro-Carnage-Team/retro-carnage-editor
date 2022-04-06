@@ -5,6 +5,7 @@ import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.nodes.impl.EnemyPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
@@ -16,7 +17,7 @@ import org.openide.nodes.Sheet;
  *
  * @author Thomas Werner
  */
-public class EnemyNode extends AbstractNode {
+public class EnemyNode extends AbstractNode implements SelectableNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/enemy.png";
     private static final Image ICON = IconUtil.loadIcon(EnemyNode.class.getResourceAsStream(ICON_PATH));
@@ -59,6 +60,11 @@ public class EnemyNode extends AbstractNode {
         sheet.put(SelectablePropsFactory.buildPositionSheet(enemy, layer.isLocked()));
         sheet.put(EnemyPropsFactory.buildEnemySheet(enemy, layer.isLocked()));
         return sheet;
+    }
+
+    @Override
+    public Selectable getSelectable() {
+        return getEnemy();
     }
 
 }
