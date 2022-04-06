@@ -60,7 +60,8 @@ public class EnemyPainter {
 
         final Position unscaledPosition = applySkinOffset(EnemySkin.findByName(enemy.getSkin()), enemy.getPosition());
         try {
-            final BufferedImage scaledImage = imageScaler.getScaledImage(enemyModel, MODEL_KEY, scalingFactor);
+            final String key = String.format(MODEL_KEY, enemy.getSkin(), scalingFactor);
+            final BufferedImage scaledImage = imageScaler.getScaledImage(enemyModel, key, scalingFactor);
             final Position scaledPosition = unscaledPosition.scale(scalingFactor);
             g2d.drawImage(
                     scaledImage,
@@ -89,19 +90,15 @@ public class EnemyPainter {
         final Position result = playerPosition.clone();
         switch (skin) {
             case WoodlandWithSMG:
-                result.setX(result.getX() - 30);
                 result.setY(result.getY() - 30);
                 break;
             case GreyJumperWithRifle:
-                result.setX(result.getX() - 20);
                 result.setY(result.getY() - 30);
                 break;
             case DigitalWithPistols:
-                result.setX(result.getX() - 50);
                 result.setY(result.getY() - 30);
                 break;
             case WoodlandWithBulletproofVest:
-                result.setX(result.getX() - 30);
                 result.setY(result.getY() - 30);
                 break;
             default:
