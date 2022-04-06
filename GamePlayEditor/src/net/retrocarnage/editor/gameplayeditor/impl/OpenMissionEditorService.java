@@ -2,7 +2,7 @@ package net.retrocarnage.editor.gameplayeditor.impl;
 
 import net.retrocarnage.editor.gameplayeditor.gui.GamePlayEditorTopComponent;
 import net.retrocarnage.editor.model.Mission;
-import net.retrocarnage.editor.nodes.actions.EditGamePlayAction;
+import net.retrocarnage.editor.nodes.actions.MissionEditAction;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
@@ -12,8 +12,8 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Thomas Werner
  */
-@ServiceProvider(service = EditGamePlayAction.OpenGamePlayEditorHandler.class)
-public class OpenMissionEditorService implements EditGamePlayAction.OpenGamePlayEditorHandler {
+@ServiceProvider(service = MissionEditAction.OpenGamePlayEditorHandler.class)
+public class OpenMissionEditorService implements MissionEditAction.OpenGamePlayEditorHandler {
 
     @Override
     public void openGamePlayEditor(Mission mission) {

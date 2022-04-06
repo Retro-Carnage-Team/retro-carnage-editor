@@ -12,12 +12,12 @@ import org.openide.util.Lookup;
  *
  * @author Thomas Werner
  */
-public class EditGamePlayAction extends AbstractAction {
+public class MissionEditAction extends AbstractAction {
 
-    private static final Logger logger = Logger.getLogger(EditGamePlayAction.class.getName());
+    private static final Logger logger = Logger.getLogger(MissionEditAction.class.getName());
     private final Mission mission;
 
-    public EditGamePlayAction(final Mission mission) {
+    public MissionEditAction(final Mission mission) {
         this.mission = mission;
         putValue(NAME, "Edit Level");
     }
@@ -32,6 +32,11 @@ public class EditGamePlayAction extends AbstractAction {
         }
     }
 
+    /**
+     * Interface used to break the dependency to the GamePlayEditor.
+     *
+     * Is implemented by some part of the GamePlayEditor and placed in the global lookup.
+     */
     public static interface OpenGamePlayEditorHandler {
 
         void openGamePlayEditor(Mission mission);

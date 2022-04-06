@@ -11,6 +11,7 @@ import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Sheet;
+import org.openide.util.lookup.Lookups;
 
 /**
  * A Node for Enemy in context of the LayerSelector.
@@ -22,20 +23,14 @@ public class EnemyNode extends AbstractNode implements SelectableNode {
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/enemy.png";
     private static final Image ICON = IconUtil.loadIcon(EnemyNode.class.getResourceAsStream(ICON_PATH));
 
-    private final Enemy enemy;
-    private final String name;
-
     public EnemyNode(final Enemy enemy) {
-        super(Children.LEAF);
-        this.enemy = enemy;
-        this.name = "Enemy";
-
-        setDisplayName(name);
+        super(Children.LEAF, Lookups.singleton(enemy));
+        setDisplayName("Enemy");
     }
 
     @Override
     public String getHtmlDisplayName() {
-        return "<b>" + name + "</b>";
+        return "<b>Enemy</b>";
     }
 
     @Override
@@ -44,7 +39,7 @@ public class EnemyNode extends AbstractNode implements SelectableNode {
     }
 
     public Enemy getEnemy() {
-        return enemy;
+        return getLookup().lookup(Enemy.class);
     }
 
     @Override
@@ -55,6 +50,7 @@ public class EnemyNode extends AbstractNode implements SelectableNode {
     @Override
     protected Sheet createSheet() {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
+        final Enemy enemy = getEnemy();
 
         final Sheet sheet = Sheet.createDefault();
         sheet.put(SelectablePropsFactory.buildPositionSheet(enemy, layer.isLocked()));

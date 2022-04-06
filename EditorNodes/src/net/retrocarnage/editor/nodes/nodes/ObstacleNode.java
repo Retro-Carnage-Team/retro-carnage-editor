@@ -11,6 +11,7 @@ import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Sheet;
+import org.openide.util.lookup.Lookups;
 
 /**
  * A Node for Obstacles in context of the LayerSelector.
@@ -22,20 +23,14 @@ public class ObstacleNode extends AbstractNode implements SelectableNode {
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacle.png";
     private static final Image ICON = IconUtil.loadIcon(ObstacleNode.class.getResourceAsStream(ICON_PATH));
 
-    private final Obstacle obstacle;
-    private final String name;
-
     public ObstacleNode(final Obstacle obstacle) {
-        super(Children.LEAF);
-        this.obstacle = obstacle;
-        this.name = "Obstacle";
-
-        setDisplayName(name);
+        super(Children.LEAF, Lookups.singleton(obstacle));
+        setDisplayName("Obstacle");
     }
 
     @Override
     public String getHtmlDisplayName() {
-        return "<b>" + name + "</b>";
+        return "<b>Obstacle</b>";
     }
 
     @Override
@@ -44,7 +39,7 @@ public class ObstacleNode extends AbstractNode implements SelectableNode {
     }
 
     public Obstacle getObstacle() {
-        return obstacle;
+        return getLookup().lookup(Obstacle.class);
     }
 
     @Override
@@ -57,8 +52,8 @@ public class ObstacleNode extends AbstractNode implements SelectableNode {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
 
         final Sheet sheet = Sheet.createDefault();
-        sheet.put(SelectablePropsFactory.buildFullSheet(obstacle, layer.isLocked()));
-        sheet.put(BlockerPropsFactory.buildBlockerSheet(obstacle, layer.isLocked()));
+        sheet.put(SelectablePropsFactory.buildFullSheet(getObstacle(), layer.isLocked()));
+        sheet.put(BlockerPropsFactory.buildBlockerSheet(getObstacle(), layer.isLocked()));
         return sheet;
     }
 

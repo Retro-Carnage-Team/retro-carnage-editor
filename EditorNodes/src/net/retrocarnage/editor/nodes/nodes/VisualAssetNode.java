@@ -21,6 +21,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 import org.openide.nodes.Sheet;
+import org.openide.util.lookup.Lookups;
 
 /**
  * A Node for VisualAssets in context of the LayerSelector.
@@ -34,13 +35,11 @@ public class VisualAssetNode extends AbstractNode implements SelectableNode {
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
     private static final Image TILE_ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(TILE_ICON_PATH));
 
-    private final VisualAsset visualAsset;
     private final String name;
     private final boolean tile;
 
     public VisualAssetNode(final VisualAsset visualAsset) {
-        super(Children.LEAF);
-        this.visualAsset = visualAsset;
+        super(Children.LEAF, Lookups.singleton(visualAsset));
 
         final Sprite sprite = AssetService.getDefault().getSprite(visualAsset.getAssetId());
         this.name = sprite.getName();
@@ -60,12 +59,13 @@ public class VisualAssetNode extends AbstractNode implements SelectableNode {
     }
 
     public VisualAsset getVisualAsset() {
-        return visualAsset;
+        return getLookup().lookup(VisualAsset.class);
     }
 
     @Override
     public Action[] getActions(final boolean popup) {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
+        final VisualAsset visualAsset = getVisualAsset();
         return new Action[]{
             new VisualAssetToFrontAction(layer, visualAsset),
             new VisualAssetToBackAction(layer, visualAsset),
@@ -77,6 +77,7 @@ public class VisualAssetNode extends AbstractNode implements SelectableNode {
     @Override
     protected Sheet createSheet() {
         final Layer layer = ((LayerNode) getParentNode().getParentNode()).getLayer();
+        final VisualAsset visualAsset = getVisualAsset();
 
         final Sheet sheet = Sheet.createDefault();
         sheet.put(buildVisualAssetSheet(layer.isLocked()));
@@ -86,6 +87,7 @@ public class VisualAssetNode extends AbstractNode implements SelectableNode {
     }
 
     public Sheet.Set buildVisualAssetSheet(final boolean readonly) {
+        final VisualAsset visualAsset = getVisualAsset();
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
         positionSet.setDisplayName("Properties");
         positionSet.setName("Properties");
