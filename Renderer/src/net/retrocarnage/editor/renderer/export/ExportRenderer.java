@@ -1,8 +1,7 @@
-package net.retrocarnage.editor.renderer.editor;
+package net.retrocarnage.editor.renderer.export;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import java.awt.geom.Area;
@@ -11,42 +10,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import net.retrocarnage.editor.model.GamePlay;
-import net.retrocarnage.editor.model.Selectable;
-import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.renderer.common.ClipShapeFactory;
 import net.retrocarnage.editor.renderer.common.Constants;
 import net.retrocarnage.editor.renderer.common.GamePlayGraphics2D;
 import net.retrocarnage.editor.renderer.common.SpritePainter;
-import net.retrocarnage.editor.zoom.ZoomService;
 import org.apache.commons.lang3.time.StopWatch;
 
 /**
- * Renders a mission inside the editor screen.
- *
- * This is the most sophisticated renderer - as it supports all kinds of visual items, selections, and more.
+ * Renders a mission for export.
  *
  * @author Thomas Werner
  */
-public class EditorRenderer {
+public class ExportRenderer {
 
-    private static final Logger logger = Logger.getLogger(EditorRenderer.class.getName());
+    private static final Logger logger = Logger.getLogger(ExportRenderer.class.getName());
 
     private final GamePlay gamePlay;
-    private Selectable selection;
     private final SectionAnalysis sectionAnalysis;
-    private final Rectangle viewRect;
 
-    public EditorRenderer(final GamePlay gamePlay) {
-        this(gamePlay, null, null);
-    }
-
-    public EditorRenderer(final GamePlay gamePlay, final Selectable selection, final Rectangle viewRect) {
+    public ExportRenderer(final GamePlay gamePlay) {
         this.gamePlay = gamePlay;
-        this.selection = selection;
         this.sectionAnalysis = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
-        this.viewRect = viewRect;
     }
 
     /**
@@ -55,10 +41,9 @@ public class EditorRenderer {
      * @return the actual dimensions of the generated graphic
      */
     public Dimension getSize() {
-        final int gameScreenWidth = calculateGameScreenWidth();
         return new Dimension(
-                sectionAnalysis.getMapWidth() * gameScreenWidth,
-                sectionAnalysis.getMapHeight() * gameScreenWidth
+                sectionAnalysis.getMapWidth() * Constants.SCREEN_WIDTH,
+                sectionAnalysis.getMapHeight() * Constants.SCREEN_WIDTH
         );
     }
 
@@ -85,31 +70,14 @@ public class EditorRenderer {
     }
 
     private void paintContent(final Graphics2D g2d) {
-        final int gameScreenWidth = calculateGameScreenWidth();
-        final float scaling = (float) (ZoomService.getDefault().getZoomLevel() / 100.0);
-
-        // Background
-        new BackgroundPainter(sectionAnalysis, gamePlay.getSections(), gameScreenWidth, g2d).paintBackground();
-
-        // Gameplay content
-        final Area gameArea = new ClipShapeFactory(sectionAnalysis, gamePlay.getSections(), gameScreenWidth).build();
+        final Area gameArea = new ClipShapeFactory(
+                sectionAnalysis,
+                gamePlay.getSections(),
+                Constants.SCREEN_WIDTH
+        ).build();
         try ( GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
-            new SpritePainter(gamePlay.getLayers(), gpg2d, scaling).paintSprites();
-            new ObstaclePainter(gamePlay.getLayers(), gpg2d, scaling).paintObstacles();
-            new EnemyPainter(gamePlay.getLayers(), gpg2d, scaling).paintEnemies();
+            new SpritePainter(gamePlay.getLayers(), gpg2d, 1).paintSprites();
         }
-
-        // Selections
-        new SelectionPainter(g2d, selection, scaling).paintSelectionBorder();
-
-        // Player model overlay
-        if (PlayerModelOverlayService.getDefault().isPlayerModelOverlayVisible()) {
-            new PlayerModelPainter(g2d, scaling, viewRect).paintPlayerModel();
-        }
-    }
-
-    private int calculateGameScreenWidth() {
-        return (int) (Constants.SCREEN_WIDTH * ZoomService.getDefault().getZoomLevel() / 100.0);
     }
 
 }

@@ -9,6 +9,7 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import java.util.List;
 import javax.swing.UIManager;
 import net.retrocarnage.editor.model.Section;
+import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 
 /**
@@ -21,7 +22,7 @@ public class MinimapRenderer {
     private static final int STROKE = 2;
 
     private final List<Section> sections;
-    private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
+    private final SectionAnalysis sectionAnalysis;
 
     public MinimapRenderer(final List<Section> sections) {
         this.sections = sections;

@@ -18,7 +18,7 @@ import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
  *
  * @author Thomas Werner
  */
-public class EnemyPainter {
+class EnemyPainter {
 
     private static final Logger logger = Logger.getLogger(EnemyPainter.class.getName());
     private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();

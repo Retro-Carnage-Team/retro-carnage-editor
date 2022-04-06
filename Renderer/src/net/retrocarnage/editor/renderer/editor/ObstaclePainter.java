@@ -19,7 +19,7 @@ import net.retrocarnage.editor.model.VisualAsset;
  *
  * @author Thomas Werner
  */
-public class ObstaclePainter {
+class ObstaclePainter {
 
     private static final Map<String, BufferedImage> textureCache = new HashMap<>();
 

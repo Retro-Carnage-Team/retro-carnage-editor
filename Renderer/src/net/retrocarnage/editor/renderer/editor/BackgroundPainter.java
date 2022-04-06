@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 import net.retrocarnage.editor.model.Section;
-import net.retrocarnage.editor.renderer.SectionAnalyzer;
+import net.retrocarnage.editor.renderer.SectionAnalysis;
+import net.retrocarnage.editor.renderer.SectionPathRunner;
 
 /**
  * Paints the white background of a virgin mission section.
@@ -15,13 +16,13 @@ class BackgroundPainter {
 
     private static final Color BACKGROUND = Color.WHITE;
 
-    private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
+    private final SectionAnalysis sectionAnalysis;
     private final List<Section> sections;
     private final int gameScreenWidth;
     private final Graphics2D g2d;
 
     public BackgroundPainter(
-            final SectionAnalyzer.SectionAnalysis sectionAnalysis,
+            final SectionAnalysis sectionAnalysis,
             final List<Section> sections,
             final int gameScreenWidth,
             final Graphics2D g2d) {
@@ -34,7 +35,7 @@ class BackgroundPainter {
     public void paintBackground() {
         new SectionPathRunner(sectionAnalysis, sections, gameScreenWidth) {
             @Override
-            protected void processSectionRect(final int x, final int y, final int w, final int h) {
+            protected void processSectionRect(final Section section, final int x, final int y, final int w, final int h) {
                 g2d.setColor(BACKGROUND);
                 g2d.fillRect(x, y, w, h);
             }

@@ -1,4 +1,4 @@
-package net.retrocarnage.editor.renderer.editor;
+package net.retrocarnage.editor.renderer.common;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -17,14 +17,13 @@ import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Rotation;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
-import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
 
 /**
  * Paints the Sprites that are contained in a stack of Layers.
  *
  * @author Thomas Werner
  */
-class SpritePainter {
+public class SpritePainter {
 
     private static final Logger logger = Logger.getLogger(SpritePainter.class.getName());
     private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();

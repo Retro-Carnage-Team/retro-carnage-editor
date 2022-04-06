@@ -1,8 +1,13 @@
 package net.retrocarnage.editor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A mission for Retro-Carnage.
@@ -11,6 +16,8 @@ import java.util.List;
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/mission.go
  */
 public class Mission {
+
+    private static final Logger logger = Logger.getLogger(Mission.class.getName());
 
     private String id;
     private String briefing;
@@ -140,6 +147,23 @@ public class Mission {
         setName(otherMission.getName());
         setReward(otherMission.getReward());
         setSong(otherMission.getSong());
+    }
+
+    /**
+     * Creates a deep copy of this object.
+     *
+     * @return the copy
+     * @throws java.lang.CloneNotSupportedException
+     */
+    @Override
+    public Mission clone() throws CloneNotSupportedException {
+        try {
+            final ObjectMapper xmlMapper = new XmlMapper();
+            return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Mission.class);
+        } catch (JsonProcessingException ex) {
+            logger.log(Level.SEVERE, "Failed to serialize / deserialize Mission instance", ex);
+            throw new IllegalArgumentException("Mission can't be serialized / deserialized", ex);
+        }
     }
 
 }

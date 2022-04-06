@@ -14,7 +14,7 @@ import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
  *
  * @author Thomas Werner
  */
-public class PlayerModelPainter {
+class PlayerModelPainter {
 
     private static final Logger logger = Logger.getLogger(PlayerModelPainter.class.getName());
     private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();

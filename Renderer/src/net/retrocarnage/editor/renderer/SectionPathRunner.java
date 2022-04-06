@@ -1,22 +1,21 @@
-package net.retrocarnage.editor.renderer.editor;
+package net.retrocarnage.editor.renderer;
 
 import java.util.List;
 import net.retrocarnage.editor.model.Section;
-import net.retrocarnage.editor.renderer.SectionAnalyzer;
 
 /**
  * Calculates the areas of a sequence of sections.
  *
  * @author Thomas Werner
  */
-abstract class SectionPathRunner {
+public abstract class SectionPathRunner {
 
-    private final SectionAnalyzer.SectionAnalysis sectionAnalysis;
+    private final SectionAnalysis sectionAnalysis;
     private final List<Section> sections;
     private final int gameScreenWidth;
 
     public SectionPathRunner(
-            final SectionAnalyzer.SectionAnalysis sectionAnalysis,
+            final SectionAnalysis sectionAnalysis,
             final List<Section> sections,
             final int gameScreenWidth) {
         this.sectionAnalysis = sectionAnalysis;
@@ -57,7 +56,7 @@ abstract class SectionPathRunner {
         final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
         final int w = section.getNumberOfScreens() * gameScreenWidth;
         final int h = gameScreenWidth;
-        processSectionRect(x, y, w, h);
+        processSectionRect(section, x, y, w, h);
     }
 
     private void processSectionRectToTop(
@@ -70,7 +69,7 @@ abstract class SectionPathRunner {
         final int y = (sectionAnalysis.getMapHeight() - posY - section.getNumberOfScreens()) * gameScreenWidth;
         final int w = gameScreenWidth;
         final int h = section.getNumberOfScreens() * gameScreenWidth;
-        processSectionRect(x, y, w, h);
+        processSectionRect(section, x, y, w, h);
     }
 
     private void processSectionRectToLeft(
@@ -83,8 +82,8 @@ abstract class SectionPathRunner {
         final int y = (sectionAnalysis.getMapHeight() - posY - 1) * gameScreenWidth;
         final int w = section.getNumberOfScreens() * gameScreenWidth;
         final int h = gameScreenWidth;
-        processSectionRect(x, y, w, h);
+        processSectionRect(section, x, y, w, h);
     }
 
-    protected abstract void processSectionRect(int x, int y, int w, int h);
+    protected abstract void processSectionRect(Section section, int x, int y, int w, int h);
 }
