@@ -25,9 +25,9 @@ import net.retrocarnage.editor.renderer.export.ExportRenderer;
  */
 class BackgroundExporter extends SectionPathRunner {
 
-    private static final Logger logger = Logger.getLogger(ExportWorker.class.getName());
+    private static final Logger logger = Logger.getLogger(BackgroundExporter.class.getName());
 
-    private final File exportFolder;
+    private final ExportFolderStructure exportFileStructure;
     private final GamePlay gamePlay;
     private final Mission mission;
     private int sectionNumber;
@@ -39,40 +39,28 @@ class BackgroundExporter extends SectionPathRunner {
      * @param exportFolder the target folder (root folder of RETRO-CARNAGE installation)
      * @return a BackgroundExporter, configured and ready to use
      */
-    public static BackgroundExporter build(final Mission mission, final File exportFolder) {
+    public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) {
         final GamePlay gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
         final SectionAnalysis mapStructure = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
-        return new BackgroundExporter(mapStructure, gamePlay.getSections(), exportFolder, gamePlay, mission);
+        return new BackgroundExporter(mapStructure, gamePlay.getSections(), exportFileStructure, gamePlay, mission);
     }
 
     private BackgroundExporter(
             final SectionAnalysis mapAnalysis,
             final List<Section> sections,
-            final File exportFolder,
+            final ExportFolderStructure exportFileStructure,
             final GamePlay gamePlay,
             final Mission mission) {
         super(mapAnalysis, sections, 1_500);
-        this.exportFolder = exportFolder;
+        this.exportFileStructure = exportFileStructure;
         this.gamePlay = gamePlay;
         this.mission = mission;
+    }
 
-        final File missionBackgroundFolder = getMissionBackgroundFolder();
-        if (missionBackgroundFolder.exists()) {
-            deleteMissionBackgrounds();
-        } else {
-            logger.log(
-                    Level.FINE,
-                    "Creating new folder for mission backgrounds {0}",
-                    missionBackgroundFolder.toString()
-            );
-            if (!missionBackgroundFolder.mkdirs()) {
-                logger.log(
-                        Level.WARNING,
-                        "Failed to create folder for mission backgrounds: {0}",
-                        missionBackgroundFolder.getAbsolutePath()
-                );
-            }
-        }
+    @Override
+    public void run() {
+        deleteMissionBackgrounds();
+        super.run();
     }
 
     @Override
@@ -85,14 +73,10 @@ class BackgroundExporter extends SectionPathRunner {
             renderer.render(g2d);
             g2d.dispose();
 
-            final String fileName = String.format("%s/%d-%d.png",
-                    getMissionBackgroundFolder().getAbsolutePath(),
-                    sectionNumber,
-                    screenNumber
-            );
+            final File backround = exportFileStructure.getBackgroundImageFile(sectionNumber, screenNumber);
             try {
-                logger.log(Level.FINE, "Exporting mission background: {0}", fileName);
-                ImageIO.write(image, "PNG", new File(fileName));
+                logger.log(Level.FINE, "Exporting mission background: {0}", backround.getAbsoluteFile());
+                ImageIO.write(image, "PNG", backround);
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to write section background", ex);
             }
@@ -120,17 +104,8 @@ class BackgroundExporter extends SectionPathRunner {
         }
     }
 
-    private File getMissionBackgroundFolder() {
-        final String missionBackgroundFolderPath = String.format(
-                "%s/images/levels/%s",
-                exportFolder.getAbsolutePath(),
-                mission.getName()
-        );
-        return new File(missionBackgroundFolderPath);
-    }
-
     private void deleteMissionBackgrounds() {
-        final File missionBackgroundFolder = getMissionBackgroundFolder();
+        final File missionBackgroundFolder = exportFileStructure.getMissionBackgroundFolder();
         if (missionBackgroundFolder.exists()) {
             try {
                 Files.list(missionBackgroundFolder.toPath()).forEach((p) -> {

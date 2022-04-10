@@ -15,11 +15,11 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
 
     private static final Logger logger = Logger.getLogger(ExportWorker.class.getName());
 
-    private final File exportFolder;
+    private final ExportFolderStructure exportFolderStructure;
     private Mission mission;
 
     public ExportWorker(final Mission mission, final File exportFolder) {
-        this.exportFolder = exportFolder;
+        exportFolderStructure = new ExportFolderStructure(exportFolder, mission);
         try {
             if (null != mission) {
                 this.mission = mission.clone();
@@ -39,8 +39,10 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
         logger.log(
                 Level.INFO,
                 "Exporting mission ''{0}'' to {1}",
-                new Object[]{mission.getName(), exportFolder.getAbsolutePath()}
+                new Object[]{mission.getName(), exportFolderStructure.getRootFolder().getAbsolutePath()}
         );
+
+        exportFolderStructure.prepareFolderStructure();
 
         exportMissionBackgrounds();
         exportMissionFile();
@@ -50,11 +52,11 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
     }
 
     private void exportMissionBackgrounds() {
-        BackgroundExporter.build(mission, exportFolder).run();
+        BackgroundExporter.build(mission, exportFolderStructure).run();
     }
 
     private void exportMissionFile() {
-        // TODO: Export the mission as JSON
+        new MissionExporter(mission, exportFolderStructure).run();
     }
 
     private void exportAttributionFile() {
