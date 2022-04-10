@@ -25,9 +25,11 @@ public class GamePlayGraphics2D extends DelegatingGraphics2D implements Closeabl
             originalClip = ((java.awt.geom.Rectangle2D) wrappedContext.getClip()).getBounds();
         } else if (wrappedContext.getClip() instanceof java.awt.Rectangle) {
             originalClip = (Rectangle) wrappedContext.getClip();
+        } else if (null != wrappedContext.getClip()) {
+            logger.log(Level.WARNING, "Unknown clipping shape!");
+            originalClip = null;
         } else {
             originalClip = null;
-            logger.log(Level.WARNING, "Unknown clipping shape!");
         }
 
         if (null != originalClip) {
