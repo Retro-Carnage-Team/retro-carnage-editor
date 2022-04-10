@@ -1,11 +1,14 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * A Location of a mission on the unscaled world map.
  *
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/location.go
  */
+@JsonPropertyOrder({"longitude", "latitude"})
 public class Location {
 
     private int longitude;  // X

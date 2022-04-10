@@ -14,6 +14,7 @@ import net.retrocarnage.editor.missionexporter.model.ExportMission;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
 
 /**
@@ -37,6 +38,7 @@ public class MissionExporter {
 
     public void run() {
         exportClientImage();
+        exportBackgroundMusic();
         exportMissionFile();
     }
 
@@ -59,6 +61,17 @@ public class MissionExporter {
             sprite.getData(Files.newOutputStream(imageFile));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, "Failed to export image of mission's client", ex);
+        }
+    }
+
+    private void exportBackgroundMusic() {
+        final Path musicFile = exportFolderStructure.getMusicFile().toPath();
+        final Music music = AssetService.getDefault().getMusic(mission.getSong());
+        try {
+            Files.deleteIfExists(musicFile);
+            music.getData(Files.newOutputStream(musicFile));
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Failed to export background music of mission", ex);
         }
     }
 

@@ -7,6 +7,8 @@ import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.Mission;
 import org.apache.commons.io.FilenameUtils;
 
+// TODO: This class builds various file names based on user input.
+//       We should make sure that the user only used non critical characters.
 /**
  * Holds information about the target file structure of a mission export.
  *
@@ -52,6 +54,7 @@ public class ExportFolderStructure {
         createFolder(getClientsFolder(), "folder for mission clients");                                                 // images/clients/
         createFolder(getMissionBackgroundFolder(), "folder for mission backgrounds");                                   // images/levels/
         createFolder(getMissionsFolder(), "folder for missions");                                                       // missions
+        createFolder(getMusicFolder(), "folder for music");
     }
 
     /**
@@ -90,6 +93,21 @@ public class ExportFolderStructure {
     }
 
     /**
+     * Returns the a file describing a background image for the specified gameplay section and screen number.
+     *
+     * @param sectionNumber number of the gameplay section
+     * @param screenNumber number of the screen
+     * @return the file
+     */
+    public String getBackgroundImageRelativePath(final int sectionNumber, final int screenNumber) {
+        return String.format("images/levels/%s/%d-%d.png",
+                mission.getName(),
+                sectionNumber,
+                screenNumber
+        );
+    }
+
+    /**
      * @return the relative path of the image of the missions client
      */
     public String getClientImageRelativePath() {
@@ -112,6 +130,31 @@ public class ExportFolderStructure {
 
     public File getClientsFolder() {
         return new File(String.format("%s/images/clients", getRootFolder().getAbsolutePath()));
+    }
+
+    /**
+     * @return the relative path of the background music of the mission
+     */
+    public String getMusicRelativePath() {
+        return String.format("sounds/music/%s.%s",
+                mission.getName(),
+                FilenameUtils.getExtension(AssetService.getDefault().getMusic(mission.getSong()).getRelativePath())
+        );
+    }
+
+    /**
+     * @return a file for the background music of the missions
+     */
+    public File getMusicFile() {
+        final String fileName = String.format("%s.%s",
+                mission.getName(),
+                FilenameUtils.getExtension(AssetService.getDefault().getMusic(mission.getSong()).getRelativePath())
+        );
+        return new File(getMusicFolder(), fileName);
+    }
+
+    public File getMusicFolder() {
+        return new File(String.format("%s/sounds/music", getRootFolder().getAbsolutePath()));
     }
 
     /**
