@@ -13,9 +13,7 @@ import org.openide.nodes.AbstractNode;
 public class LayersNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/layers.png";
-    private static final String OPEN_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/folder_open.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
-    private static final Image OPEN_ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(OPEN_ICON_PATH));
 
     public LayersNode(final LayerController controller) {
         super(new LayerChildrenController(controller));
@@ -29,6 +27,6 @@ public class LayersNode extends AbstractNode {
 
     @Override
     public Image getOpenedIcon(int type) {
-        return OPEN_ICON;
+        return ICON;
     }
 }
