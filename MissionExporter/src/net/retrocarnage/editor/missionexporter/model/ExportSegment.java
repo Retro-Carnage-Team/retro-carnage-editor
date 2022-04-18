@@ -15,6 +15,7 @@ public class ExportSegment {
     private final ExportFolderStructure exportFolderStructure;
     private final Section section;
     private final int sectionNumber;
+    private List<ExportEnemy> enemies;
     private List<ExportObstacle> obstacles;
 
     public ExportSegment(
@@ -39,7 +40,14 @@ public class ExportSegment {
         return section.getDirection().getExportName();
     }
 
-    // TODO: enemies
+    public List<ExportEnemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(final List<ExportEnemy> enemies) {
+        this.enemies = enemies;
+    }
+
     // TODO: goal
     public List<ExportObstacle> getObstacles() {
         return obstacles;

@@ -1,10 +1,13 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * EnemyMovement is one of a series of movements of an Enemy.
  *
  * @author Thomas Werner
  */
+@JsonPropertyOrder({"duration", "offsetXPerMs", "offsetYPerMs"})
 public class EnemyMovement {
 
     private long duration;

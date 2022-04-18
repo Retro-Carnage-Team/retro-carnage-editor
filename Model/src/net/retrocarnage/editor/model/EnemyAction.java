@@ -1,5 +1,7 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * EnemyAction is something that an Enemy does.
  *
@@ -9,6 +11,7 @@ package net.retrocarnage.editor.model;
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/enemy-action.go
  */
+@JsonPropertyOrder({"delay", "action"})
 public class EnemyAction {
 
     private String action;

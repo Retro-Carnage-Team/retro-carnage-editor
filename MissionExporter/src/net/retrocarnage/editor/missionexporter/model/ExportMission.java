@@ -103,11 +103,27 @@ public class ExportMission {
         @Override
         protected void processSectionRect(final Section section, final int x, final int y, final int w, final int h) {
             final ExportSegment exportSegment = new ExportSegment(exportFolderStructure, section, segmentNumber++);
-            exportSegment.setObstacles(getObstaclesForSection(section, new Rectangle(x, y, w, h)));
+            final Rectangle sectionRect = new Rectangle(x, y, w, h);
+            exportSegment.setEnemies(getEnemiesInSection(sectionRect));
+            exportSegment.setObstacles(getObstaclesInSection(sectionRect));
             segments.add(exportSegment);
         }
 
-        private List<ExportObstacle> getObstaclesForSection(final Section section, final Rectangle sectionRect) {
+        private List<ExportEnemy> getEnemiesInSection(final Rectangle sectionRect) {
+            final List<ExportEnemy> result = new ArrayList<>();
+            for (Layer layer : gamePlay.getLayers()) {
+                result.addAll(layer
+                        .getEnemies()
+                        .stream()
+                        .filter((e) -> e.getPosition().toRectangle().intersects(sectionRect))
+                        .map(e -> new ExportEnemy(e, sectionRect))
+                        .collect(Collectors.toList())
+                );
+            }
+            return result;
+        }
+
+        private List<ExportObstacle> getObstaclesInSection(final Rectangle sectionRect) {
             final List<ExportObstacle> result = new ArrayList<>();
             for (Layer layer : gamePlay.getLayers()) {
                 result.addAll(layer
