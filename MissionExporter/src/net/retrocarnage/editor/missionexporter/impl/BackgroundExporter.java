@@ -13,6 +13,7 @@ import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Section;
+import net.retrocarnage.editor.model.SectionDirection;
 import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.renderer.SectionPathRunner;
@@ -23,13 +24,12 @@ import net.retrocarnage.editor.renderer.export.ExportRenderer;
  *
  * @author Thomas Werner
  */
-class BackgroundExporter extends SectionPathRunner {
+final class BackgroundExporter extends SectionPathRunner {
 
     private static final Logger logger = Logger.getLogger(BackgroundExporter.class.getName());
 
     private final ExportFolderStructure exportFileStructure;
     private final GamePlay gamePlay;
-    private final Mission mission;
     private int sectionNumber;
 
     /**
@@ -54,7 +54,6 @@ class BackgroundExporter extends SectionPathRunner {
         super(mapAnalysis, sections, 1_500);
         this.exportFileStructure = exportFileStructure;
         this.gamePlay = gamePlay;
-        this.mission = mission;
     }
 
     @Override
@@ -96,12 +95,10 @@ class BackgroundExporter extends SectionPathRunner {
     }
 
     private int getScreenOffsetY(final Section section, final int sectionStartY, final int screenNumber) {
-        switch (section.getDirection()) {
-            case UP:
-                return -sectionStartY - ((section.getNumberOfScreens() - screenNumber - 1) * 1_500);
-            default:
-                return -sectionStartY;
+        if (section.getDirection() == SectionDirection.UP) {
+            return -sectionStartY - ((section.getNumberOfScreens() - screenNumber - 1) * 1_500);
         }
+        return -sectionStartY;
     }
 
     private void deleteMissionBackgrounds() {

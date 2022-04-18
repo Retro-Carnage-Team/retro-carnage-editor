@@ -11,8 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionexporter.model.ExportMission;
-import net.retrocarnage.editor.missionmanager.MissionService;
-import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
@@ -27,12 +25,10 @@ public class MissionExporter {
     private static final Logger logger = Logger.getLogger(MissionExporter.class.getName());
 
     private final ExportFolderStructure exportFolderStructure;
-    private final GamePlay gamePlay;
     private final Mission mission;
 
     public MissionExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
         this.exportFolderStructure = exportFolderStructure;
-        this.gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
         this.mission = mission;
     }
 
