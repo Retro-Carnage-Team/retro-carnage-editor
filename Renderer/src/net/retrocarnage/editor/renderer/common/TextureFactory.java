@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Thomas Werner
  */
-public class TextureFactory {
+public final class TextureFactory {
 
     private TextureFactory() {
         // intentionally empty
