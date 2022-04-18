@@ -17,6 +17,7 @@ import org.openide.nodes.Node;
 public abstract class LayerChildren extends Children.Keys implements PropertyChangeListener {
 
     protected LayerChildren() {
+        // intentionally empty
     }
 
     @Override

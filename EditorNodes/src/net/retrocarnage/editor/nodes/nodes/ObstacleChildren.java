@@ -16,11 +16,10 @@ import org.openide.util.WeakListeners;
 public class ObstacleChildren extends Children.Keys<Obstacle> {
 
     private final Layer layer;
-    private final ChangeListener listener;
 
     public ObstacleChildren(final Layer layer) {
         this.layer = layer;
-        listener = (ChangeEvent ce) -> addNotify();
+        final ChangeListener listener = (ChangeEvent ce) -> addNotify();
         layer.getObstacles().addChangeListener(WeakListeners.change(listener, layer.getObstacles()));
     }
 

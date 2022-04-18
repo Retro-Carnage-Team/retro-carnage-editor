@@ -16,11 +16,10 @@ import org.openide.util.WeakListeners;
 public class VisualAssetChildren extends Children.Keys<VisualAsset> {
 
     private final Layer layer;
-    private final ChangeListener listener;
 
     public VisualAssetChildren(final Layer layer) {
         this.layer = layer;
-        listener = (ChangeEvent ce) -> addNotify();
+        final ChangeListener listener = (ChangeEvent ce) -> addNotify();
         layer.getVisualAssets().addChangeListener(WeakListeners.change(listener, layer.getVisualAssets()));
     }
 

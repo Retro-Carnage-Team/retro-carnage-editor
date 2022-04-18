@@ -16,11 +16,10 @@ import org.openide.util.WeakListeners;
 public class EnemyChildren extends Children.Keys<Enemy> {
 
     private final Layer layer;
-    private final ChangeListener listener;
 
     public EnemyChildren(final Layer layer) {
         this.layer = layer;
-        listener = (ChangeEvent ce) -> addNotify();
+        final ChangeListener listener = (ChangeEvent ce) -> addNotify();
         layer.getEnemies().addChangeListener(WeakListeners.change(listener, layer.getEnemies()));
     }
 

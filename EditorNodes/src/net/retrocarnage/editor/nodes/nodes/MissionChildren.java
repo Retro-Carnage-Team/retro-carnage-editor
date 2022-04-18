@@ -15,12 +15,8 @@ import org.openide.util.*;
  */
 public class MissionChildren extends Children.Keys {
 
-    private final PropertyChangeListener listener;
-
     public MissionChildren() {
-        listener = (PropertyChangeEvent pce) -> {
-            addNotify();
-        };
+        final PropertyChangeListener listener = (PropertyChangeEvent pce) -> addNotify();
         MissionService
                 .getDefault()
                 .addPropertyChangeListener(WeakListeners.propertyChange(listener, MissionService.getDefault()));

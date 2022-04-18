@@ -14,12 +14,11 @@ import org.openide.util.LookupListener;
  */
 public class LayerChildrenCurrentEditor extends LayerChildren {
 
-    private final LookupListener lookupListener;
     private final Lookup.Result<LayerController> lookupResult;
     private LayerController controller;
 
     public LayerChildrenCurrentEditor() {
-        lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
+        final LookupListener lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
         lookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(LayerController.class);
         lookupResult.addLookupListener(lookupListener);
     }
