@@ -13,13 +13,13 @@ public class GroupNodeFactory extends ChildFactory<String> {
 
     private static final String BACKGROUND_GROUP = "background group key";
     private static final String ENEMY_GROUP = "enemygroup key";
-    private static final String OBSTACLE_GROUP = "obstacle group key";
+    private static final String AREA_MARKERS_GROUP = "area markers group key";
 
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
         toPopulate.add(BACKGROUND_GROUP);
         toPopulate.add(ENEMY_GROUP);
-        toPopulate.add(OBSTACLE_GROUP);
+        toPopulate.add(AREA_MARKERS_GROUP);
         return true;
     }
 
@@ -31,8 +31,8 @@ public class GroupNodeFactory extends ChildFactory<String> {
         if (ENEMY_GROUP.equals(key)) {
             return new Node[]{new EnemyGroupNode()};
         }
-        if (OBSTACLE_GROUP.equals(key)) {
-            return new Node[]{new ObstacleGroupNode()};
+        if (AREA_MARKERS_GROUP.equals(key)) {
+            return new Node[]{new AreaMarkersGroupNode()};
         }
         return new Node[]{};
     }

@@ -49,6 +49,7 @@
             </module-dependencies>
             <public-packages>
                 <package>net.retrocarnage.editor.renderer</package>
+                <package>net.retrocarnage.editor.renderer.common</package>
                 <package>net.retrocarnage.editor.renderer.editor</package>
                 <package>net.retrocarnage.editor.renderer.export</package>
                 <package>net.retrocarnage.editor.renderer.minimap</package>

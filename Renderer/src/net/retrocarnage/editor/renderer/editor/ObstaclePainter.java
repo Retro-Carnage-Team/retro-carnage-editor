@@ -1,7 +1,5 @@
 package net.retrocarnage.editor.renderer.editor;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
@@ -13,6 +11,7 @@ import net.retrocarnage.editor.model.Blocker;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.VisualAsset;
+import net.retrocarnage.editor.renderer.common.TextureFactory;
 
 /**
  * Paints the Obstacles that are contained in a stack of Layers.
@@ -56,7 +55,7 @@ class ObstaclePainter {
     }
 
     /**
-     * Paints a single obstacle. This is done my using a texture to fill the obstacle area.
+     * Paints a single obstacle. This is done by using a texture to fill the obstacle area.
      *
      * @param obstacle the obstacle to be painted
      */
@@ -91,35 +90,9 @@ class ObstaclePainter {
             return textureCache.get(imageKey);
         }
 
-        final BufferedImage bi = new BufferedImage(sideLength, sideLength, BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D g2d = bi.createGraphics();
-        g2d.setComposite(AlphaComposite.Clear);
-        g2d.fillRect(0, 0, sideLength, sideLength);
-        g2d.setComposite(AlphaComposite.SrcOver);
-
-        if (explosives) {
-            g2d.setColor(Color.lightGray);
-            g2d.fillPolygon(
-                    new int[]{0, sideLength, sideLength / 2},
-                    new int[]{0, 0, sideLength / 2},
-                    3
-            );
-            g2d.fillPolygon(
-                    new int[]{0, sideLength, sideLength / 2},
-                    new int[]{sideLength, sideLength, sideLength / 2},
-                    3
-            );
-        }
-
-        g2d.setColor(Color.darkGray);
-        if (bullets) {
-            g2d.drawLine(0, 0, sideLength - 1, sideLength - 1);
-        }
-
-        g2d.drawLine(0, sideLength - 1, sideLength - 1, 0);
-
-        textureCache.put(imageKey, bi);
-        return bi;
+        final BufferedImage result = TextureFactory.buildObstacleTexture(sideLength, bullets, explosives);
+        textureCache.put(imageKey, result);
+        return result;
     }
 
 }

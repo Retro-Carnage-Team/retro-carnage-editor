@@ -11,6 +11,7 @@ import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Goal;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Obstacle;
@@ -168,6 +169,35 @@ class GamePlayEditorController {
             visualAsset.setAssetId(sprite.getId());
             visualAsset.setPosition(rectangle);
             selectedLayer.getVisualAssets().add(0, visualAsset);
+
+            requestGamePlayRepaint();
+        }
+    }
+
+    void setGoal(final Goal goal, final Point dropLocation) {
+        final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
+        if (selectedLayer.isLocked()) {
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+        } else {
+            for (Layer layer : layerControllerImpl.getLayers()) {
+                if (null != layer.getGoal()) {
+                    if (layer.isLocked()) {
+                        final String message = "Cannot replace existing goal from locked layer";
+                        DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(message));
+                        return;
+                    }
+                    layer.setGoal(null);
+                }
+            }
+
+            final Point scaledPosition = scalePosition(dropLocation);
+            final Position rectangle = new Position();
+            rectangle.setX(scaledPosition.x - 50);
+            rectangle.setY(scaledPosition.y - 50);
+            rectangle.setWidth(100);
+            rectangle.setHeight(100);
+            goal.setPosition(rectangle);
+            selectedLayer.setGoal(goal);
 
             requestGamePlayRepaint();
         }

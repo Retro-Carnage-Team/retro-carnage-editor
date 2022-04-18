@@ -96,6 +96,7 @@ public class EditorRenderer {
         try ( GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
             new SpritePainter(gamePlay.getLayers(), gpg2d, scaling).paintSprites();
             new ObstaclePainter(gamePlay.getLayers(), gpg2d, scaling).paintObstacles();
+            new GoalPainter(gamePlay.getLayers(), gpg2d, scaling).paintGoal();
             new EnemyPainter(gamePlay.getLayers(), gpg2d, scaling).paintEnemies();
         }
 

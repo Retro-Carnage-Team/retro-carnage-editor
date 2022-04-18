@@ -17,6 +17,7 @@ public class Layer {
     private boolean locked;
     private String name;
     private boolean visible;
+    private Goal goal;
     private final ObservableList<Enemy> enemies;
     private final ObservableList<Obstacle> obstacles;
     private final ObservableList<VisualAsset> visualAssets;
@@ -25,6 +26,14 @@ public class Layer {
         enemies = new ObservableList<>();
         obstacles = new ObservableList<>();
         visualAssets = new ObservableList<>();
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(final Goal goal) {
+        this.goal = goal;
     }
 
     public boolean isLocked() {
@@ -79,8 +88,12 @@ public class Layer {
     }
 
     public Stream<Selectable> streamSelectables() {
-        Stream<Selectable> combined = Stream.concat(getVisualAssets().stream(), getObstacles().stream());
-        return Stream.concat(getEnemies().stream(), combined);
+        Stream<Selectable> result = Stream.concat(getVisualAssets().stream(), getObstacles().stream());
+        result = Stream.concat(getEnemies().stream(), result);
+        if (null != goal) {
+            result = Stream.concat(result, Stream.of(goal));
+        }
+        return result;
     }
 
 }
