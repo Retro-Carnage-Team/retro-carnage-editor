@@ -25,6 +25,7 @@ public class ObstacleNode extends AbstractNode implements SelectableNode {
 
     public ObstacleNode(final Obstacle obstacle) {
         super(Children.LEAF, Lookups.singleton(obstacle));
+        obstacle.addPropertyChangeListener(new PositionPropertyChangeAdapter(this::firePropertyChange));
         setDisplayName("Obstacle");
     }
 

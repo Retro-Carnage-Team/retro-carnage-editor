@@ -298,7 +298,9 @@ class GamePlayEditorController {
         final int deltaBottom = smia.getOffsetBottom() - offsetBottom;
         switch (operation) {
             case MOVE:
-                selectionControllerImpl.moveSelectedElement(deltaLeft, deltaTop);
+                if (smia.isMouseInSelection()) {
+                    selectionControllerImpl.moveSelectedElement(deltaLeft, deltaTop);
+                }
                 break;
             case RESIZE_N:
                 selectionControllerImpl.resizeSelectedElement(0, deltaTop, 0, -1 * deltaTop);

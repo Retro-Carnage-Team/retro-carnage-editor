@@ -82,7 +82,7 @@ class LayerControllerImpl implements LayerController {
     @Override
     public void addLayer(final Layer layer) {
         controller.getGamePlay().getLayers().add(layer);
-        if (layer.getVisualAssets().size() > 0) {
+        if (!layer.getVisualAssets().isEmpty()) {
             controller.requestGamePlayRepaint();
         }
         fireLayerChange();

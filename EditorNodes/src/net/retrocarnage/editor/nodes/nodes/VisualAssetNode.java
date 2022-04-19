@@ -45,6 +45,7 @@ public class VisualAssetNode extends AbstractNode implements SelectableNode {
         this.name = sprite.getName();
         this.tile = sprite.isTile();
 
+        visualAsset.addPropertyChangeListener(new PositionPropertyChangeAdapter(this::firePropertyChange));
         setDisplayName(name);
     }
 

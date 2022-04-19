@@ -25,6 +25,7 @@ public class EnemyNode extends AbstractNode implements SelectableNode {
 
     public EnemyNode(final Enemy enemy) {
         super(Children.LEAF, Lookups.singleton(enemy));
+        enemy.addPropertyChangeListener(new PositionPropertyChangeAdapter(this::firePropertyChange));
         setDisplayName("Enemy");
     }
 

@@ -9,6 +9,8 @@ package net.retrocarnage.editor.model;
  */
 public interface Selectable {
 
+    public static final String PROPERTY_POSITION = "position";
+
     boolean isMovable();
 
     boolean isResizable();

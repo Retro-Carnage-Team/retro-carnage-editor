@@ -2,6 +2,7 @@ package net.retrocarnage.editor.nodes.impl;
 
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Selectable;
 import org.openide.nodes.Node;
 import org.openide.nodes.Node.Property;
@@ -14,6 +15,11 @@ import org.openide.nodes.Sheet;
  */
 public final class SelectablePropsFactory {
 
+    public static final String PROPERTY_POSITION_X = "X";
+    public static final String PROPERTY_POSITION_Y = "Y";
+    public static final String PROPERTY_POSITION_WIDTH = "Width";
+    public static final String PROPERTY_POSITION_HEIGHT = "Height";
+
     private SelectablePropsFactory() {
         // Intentionally empty.
     }
@@ -24,19 +30,19 @@ public final class SelectablePropsFactory {
         positionSet.setName("Position");
 
         final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
-        posXProp.setName("X");
+        posXProp.setName(PROPERTY_POSITION_X);
         positionSet.put(posXProp);
 
         final Property posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
-        posYProp.setName("Y");
+        posYProp.setName(PROPERTY_POSITION_Y);
         positionSet.put(posYProp);
 
         final Property posWidthProp = SelectablePropsFactory.buildWidthProperty(selectable, readonly);
-        posWidthProp.setName("Width");
+        posWidthProp.setName(PROPERTY_POSITION_WIDTH);
         positionSet.put(posWidthProp);
 
         final Property posHeightProp = SelectablePropsFactory.buildHeightProperty(selectable, readonly);
-        posHeightProp.setName("Height");
+        posHeightProp.setName(PROPERTY_POSITION_HEIGHT);
         positionSet.put(posHeightProp);
 
         return positionSet;
@@ -48,11 +54,11 @@ public final class SelectablePropsFactory {
         positionSet.setName("Position");
 
         final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
-        posXProp.setName("X");
+        posXProp.setName(PROPERTY_POSITION_X);
         positionSet.put(posXProp);
 
         final Property posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
-        posYProp.setName("Y");
+        posYProp.setName(PROPERTY_POSITION_Y);
         positionSet.put(posYProp);
 
         return positionSet;
@@ -67,9 +73,10 @@ public final class SelectablePropsFactory {
             }
 
             @Override
-            public void setValue(final Integer t) {
+            public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    selectable.getPosition().setX(t);
+                    final Position old = selectable.getPosition();
+                    selectable.setPosition(new Position(newValue, old.getY(), old.getWidth(), old.getHeight()));
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -95,9 +102,10 @@ public final class SelectablePropsFactory {
             }
 
             @Override
-            public void setValue(final Integer t) {
+            public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    selectable.getPosition().setY(t);
+                    final Position old = selectable.getPosition();
+                    selectable.setPosition(new Position(old.getX(), newValue, old.getWidth(), old.getHeight()));
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -123,9 +131,10 @@ public final class SelectablePropsFactory {
             }
 
             @Override
-            public void setValue(final Integer t) {
+            public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    selectable.getPosition().setWidth(t);
+                    final Position old = selectable.getPosition();
+                    selectable.setPosition(new Position(old.getX(), old.getY(), newValue, old.getHeight()));
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }
@@ -151,9 +160,10 @@ public final class SelectablePropsFactory {
             }
 
             @Override
-            public void setValue(final Integer t) {
+            public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    selectable.getPosition().setHeight(t);
+                    final Position old = selectable.getPosition();
+                    selectable.setPosition(new Position(old.getX(), old.getY(), old.getWidth(), newValue));
                     GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
                 }
             }

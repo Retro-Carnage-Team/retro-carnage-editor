@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 
 /**
- * Obstacle is something that blocks the movement of Players. Some obstacles block bullets, too.
+ * An Obstacle is something that blocks the movement of Players. Some obstacles block bullets, too.
  *
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/obstacle.go
@@ -15,10 +17,18 @@ import java.io.IOException;
 public class Obstacle implements Blocker, Transferable {
 
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Obstacle.class, "obstacle");
+    public static final String PROPERTY_BULLETSTOPPER = "bulletStopper";
+    public static final String PROPERTY_EXPLOSIVESTOPPER = "explosiveStopper";
+
+    private final PropertyChangeSupport propertyChangeSupport;
 
     private boolean stopsBullets;
     private boolean stopsExplosives;
     private Position position;
+
+    public Obstacle() {
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
 
     @Override
     public boolean isBulletStopper() {
@@ -27,7 +37,9 @@ public class Obstacle implements Blocker, Transferable {
 
     @Override
     public void setBulletStopper(final boolean stopsBullets) {
+        final boolean old = this.stopsBullets;
         this.stopsBullets = stopsBullets;
+        propertyChangeSupport.firePropertyChange(PROPERTY_BULLETSTOPPER, old, stopsBullets);
     }
 
     @Override
@@ -37,7 +49,9 @@ public class Obstacle implements Blocker, Transferable {
 
     @Override
     public void setExplosiveStopper(final boolean stopsExplosives) {
+        final boolean old = this.stopsExplosives;
         this.stopsExplosives = stopsExplosives;
+        propertyChangeSupport.firePropertyChange(PROPERTY_EXPLOSIVESTOPPER, old, stopsExplosives);
     }
 
     @Override
@@ -57,7 +71,9 @@ public class Obstacle implements Blocker, Transferable {
 
     @Override
     public void setPosition(final Position position) {
+        final Position old = this.position;
         this.position = position;
+        propertyChangeSupport.firePropertyChange(PROPERTY_POSITION, old, position);
     }
 
     @JsonIgnore
@@ -91,4 +107,11 @@ public class Obstacle implements Blocker, Transferable {
         throw new UnsupportedFlavorException(df);
     }
 
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
 }
