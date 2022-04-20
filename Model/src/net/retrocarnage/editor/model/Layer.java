@@ -1,5 +1,7 @@
 package net.retrocarnage.editor.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -13,7 +15,12 @@ import java.util.stream.Stream;
 public class Layer {
 
     public static final String DEFAULT_LAYER_NAME = "Default";
+    public static final String PROPERTY_GOAL = "goal";
+    public static final String PROPERTY_LOCKED = "locked";
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_VISIBLE = "visible";
 
+    private final PropertyChangeSupport propertyChangeSupport;
     private boolean locked;
     private String name;
     private boolean visible;
@@ -23,6 +30,7 @@ public class Layer {
     private final ObservableList<VisualAsset> visualAssets;
 
     public Layer() {
+        propertyChangeSupport = new PropertyChangeSupport(this);
         enemies = new ObservableList<>();
         obstacles = new ObservableList<>();
         visualAssets = new ObservableList<>();
@@ -33,7 +41,9 @@ public class Layer {
     }
 
     public void setGoal(final Goal goal) {
+        final Goal old = this.goal;
         this.goal = goal;
+        propertyChangeSupport.firePropertyChange(PROPERTY_GOAL, old, goal);
     }
 
     public boolean isLocked() {
@@ -41,7 +51,9 @@ public class Layer {
     }
 
     public void setLocked(final boolean locked) {
+        final boolean old = this.locked;
         this.locked = locked;
+        propertyChangeSupport.firePropertyChange(PROPERTY_LOCKED, old, locked);
     }
 
     public String getName() {
@@ -49,7 +61,9 @@ public class Layer {
     }
 
     public void setName(final String name) {
+        final String old = this.name;
         this.name = name;
+        propertyChangeSupport.firePropertyChange(PROPERTY_NAME, old, name);
     }
 
     public boolean isVisible() {
@@ -57,7 +71,9 @@ public class Layer {
     }
 
     public void setVisible(final boolean visible) {
+        final boolean old = this.visible;
         this.visible = visible;
+        propertyChangeSupport.firePropertyChange(PROPERTY_VISIBLE, old, visible);
     }
 
     public ObservableList<Enemy> getEnemies() {
@@ -96,4 +112,11 @@ public class Layer {
         return result;
     }
 
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
 }

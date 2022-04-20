@@ -214,6 +214,10 @@ class GamePlayEditorController {
                     } else if ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) {
                         selectionControllerImpl.setSelection(null);
                         break;
+                    } else if (selection instanceof Goal) {
+                        layer.setGoal(null);
+                        selectionControllerImpl.setSelection(null);
+                        break;
                     }
                 }
             }
