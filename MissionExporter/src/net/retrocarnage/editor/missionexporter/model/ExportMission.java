@@ -5,13 +5,16 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import net.retrocarnage.editor.missionexporter.impl.ExportFolderStructure;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
+import net.retrocarnage.editor.model.Goal;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Location;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
@@ -105,6 +108,7 @@ public class ExportMission {
             final ExportSegment exportSegment = new ExportSegment(exportFolderStructure, section, segmentNumber++);
             final Rectangle sectionRect = new Rectangle(x, y, w, h);
             exportSegment.setEnemies(getEnemiesInSection(sectionRect));
+            exportSegment.setGoal(getGoalInSection(sectionRect));
             exportSegment.setObstacles(getObstaclesInSection(sectionRect));
             segments.add(exportSegment);
         }
@@ -143,6 +147,26 @@ public class ExportMission {
                 );
             }
             return result;
+        }
+
+        private Position getGoalInSection(Rectangle sectionRect) {
+            final Optional<Goal> possibleGoal = gamePlay.getLayers()
+                    .stream()
+                    .filter(l -> null != l.getGoal())
+                    .map(l -> l.getGoal())
+                    .filter((g) -> g.getPosition().toRectangle().intersects(sectionRect))
+                    .findFirst();
+
+            if (possibleGoal.isPresent()) {
+                final Position goalPosition = possibleGoal.get().getPosition();
+                return new Position(
+                        goalPosition.getX() - sectionRect.x,
+                        goalPosition.getY() - sectionRect.y,
+                        goalPosition.getWidth(),
+                        goalPosition.getHeight()
+                );
+            }
+            return null;
         }
 
     }

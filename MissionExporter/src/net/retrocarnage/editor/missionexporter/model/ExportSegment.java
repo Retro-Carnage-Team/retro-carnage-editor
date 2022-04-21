@@ -3,6 +3,7 @@ package net.retrocarnage.editor.missionexporter.model;
 import java.util.LinkedList;
 import java.util.List;
 import net.retrocarnage.editor.missionexporter.impl.ExportFolderStructure;
+import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Section;
 
 /**
@@ -15,6 +16,8 @@ public class ExportSegment {
     private final ExportFolderStructure exportFolderStructure;
     private final Section section;
     private final int sectionNumber;
+
+    private Position goal;
     private List<ExportEnemy> enemies;
     private List<ExportObstacle> obstacles;
 
@@ -48,7 +51,14 @@ public class ExportSegment {
         this.enemies = enemies;
     }
 
-    // TODO: goal
+    public void setGoal(final Position goal) {
+        this.goal = goal;
+    }
+
+    public Position getGoal() {
+        return goal;
+    }
+
     public List<ExportObstacle> getObstacles() {
         return obstacles;
     }

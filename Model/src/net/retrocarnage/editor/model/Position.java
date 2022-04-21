@@ -1,10 +1,13 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * A rectangle.
  *
  * @author Thomas Werner
  */
+@JsonPropertyOrder({"x", "y", "width", "height"})
 public class Position {
 
     private int x;
