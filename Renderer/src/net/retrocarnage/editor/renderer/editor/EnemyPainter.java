@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemySkin;
+import net.retrocarnage.editor.model.EnemyType;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.renderer.common.MemoizedImageScaler;
@@ -22,8 +23,8 @@ class EnemyPainter {
 
     private static final Logger logger = Logger.getLogger(EnemyPainter.class.getName());
     private static final MemoizedImageScaler imageScaler = new MemoizedImageScaler();
-    private static final String MODEL_PATH = "/net/retrocarnage/editor/renderer/images/enemies/%s.png";
-    private static final String MODEL_KEY = "%s-%.4f";
+    private static final String MODEL_PATH = "/net/retrocarnage/editor/renderer/images/enemies/%d-%s.png";
+    private static final String MODEL_KEY = "%d-%s-%.4f";
 
     private final List<Layer> layers;
     private final Graphics2D g2d;
@@ -58,9 +59,11 @@ class EnemyPainter {
             return;
         }
 
-        final Position unscaledPosition = applySkinOffset(EnemySkin.findByName(enemy.getSkin()), enemy.getPosition());
+        final Position unscaledPosition = (enemy.getType() == EnemyType.Person.getValue())
+                ? applySkinOffset(EnemySkin.findByName(enemy.getSkin()), enemy.getPosition())
+                : enemy.getPosition();
         try {
-            final String key = String.format(MODEL_KEY, enemy.getSkin(), scalingFactor);
+            final String key = String.format(MODEL_KEY, enemy.getType(), enemy.getSkin(), scalingFactor);
             final BufferedImage scaledImage = imageScaler.getScaledImage(enemyModel, key, scalingFactor);
             final Position scaledPosition = unscaledPosition.scale(scalingFactor);
             g2d.drawImage(
@@ -78,7 +81,7 @@ class EnemyPainter {
 
     private BufferedImage loadEnemyImage(final Enemy enemy) {
         try {
-            final String path = String.format(MODEL_PATH, enemy.getSkin());
+            final String path = String.format(MODEL_PATH, enemy.getType(), enemy.getSkin());
             return ImageIO.read(EnemyPainter.class.getResource(path));
         } catch (final IOException ex) {
             logger.log(Level.WARNING, "Failed to load resource", ex);
