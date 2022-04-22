@@ -46,6 +46,9 @@ hs_err_pid*
 /EditorNodes/build/
 /EditorNodes/nbproject/private/
 
+/EnemyMovementEditor/build/
+/EnemyMovementEditor/nbproject/private/
+
 /ExtFlatLAF/build/
 /ExtFlatLAF/nbproject/private/
 

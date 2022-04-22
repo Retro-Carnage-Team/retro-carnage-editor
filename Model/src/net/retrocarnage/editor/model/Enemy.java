@@ -38,6 +38,7 @@ public class Enemy implements Selectable, Transferable {
     private String direction;
     private Position position;
     private String skin;
+    private float speed; // In pixels per ms
     private int type;
     private List<EnemyAction> actions;
 
@@ -85,6 +86,14 @@ public class Enemy implements Selectable, Transferable {
         final String old = this.skin;
         this.skin = skin;
         propertyChangeSupport.firePropertyChange(PROPERTY_SKIN, old, skin);
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public int getType() {

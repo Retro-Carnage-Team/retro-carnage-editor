@@ -167,6 +167,7 @@ public final class SectionEditorTopComponent extends TopComponent {
     private javax.swing.JScrollPane scrSections;
     private javax.swing.JTable tblSections;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening

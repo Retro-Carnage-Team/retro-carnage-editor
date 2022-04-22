@@ -3,9 +3,9 @@ package net.retrocarnage.editor.missionexporter.model;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.awt.Rectangle;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemyAction;
-import net.retrocarnage.editor.model.EnemyMovement;
 
 /**
  * A wrapper for the Enemy entity used to apply correct naming and formatting.
@@ -31,8 +31,12 @@ public class ExportEnemy {
         return enemy.getDirection();
     }
 
-    public List<EnemyMovement> getMovements() {
-        return enemy.getMovements();
+    public List<ExportEnemyMovement> getMovements() {
+        return enemy.getMovements()
+                .stream()
+                // TODO: This is not done, yet. ExportEnemyMovement has to convert EnemyMovement data.
+                .map(em -> new ExportEnemyMovement())
+                .collect(Collectors.toList());
     }
 
     public ExportEnemyPosition getPosition() {

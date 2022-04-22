@@ -18,7 +18,7 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
 /**
- * GUI Controller class for the SectionEditor.
+ * GUI controller class for SectionEditor.
  *
  * @author Thomas Werner
  */
@@ -173,7 +173,7 @@ public class SectionEditorController {
      */
     private class SectionTableModel extends AbstractTableModel {
 
-        final String[] columnNames = {"Direction", "Length", "+", "-"};
+        private final String[] columnNames = {"Direction", "Length", "+", "-"};
 
         @Override
         public String getColumnName(int col) {
