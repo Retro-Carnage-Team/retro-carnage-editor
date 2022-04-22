@@ -137,6 +137,13 @@ public class SectionEditorController {
     void deleteSection() {
         if (!sections.isEmpty() && sections.get(sections.size() - 1) == selectedSection) {
             sections.remove(sections.size() - 1);
+
+            gamePlay.firePropertyChanged();
+
+            if (null != tableModel) {
+                tableModel.fireTableDataChanged();
+            }
+
             propertyChangeSupport.firePropertyChange(PROPERTY_SECTIONS, null, sections);
         }
     }
