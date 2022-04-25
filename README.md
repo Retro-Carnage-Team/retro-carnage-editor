@@ -1,4 +1,4 @@
-[![Code Inspector](https://api.codiga.io/project/22758/score/svg)](https://app.codiga.io/project/22758/dashboard) [![Code Inspector](https://api.codiga.io/project/22758/status/svg)](https://app.codiga.io/project/22758/dashboard) [![](https://tokei.rs/b1/github/huddeldaddel/retro-carnage-editor)](https://github.com/huddeldaddel/retro-carnage-editor)
+[![Code Inspector](https://api.codiga.io/project/33164/score/svg)](https://app.codiga.io/project/33164/dashboard) [![Code Inspector](https://api.codiga.io/project/33164/status/svg)](https://app.codiga.io/project/33164/dashboard) [![](https://tokei.rs/b1/github/huddeldaddel/retro-carnage-editor)](https://github.com/huddeldaddel/retro-carnage-editor)
 
 
 # RETRO CARNAGE EDITOR
