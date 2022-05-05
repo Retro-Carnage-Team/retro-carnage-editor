@@ -1,37 +1,33 @@
 package net.retrocarnage.editor.nodes.propeditors;
 
 import java.awt.Component;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
-import net.retrocarnage.editor.core.IconUtil;
-import net.retrocarnage.editor.model.EnemySkin;
+import net.retrocarnage.editor.model.EnemySpeed;
 import org.openide.explorer.propertysheet.ExPropertyEditor;
 import org.openide.explorer.propertysheet.InplaceEditor;
 import org.openide.explorer.propertysheet.PropertyEnv;
 import org.openide.explorer.propertysheet.PropertyModel;
 
 /**
- * A property editor for Enemy.Skin.
+ * A property editor for Enemy.Speed.
  *
- * Shows a JComboBox that the user can use to select the enemy skin.
+ * Shows a JComboBox that the user can use to select the enemy speed.
  *
  * @author Thomas Werner
  */
-public class SkinPropertyEditor extends PropertyEditorSupport implements ExPropertyEditor, InplaceEditor.Factory {
+public class SpeedPropertyEditor extends PropertyEditorSupport implements ExPropertyEditor, InplaceEditor.Factory {
 
     private InplaceEditor ed = null;
 
@@ -43,7 +39,7 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
     @Override
     public InplaceEditor getInplaceEditor() {
         if (null == ed) {
-            ed = new SkinInplaceEditor();
+            ed = new SpeedInplaceEditor();
         }
         return ed;
     }
@@ -51,21 +47,21 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
     /**
      * InplaceEditor that displays a (non editable) JComboBox.
      */
-    private static class SkinInplaceEditor implements InplaceEditor {
+    private static class SpeedInplaceEditor implements InplaceEditor {
 
         private PropertyEditor editor = null;
         private PropertyModel model = null;
         private ActionListener actionListener = null;
-        private final JComboBox<String> comboBox;
+        private final JComboBox<Integer> comboBox;
 
-        private SkinInplaceEditor() {
-            final String[] skins = Arrays.asList(EnemySkin.values())
+        private SpeedInplaceEditor() {
+            final Integer[] values = Arrays.asList(EnemySpeed.values())
                     .stream()
-                    .map(es -> es.getName())
+                    .map(es -> es.getSpeed())
                     .collect(Collectors.toList())
-                    .toArray(String[]::new);
-            comboBox = new JComboBox<>(skins);
-            comboBox.setRenderer(new SkinPropertyRenderer());
+                    .toArray(Integer[]::new);
+            comboBox = new JComboBox<>(values);
+            comboBox.setRenderer(new SpeedPropertyRenderer());
             comboBox.addItemListener((ItemEvent ie) -> {
                 if ((ItemEvent.SELECTED == ie.getStateChange()) && (null != actionListener)) {
                     actionListener.actionPerformed(new ActionEvent(
@@ -109,9 +105,9 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
 
         @Override
         public void reset() {
-            final String skin = (String) editor.getValue();
-            if (null != skin) {
-                this.comboBox.setSelectedItem(skin);
+            final Integer speed = (Integer) editor.getValue();
+            if (null != speed) {
+                this.comboBox.setSelectedItem(speed);
             }
         }
 
@@ -153,24 +149,12 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
     }
 
     /**
-     * Renderer component for the InplaceEditor that displays a preview of the skins.
+     * Renderer component for the InplaceEditor that displays a human readable name for the predefined speed values.
      */
-    private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer {
+    private static class SpeedPropertyRenderer extends JLabel implements ListCellRenderer {
 
-        private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/skins/%s.png";
-        private final java.util.Map<String, ImageIcon> skinToIcons;
-
-        public SkinPropertyRenderer() {
+        public SpeedPropertyRenderer() {
             setOpaque(true);
-            setHorizontalAlignment(CENTER);
-            setVerticalAlignment(CENTER);
-
-            skinToIcons = new HashMap<>();
-            for (EnemySkin es : EnemySkin.values()) {
-                final String iconPath = String.format(ICON_PATH, es.getName());
-                final Image iconImage = IconUtil.loadIcon(SkinPropertyRenderer.class.getResourceAsStream(iconPath));
-                skinToIcons.put(es.getName(), new ImageIcon(iconImage));
-            }
         }
 
         @Override
@@ -182,11 +166,11 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
             setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
 
             if (null == value) {
-                setIcon(null);
+                setText("");
             } else {
-                final EnemySkin es = EnemySkin.findByName((String) value);
+                final EnemySpeed es = EnemySpeed.findBySpeed((Integer) value);
                 if (null != es) {
-                    setIcon(skinToIcons.get(es.getName()));
+                    setText(es.getName());
                 }
             }
 

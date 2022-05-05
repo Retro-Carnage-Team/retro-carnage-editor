@@ -5,6 +5,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.nodes.propeditors.SkinPropertyEditor;
+import net.retrocarnage.editor.nodes.propeditors.SpeedPropertyEditor;
 import org.openide.nodes.Node;
 import org.openide.nodes.Sheet;
 
@@ -25,8 +26,12 @@ public final class EnemyPropsFactory {
         enemySet.setDisplayName("Enemy");
 
         final Node.Property skinProp = buildSkinProperty(enemy, readonly);
-        skinProp.setName("Skin");
+        skinProp.setName(Enemy.PROPERTY_SKIN);
         enemySet.put(skinProp);
+
+        final Node.Property speedProp = buildSpeedProperty(enemy, readonly);
+        speedProp.setName(Enemy.PROPERTY_SPEED);
+        enemySet.put(speedProp);
 
         return enemySet;
     }
@@ -60,6 +65,40 @@ public final class EnemyPropsFactory {
             @Override
             public PropertyEditor getPropertyEditor() {
                 return new SkinPropertyEditor();
+            }
+
+        };
+    }
+
+    private static Node.Property buildSpeedProperty(final Enemy enemy, final boolean readonly) {
+        return new Node.Property<Integer>(Integer.class) {
+
+            @Override
+            public Integer getValue() {
+                return enemy.getSpeed();
+            }
+
+            @Override
+            public void setValue(final Integer speed) {
+                if (!readonly) {
+                    enemy.setSpeed(speed);
+                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                }
+            }
+
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+
+            @Override
+            public boolean canWrite() {
+                return !readonly;
+            }
+
+            @Override
+            public PropertyEditor getPropertyEditor() {
+                return new SpeedPropertyEditor();
             }
 
         };

@@ -13,7 +13,7 @@ public enum EnemyType {
     private final String name;
     private final int value;
 
-    private EnemyType(int value, String name) {
+    private EnemyType(final int value, final String name) {
         this.name = name;
         this.value = value;
     }

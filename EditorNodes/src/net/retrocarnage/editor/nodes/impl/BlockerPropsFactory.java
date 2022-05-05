@@ -23,15 +23,15 @@ public final class BlockerPropsFactory {
         blockerSet.setDisplayName("Blocker");
 
         final Node.Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
-        obstacleProp.setName("Stops players");
+        obstacleProp.setName(Blocker.PROPERTY_OBSTACLE);
         blockerSet.put(obstacleProp);
 
         final Node.Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
-        bulletsProp.setName("Stops bullets");
+        bulletsProp.setName(Blocker.PROPERTY_BULLETSTOPPER);
         blockerSet.put(bulletsProp);
 
         final Node.Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(blocker, readonly);
-        explosivesProp.setName("Stops explosives");
+        explosivesProp.setName(Blocker.PROPERTY_EXPLOSIVESTOPPER);
         blockerSet.put(explosivesProp);
 
         return blockerSet;

@@ -17,8 +17,6 @@ import java.io.IOException;
 public class Obstacle implements Blocker, Transferable {
 
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Obstacle.class, "obstacle");
-    public static final String PROPERTY_BULLETSTOPPER = "bulletStopper";
-    public static final String PROPERTY_EXPLOSIVESTOPPER = "explosiveStopper";
 
     private final PropertyChangeSupport propertyChangeSupport;
 

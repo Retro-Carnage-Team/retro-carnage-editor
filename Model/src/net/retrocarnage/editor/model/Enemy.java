@@ -27,9 +27,10 @@ public class Enemy implements Selectable, Transferable {
     public static final int LANDMINE_WIDTH = 50;
     public static final int PERSON_HEIGHT = 150;
     public static final int PERSON_WIDTH = 90;
-    public static final String PROPERTY_DIRECTION = "direction";
-    public static final String PROPERTY_SKIN = "skin";
-    public static final String PROPERTY_TYPE = "type";
+    public static final String PROPERTY_DIRECTION = "Direction";
+    public static final String PROPERTY_SKIN = "Skin";
+    public static final String PROPERTY_SPEED = "Speed";
+    public static final String PROPERTY_TYPE = "Type";
 
     private static final Logger logger = Logger.getLogger(Enemy.class.getName());
 
@@ -38,7 +39,7 @@ public class Enemy implements Selectable, Transferable {
     private String direction;
     private Position position;
     private String skin;
-    private float speed; // In pixels per ms
+    private int speed;                                                                                                  // In pixels per μs (1s / 1_000_000)
     private int type;
     private List<EnemyAction> actions;
 
@@ -88,12 +89,14 @@ public class Enemy implements Selectable, Transferable {
         propertyChangeSupport.firePropertyChange(PROPERTY_SKIN, old, skin);
     }
 
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(int speed) {
+        final int old = this.speed;
         this.speed = speed;
+        propertyChangeSupport.firePropertyChange(PROPERTY_SPEED, old, speed);
     }
 
     public int getType() {

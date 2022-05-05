@@ -12,9 +12,6 @@ import java.beans.PropertyChangeSupport;
 public class VisualAsset implements Blocker {
 
     public static final String PROPERTY_ASSETID = "assetId";
-    public static final String PROPERTY_BULLETSTOPPER = "bulletStopper";
-    public static final String PROPERTY_EXPLOSIVESTOPPER = "explosiveStopper";
-    public static final String PROPERTY_OBSTACLE = "obstacle";
     public static final String PROPERTY_ROTATION = "rotation";
 
     private final PropertyChangeSupport propertyChangeSupport;
