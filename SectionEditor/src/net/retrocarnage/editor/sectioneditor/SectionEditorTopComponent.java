@@ -201,8 +201,7 @@ public final class SectionEditorTopComponent extends TopComponent {
             case SectionEditorController.PROPERTY_SECTIONS:
                 ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
                 break;
-            default:
-            // ignore this
+            default: // ignore this
         }
     }
 }

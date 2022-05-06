@@ -1,6 +1,7 @@
 package net.retrocarnage.editor.enemymovementeditor;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Objects;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -52,20 +53,61 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
-        );
+        pnlActionContainer = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
+        scrMovements = new javax.swing.JScrollPane();
+        tblMovements = new javax.swing.JTable();
+
+        setLayout(new java.awt.BorderLayout());
+
+        pnlActionContainer.setLayout(new java.awt.GridLayout());
+
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/add.png"))); // NOI18N
+        btnAdd.setToolTipText(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnAdd.toolTipText")); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        pnlActionContainer.add(btnAdd);
+
+        btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
+        btnRemove.setToolTipText(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnRemove.toolTipText")); // NOI18N
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
+        pnlActionContainer.add(btnRemove);
+
+        add(pnlActionContainer, java.awt.BorderLayout.PAGE_END);
+
+        tblMovements.setModel(controller.getTableModel());
+        tblMovements
+        .getSelectionModel()
+        .addListSelectionListener(controller.getTableSelectionListener(tblMovements));
+        scrMovements.setViewportView(tblMovements);
+
+        add(scrMovements, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        controller.addMovement();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        controller.removeMovement();
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnRemove;
+    private javax.swing.JPanel pnlActionContainer;
+    private javax.swing.JScrollPane scrMovements;
+    private javax.swing.JTable tblMovements;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
@@ -85,24 +127,18 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     }
 
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
-        /*
         switch (pce.getPropertyName()) {
             case EnemyMovementEditorController.PROPERTY_ENABLED:
-                btnAddSection.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
-                btnRemoveSection.setEnabled(
+                btnAdd.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
+                btnRemove.setEnabled(
                         Objects.equals(Boolean.TRUE, pce.getNewValue())
-                        && (null != controller.getSelectedSection())
+                        && (null != controller.getSelectedMovement())
                 );
                 break;
             case EnemyMovementEditorController.PROPERTY_SELECTION:
-                btnRemoveSection.setEnabled(null != pce.getNewValue());
+                btnRemove.setEnabled(null != pce.getNewValue());
                 break;
-            case EnemyMovementEditorController.PROPERTY_SECTIONS:
-                ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
-                break;
-            default:
-            // ignore this
+            default: // ignore this
         }
-         */
     }
 }
