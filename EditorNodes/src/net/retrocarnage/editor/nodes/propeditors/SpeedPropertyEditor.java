@@ -44,12 +44,6 @@ public class SpeedPropertyEditor extends PropertyEditorSupport implements ExProp
         return ed;
     }
 
-    @Override
-    public String getAsText() {
-        final EnemySpeed es = EnemySpeed.findBySpeed((Integer) getValue());
-        return (null == es) ? "" : es.getName();
-    }
-
     /**
      * InplaceEditor that displays a (non editable) JComboBox.
      */

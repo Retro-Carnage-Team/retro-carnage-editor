@@ -2,6 +2,7 @@ package net.retrocarnage.editor.enemymovementeditor;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Objects;
+import net.retrocarnage.editor.core.gui.SpinnerCellEditor;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -53,61 +54,83 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlActionContainer = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JButton();
-        btnRemove = new javax.swing.JButton();
+        pnlDetail = new javax.swing.JPanel();
         scrMovements = new javax.swing.JScrollPane();
         tblMovements = new javax.swing.JTable();
+        pnlMovementActions = new javax.swing.JPanel();
+        btnAddMovement = new javax.swing.JButton();
+        btnRemoveMovement = new javax.swing.JButton();
+        pnlLibrary = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        pnlActionContainer.setLayout(new java.awt.GridLayout());
-
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/add.png"))); // NOI18N
-        btnAdd.setToolTipText(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnAdd.toolTipText")); // NOI18N
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
-        pnlActionContainer.add(btnAdd);
-
-        btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
-        btnRemove.setToolTipText(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnRemove.toolTipText")); // NOI18N
-        btnRemove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveActionPerformed(evt);
-            }
-        });
-        pnlActionContainer.add(btnRemove);
-
-        add(pnlActionContainer, java.awt.BorderLayout.PAGE_END);
+        pnlDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.pnlDetail.border.title"))); // NOI18N
+        pnlDetail.setLayout(new java.awt.BorderLayout());
 
         tblMovements.setModel(controller.getTableModel());
-        tblMovements
-        .getSelectionModel()
-        .addListSelectionListener(controller.getTableSelectionListener(tblMovements));
+        tblMovements.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblMovements.getSelectionModel().addListSelectionListener(controller.getTableSelectionListener(tblMovements));
+        tblMovements.getColumnModel().getColumn(0).setCellEditor(new SpinnerCellEditor());
+        tblMovements.getColumnModel().getColumn(1).setCellEditor(new SpinnerCellEditor());
         scrMovements.setViewportView(tblMovements);
 
-        add(scrMovements, java.awt.BorderLayout.CENTER);
+        pnlDetail.add(scrMovements, java.awt.BorderLayout.CENTER);
+
+        pnlMovementActions.setLayout(new java.awt.GridLayout(1, 0));
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnAddMovement, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnAddMovement.text")); // NOI18N
+        btnAddMovement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMovementActionPerformed(evt);
+            }
+        });
+        pnlMovementActions.add(btnAddMovement);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnRemoveMovement, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnRemoveMovement.text")); // NOI18N
+        btnRemoveMovement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveMovementActionPerformed(evt);
+            }
+        });
+        pnlMovementActions.add(btnRemoveMovement);
+
+        pnlDetail.add(pnlMovementActions, java.awt.BorderLayout.SOUTH);
+
+        add(pnlDetail, java.awt.BorderLayout.CENTER);
+
+        pnlLibrary.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.pnlLibrary.border.title"))); // NOI18N
+
+        javax.swing.GroupLayout pnlLibraryLayout = new javax.swing.GroupLayout(pnlLibrary);
+        pnlLibrary.setLayout(pnlLibraryLayout);
+        pnlLibraryLayout.setHorizontalGroup(
+            pnlLibraryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 293, Short.MAX_VALUE)
+        );
+        pnlLibraryLayout.setVerticalGroup(
+            pnlLibraryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        add(pnlLibrary, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        controller.addMovement();
-    }//GEN-LAST:event_btnAddActionPerformed
+    private void btnAddMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovementActionPerformed
+        controller.addMovement();        
+    }//GEN-LAST:event_btnAddMovementActionPerformed
 
-    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        controller.removeMovement();
-    }//GEN-LAST:event_btnRemoveActionPerformed
+    private void btnRemoveMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveMovementActionPerformed
+        controller.deleteMovement();
+    }//GEN-LAST:event_btnRemoveMovementActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnRemove;
-    private javax.swing.JPanel pnlActionContainer;
+    private javax.swing.JButton btnAddMovement;
+    private javax.swing.JButton btnRemoveMovement;
+    private javax.swing.JPanel pnlDetail;
+    private javax.swing.JPanel pnlLibrary;
+    private javax.swing.JPanel pnlMovementActions;
     private javax.swing.JScrollPane scrMovements;
     private javax.swing.JTable tblMovements;
     // End of variables declaration//GEN-END:variables
-
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
@@ -129,16 +152,20 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
         switch (pce.getPropertyName()) {
             case EnemyMovementEditorController.PROPERTY_ENABLED:
-                btnAdd.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
-                btnRemove.setEnabled(
+                btnAddMovement.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
+                btnRemoveMovement.setEnabled(
                         Objects.equals(Boolean.TRUE, pce.getNewValue())
                         && (null != controller.getSelectedMovement())
                 );
                 break;
             case EnemyMovementEditorController.PROPERTY_SELECTION:
-                btnRemove.setEnabled(null != pce.getNewValue());
+                btnRemoveMovement.setEnabled(null != pce.getNewValue());
                 break;
-            default: // ignore this
+            case EnemyMovementEditorController.PROPERTY_MOVEMENTS:
+                // TODO
+                break;
+            default:
+            // ignore this
         }
     }
 }

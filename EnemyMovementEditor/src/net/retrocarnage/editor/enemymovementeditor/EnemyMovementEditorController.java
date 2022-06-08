@@ -65,6 +65,41 @@ public class EnemyMovementEditorController {
         return selectedMovement;
     }
 
+    /**
+     * Adds a new section at the end of the current list of sections
+     */
+    void addMovement() {
+        if (null != enemy) {
+            final EnemyMovement newMovement = new EnemyMovement();
+            newMovement.setDistanceX(50);
+            newMovement.setDistanceY(50);            
+            movements.add(newMovement);
+
+            if (null != tableModel) {
+                tableModel.fireTableDataChanged();
+            }
+            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
+        }
+    }
+
+    /**
+     * Deletes the selected movement - if possible
+     */
+    void deleteMovement() {
+        if (!movements.isEmpty() && null != selectedMovement) {            
+            final int idx = movements.indexOf(selectedMovement);
+            if(-1 != idx) {
+                movements.remove(idx);
+                selectedMovement = null;
+            }
+            
+            if (null != tableModel) {
+                tableModel.fireTableDataChanged();
+            }
+            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
+        }
+    }
+    
     AbstractTableModel getTableModel() {
         if (null == tableModel) {
             tableModel = new EnemyMovementTableModel();
@@ -88,38 +123,6 @@ public class EnemyMovementEditorController {
                 propertyChangeSupport.firePropertyChange(PROPERTY_SELECTION, oldValue, selectedMovement);
             }
         };
-    }
-
-    /**
-     * Adds a new section at the end of the current list of sections
-     */
-    void addMovement() {
-        if (null != enemy) {
-            final EnemyMovement newMovement = new EnemyMovement();
-            newMovement.setDistanceX(100);
-            newMovement.setDistanceY(100);
-            movements.add(newMovement);
-
-            if (null != tableModel) {
-                tableModel.fireTableDataChanged();
-            }
-            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
-        }
-    }
-
-    /**
-     * Deletes the selected section - if possible
-     */
-    void removeMovement() {
-        if (!movements.isEmpty() && movements.contains(selectedMovement)) {
-            movements.remove(movements.size() - 1);
-
-            if (null != tableModel) {
-                tableModel.fireTableDataChanged();
-            }
-
-            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
-        }
     }
 
     private void handleLookupResultChanged() {
@@ -148,7 +151,7 @@ public class EnemyMovementEditorController {
      */
     private class EnemyMovementTableModel extends AbstractTableModel {
 
-        private final String[] columnNames = {"Distance X", "Distance Y"};
+        private final String[] columnNames = {"X", "Y"};
 
         @Override
         public String getColumnName(int col) {
@@ -184,22 +187,17 @@ public class EnemyMovementEditorController {
 
         @Override
         public void setValueAt(final Object value, final int row, final int column) {
-            try {
-                final int intValue = Integer.parseInt((String) value);
-                final EnemyMovement movement = movements.get(row);
-                switch (column) {
-                    case 0:
-                        movement.setDistanceX(intValue);
-                        fireTableCellUpdated(row, 0);
-                        break;
-                    case 1:
-                        movement.setDistanceY(intValue);
-                        fireTableCellUpdated(row, 1);
-                        break;
-                    default:
-                }
-            } catch (NumberFormatException nfe) {
-                // Nothing to do here
+            final EnemyMovement movement = movements.get(row);
+            switch (column) {
+                case 0:
+                    movement.setDistanceX((int) value);
+                    fireTableCellUpdated(row, 0);
+                    break;
+                case 1:
+                    movement.setDistanceY((int) value);
+                    fireTableCellUpdated(row, 1);
+                    break;
+                default:
             }
         }
 
