@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -68,6 +69,14 @@ public class Position {
 
     public java.awt.Rectangle toRectangle() {
         return new java.awt.Rectangle(x, y, width, height);
+    }
+    
+    /**
+     * @return the new Position
+     */
+    @JsonIgnore
+    public java.awt.Point getCenter() {
+        return new java.awt.Point(x + (width / 2), y + (height / 2));
     }
 
     /**

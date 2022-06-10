@@ -1,6 +1,9 @@
 package net.retrocarnage.editor.renderer.editor;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.model.Enemy;
+import net.retrocarnage.editor.model.EnemyMovement;
 import net.retrocarnage.editor.model.EnemySkin;
 import net.retrocarnage.editor.model.EnemyType;
 import net.retrocarnage.editor.model.Layer;
@@ -74,8 +78,23 @@ class EnemyPainter {
                     scaledImage.getHeight(),
                     null
             );
+                        
+            paintEnemyMovements(enemy, enemy.getPosition().scale(scalingFactor).getCenter()); 
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to scale or draw enemy image", ex);
+        }
+    }
+    
+    private void paintEnemyMovements(final Enemy enemy, final Point startPosition) {
+        Point a = startPosition;        
+        for(EnemyMovement em: enemy.getMovements()) {            
+            final Point b = new Point(a.x + (int)(em.getDistanceX() * scalingFactor), 
+                                      a.y + (int)(em.getDistanceY() * scalingFactor)
+            );
+            g2d.setColor(Color.YELLOW);
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawLine(a.x, a.y, b.x, b.y);
+            a = b;            
         }
     }
 

@@ -44,7 +44,6 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_EnemyMovementEditorTopComponent());
         setToolTipText(Bundle.HINT_EnemyMovementEditorTopComponent());
-
     }
 
     /**

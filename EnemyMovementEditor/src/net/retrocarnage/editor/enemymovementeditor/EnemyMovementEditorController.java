@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -27,6 +28,8 @@ public class EnemyMovementEditorController {
     static final String PROPERTY_MOVEMENTS = "movements";
     static final String PROPERTY_SELECTION = "selection";
 
+    private static final Logger logger = Logger.getLogger(EnemyMovementEditorController.class.getName());
+    
     private final PropertyChangeSupport propertyChangeSupport;
     private final LookupListener lookupListener;
     private final Lookup.Result<Enemy> lookupResult;
@@ -72,7 +75,7 @@ public class EnemyMovementEditorController {
         if (null != enemy) {
             final EnemyMovement newMovement = new EnemyMovement();
             newMovement.setDistanceX(50);
-            newMovement.setDistanceY(50);            
+            newMovement.setDistanceY(50);
             movements.add(newMovement);
 
             if (null != tableModel) {
@@ -86,20 +89,20 @@ public class EnemyMovementEditorController {
      * Deletes the selected movement - if possible
      */
     void deleteMovement() {
-        if (!movements.isEmpty() && null != selectedMovement) {            
+        if (!movements.isEmpty() && null != selectedMovement) {
             final int idx = movements.indexOf(selectedMovement);
-            if(-1 != idx) {
+            if (-1 != idx) {
                 movements.remove(idx);
                 selectedMovement = null;
             }
-            
+
             if (null != tableModel) {
                 tableModel.fireTableDataChanged();
             }
             propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
         }
     }
-    
+
     AbstractTableModel getTableModel() {
         if (null == tableModel) {
             tableModel = new EnemyMovementTableModel();
@@ -187,17 +190,21 @@ public class EnemyMovementEditorController {
 
         @Override
         public void setValueAt(final Object value, final int row, final int column) {
-            final EnemyMovement movement = movements.get(row);
-            switch (column) {
-                case 0:
-                    movement.setDistanceX((int) value);
-                    fireTableCellUpdated(row, 0);
-                    break;
-                case 1:
-                    movement.setDistanceY((int) value);
-                    fireTableCellUpdated(row, 1);
-                    break;
-                default:
+            try {
+                final EnemyMovement movement = movements.get(row);
+                switch (column) {
+                    case 0:
+                        movement.setDistanceX((int) value);
+                        fireTableCellUpdated(row, 0);
+                        break;
+                    case 1:
+                        movement.setDistanceY((int) value);
+                        fireTableCellUpdated(row, 1);
+                        break;
+                    default:
+                }
+            } catch (IndexOutOfBoundsException ioobe) {
+                logger.info("Caught IndexOutOfBoundsException");
             }
         }
 
