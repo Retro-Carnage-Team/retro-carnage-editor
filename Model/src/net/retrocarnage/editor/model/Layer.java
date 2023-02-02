@@ -1,5 +1,7 @@
 package net.retrocarnage.editor.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
@@ -36,6 +38,7 @@ public class Layer {
         visualAssets = new ObservableList<>();
     }
 
+    @JsonInclude(Include.NON_NULL)
     public Goal getGoal() {
         return goal;
     }

@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JPopupMenu;
@@ -52,7 +53,7 @@ import org.openide.windows.TopComponent;
 })
 public final class GamePlayEditorTopComponent
         extends TopComponent
-        implements ExplorerManager.Provider, GamePlayEditor, PropertyChangeListener {
+        implements ExplorerManager.Provider, GamePlayEditor, PropertyChangeListener, VetoableChangeListener {
 
     private final ExplorerManager explorerManager = new ExplorerManager();
     private final GamePlayEditorController controller;
@@ -75,7 +76,7 @@ public final class GamePlayEditorTopComponent
                 new AbstractLookup(controller.getLookupContent())
         ));
 
-        getLookup().lookup(SelectionController.class).addPropertyChangeListener(this);
+        getLookup().lookup(SelectionController.class).addVetoableChangeListener(this);
         final GamePlayNode rootNode = new GamePlayNode(
                 controller.getGamePlay(),
                 getLookup().lookup(LayerController.class)
@@ -242,7 +243,12 @@ public final class GamePlayEditorTopComponent
             final GamePlay gamePlay = controller.getGamePlay();
             final Selectable selection = getLookup().lookup(SelectionController.class).getSelection();
             ((GamePlayDisplay) pnlDisplay).updateDisplay(gamePlay, selection);
-        } else if (SelectionController.PROPERTY_SELECTION.equals(pce.getPropertyName())) {
+        }
+    }
+    
+    @Override
+    public void vetoableChange(final PropertyChangeEvent pce) {
+        if (SelectionController.PROPERTY_SELECTION.equals(pce.getPropertyName())) {
             try {
                 if (null == pce.getNewValue()) {
                     explorerManager.setSelectedNodes(new Node[]{explorerManager.getRootContext()});

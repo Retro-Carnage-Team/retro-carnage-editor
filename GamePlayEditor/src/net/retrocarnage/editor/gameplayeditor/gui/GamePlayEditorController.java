@@ -226,8 +226,8 @@ class GamePlayEditorController {
 
     void handleMouseClick(final Point position) {
         final Point scaledPosition = scalePosition(position);
-        final Selectable oldSelection = selectionControllerImpl.getSelection();
-
+        final Selectable oldSelection = selectionControllerImpl.getSelection();        
+        selectionControllerImpl.pointSelected(scaledPosition);        
         for (Layer layer : gamePlay.getLayers()) {
             final Optional<Selectable> possibleItem = layer
                     .streamSelectables()

@@ -1,7 +1,7 @@
 package net.retrocarnage.editor.enemymovementeditor;
 
 import java.beans.PropertyChangeEvent;
-import java.util.Objects;
+import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.core.gui.SpinnerCellEditor;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -36,10 +36,12 @@ import org.openide.windows.TopComponent;
 public final class EnemyMovementEditorTopComponent extends TopComponent {
 
     private final EnemyMovementEditorController controller;
+    private final PropertyChangeListener controllerChangeListener;
 
     public EnemyMovementEditorTopComponent() {
         controller = new EnemyMovementEditorController();
-        controller.addPropertyChangeListener((PropertyChangeEvent pce) -> handleControllerPropertyChanged(pce));
+        controllerChangeListener = (PropertyChangeEvent pce) -> handleControllerPropertyChanged(pce);
+        controller.addPropertyChangeListener(controllerChangeListener);
 
         initComponents();
         setName(Bundle.CTL_EnemyMovementEditorTopComponent());
@@ -57,9 +59,10 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         scrMovements = new javax.swing.JScrollPane();
         tblMovements = new javax.swing.JTable();
         pnlMovementActions = new javax.swing.JPanel();
-        btnAddMovement = new javax.swing.JButton();
         btnRemoveMovement = new javax.swing.JButton();
-        pnlLibrary = new javax.swing.JPanel();
+        pnlRecordingStatus = new javax.swing.JPanel();
+        btnStartRecording = new javax.swing.JButton();
+        btnStopRecording = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -75,16 +78,10 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
         pnlDetail.add(scrMovements, java.awt.BorderLayout.CENTER);
 
-        pnlMovementActions.setLayout(new java.awt.GridLayout(1, 0));
+        pnlMovementActions.setPreferredSize(new java.awt.Dimension(180, 40));
+        pnlMovementActions.setRequestFocusEnabled(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(btnAddMovement, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnAddMovement.text")); // NOI18N
-        btnAddMovement.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMovementActionPerformed(evt);
-            }
-        });
-        pnlMovementActions.add(btnAddMovement);
-
+        btnRemoveMovement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(btnRemoveMovement, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnRemoveMovement.text")); // NOI18N
         btnRemoveMovement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,46 +94,59 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
         add(pnlDetail, java.awt.BorderLayout.CENTER);
 
-        pnlLibrary.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.pnlLibrary.border.title"))); // NOI18N
+        btnStartRecording.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/media-playback-start.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnStartRecording, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnStartRecording.text")); // NOI18N
+        btnStartRecording.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartRecordingActionPerformed(evt);
+            }
+        });
+        pnlRecordingStatus.add(btnStartRecording);
 
-        javax.swing.GroupLayout pnlLibraryLayout = new javax.swing.GroupLayout(pnlLibrary);
-        pnlLibrary.setLayout(pnlLibraryLayout);
-        pnlLibraryLayout.setHorizontalGroup(
-            pnlLibraryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
-        );
-        pnlLibraryLayout.setVerticalGroup(
-            pnlLibraryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        btnStopRecording.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/media-playback-stop.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnStopRecording, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnStopRecording.text")); // NOI18N
+        btnStopRecording.setEnabled(false);
+        btnStopRecording.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopRecordingActionPerformed(evt);
+            }
+        });
+        pnlRecordingStatus.add(btnStopRecording);
 
-        add(pnlLibrary, java.awt.BorderLayout.SOUTH);
+        add(pnlRecordingStatus, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovementActionPerformed
-        controller.addMovement();        
-    }//GEN-LAST:event_btnAddMovementActionPerformed
 
     private void btnRemoveMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveMovementActionPerformed
         controller.deleteMovement();
     }//GEN-LAST:event_btnRemoveMovementActionPerformed
 
+    private void btnStartRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartRecordingActionPerformed
+        controller.startRecording();
+    }//GEN-LAST:event_btnStartRecordingActionPerformed
+
+    private void btnStopRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopRecordingActionPerformed
+        controller.stopRecording();
+    }//GEN-LAST:event_btnStopRecordingActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddMovement;
     private javax.swing.JButton btnRemoveMovement;
+    private javax.swing.JButton btnStartRecording;
+    private javax.swing.JButton btnStopRecording;
     private javax.swing.JPanel pnlDetail;
-    private javax.swing.JPanel pnlLibrary;
     private javax.swing.JPanel pnlMovementActions;
+    private javax.swing.JPanel pnlRecordingStatus;
     private javax.swing.JScrollPane scrMovements;
     private javax.swing.JTable tblMovements;
     // End of variables declaration//GEN-END:variables
+    
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
-    }
+    }    
 
     @Override
     public void componentClosed() {
+        controller.removePropertyChangeListener(controllerChangeListener);
         controller.close();
     }
 
@@ -150,21 +160,18 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
         switch (pce.getPropertyName()) {
-            case EnemyMovementEditorController.PROPERTY_ENABLED:
-                btnAddMovement.setEnabled(Objects.equals(Boolean.TRUE, pce.getNewValue()));
-                btnRemoveMovement.setEnabled(
-                        Objects.equals(Boolean.TRUE, pce.getNewValue())
-                        && (null != controller.getSelectedMovement())
-                );
-                break;
             case EnemyMovementEditorController.PROPERTY_SELECTION:
                 btnRemoveMovement.setEnabled(null != pce.getNewValue());
                 break;
-            case EnemyMovementEditorController.PROPERTY_MOVEMENTS:
-                // TODO
+            case EnemyMovementEditorController.PROPERTY_ENABLED:                                
+                btnStartRecording.setEnabled(Boolean.TRUE.equals(pce.getNewValue()) && !controller.isRecording());
+                btnStopRecording.setEnabled(Boolean.TRUE.equals(pce.getNewValue()) && controller.isRecording());
                 break;
+            case EnemyMovementEditorController.PROPERTY_RECORDING:
+                btnStartRecording.setEnabled(controller.isEnabled() && Boolean.FALSE.equals(pce.getNewValue()));
+                btnStopRecording.setEnabled(controller.isEnabled() &&Boolean.TRUE.equals(pce.getNewValue()));
             default:
-            // ignore this
+                // ignore this
         }
     }
 }
