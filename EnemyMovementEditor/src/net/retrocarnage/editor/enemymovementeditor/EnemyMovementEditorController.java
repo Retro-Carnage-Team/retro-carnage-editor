@@ -206,14 +206,20 @@ public class EnemyMovementEditorController {
     }
 
     private void handlePointSelected(final Point nextPosition) {
-        if (null != enemy && recording) {
-            System.out.println(nextPosition.toString());
+        if (null != enemy && recording) {                        
+            final EnemyMovement combinedMovement = new EnemyMovement(); // 0, 0
+            for(EnemyMovement m: movements) {
+                combinedMovement.add(m);
+            }            
             
+            final Point enemyPosition = enemy.getPosition().getCenter();
+            enemyPosition.translate(combinedMovement.getDistanceX(), combinedMovement.getDistanceY());
             
             final EnemyMovement newMovement = new EnemyMovement();
-            newMovement.setDistanceX(50);
-            newMovement.setDistanceY(50);
+            newMovement.setDistanceX(nextPosition.x - enemyPosition.x);
+            newMovement.setDistanceY(nextPosition.y - enemyPosition.y);
             movements.add(newMovement);
+            selectionController.selectionModified();
             
             if (null != tableModel) {
                tableModel.fireTableDataChanged();
