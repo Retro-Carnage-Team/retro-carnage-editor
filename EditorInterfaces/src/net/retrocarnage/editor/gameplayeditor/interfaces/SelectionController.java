@@ -1,6 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.interfaces;
 
 import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
 import net.retrocarnage.editor.model.Selectable;
 
 /**
@@ -10,12 +11,36 @@ import net.retrocarnage.editor.model.Selectable;
  */
 public interface SelectionController {
 
+    // not vetoable
+    public static final String PROPERTY_POINT_SELECTED = "point-selected";
+    
+    // vetoable
     public static final String PROPERTY_SELECTION = "selection";
 
+    /**
+     * Adds a listener for non-vetoable events - like the selection of a point on the map.
+     * @param listener The listener to be added
+     */
     void addPropertyChangeListener(PropertyChangeListener listener);
 
+    /**
+     * Removes the listener for non-vetoable events.
+     * @param listener The listener to be removed
+     */
     void removePropertyChangeListener(PropertyChangeListener listener);
+    
+    /**
+     * Adds a listener for vetoable events - like the selection of a Selectable.
+     * @param listener The listener to be added
+     */
+    void addVetoableChangeListener(VetoableChangeListener listener);
 
+    /**
+     * Removes the listener for vetoable events.
+     * @param listener The listener to be removed
+     */
+    void removeVetoableChangeListener(VetoableChangeListener listener);
+    
     /**
      * @return the selected element
      */

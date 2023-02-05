@@ -2,8 +2,8 @@ package net.retrocarnage.editor.layerselector.gui;
 
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +65,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     private static final String NEW_LAYER_TITLE = "Please specify a name for the new Layer";
 
     private final ExplorerManager explorerManager = new ExplorerManager();
-    private final PropertyChangeListener selectionChangeListener;
+    private final VetoableChangeListener selectionChangeListener;
     private final LookupListener lookupListener;
     private final Lookup.Result<SelectionController> selectionCtrlLookupResult;
 
@@ -199,13 +199,13 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
      */
     private void handleSelectionControllerChanged() {
         if (null != selectionCtrl) {
-            selectionCtrl.removePropertyChangeListener(selectionChangeListener);
+            selectionCtrl.removeVetoableChangeListener(selectionChangeListener);
         }
 
         final Collection<? extends SelectionController> items = selectionCtrlLookupResult.allInstances();
         selectionCtrl = items.isEmpty() ? null : items.iterator().next();
         if (null != selectionCtrl) {
-            selectionCtrl.addPropertyChangeListener(selectionChangeListener);
+            selectionCtrl.addVetoableChangeListener(selectionChangeListener);
             SwingUtilities.invokeLater(() -> changeSelection(selectionCtrl.getSelection()));
         }
     }

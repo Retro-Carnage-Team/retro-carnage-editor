@@ -33,9 +33,8 @@ public class ExportEnemy {
 
     public List<ExportEnemyMovement> getMovements() {
         return enemy.getMovements()
-                .stream()
-                // TODO: This is not done, yet. ExportEnemyMovement has to convert EnemyMovement data.
-                .map(em -> new ExportEnemyMovement())
+                .stream()                
+                .map(em -> new ExportEnemyMovement(em, enemy.getSpeed()))
                 .collect(Collectors.toList());
     }
 
@@ -59,7 +58,7 @@ public class ExportEnemy {
         }
 
         public int getY() {
-            return enemy.getPosition().getY() - sectionRect.y;
+            return -1 * (enemy.getPosition().getY() - sectionRect.y);
         }
 
         public int getWidth() {
