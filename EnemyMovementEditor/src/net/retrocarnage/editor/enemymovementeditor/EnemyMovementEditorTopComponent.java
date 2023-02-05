@@ -59,7 +59,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         scrMovements = new javax.swing.JScrollPane();
         tblMovements = new javax.swing.JTable();
         pnlMovementActions = new javax.swing.JPanel();
-        btnRemoveMovement = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         pnlRecordingStatus = new javax.swing.JPanel();
         btnStartRecording = new javax.swing.JButton();
         btnStopRecording = new javax.swing.JButton();
@@ -81,14 +81,14 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         pnlMovementActions.setPreferredSize(new java.awt.Dimension(180, 40));
         pnlMovementActions.setRequestFocusEnabled(false);
 
-        btnRemoveMovement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnRemoveMovement, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnRemoveMovement.text")); // NOI18N
-        btnRemoveMovement.addActionListener(new java.awt.event.ActionListener() {
+        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnReset, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnReset.text")); // NOI18N
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveMovementActionPerformed(evt);
+                btnResetActionPerformed(evt);
             }
         });
-        pnlMovementActions.add(btnRemoveMovement);
+        pnlMovementActions.add(btnReset);
 
         pnlDetail.add(pnlMovementActions, java.awt.BorderLayout.SOUTH);
 
@@ -116,9 +116,9 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         add(pnlRecordingStatus, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRemoveMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveMovementActionPerformed
-        controller.deleteMovement();
-    }//GEN-LAST:event_btnRemoveMovementActionPerformed
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        controller.deleteMovements();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnStartRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartRecordingActionPerformed
         controller.startRecording();
@@ -129,7 +129,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     }//GEN-LAST:event_btnStopRecordingActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRemoveMovement;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnStartRecording;
     private javax.swing.JButton btnStopRecording;
     private javax.swing.JPanel pnlDetail;
@@ -161,7 +161,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
         switch (pce.getPropertyName()) {
             case EnemyMovementEditorController.PROPERTY_SELECTION:
-                btnRemoveMovement.setEnabled(null != pce.getNewValue());
+                btnReset.setEnabled(null != pce.getNewValue());
                 break;
             case EnemyMovementEditorController.PROPERTY_ENABLED:                                
                 btnStartRecording.setEnabled(Boolean.TRUE.equals(pce.getNewValue()) && !controller.isRecording());

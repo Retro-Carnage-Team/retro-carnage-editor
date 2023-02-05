@@ -50,7 +50,7 @@ public class ExportMission {
     }
 
     public String getMusic() {
-        return exportFolderStructure.getMusicRelativePath();
+        return exportFolderStructure.getMusicFile().getName();
     }
 
     public String getName() {

@@ -68,12 +68,9 @@ public class EnemyMovementEditorController {
             if(SelectionController.PROPERTY_POINT_SELECTED.equals(pce.getPropertyName()))
                 handlePointSelected((Point) pce.getNewValue());
         };
-        selectionChangeListener = new VetoableChangeListener() {
-            @Override
-            public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException { 
-                if(recording && (pce.getNewValue() != pce.getOldValue()))
-                    throw new PropertyVetoException( "Recording of enemy movements is in progress", pce);
-            }
+        selectionChangeListener = (PropertyChangeEvent pce) -> {
+            if(recording && (pce.getNewValue() != pce.getOldValue()))
+                throw new PropertyVetoException( "Recording of enemy movements is in progress", pce);
         };
     }
 
@@ -131,18 +128,14 @@ public class EnemyMovementEditorController {
     /**
      * Deletes the selected movement - if possible
      */
-    void deleteMovement() {
-        if (!movements.isEmpty() && null != selectedMovement) {
-            final int idx = movements.indexOf(selectedMovement);
-            if (-1 != idx) {
-                movements.remove(idx);
-                selectedMovement = null;
-            }
-
+    void deleteMovements() {
+        if (!movements.isEmpty()) {            
+            movements.clear();            
             if (null != tableModel) {
                 tableModel.fireTableDataChanged();
             }
-            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);
+            selectionController.selectionModified();
+            propertyChangeSupport.firePropertyChange(PROPERTY_MOVEMENTS, null, movements);            
         }
     }
 

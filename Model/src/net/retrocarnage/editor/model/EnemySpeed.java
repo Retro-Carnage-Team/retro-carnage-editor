@@ -1,7 +1,7 @@
 package net.retrocarnage.editor.model;
 
 /**
- * Defines various possible speed values for enemies and some human friendly names.
+ * Defines various possible speed values (in pixel per second) for enemies and some human friendly names.
  *
  * @author Thomas Werner
  */
