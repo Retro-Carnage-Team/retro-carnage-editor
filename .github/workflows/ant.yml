@@ -22,6 +22,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'        
     - name: Install NetBeans
-      run: snap install netbeans --classic
+      run: sudo snap install netbeans --classic
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
