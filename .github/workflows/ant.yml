@@ -24,4 +24,5 @@ jobs:
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
       env:
-        nbplatform.default.harness.dir: '/snap/netbeans/current/netbeans/harness'
+        nbplatform.default.netbeans.dest.dir: '/snap/netbeans/89/netbeans'
+        nbplatform.default.harness.dir: '/snap/netbeans/89/netbeans/harness'
