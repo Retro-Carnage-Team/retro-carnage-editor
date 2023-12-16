@@ -22,7 +22,4 @@ jobs:
     - name: Install NetBeans
       run: sudo snap install netbeans --classic
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml
-      env:
-        nbplatform.default.netbeans.dest.dir: '/snap/netbeans/89/netbeans'
-        nbplatform.default.harness.dir: '/snap/netbeans/89/netbeans/harness'
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness -noinput -buildfile build.xml       
