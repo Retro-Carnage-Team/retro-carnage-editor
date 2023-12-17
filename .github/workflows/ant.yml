@@ -18,8 +18,10 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'temurin'        
+        distribution: 'temurin'
     - name: Install NetBeans
       run: sudo snap install netbeans --classic
     - name: Build with Ant
-      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness clean build       
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness clean build
+    - name: Run unit tests
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness test
