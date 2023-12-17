@@ -1,16 +1,17 @@
 package net.retrocarnage.editor.assetmanager.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.impl.mocks.ApplicationFolderServiceMock;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Sprite;
+import org.junit.After;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -20,29 +21,36 @@ import org.junit.Test;
  */
 public class AssetServiceImplSpriteTest {
 
-    private static final String GOOGLE_LOGO = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-    private static final String WIKIPEDIA_LOGO = "https://en.wikipedia.org/static/images/project-logos/enwiki-1.5x.png";
+    private ApplicationFolderServiceMock appFolderSvc;
+    private Sprite sprite;
 
-    private static Sprite sprite;
+    @Before
+    public void setUp() throws IOException {
+        appFolderSvc = new ApplicationFolderServiceMock();
 
-    @BeforeClass
-    public static void setUpClass() {
         final AttributionData attributionData = new AttributionData();
         attributionData.setAuthor("Google Inc.");
         attributionData.setWebsite("https://www.google.com");
 
-        sprite = new Sprite();
+        sprite = new Sprite(appFolderSvc);
         sprite.setAttributionData(attributionData);
         sprite.setName("Google Logo");
         sprite.getTags().add("Google");
         sprite.getTags().add("Alphabet");
         sprite.getTags().add("Logo");
+
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        appFolderSvc.cleanUp();
     }
 
     @Test
     public void testAddAndRemoveAsset() throws Exception {
-        final AssetServiceImpl service = (AssetServiceImpl) AssetService.getDefault();
-        try (final InputStream logoStream = new URL(GOOGLE_LOGO).openStream()) {
+        final AssetServiceImpl service = new AssetServiceImpl(appFolderSvc);
+        service.initializeFolderStructure();
+        try (final InputStream logoStream = getTestDataInputStream("test-image-1.jpeg")) {
             service.addSprite(sprite, logoStream);
         }
 
@@ -58,8 +66,9 @@ public class AssetServiceImplSpriteTest {
 
     @Test
     public void testReplaceAsset() throws Exception {
-        final AssetServiceImpl service = (AssetServiceImpl) AssetService.getDefault();
-        try (final InputStream logoStream = new URL(GOOGLE_LOGO).openStream()) {
+        final AssetServiceImpl service = new AssetServiceImpl(appFolderSvc);
+        service.initializeFolderStructure();
+        try (final InputStream logoStream = getTestDataInputStream("test-image-1.jpeg")) {
             service.addSprite(sprite, logoStream);
         }
 
@@ -69,14 +78,17 @@ public class AssetServiceImplSpriteTest {
             googleLogoSize = baos.toByteArray().length;
         }
 
-        try (final InputStream logoStream = new URL(WIKIPEDIA_LOGO).openStream();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (final InputStream logoStream = getTestDataInputStream("test-image-2.jpeg"); final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             service.updateSpriteAsset(sprite.getId(), logoStream);
             sprite.getData(baos);
             assertNotEquals(googleLogoSize, baos.toByteArray().length);
             assertTrue(0 < baos.toByteArray().length);
             service.removeSprite(sprite.getId());
         }
+    }
+
+    private static InputStream getTestDataInputStream(final String fileName) {
+        return AssetServiceImplSpriteTest.class.getResourceAsStream("testdata/" + fileName);
     }
 
 }
