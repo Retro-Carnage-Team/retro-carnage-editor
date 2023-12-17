@@ -24,6 +24,7 @@ public abstract class Asset<T extends Asset<?>> {
 
     private static final Logger logger = Logger.getLogger(Asset.class.getName());
 
+    private final ApplicationFolderService appFolderService;
     private String id;
     private AttributionData attributionData;
     private String name;
@@ -32,6 +33,12 @@ public abstract class Asset<T extends Asset<?>> {
 
     protected Asset() {
         this.tags = new ArrayList<>();
+        this.appFolderService = ApplicationFolderService.getDefault();
+    }
+
+    protected Asset(final ApplicationFolderService appFolderService) {
+        this.tags = new ArrayList<>();
+        this.appFolderService = appFolderService;
     }
 
     public String getId() {
@@ -93,7 +100,6 @@ public abstract class Asset<T extends Asset<?>> {
      * @throws IOException
      */
     public void getData(final OutputStream out) throws IOException {
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
         final Path filePath = Paths.get(appFolderPath.toString(), getRelativePath());
         if (filePath.toFile().exists()) {

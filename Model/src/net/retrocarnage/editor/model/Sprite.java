@@ -40,6 +40,14 @@ public class Sprite extends Asset<Sprite> implements Transferable {
     private String relativePathThumbnail;
     private BufferedImage cachedImage;
 
+    public Sprite() {
+        super();
+    }
+
+    public Sprite(final ApplicationFolderService appFolderService) {
+        super(appFolderService);
+    }
+
     /**
      * @return the width in pixel
      */
