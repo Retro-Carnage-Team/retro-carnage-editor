@@ -15,19 +15,18 @@ import net.retrocarnage.editor.core.ApplicationFolderService;
  */
 public class ApplicationFolderServiceImpl extends ApplicationFolderService {
 
-    private static final String AppRootFolderName = ".retro-carnage-editor";
+    private static final String APP_FOLDER_NAME = ".retro-carnage-editor";
     private static final Logger logger = Logger.getLogger(ApplicationFolderServiceImpl.class.getName());
 
     @Override
     public Path buildDatabaseFilePath(final String fileName) {
-        final String userHome = System.getProperty("user.home");
-        return Paths.get(userHome, AppRootFolderName, fileName);
+        return getApplicationFolder().resolve(fileName);
     }
 
     @Override
     public Path getApplicationFolder() {
         final String userHome = System.getProperty("user.home");
-        return Paths.get(userHome, AppRootFolderName);
+        return Paths.get(userHome, APP_FOLDER_NAME);
     }
 
     /**
@@ -36,8 +35,7 @@ public class ApplicationFolderServiceImpl extends ApplicationFolderService {
      * @throws IOException when one if the IO operations fails
      */
     public void initializeApplicationFolder() throws IOException {
-        final String userHome = System.getProperty("user.home");
-        final File applicationFolder = Paths.get(userHome, AppRootFolderName).toFile();
+        final File applicationFolder = getApplicationFolder().toFile();
         if (!applicationFolder.exists() && !applicationFolder.mkdir()) {
             logger.log(Level.WARNING, "Failed to create application folder {0}", applicationFolder.getPath());
         }

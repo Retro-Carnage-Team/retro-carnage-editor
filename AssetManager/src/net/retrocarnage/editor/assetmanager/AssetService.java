@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.assetmanager.impl.AssetServiceImpl;
+import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
@@ -17,7 +18,7 @@ public abstract class AssetService {
 
     public static final String TAG_CLIENT = "client";
 
-    private static AssetService assetServiceImpl = new AssetServiceImpl();
+    private static final AssetService assetServiceImpl = new AssetServiceImpl(ApplicationFolderService.getDefault());
 
     /**
      * Searches for music and sprite assets that match the given criteria.

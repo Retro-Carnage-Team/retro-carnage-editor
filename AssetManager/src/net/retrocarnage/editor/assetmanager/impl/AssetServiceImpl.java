@@ -42,15 +42,16 @@ public class AssetServiceImpl extends AssetService {
     private static final int THUMBNAIL_SIZE = 100;                                                                      // pixels width & height
     private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());
 
+    private final ApplicationFolderService appFolderService;
     private final AssetDatabase assets;
     private final Path musicFolder;
     private final Path spriteFolder;
     private final Path thumbnailFolder;
 
-    public AssetServiceImpl() {
+    public AssetServiceImpl(final ApplicationFolderService appFolderService) {
+        this.appFolderService = appFolderService;
         assets = new AssetDatabase();
 
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
         musicFolder = Paths.get(appFolderPath.toString(), MUSIC_FOLDER_NAME);
         spriteFolder = Paths.get(appFolderPath.toString(), SPRITE_FOLDER_NAME);
@@ -62,7 +63,6 @@ public class AssetServiceImpl extends AssetService {
     }
 
     void loadAssets() {
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
         if (databaseFile.toFile().exists()) {
             try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
@@ -78,7 +78,6 @@ public class AssetServiceImpl extends AssetService {
     }
 
     void saveAssets() {
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
         try (final OutputStream database = Files.newOutputStream(databaseFile)) {
             saveAssets(database);
@@ -135,7 +134,6 @@ public class AssetServiceImpl extends AssetService {
         music.setId(UUID.randomUUID().toString());
         music.setRelativePath(Paths.get(MUSIC_FOLDER_NAME, music.getId() + ".mp3").toString());
 
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
         storeMusicToDisk(in, Paths.get(appFolderPath.toString(), music.getRelativePath()));
 
@@ -162,7 +160,6 @@ public class AssetServiceImpl extends AssetService {
     public void removeMusic(final String id) {
         final Music music = assets.getMusic().get(id);
         if (null != music) {
-            final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
             final Path appFolderPath = appFolderService.getApplicationFolder();
             final File musicFile = Paths.get(appFolderPath.toString(), music.getRelativePath()).toFile();
             if (musicFile.exists() && !musicFile.delete()) {
@@ -185,9 +182,7 @@ public class AssetServiceImpl extends AssetService {
         sprite.setRelativePath(Paths.get(SPRITE_FOLDER_NAME, sprite.getId() + ".png").toString());
         sprite.setRelativePathThumbnail(Paths.get(THUMBNAIL_FOLDER_NAME, sprite.getId() + ".png").toString());
 
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
-
         final Path spritePath = Paths.get(appFolderPath.toString(), sprite.getRelativePath());
         final Path thumbnailPath = Paths.get(appFolderPath.toString(), sprite.getRelativePathThumbnail());
         storeSpriteToDisk(in, spritePath, thumbnailPath);
@@ -213,9 +208,7 @@ public class AssetServiceImpl extends AssetService {
             throw new IllegalArgumentException("No such asset for given id: " + id);
         }
 
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
-
         final Path spritePath = Paths.get(appFolderPath.toString(), sprite.getRelativePath());
         final Path thumbnailPath = Paths.get(appFolderPath.toString(), sprite.getRelativePathThumbnail());
         storeSpriteToDisk(in, spritePath, thumbnailPath);
@@ -225,7 +218,6 @@ public class AssetServiceImpl extends AssetService {
     public void removeSprite(final String id) {
         final Sprite sprite = assets.getSprites().get(id);
         if (null != sprite) {
-            final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
             final Path appFolderPath = appFolderService.getApplicationFolder();
             final File spriteFile = Paths.get(appFolderPath.toString(), sprite.getRelativePath()).toFile();
             if (spriteFile.exists() && !spriteFile.delete()) {
