@@ -2,7 +2,6 @@ package net.retrocarnage.editor.assetmanager.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Sprite;
@@ -19,9 +18,6 @@ import org.junit.Test;
  * @author Thomas Werner
  */
 public class AssetServiceImplSpriteTest {
-
-    private static final String GOOGLE_LOGO = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-    private static final String WIKIPEDIA_LOGO = "https://en.wikipedia.org/static/images/project-logos/enwiki-1.5x.png";
 
     private static Sprite sprite;
 
@@ -42,7 +38,7 @@ public class AssetServiceImplSpriteTest {
     @Test
     public void testAddAndRemoveAsset() throws Exception {
         final AssetServiceImpl service = (AssetServiceImpl) AssetService.getDefault();
-        try (final InputStream logoStream = new URL(GOOGLE_LOGO).openStream()) {
+        try (final InputStream logoStream = getTestDataInputStream("test-image-1.jpeg")) {
             service.addSprite(sprite, logoStream);
         }
 
@@ -59,7 +55,7 @@ public class AssetServiceImplSpriteTest {
     @Test
     public void testReplaceAsset() throws Exception {
         final AssetServiceImpl service = (AssetServiceImpl) AssetService.getDefault();
-        try (final InputStream logoStream = new URL(GOOGLE_LOGO).openStream()) {
+        try (final InputStream logoStream = getTestDataInputStream("test-image-1.jpeg")) {
             service.addSprite(sprite, logoStream);
         }
 
@@ -69,14 +65,17 @@ public class AssetServiceImplSpriteTest {
             googleLogoSize = baos.toByteArray().length;
         }
 
-        try (final InputStream logoStream = new URL(WIKIPEDIA_LOGO).openStream();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (final InputStream logoStream = getTestDataInputStream("test-image-2.jpeg"); final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             service.updateSpriteAsset(sprite.getId(), logoStream);
             sprite.getData(baos);
             assertNotEquals(googleLogoSize, baos.toByteArray().length);
             assertTrue(0 < baos.toByteArray().length);
             service.removeSprite(sprite.getId());
         }
+    }
+
+    private static InputStream getTestDataInputStream(final String fileName) {
+        return AssetServiceImplSpriteTest.class.getResourceAsStream("testdata/" + fileName);
     }
 
 }
