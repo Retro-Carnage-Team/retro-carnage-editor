@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ public final class IconUtil {
     public static Image loadIcon(final InputStream resource) {
         try {
             return ImageIO.read(resource);
-        } catch (final IOException ex) {
+        } catch (final Exception ex) {
             logger.log(Level.WARNING, "Failed to load icon", ex);
             return EMPTY_ICON;
         }
