@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 
 /**
+ * Implementation of PlayerModelOverlayService.
  *
  * @author Thomas Werner
  */
