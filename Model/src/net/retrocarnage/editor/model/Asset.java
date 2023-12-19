@@ -24,7 +24,7 @@ public abstract class Asset<T extends Asset<?>> {
 
     private static final Logger logger = Logger.getLogger(Asset.class.getName());
 
-    private final ApplicationFolderService appFolderService;
+    protected final ApplicationFolderService appFolderService;
     private String id;
     private AttributionData attributionData;
     private String name;

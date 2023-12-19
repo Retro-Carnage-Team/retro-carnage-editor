@@ -54,7 +54,7 @@ public class ExportFolderStructure {
         createFolder(getClientsFolder(), "folder for mission clients");                                                 // images/clients/
         createFolder(getMissionBackgroundFolder(), "folder for mission backgrounds");                                   // images/levels/
         createFolder(getMissionsFolder(), "folder for missions");                                                       // missions
-        createFolder(getMusicFolder(), "folder for music");
+        createFolder(getMusicFolder(), "folder for music");                                                             // sounds/music
     }
 
     /**

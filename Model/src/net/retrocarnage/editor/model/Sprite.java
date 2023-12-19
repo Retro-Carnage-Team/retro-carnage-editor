@@ -128,7 +128,6 @@ public class Sprite extends Asset<Sprite> implements Transferable {
      * @throws IOException
      */
     public void getThumbnail(final OutputStream out) throws IOException {
-        final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path appFolderPath = appFolderService.getApplicationFolder();
         final Path filePath = Paths.get(appFolderPath.toString(), relativePathThumbnail);
         if (filePath.toFile().exists()) {
@@ -188,12 +187,13 @@ public class Sprite extends Asset<Sprite> implements Transferable {
     @JsonIgnore
     public BufferedImage getImage() throws IOException {
         if (null == cachedImage) {
-            final ByteArrayOutputStream bufferWriter = new ByteArrayOutputStream();
-            getData(bufferWriter);
-
-            final byte[] buffer = bufferWriter.toByteArray();
-            final ByteArrayInputStream bufferReader = new ByteArrayInputStream(buffer);
-            cachedImage = ImageIO.read(bufferReader);
+            try (final ByteArrayOutputStream bufferWriter = new ByteArrayOutputStream()) {
+                getData(bufferWriter);
+                final byte[] buffer = bufferWriter.toByteArray();
+                try (final ByteArrayInputStream bufferReader = new ByteArrayInputStream(buffer)) {
+                    cachedImage = ImageIO.read(bufferReader);
+                }
+            }
         }
         return cachedImage;
     }

@@ -8,8 +8,16 @@ package net.retrocarnage.editor.model;
 public class EnemyMovement {
 
     private int distanceX;
-    private int distanceY;    
-    
+    private int distanceY;
+
+    public EnemyMovement() {
+    }
+
+    public EnemyMovement(final int x, final int y) {
+        distanceX = x;
+        distanceY = y;
+    }
+
     public int getDistanceX() {
         return distanceX;
     }
@@ -30,5 +38,5 @@ public class EnemyMovement {
         setDistanceX(getDistanceX() + other.getDistanceX());
         setDistanceY(getDistanceY() + other.getDistanceY());
     }
-    
+
 }
