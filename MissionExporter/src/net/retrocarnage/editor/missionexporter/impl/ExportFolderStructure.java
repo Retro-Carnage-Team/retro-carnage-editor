@@ -48,6 +48,13 @@ public class ExportFolderStructure {
     }
 
     /**
+     * @return a File object for the attributions file containing license information about assets used in the mission
+     */
+    public File getMissionAttributionFile() {
+        return new File(exportFolder, mission.getName() + "-attributions.md");
+    }
+
+    /**
      * Creates the full folder structure for the export
      */
     public void prepareFolderStructure() {

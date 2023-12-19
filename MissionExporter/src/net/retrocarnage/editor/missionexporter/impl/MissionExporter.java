@@ -5,15 +5,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionexporter.model.ExportMission;
 import net.retrocarnage.editor.model.Mission;
-import net.retrocarnage.editor.model.Music;
-import net.retrocarnage.editor.model.Sprite;
 
 /**
  * Exports the mission file.
@@ -33,41 +28,13 @@ public class MissionExporter {
     }
 
     public void run() {
-        exportClientImage();
-        exportBackgroundMusic();
-        exportMissionFile();
-    }
-
-    private void exportMissionFile() {
         final File missionFile = exportFolderStructure.getMissionFile();
         final ExportMission exportMission = new ExportMission(mission, exportFolderStructure);
         final ObjectMapper mapper = new ObjectMapper();
-        try (final FileOutputStream fos = new FileOutputStream(missionFile); final BufferedOutputStream bos = new BufferedOutputStream(fos);) {
+        try (final BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(missionFile))) {
             mapper.writeValue(bos, exportMission);
         } catch (IOException ex) {
-            Logger.getLogger(ExportWorker.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void exportClientImage() {
-        final Path imageFile = exportFolderStructure.getClientImageFile().toPath();
-        final Sprite sprite = AssetService.getDefault().getSprite(mission.getClient());
-        try {
-            Files.deleteIfExists(imageFile);
-            sprite.getData(Files.newOutputStream(imageFile));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to export image of mission's client", ex);
-        }
-    }
-
-    private void exportBackgroundMusic() {
-        final Path musicFile = exportFolderStructure.getMusicFile().toPath();
-        final Music music = AssetService.getDefault().getMusic(mission.getSong());
-        try {
-            Files.deleteIfExists(musicFile);
-            music.getData(Files.newOutputStream(musicFile));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to export background music of mission", ex);
+            logger.log(Level.WARNING, null, ex);
         }
     }
 
