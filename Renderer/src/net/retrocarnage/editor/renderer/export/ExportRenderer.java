@@ -75,7 +75,7 @@ public class ExportRenderer {
                 gamePlay.getSections(),
                 Constants.SCREEN_WIDTH
         ).build();
-        try ( GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
+        try (GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
             new SpritePainter(gamePlay.getLayers(), gpg2d, 1).paintSprites();
         }
     }

@@ -25,7 +25,7 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
                 this.mission = mission.clone();
             }
         } catch (CloneNotSupportedException ex) {
-            logger.log(Level.SEVERE, "Failed to create working copy of mission", ex);
+            logger.log(Level.WARNING, "Failed to create working copy of mission", ex);
         }
     }
 
@@ -44,23 +44,13 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
 
         exportFolderStructure.prepareFolderStructure();
 
-        exportMissionBackgrounds();
-        exportMissionFile();
-        exportAttributionFile();
+        BackgroundExporter.build(mission, exportFolderStructure).run();
+        new MissionExporter(mission, exportFolderStructure).run();
+        new MusicExporter(mission, exportFolderStructure).run();
+        new ClientImageExporter(mission, exportFolderStructure).run();
+        new AttributionExporter(mission, exportFolderStructure).run();
 
         return null;
-    }
-
-    private void exportMissionBackgrounds() {
-        BackgroundExporter.build(mission, exportFolderStructure).run();
-    }
-
-    private void exportMissionFile() {
-        new MissionExporter(mission, exportFolderStructure).run();
-    }
-
-    private void exportAttributionFile() {
-        // TODO: Export the attributions as MD
     }
 
 }

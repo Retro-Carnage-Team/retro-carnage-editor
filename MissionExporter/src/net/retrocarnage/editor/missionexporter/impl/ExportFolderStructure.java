@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.model.Mission;
+import net.retrocarnage.editor.model.Music;
 import org.apache.commons.io.FilenameUtils;
 
 // TODO: This class builds various file names based on user input.
@@ -45,6 +46,13 @@ public class ExportFolderStructure {
     public File getMissionFile() {
         final File missionFolder = getMissionsFolder();
         return new File(missionFolder, mission.getName() + ".json");
+    }
+
+    /**
+     * @return a File object for the attributions file containing license information about assets used in the mission
+     */
+    public File getMissionAttributionFile() {
+        return new File(exportFolder, mission.getName() + "-attributions.md");
     }
 
     /**
@@ -146,10 +154,10 @@ public class ExportFolderStructure {
      * @return a file for the background music of the missions
      */
     public File getMusicFile() {
+        final Music music = AssetService.getDefault().getMusic(mission.getSong());
         final String fileName = String.format("%s.%s",
-                mission.getName(),
-                FilenameUtils.getExtension(AssetService.getDefault().getMusic(mission.getSong()).getRelativePath())
-        );
+                                              music.getName(),
+                                              FilenameUtils.getExtension(music.getRelativePath()));
         return new File(getMusicFolder(), fileName);
     }
 
