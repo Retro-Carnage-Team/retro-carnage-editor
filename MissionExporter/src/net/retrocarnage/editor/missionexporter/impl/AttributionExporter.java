@@ -89,8 +89,8 @@ public class AttributionExporter {
         if(result.contains("<MISSION>")) {
             result = result.replace("<MISSION>", mission.getName());
         }
-        if(result.contains("<IMAGE>")) {
-            result = result.replace("<IMAGE>", buildImageAttributions());
+        if(result.contains("<IMAGES>")) {
+            result = result.replace("<IMAGES>", buildImageAttributions());
         }
         if(result.contains("<MUSIC>")) {
             result = result.replace("<MUSIC>", buildMusicAttributions());
@@ -136,7 +136,7 @@ public class AttributionExporter {
             musicAttributions = buildAttribution(music.getName(),
                                                  attribution.getAuthor(),
                                                  attribution.getWebsite(),
-                                                 attribution.getLicenseLink());
+                                                 attribution.getLicenseLink()) + "\n";
         }
         return musicAttributions;
     }
@@ -159,7 +159,7 @@ public class AttributionExporter {
 
         String links = "";
         boolean linkPresent = false;
-        if(website!= null && website.isBlank()) {
+        if(website != null && !website.isBlank()) {
             links = String.format("[Link](%s)", website);
             linkPresent = true;
         }
@@ -172,7 +172,7 @@ public class AttributionExporter {
             }
         }
 
-        return (links.isEmpty()) ? result : String.format("%s (%s)", musicAttributions, links);
+        return (links.isEmpty()) ? result : String.format("%s (%s)", result, links);
     }
 
 }

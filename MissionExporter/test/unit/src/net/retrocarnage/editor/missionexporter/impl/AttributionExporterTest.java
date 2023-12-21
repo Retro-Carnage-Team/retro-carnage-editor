@@ -1,7 +1,9 @@
 package net.retrocarnage.editor.missionexporter.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionexporter.impl.mock.AssetServiceMock;
@@ -15,6 +17,7 @@ import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -68,12 +71,12 @@ public class AttributionExporterTest {
         song.setId(MUSIC_ID);
         song.setAttributionData(new AttributionData() {
                 {
-                    setAuthor("John Doe");
+                    setAuthor("Antonio Vivaldi");
                     setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
-                    setWebsite("https://de.wikipedia.org/wiki/Antonio_Vivaldi");
+                    setWebsite("https://www.retro-carnage.net");
                 }
         });
-        song.setName("Antonio Vivaldi");
+        song.setName("4 seasons");
         assetService.addMusic(song, null);
 
 
@@ -83,7 +86,6 @@ public class AttributionExporterTest {
                 {
                     setAuthor("John Doe");
                     setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
-                    setWebsite("https://www.retro-carnage.net");
                 }
         });
         sprite1.setName("Sprite 1");
@@ -94,7 +96,6 @@ public class AttributionExporterTest {
         sprite2.setAttributionData(new AttributionData() {
                 {
                     setAuthor("Jane Doe");
-                    setLicenseLink("https://creativecommons.org/licenses/by/4.0/");
                     setWebsite("https://www.retro-carnage.net");
                 }
         });
@@ -111,13 +112,25 @@ public class AttributionExporterTest {
     }
 
     @Test
-    public void testRun() {
+    public void testRun() throws IOException {
         attributionExporter.run();
-        assertEquals(true, exportFolderStructure.getMissionAttributionFile().exists());
 
-        // TODO: Is the file name correct?
-        // TODO: Does the file contain references to all assets and the song?
-        // TODO: Are the entries for the assets formatted correctly
+        final File attributionFile = exportFolderStructure.getMissionAttributionFile();
+        assertEquals(true, attributionFile.exists());
+        assertEquals(true, attributionFile.getAbsolutePath().contains(mission.getName()));
+        assertEquals(true, attributionFile.getAbsolutePath().endsWith(".md"));
+
+        try(var fis = new FileInputStream(attributionFile)) {
+            String mdContent = IOUtils.toString(fis, Charset.forName("utf-8"));
+            String attr1 = "* Sprite 1 by John Doe ([License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
+            assertEquals(true, mdContent.contains(attr1));
+
+            String attr2 = "* Sprite 2 by Jane Doe ([Link](https://www.retro-carnage.net))\n";
+            assertEquals(true, mdContent.contains(attr2));
+
+            String attr3 = "* 4 seasons by Antonio Vivaldi ([Link](https://www.retro-carnage.net), [License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
+            assertEquals(true, mdContent.contains(attr3));
+        }
     }
 
 }
