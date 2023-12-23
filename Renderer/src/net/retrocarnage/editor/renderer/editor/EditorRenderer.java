@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import net.retrocarnage.editor.core.GameConstants;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Selectable;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.renderer.common.ClipShapeFactory;
-import net.retrocarnage.editor.renderer.common.Constants;
 import net.retrocarnage.editor.renderer.common.GamePlayGraphics2D;
 import net.retrocarnage.editor.renderer.common.SpritePainter;
 import net.retrocarnage.editor.zoom.ZoomService;
@@ -110,7 +110,7 @@ public class EditorRenderer {
     }
 
     private int calculateGameScreenWidth() {
-        return (int) (Constants.SCREEN_WIDTH * ZoomService.getDefault().getZoomLevel() / 100.0);
+        return (int) (GameConstants.SCREEN_WIDTH * ZoomService.getDefault().getZoomLevel() / 100.0);
     }
 
 }

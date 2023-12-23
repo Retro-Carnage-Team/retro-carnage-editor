@@ -29,8 +29,8 @@ import net.retrocarnage.editor.model.VisualAsset;
 //       The item will be ignored when the license is specified as text.
 
 /**
- * Creates the Attribution.md document for an exported mission. This file contains attributions for all assets used in
- * the mission.
+ * Creates the attribution document for an exported mission. This file contains attributions for all assets used in the
+ * mission.
  *
  * @author Thomas Werner
  */
@@ -46,6 +46,12 @@ public class AttributionExporter {
     private String imageAttributions = null;
     private String musicAttributions = null;
 
+    /**
+     * Creates a new instance of AttributionExporter. This constructor is designed to be used at runtime.
+     *
+     * @param mission the mission to export the attributions for
+     * @param exportFolderStructure definition of the export folder structure
+     */
     public AttributionExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
         this.assetService = AssetService.getDefault();
         this.exportFolderStructure = exportFolderStructure;
@@ -53,6 +59,14 @@ public class AttributionExporter {
         this.missionService = MissionService.getDefault();
     }
 
+    /**
+     * Creates a new instance of AttributionExporter. This constructor is designed to be used in unit tests.
+     *
+     * @param assetService service used to load asset data
+     * @param mission the mission to export the attributions for
+     * @param exportFolderStructure definition of the export folder structure
+     * @param missionService service used to load mission data
+     */
     public AttributionExporter(final AssetService assetService, final Mission mission,
                                final ExportFolderStructure exportFolderStructure, MissionService missionService) {
         this.assetService = assetService;
@@ -61,7 +75,10 @@ public class AttributionExporter {
         this.missionService = missionService;
     }
 
-    public void run() {
+    /**
+     * Exports the attribution information as Markdown formatted file.
+     */
+    public void export() {
         final File mdFile = exportFolderStructure.getMissionAttributionFile();
         try (final BufferedWriter writer = new BufferedWriter(new FileWriter(mdFile, Charset.forName("utf-8")))) {
             for (String line : readTemplate()) {
@@ -72,6 +89,12 @@ public class AttributionExporter {
         }
     }
 
+    /**
+     * Reads the attribution template.
+     *
+     * @return the lines of the attribution template
+     * @throws IOException when template cannot be read
+     */
     private List<String> readTemplate() throws IOException {
         final List<String> result = new ArrayList<>();
         final InputStream templateStream = AttributionExporter.class.getResourceAsStream(TEMPLATE);
@@ -84,6 +107,12 @@ public class AttributionExporter {
         return result;
     }
 
+    /**
+     * Replaces all placeholders in a given line of the Markdown template.
+     *
+     * @param inputLine the line that possibly contains placeholders
+     * @return line with placeholders replaced by formatted content
+     */
     private String replacePlaceholders(final String inputLine) {
         String result = inputLine;
         if(result.contains("<MISSION>")) {
@@ -98,6 +127,11 @@ public class AttributionExporter {
         return result;
     }
 
+    /**
+     * Builds the attribution text for all the sprites used in a mission.
+     *
+     * @return Markdown formatted attributions
+     */
     private String buildImageAttributions() {
         if (null == imageAttributions) {
             final StringBuilder sbuilder = new StringBuilder();
@@ -114,6 +148,11 @@ public class AttributionExporter {
         return imageAttributions;
     }
 
+    /**
+     * Gets the sprites used in a mission ordered by name.
+     *
+     * @return list of sprites.
+     */
     private List<Sprite> getSprites() {
         final Map<String, Sprite> sprites = new HashMap<>();
         final GamePlay gamePlay = missionService.loadGamePlay(mission.getId());
@@ -129,6 +168,11 @@ public class AttributionExporter {
         return result;
     }
 
+    /**
+     * Builds the attribution text for the music used in a mission.
+     *
+     * @return Markdown formatted attribution
+     */
     private String buildMusicAttributions() {
         if (null == musicAttributions && mission.getSong() != null && !mission.getSong().isEmpty()) {
             final Music music = assetService.getMusic(mission.getSong());

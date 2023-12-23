@@ -21,12 +21,21 @@ public class MusicExporter {
     private final ExportFolderStructure exportFolderStructure;
     private final Mission mission;
 
+    /**
+     * Creates a new instance of MusicExporter.
+     *
+     * @param mission the Mission to export the music for
+     * @param exportFolderStructure definition of the export folder structure
+     */
     public MusicExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
     }
 
-    public void run() {
+    /**
+     * Copies the music asset to the export folder.
+     */
+    public void export() {
         final Path musicFile = exportFolderStructure.getMusicFile().toPath();
         final Music music = AssetService.getDefault().getMusic(mission.getSong());
         try {
