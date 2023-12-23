@@ -113,7 +113,7 @@ public class AttributionExporterTest {
 
     @Test
     public void testRun() throws IOException {
-        attributionExporter.run();
+        attributionExporter.export();
 
         final File attributionFile = exportFolderStructure.getMissionAttributionFile();
         assertEquals(true, attributionFile.exists());

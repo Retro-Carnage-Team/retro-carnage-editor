@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import net.retrocarnage.editor.core.GameConstants;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
@@ -42,31 +43,33 @@ final class BackgroundExporter extends SectionPathRunner {
     public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) {
         final GamePlay gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
         final SectionAnalysis mapStructure = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
-        return new BackgroundExporter(mapStructure, gamePlay.getSections(), exportFileStructure, gamePlay, mission);
+        return new BackgroundExporter(mapStructure, gamePlay.getSections(), exportFileStructure, gamePlay);
     }
 
     private BackgroundExporter(
             final SectionAnalysis mapAnalysis,
             final List<Section> sections,
             final ExportFolderStructure exportFileStructure,
-            final GamePlay gamePlay,
-            final Mission mission) {
-        super(mapAnalysis, sections, 1_500);
+            final GamePlay gamePlay) {
+        super(mapAnalysis, sections, GameConstants.SCREEN_WIDTH);
         this.exportFileStructure = exportFileStructure;
         this.gamePlay = gamePlay;
     }
 
-    @Override
-    public void run() {
+    public void export() {
         deleteMissionBackgrounds();
-        super.run();
+        run();
     }
 
     @Override
     protected void processSectionRect(final Section section, final int x, final int y, final int w, final int h) {
         final ExportRenderer renderer = new ExportRenderer(gamePlay);
         for (int screenNumber = 0; screenNumber < section.getNumberOfScreens(); screenNumber++) {
-            final BufferedImage image = new BufferedImage(1_500, 1_500, BufferedImage.TYPE_INT_ARGB);
+            final BufferedImage image = new BufferedImage(
+                    GameConstants.SCREEN_WIDTH,
+                    GameConstants.SCREEN_WIDTH,
+                    BufferedImage.TYPE_INT_ARGB
+            );
             final Graphics2D g2d = image.createGraphics();
             g2d.translate(getScreenOffsetX(section, x, screenNumber), getScreenOffsetY(section, y, screenNumber));
             renderer.render(g2d);
@@ -86,9 +89,9 @@ final class BackgroundExporter extends SectionPathRunner {
     private int getScreenOffsetX(final Section section, final int sectionStartX, final int screenNumber) {
         switch (section.getDirection()) {
             case LEFT:
-                return -sectionStartX - ((section.getNumberOfScreens() - screenNumber - 1) * 1_500);
+                return -sectionStartX - ((section.getNumberOfScreens() - screenNumber - 1) * GameConstants.SCREEN_WIDTH);
             case RIGHT:
-                return -sectionStartX + (1_500 * screenNumber);
+                return -sectionStartX + (GameConstants.SCREEN_WIDTH * screenNumber);
             default:
                 return -sectionStartX;
         }
@@ -96,11 +99,14 @@ final class BackgroundExporter extends SectionPathRunner {
 
     private int getScreenOffsetY(final Section section, final int sectionStartY, final int screenNumber) {
         if (section.getDirection() == SectionDirection.UP) {
-            return -sectionStartY - ((section.getNumberOfScreens() - screenNumber - 1) * 1_500);
+            return -sectionStartY - ((section.getNumberOfScreens() - screenNumber - 1) * GameConstants.SCREEN_WIDTH);
         }
         return -sectionStartY;
     }
 
+    /**
+     * Deletes all previously exported backrgound images to the mission.
+     */
     private void deleteMissionBackgrounds() {
         final File missionBackgroundFolder = exportFileStructure.getMissionBackgroundFolder();
         if (missionBackgroundFolder.exists()) {

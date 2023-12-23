@@ -21,12 +21,21 @@ public class ClientImageExporter {
     private final ExportFolderStructure exportFolderStructure;
     private final Mission mission;
 
+    /**
+     * Creates a new instance of ClientImageExporter.
+     *
+     * @param mission the Mission to export the client image for
+     * @param exportFolderStructure definition of the export folder structure
+     */
     public ClientImageExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
     }
 
-    public void run() {
+    /**
+     * Copies the image of the client asset to the export folder.
+     */
+    public void export() {
         final Path imageFile = exportFolderStructure.getClientImageFile().toPath();
         final Sprite sprite = AssetService.getDefault().getSprite(mission.getClient());
         try {

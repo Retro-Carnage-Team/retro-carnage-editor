@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.retrocarnage.editor.core.GameConstants;
 import net.retrocarnage.editor.missionexporter.impl.ExportFolderStructure;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
@@ -94,7 +95,7 @@ public class ExportMission {
                 final GamePlay gamePlay,
                 final ExportFolderStructure exportFolderStructure
         ) {
-            super(mapStructure, sections, 1_500);
+            super(mapStructure, sections, GameConstants.SCREEN_WIDTH);
             this.gamePlay = gamePlay;
             this.exportFolderStructure = exportFolderStructure;
         }

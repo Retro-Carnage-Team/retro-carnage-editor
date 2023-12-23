@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import net.retrocarnage.editor.core.GameConstants;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.renderer.SectionAnalysis;
 import net.retrocarnage.editor.renderer.SectionAnalyzer;
 import net.retrocarnage.editor.renderer.common.ClipShapeFactory;
-import net.retrocarnage.editor.renderer.common.Constants;
 import net.retrocarnage.editor.renderer.common.GamePlayGraphics2D;
 import net.retrocarnage.editor.renderer.common.SpritePainter;
 import org.apache.commons.lang3.time.StopWatch;
@@ -42,8 +42,8 @@ public class ExportRenderer {
      */
     public Dimension getSize() {
         return new Dimension(
-                sectionAnalysis.getMapWidth() * Constants.SCREEN_WIDTH,
-                sectionAnalysis.getMapHeight() * Constants.SCREEN_WIDTH
+                sectionAnalysis.getMapWidth() * GameConstants.SCREEN_WIDTH,
+                sectionAnalysis.getMapHeight() * GameConstants.SCREEN_WIDTH
         );
     }
 
@@ -73,7 +73,7 @@ public class ExportRenderer {
         final Area gameArea = new ClipShapeFactory(
                 sectionAnalysis,
                 gamePlay.getSections(),
-                Constants.SCREEN_WIDTH
+                GameConstants.SCREEN_WIDTH
         ).build();
         try (GamePlayGraphics2D gpg2d = new GamePlayGraphics2D(g2d, gameArea)) {
             new SpritePainter(gamePlay.getLayers(), gpg2d, 1).paintSprites();

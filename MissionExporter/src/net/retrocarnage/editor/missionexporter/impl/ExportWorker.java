@@ -44,11 +44,11 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
 
         exportFolderStructure.prepareFolderStructure();
 
-        BackgroundExporter.build(mission, exportFolderStructure).run();
-        new MissionExporter(mission, exportFolderStructure).run();
-        new MusicExporter(mission, exportFolderStructure).run();
-        new ClientImageExporter(mission, exportFolderStructure).run();
-        new AttributionExporter(mission, exportFolderStructure).run();
+        BackgroundExporter.build(mission, exportFolderStructure).export();
+        new MissionExporter(mission, exportFolderStructure).export();
+        new MusicExporter(mission, exportFolderStructure).export();
+        new ClientImageExporter(mission, exportFolderStructure).export();
+        new AttributionExporter(mission, exportFolderStructure).export();
 
         return null;
     }

@@ -11,7 +11,7 @@ import net.retrocarnage.editor.missionexporter.model.ExportMission;
 import net.retrocarnage.editor.model.Mission;
 
 /**
- * Exports the mission file.
+ * Exports the mission as JSON file.
  *
  * @author Thomas Werner
  */
@@ -22,12 +22,21 @@ public class MissionExporter {
     private final ExportFolderStructure exportFolderStructure;
     private final Mission mission;
 
+    /**
+     * Creates a new instance of MissionExporter.
+     *
+     * @param mission the Mission to be exported
+     * @param exportFolderStructure definition of the export folder structure
+     */
     public MissionExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
     }
 
-    public void run() {
+    /**
+     * Exports the mission as JSON file to the specified folder structure.
+     */
+    public void export() {
         final File missionFile = exportFolderStructure.getMissionFile();
         final ExportMission exportMission = new ExportMission(mission, exportFolderStructure);
         final ObjectMapper mapper = new ObjectMapper();
