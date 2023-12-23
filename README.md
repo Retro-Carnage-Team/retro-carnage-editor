@@ -1,5 +1,4 @@
 [![Java CI](https://github.com/Retro-Carnage-Team/retro-carnage-editor/actions/workflows/ant.yml/badge.svg)](https://github.com/Retro-Carnage-Team/retro-carnage-editor/actions/workflows/ant.yml)
-[![](https://tokei.rs/b1/github/huddeldaddel/retro-carnage-editor)](https://github.com/huddeldaddel/retro-carnage-editor)
 
 # RETRO CARNAGE EDITOR
 
