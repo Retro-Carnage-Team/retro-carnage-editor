@@ -96,6 +96,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
         btnStartRecording.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/media-playback-start.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(btnStartRecording, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnStartRecording.text")); // NOI18N
+        btnStartRecording.setEnabled(false);
         btnStartRecording.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartRecordingActionPerformed(evt);
@@ -138,11 +139,11 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     private javax.swing.JScrollPane scrMovements;
     private javax.swing.JTable tblMovements;
     // End of variables declaration//GEN-END:variables
-    
+
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
-    }    
+    }
 
     @Override
     public void componentClosed() {
@@ -163,7 +164,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
             case EnemyMovementEditorController.PROPERTY_SELECTION:
                 btnReset.setEnabled(null != pce.getNewValue());
                 break;
-            case EnemyMovementEditorController.PROPERTY_ENABLED:                                
+            case EnemyMovementEditorController.PROPERTY_ENABLED:
                 btnStartRecording.setEnabled(Boolean.TRUE.equals(pce.getNewValue()) && !controller.isRecording());
                 btnStopRecording.setEnabled(Boolean.TRUE.equals(pce.getNewValue()) && controller.isRecording());
                 break;
