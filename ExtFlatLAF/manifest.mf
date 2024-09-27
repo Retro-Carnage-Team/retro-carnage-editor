@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: true
-OpenIDE-Module: com.formdev.flatlaf
-OpenIDE-Module-Install: com/formdev/flatlaf/Installer.class
-OpenIDE-Module-Localizing-Bundle: com/formdev/flatlaf/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
