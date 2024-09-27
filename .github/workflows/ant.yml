@@ -20,11 +20,11 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
     - name: Install Netbeans
-      run: cd /tmp
-      run: wget https://dlcdn.apache.org/netbeans/netbeans-installers/23/apache-netbeans_23-1_all.deb
-      run: sudo dpkg -i apache-netbeans_23-1_all.deb
-      run: rm apache-netbeans_23-1_all.deb
-      run: cd -
+      run: cd /tmp |
+        wget https://dlcdn.apache.org/netbeans/netbeans-installers/23/apache-netbeans_23-1_all.deb
+        sudo dpkg -i apache-netbeans_23-1_all.deb
+        rm apache-netbeans_23-1_all.deb
+        cd -
     - name: Build with Ant
       run: ant -Dnbplatform.default.netbeans.dest.dir=/usr/lib/apache-netbeans -Dnbplatform.default.harness.dir=/usr/lib/apache-netbeans/harness clean build
     - name: Run unit tests
