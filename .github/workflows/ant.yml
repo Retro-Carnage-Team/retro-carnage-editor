@@ -14,14 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: '21'
         distribution: 'temurin'
-    - name: Install NetBeans
-      run: sudo snap install netbeans --classic
+    - name: Download NetBeans
+      run: wget https://dlcdn.apache.org/netbeans/netbeans-installers/23/apache-netbeans_23-1_all.deb
+    - name: Install NetBeans  
+      run: sudo dpkg -i apache-netbeans_23-1_all.deb
+    - name: Remove NetBeans package
+      run: rm apache-netbeans_23-1_all.deb
     - name: Build with Ant
-      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness clean build
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/usr/lib/apache-netbeans -Dnbplatform.default.harness.dir=/usr/lib/apache-netbeans/harness clean build
     - name: Run unit tests
-      run: ant -Dnbplatform.default.netbeans.dest.dir=/snap/netbeans/89/netbeans -Dnbplatform.default.harness.dir=/snap/netbeans/89/netbeans/harness test
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/usr/lib/apache-netbeans -Dnbplatform.default.harness.dir=/usr/lib/apache-netbeans/harness test
