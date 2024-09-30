@@ -155,7 +155,7 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
     /**
      * Renderer component for the InplaceEditor that displays a preview of the skins.
      */
-    private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer {
+    private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer<String> {
 
         private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/skins/%s.png";
         private final java.util.Map<String, ImageIcon> skinToIcons;
@@ -172,11 +172,10 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
                 skinToIcons.put(es.getName(), new ImageIcon(iconImage));
             }
         }
-
+        
         @Override
-        public Component getListCellRendererComponent(
-                final JList list, final Object value, final int index, final boolean isSelected,
-                final boolean cellHasFocus
+        public Component getListCellRendererComponent(JList<? extends String> list, final String value, final int index, 
+                final boolean isSelected, final boolean cellHasFocus
         ) {
             setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
             setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
@@ -184,7 +183,7 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
             if (null == value) {
                 setIcon(null);
             } else {
-                final EnemySkin es = EnemySkin.findByName((String) value);
+                final EnemySkin es = EnemySkin.findByName(value);
                 if (null != es) {
                     setIcon(skinToIcons.get(es.getName()));
                 }
