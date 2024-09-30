@@ -20,7 +20,7 @@ import net.retrocarnage.editor.renderer.editor.EditorRenderer;
  *
  * @author Thomas Werner
  */
-public class GamePlayDisplay extends JPanel {
+public final class GamePlayDisplay extends JPanel {
 
     static final int BORDER_WIDTH = 200;
 

@@ -11,7 +11,7 @@ import org.openide.util.lookup.Lookups;
  *
  * @author Thomas Werner
  */
-public class VisualAssetsNode extends AbstractNode {
+public final class VisualAssetsNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/visualAssets.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));

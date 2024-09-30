@@ -274,7 +274,7 @@ public final class EditorTopComponent extends TopComponent {
 
         cmbMusic.setModel(controller.getSongSelectionModel());
         cmbMusic.setEnabled(false);
-        cmbMusic.setRenderer(new AssetCellRenderer());
+        cmbMusic.setRenderer(new MusicCellRenderer());
         cmbMusic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbMusicActionPerformed(evt);
@@ -332,7 +332,7 @@ public final class EditorTopComponent extends TopComponent {
 
         cmbClient.setModel(controller.getClientSelectionModel());
         cmbClient.setEnabled(false);
-        cmbClient.setRenderer(new AssetCellRenderer());
+        cmbClient.setRenderer(new SpriteCellRenderer());
         cmbClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbClientActionPerformed(evt);
@@ -667,18 +667,32 @@ public final class EditorTopComponent extends TopComponent {
     /**
      * Displays the name of a Music asset in a list cell.
      */
-    private static class AssetCellRenderer implements ListCellRenderer {
+    private static class MusicCellRenderer implements ListCellRenderer<Music> {
 
         private final JLabel stamp = new JLabel();
 
         @Override
         public Component getListCellRendererComponent(
-                final JList jlist, final Object e, final int i, final boolean bln, final boolean bln1
+                final JList<? extends Music> list, final Music music, final int i, final boolean b1, final boolean b2
         ) {
-            stamp.setText("");
-            if (e instanceof Asset) {
-                stamp.setText(((Asset) e).getName());
-            }
+            stamp.setText(music == null ? "" : music.getName());
+            return stamp;
+        }
+
+    }
+    
+    /**
+     * Displays the name of a Music asset in a list cell.
+     */
+    private static class SpriteCellRenderer implements ListCellRenderer<Sprite> {
+
+        private final JLabel stamp = new JLabel();
+
+        @Override
+        public Component getListCellRendererComponent(
+                final JList<? extends Sprite> list, final Sprite sprite, final int i, final boolean b1, final boolean b2
+        ) {
+            stamp.setText(sprite == null ? "" : sprite.getName());
             return stamp;
         }
 

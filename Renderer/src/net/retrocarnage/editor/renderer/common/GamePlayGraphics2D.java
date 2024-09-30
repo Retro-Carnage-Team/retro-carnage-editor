@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author Thomas Werner
  */
-public class GamePlayGraphics2D extends DelegatingGraphics2D implements Closeable {
+public final class GamePlayGraphics2D extends DelegatingGraphics2D implements Closeable {
 
     private static final Logger logger = Logger.getLogger(GamePlayGraphics2D.class.getName());
 

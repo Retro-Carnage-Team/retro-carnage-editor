@@ -22,22 +22,22 @@ public final class BlockerPropsFactory {
         blockerSet.setName("Blocker");
         blockerSet.setDisplayName("Blocker");
 
-        final Node.Property obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
+        final Node.Property<Boolean> obstacleProp = BlockerPropsFactory.buildObstacleProperty(blocker, readonly);
         obstacleProp.setName(Blocker.PROPERTY_OBSTACLE);
         blockerSet.put(obstacleProp);
 
-        final Node.Property bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
+        final Node.Property<Boolean> bulletsProp = BlockerPropsFactory.buildStoppingBulletsProperty(blocker, readonly);
         bulletsProp.setName(Blocker.PROPERTY_BULLETSTOPPER);
         blockerSet.put(bulletsProp);
 
-        final Node.Property explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(blocker, readonly);
+        final Node.Property<Boolean> explosivesProp = BlockerPropsFactory.buildStoppingExplosivesProperty(blocker, readonly);
         explosivesProp.setName(Blocker.PROPERTY_EXPLOSIVESTOPPER);
         blockerSet.put(explosivesProp);
 
         return blockerSet;
     }
 
-    private static Node.Property buildStoppingBulletsProperty(final Blocker blocker, final boolean readonly) {
+    private static Node.Property<Boolean> buildStoppingBulletsProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override
@@ -65,7 +65,7 @@ public final class BlockerPropsFactory {
         };
     }
 
-    private static Node.Property buildStoppingExplosivesProperty(final Blocker blocker, final boolean readonly) {
+    private static Node.Property<Boolean> buildStoppingExplosivesProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override
@@ -93,7 +93,7 @@ public final class BlockerPropsFactory {
         };
     }
 
-    private static Node.Property buildObstacleProperty(final Blocker blocker, final boolean readonly) {
+    private static Node.Property<Boolean> buildObstacleProperty(final Blocker blocker, final boolean readonly) {
         return new Node.Property<Boolean>(Boolean.class) {
 
             @Override

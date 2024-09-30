@@ -12,7 +12,7 @@ import org.openide.util.Lookup;
  *
  * @author Thomas Werner
  */
-public class MissionEditAction extends AbstractAction {
+public final class MissionEditAction extends AbstractAction {
 
     private static final Logger logger = Logger.getLogger(MissionEditAction.class.getName());
     private final Mission mission;

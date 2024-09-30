@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author Thomas Werner
  */
-public class VisualAsset implements Blocker {
+public final class VisualAsset implements Blocker {
 
     public static final String PROPERTY_ASSETID = "assetId";
     public static final String PROPERTY_ROTATION = "rotation";

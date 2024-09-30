@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Thomas Werner
  */
-public class GamePlay {
+public final class GamePlay {
 
     public static final String PROPERTY_UNKNOWN = "unknown";
 

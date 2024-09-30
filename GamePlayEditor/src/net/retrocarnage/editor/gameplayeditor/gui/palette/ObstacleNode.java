@@ -15,7 +15,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class ObstacleNode extends AbstractNode {
+public final class ObstacleNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());
     private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/diagonal.png";

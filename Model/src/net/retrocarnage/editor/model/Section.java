@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author Thomas Werner
  */
-public class Section {
+public final class Section {
 
     public static final String PROPERTY_DIRECTION = "direction";
     public static final String PROPERTY_NUMBER_OF_SCREENS = "numberOfScreens";

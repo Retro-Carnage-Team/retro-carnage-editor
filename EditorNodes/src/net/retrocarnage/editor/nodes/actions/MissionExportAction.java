@@ -11,7 +11,7 @@ import net.retrocarnage.editor.model.Mission;
  *
  * @author Thomas Werner
  */
-public class MissionExportAction extends AbstractAction {
+public final class MissionExportAction extends AbstractAction {
 
     private final Mission mission;
 

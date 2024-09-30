@@ -9,7 +9,7 @@ import net.retrocarnage.editor.zoom.ZoomService;
  *
  * @author Thomas Werner
  */
-public class ZoomServiceImpl extends ZoomService {
+public final class ZoomServiceImpl extends ZoomService {
 
     private final PropertyChangeSupport propChangeSupport;
     private int zoomLevel = 100;

@@ -13,7 +13,7 @@ import org.openide.util.*;
  *
  * @author Thomas Werner
  */
-public class MissionChildren extends Children.Keys {
+public final class MissionChildren extends Children.Keys<Mission> {
 
     public MissionChildren() {
         final PropertyChangeListener listener = (PropertyChangeEvent pce) -> addNotify();
@@ -28,9 +28,8 @@ public class MissionChildren extends Children.Keys {
     }
 
     @Override
-    protected Node[] createNodes(final Object key) {
-        final Mission mission = (Mission) key;
-        final MissionNode missionNode = new MissionNode(mission);
+    protected Node[] createNodes(final Mission key) {
+        final MissionNode missionNode = new MissionNode(key);
         return new Node[]{missionNode};
     }
 

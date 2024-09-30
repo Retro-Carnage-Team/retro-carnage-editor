@@ -170,9 +170,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
                 break;
             case EnemyMovementEditorController.PROPERTY_RECORDING:
                 btnStartRecording.setEnabled(controller.isEnabled() && Boolean.FALSE.equals(pce.getNewValue()));
-                btnStopRecording.setEnabled(controller.isEnabled() &&Boolean.TRUE.equals(pce.getNewValue()));
-            default:
-                // ignore this
+                btnStopRecording.setEnabled(controller.isEnabled() &&Boolean.TRUE.equals(pce.getNewValue()));                
         }
     }
 }

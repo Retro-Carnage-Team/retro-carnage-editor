@@ -25,18 +25,18 @@ public final class EnemyPropsFactory {
         enemySet.setName("Enemy");
         enemySet.setDisplayName("Enemy");
 
-        final Node.Property skinProp = buildSkinProperty(enemy, readonly);
+        final Node.Property<String> skinProp = buildSkinProperty(enemy, readonly);
         skinProp.setName(Enemy.PROPERTY_SKIN);
         enemySet.put(skinProp);
 
-        final Node.Property speedProp = buildSpeedProperty(enemy, readonly);
+        final Node.Property<Integer> speedProp = buildSpeedProperty(enemy, readonly);
         speedProp.setName(Enemy.PROPERTY_SPEED);
         enemySet.put(speedProp);
 
         return enemySet;
     }
 
-    private static Node.Property buildSkinProperty(final Enemy enemy, final boolean readonly) {
+    private static Node.Property<String> buildSkinProperty(final Enemy enemy, final boolean readonly) {
         return new Node.Property<String>(String.class) {
 
             @Override
@@ -70,7 +70,7 @@ public final class EnemyPropsFactory {
         };
     }
 
-    private static Node.Property buildSpeedProperty(final Enemy enemy, final boolean readonly) {
+    private static Node.Property<Integer> buildSpeedProperty(final Enemy enemy, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override

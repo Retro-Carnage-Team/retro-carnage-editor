@@ -8,7 +8,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class AreaMarkersGroupNode extends AbstractNode {
+public final class AreaMarkersGroupNode extends AbstractNode {
 
     public AreaMarkersGroupNode() {
         super(Children.create(new AreaMarkersNodeFactory(), false));

@@ -10,7 +10,7 @@ import net.retrocarnage.editor.model.Layer;
  *
  * @author Thomas Werner
  */
-public class LayerToggleLockAction extends AbstractAction {
+public final class LayerToggleLockAction extends AbstractAction {
 
     private final Layer layer;
     private final LayerController layerCtrl;

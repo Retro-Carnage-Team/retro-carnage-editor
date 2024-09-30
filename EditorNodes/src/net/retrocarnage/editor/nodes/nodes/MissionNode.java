@@ -25,7 +25,7 @@ public class MissionNode extends AbstractNode {
     }
 
     public Mission getMission() {
-        return (Mission) getLookup().lookup(Mission.class);
+        return getLookup().lookup(Mission.class);
     }
 
     @Override

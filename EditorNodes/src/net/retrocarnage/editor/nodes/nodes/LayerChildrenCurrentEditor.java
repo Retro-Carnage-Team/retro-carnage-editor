@@ -12,7 +12,7 @@ import org.openide.util.LookupListener;
  *
  * @author Thomas Werner
  */
-public class LayerChildrenCurrentEditor extends LayerChildren {
+public final class LayerChildrenCurrentEditor extends LayerChildren {
 
     private final Lookup.Result<LayerController> lookupResult;
     private LayerController controller;

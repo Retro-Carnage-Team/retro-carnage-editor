@@ -10,7 +10,7 @@ import net.retrocarnage.editor.zoom.impl.ZoomServiceImpl;
  *
  * @author Thomas Werner
  */
-public class ZoomPanel extends javax.swing.JPanel implements PropertyChangeListener {
+public final class ZoomPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
     /**
      * Creates new form ZoomPanel

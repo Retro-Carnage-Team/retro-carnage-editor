@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Thomas Werner
  */
-public class Enemy implements Selectable, Transferable {
+public final class Enemy implements Selectable, Transferable {
 
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(Enemy.class, "enemy");
     public static final int LANDMINE_HEIGHT = 44;

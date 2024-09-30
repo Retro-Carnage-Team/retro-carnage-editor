@@ -8,7 +8,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class EnemyGroupNode extends AbstractNode {
+public final class EnemyGroupNode extends AbstractNode {
 
     public EnemyGroupNode() {
         super(Children.create(new EnemyNodeFactory(), false));

@@ -59,7 +59,7 @@ public class SelectionControllerImpl implements SelectionController {
 
     @Override
     public void setSelection(final Selectable selection) {        
-        fireChange(selection);
+        processSelectionChanged(selection);
     }
 
     /**
@@ -67,7 +67,7 @@ public class SelectionControllerImpl implements SelectionController {
      */
     @Override
     public void selectionModified() {
-        fireChange(this.selection);
+        processSelectionChanged(this.selection);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SelectionControllerImpl implements SelectionController {
     /**
      * Fires a change that indicates that the selection changed.
      */
-    private void fireChange(final Selectable newSelection) {
+    private void processSelectionChanged(final Selectable newSelection) {
         try {            
             vetoableChangeSupport.fireVetoableChange(PROPERTY_SELECTION, this.selection, newSelection);
             this.selection = newSelection;

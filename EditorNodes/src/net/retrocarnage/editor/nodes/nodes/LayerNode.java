@@ -15,7 +15,7 @@ import org.openide.util.lookup.Lookups;
  *
  * @author Thomas Werner
  */
-public class LayerNode extends AbstractNode {
+public final class LayerNode extends AbstractNode {
 
     private static final String ICON_LOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/locked.png";
     private static final String ICON_UNLOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/unlocked.png";

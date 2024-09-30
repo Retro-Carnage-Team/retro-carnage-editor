@@ -13,7 +13,7 @@ import org.openide.util.WeakListeners;
  *
  * @author Thomas Werner
  */
-public class ObstacleChildren extends Children.Keys<Obstacle> {
+public final class ObstacleChildren extends Children.Keys<Obstacle> {
 
     private final Layer layer;
 
