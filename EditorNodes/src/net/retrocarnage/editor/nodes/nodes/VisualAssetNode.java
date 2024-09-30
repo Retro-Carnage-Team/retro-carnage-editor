@@ -28,7 +28,7 @@ import org.openide.util.lookup.Lookups;
  *
  * @author Thomas Werner
  */
-public class VisualAssetNode extends AbstractNode implements SelectableNode {
+public final class VisualAssetNode extends AbstractNode implements SelectableNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/visualAsset.png";
     private static final String TILE_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/tile.png";

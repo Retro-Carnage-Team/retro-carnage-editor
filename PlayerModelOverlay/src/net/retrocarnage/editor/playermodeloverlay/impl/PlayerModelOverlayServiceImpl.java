@@ -9,7 +9,7 @@ import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
  *
  * @author Thomas Werner
  */
-public class PlayerModelOverlayServiceImpl extends PlayerModelOverlayService {
+public final class PlayerModelOverlayServiceImpl extends PlayerModelOverlayService {
 
     private final PropertyChangeSupport propChangeSupport;
     private boolean visible = false;

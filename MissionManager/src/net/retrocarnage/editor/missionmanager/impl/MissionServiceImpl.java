@@ -32,7 +32,7 @@ import net.retrocarnage.editor.model.SectionDirection;
  *
  * @author Thomas Werner
  */
-public class MissionServiceImpl extends MissionService {
+public final class MissionServiceImpl extends MissionService {
 
     private static final String MISSION_FOLDER_NAME = "missions";
     private static final Logger logger = Logger.getLogger(MissionServiceImpl.class.getName());

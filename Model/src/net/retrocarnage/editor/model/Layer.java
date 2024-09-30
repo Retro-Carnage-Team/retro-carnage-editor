@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  *
  * @author Thomas Werner
  */
-public class Layer {
+public final class Layer {
 
     public static final String DEFAULT_LAYER_NAME = "Default";
     public static final String PROPERTY_GOAL = "goal";

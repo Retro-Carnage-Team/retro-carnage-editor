@@ -17,7 +17,7 @@ import javax.swing.table.*;
  * @author Rob Camick
  * @see https://tips4java.wordpress.com/2009/07/12/table-button-column/
  */
-public class ButtonCellEditor
+public final class ButtonCellEditor
         extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 

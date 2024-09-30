@@ -14,7 +14,7 @@ import org.openide.nodes.Node;
  *
  * @author Thomas Werner
  */
-public abstract class LayerChildren extends Children.Keys implements PropertyChangeListener {
+public abstract class LayerChildren extends Children.Keys<Layer> implements PropertyChangeListener {
 
     protected LayerChildren() {
         // intentionally empty
@@ -23,15 +23,15 @@ public abstract class LayerChildren extends Children.Keys implements PropertyCha
     @Override
     protected void addNotify() {
         if (null == getController()) {
-            setKeys(Collections.EMPTY_LIST);
+            setKeys(Collections.emptyList());
         } else {
             setKeys(getController().getLayers());
         }
     }
 
     @Override
-    protected Node[] createNodes(final Object key) {
-        return new Node[]{new LayerNode((Layer) key)};
+    protected Node[] createNodes(final Layer key) {
+        return new Node[]{new LayerNode(key)};
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class LayerChildren extends Children.Keys implements PropertyCha
         if (LayerController.PROPERTY_LAYERS.equals(pce.getPropertyName())) {
             setKeys((List<Layer>) pce.getNewValue());
         } else if (LayerController.PROPERTY_LAYER.equals(pce.getPropertyName())) {
-            refreshKey(pce.getNewValue());
+            refreshKey((Layer)pce.getNewValue());
         }
     }
 

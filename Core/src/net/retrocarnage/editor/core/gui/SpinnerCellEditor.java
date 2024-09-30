@@ -11,7 +11,7 @@ import javax.swing.JTextField;
  * 
  * @author Thomas Werner
  */
-public class SpinnerCellEditor extends DefaultCellEditor {
+public final class SpinnerCellEditor extends DefaultCellEditor {
 
     private final JSpinner spinner;
     
