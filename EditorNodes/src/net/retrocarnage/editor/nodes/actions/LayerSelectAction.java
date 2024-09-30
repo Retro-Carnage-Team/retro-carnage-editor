@@ -11,7 +11,7 @@ import net.retrocarnage.editor.model.Layer;
  *
  * @author Thomas Werner
  */
-public class LayerSelectAction extends AbstractAction {
+public final class LayerSelectAction extends AbstractAction {
 
     private final Layer layer;
     private final LayerController layerCtrl;

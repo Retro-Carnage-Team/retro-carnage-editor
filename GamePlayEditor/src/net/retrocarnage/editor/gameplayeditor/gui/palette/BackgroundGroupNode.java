@@ -8,7 +8,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class BackgroundGroupNode extends AbstractNode {
+public final class BackgroundGroupNode extends AbstractNode {
 
     public BackgroundGroupNode() {
         super(Children.create(new BackgroundNodeFactory(), false));

@@ -18,7 +18,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class BackgroundNode extends AbstractNode {
+public final class BackgroundNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(BackgroundNode.class.getName());
 

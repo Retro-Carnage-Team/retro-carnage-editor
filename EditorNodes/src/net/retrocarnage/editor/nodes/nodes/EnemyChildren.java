@@ -13,7 +13,7 @@ import org.openide.util.WeakListeners;
  *
  * @author Thomas Werner
  */
-public class EnemyChildren extends Children.Keys<Enemy> {
+public final class EnemyChildren extends Children.Keys<Enemy> {
 
     private final Layer layer;
 

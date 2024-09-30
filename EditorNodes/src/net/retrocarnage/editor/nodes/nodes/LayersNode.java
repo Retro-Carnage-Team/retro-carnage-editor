@@ -10,7 +10,7 @@ import org.openide.nodes.AbstractNode;
  *
  * @author Thomas Werner
  */
-public class LayersNode extends AbstractNode {
+public final class LayersNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/layers.png";
     private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));

@@ -7,7 +7,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
  *
  * @author Thomas Werner
  */
-public class LayerChildrenController extends LayerChildren {
+public final class LayerChildrenController extends LayerChildren {
 
     private final LayerController controller;
 

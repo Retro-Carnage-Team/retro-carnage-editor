@@ -12,7 +12,7 @@ import org.openide.util.WeakListeners;
  *
  * @author Thomas Werner
  */
-public class LayerGroupsChildren extends Children.Keys<String> {
+public final class LayerGroupsChildren extends Children.Keys<String> {
 
     private static final String KEY_ENEMIES = "enemies";
     private static final String KEY_GOAL = "goal";

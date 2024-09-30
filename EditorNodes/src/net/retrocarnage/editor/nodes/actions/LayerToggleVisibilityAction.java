@@ -11,7 +11,7 @@ import net.retrocarnage.editor.model.Layer;
  *
  * @author Thomas Werner
  */
-public class LayerToggleVisibilityAction extends AbstractAction {
+public final class LayerToggleVisibilityAction extends AbstractAction {
 
     private final Layer layer;
     private final LayerController layerCtrl;

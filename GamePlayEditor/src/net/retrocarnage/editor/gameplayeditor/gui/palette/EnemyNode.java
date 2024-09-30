@@ -16,7 +16,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class EnemyNode extends AbstractNode {
+public final class EnemyNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(EnemyNode.class.getName());
     private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/enemy-type-%d.png";

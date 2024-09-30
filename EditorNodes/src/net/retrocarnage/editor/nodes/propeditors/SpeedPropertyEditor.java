@@ -151,7 +151,7 @@ public class SpeedPropertyEditor extends PropertyEditorSupport implements ExProp
     /**
      * Renderer component for the InplaceEditor that displays a human readable name for the predefined speed values.
      */
-    private static class SpeedPropertyRenderer extends JLabel implements ListCellRenderer {
+    private static class SpeedPropertyRenderer extends JLabel implements ListCellRenderer<Integer> {
 
         public SpeedPropertyRenderer() {
             setOpaque(true);
@@ -159,7 +159,7 @@ public class SpeedPropertyEditor extends PropertyEditorSupport implements ExProp
 
         @Override
         public Component getListCellRendererComponent(
-                final JList list, final Object value, final int index, final boolean isSelected,
+                final JList<? extends Integer> list, final Integer value, final int index, final boolean isSelected,
                 final boolean cellHasFocus
         ) {
             setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
@@ -168,7 +168,7 @@ public class SpeedPropertyEditor extends PropertyEditorSupport implements ExProp
             if (null == value) {
                 setText("");
             } else {
-                final EnemySpeed es = EnemySpeed.findBySpeed((Integer) value);
+                final EnemySpeed es = EnemySpeed.findBySpeed(value);
                 if (null != es) {
                     setText(es.getName());
                 }

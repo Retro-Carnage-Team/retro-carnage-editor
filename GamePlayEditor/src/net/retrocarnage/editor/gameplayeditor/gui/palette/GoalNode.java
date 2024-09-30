@@ -17,7 +17,7 @@ import org.openide.nodes.Children;
  *
  * @author Thomas Werner
  */
-public class GoalNode extends AbstractNode {
+public final class GoalNode extends AbstractNode {
 
     private static Image icon = null;
 

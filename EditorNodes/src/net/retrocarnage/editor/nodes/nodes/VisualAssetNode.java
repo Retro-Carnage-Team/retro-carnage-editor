@@ -93,7 +93,7 @@ public final class VisualAssetNode extends AbstractNode implements SelectableNod
         positionSet.setDisplayName("Properties");
         positionSet.setName("Properties");
 
-        final Property rotation = new Node.Property<Rotation>(Rotation.class) {
+        final Property<Rotation> rotation = new Node.Property<>(Rotation.class) {
 
             @Override
             public Rotation getValue() {

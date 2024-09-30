@@ -97,7 +97,7 @@ public final class SectionEditorTopComponent extends TopComponent {
 
         tblSections.setModel(controller.getTableModel());
         tblSections.setRowHeight(24);
-        new ButtonCellEditor(tblSections, new AbstractAction() {
+        new net.retrocarnage.editor.core.gui.ButtonCellEditor(tblSections, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final int modelRow = Integer.valueOf(e.getActionCommand());
@@ -106,7 +106,7 @@ public final class SectionEditorTopComponent extends TopComponent {
             }
         }, 2);
 
-        new ButtonCellEditor(tblSections, new AbstractAction() {
+        new net.retrocarnage.editor.core.gui.ButtonCellEditor(tblSections, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final int modelRow = Integer.valueOf(e.getActionCommand());
@@ -119,7 +119,7 @@ public final class SectionEditorTopComponent extends TopComponent {
         .getSelectionModel()
         .addListSelectionListener(controller.getTableSelectionListener(tblSections));
 
-        final JComboBox cmbDirections = new JComboBox();
+        final JComboBox<SectionDirection> cmbDirections = new JComboBox<>();
         for(SectionDirection sd: SectionDirection.values()) {
             cmbDirections.addItem(sd);
         }
@@ -202,8 +202,6 @@ public final class SectionEditorTopComponent extends TopComponent {
             case SectionEditorController.PROPERTY_SECTIONS:
                 ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
                 break;
-            default:
-            // ignore this
         }
     }
 }

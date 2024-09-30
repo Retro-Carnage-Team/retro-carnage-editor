@@ -13,7 +13,7 @@ import org.openide.util.WeakListeners;
  *
  * @author Thomas Werner
  */
-public class VisualAssetChildren extends Children.Keys<VisualAsset> {
+public final class VisualAssetChildren extends Children.Keys<VisualAsset> {
 
     private final Layer layer;
 

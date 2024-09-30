@@ -11,7 +11,7 @@ import org.openide.util.lookup.Lookups;
  *
  * @author Thomas Werner
  */
-public class EnemiesNode extends AbstractNode {
+public final class EnemiesNode extends AbstractNode {
 
     private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/enemies.png";
     private static final Image ICON = IconUtil.loadIcon(EnemiesNode.class.getResourceAsStream(ICON_PATH));

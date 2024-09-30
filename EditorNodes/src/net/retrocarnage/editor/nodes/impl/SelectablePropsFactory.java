@@ -29,19 +29,19 @@ public final class SelectablePropsFactory {
         positionSet.setDisplayName("Position");
         positionSet.setName("Position");
 
-        final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
+        final Property<Integer> posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
         posXProp.setName(PROPERTY_POSITION_X);
         positionSet.put(posXProp);
 
-        final Property posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
+        final Property<Integer> posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
         posYProp.setName(PROPERTY_POSITION_Y);
         positionSet.put(posYProp);
 
-        final Property posWidthProp = SelectablePropsFactory.buildWidthProperty(selectable, readonly);
+        final Property<Integer> posWidthProp = SelectablePropsFactory.buildWidthProperty(selectable, readonly);
         posWidthProp.setName(PROPERTY_POSITION_WIDTH);
         positionSet.put(posWidthProp);
 
-        final Property posHeightProp = SelectablePropsFactory.buildHeightProperty(selectable, readonly);
+        final Property<Integer> posHeightProp = SelectablePropsFactory.buildHeightProperty(selectable, readonly);
         posHeightProp.setName(PROPERTY_POSITION_HEIGHT);
         positionSet.put(posHeightProp);
 
@@ -53,18 +53,18 @@ public final class SelectablePropsFactory {
         positionSet.setDisplayName("Position");
         positionSet.setName("Position");
 
-        final Property posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
+        final Property<Integer> posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
         posXProp.setName(PROPERTY_POSITION_X);
         positionSet.put(posXProp);
 
-        final Property posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
+        final Property<Integer> posYProp = SelectablePropsFactory.buildYProperty(selectable, readonly);
         posYProp.setName(PROPERTY_POSITION_Y);
         positionSet.put(posYProp);
 
         return positionSet;
     }
 
-    private static Property buildXProperty(final Selectable selectable, final boolean readonly) {
+    private static Property<Integer> buildXProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -93,7 +93,7 @@ public final class SelectablePropsFactory {
         };
     }
 
-    private static Property buildYProperty(final Selectable selectable, final boolean readonly) {
+    private static Property<Integer> buildYProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -122,7 +122,7 @@ public final class SelectablePropsFactory {
         };
     }
 
-    private static Property buildWidthProperty(final Selectable selectable, final boolean readonly) {
+    private static Property<Integer> buildWidthProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
@@ -151,7 +151,7 @@ public final class SelectablePropsFactory {
         };
     }
 
-    private static Property buildHeightProperty(final Selectable selectable, final boolean readonly) {
+    private static Property<Integer> buildHeightProperty(final Selectable selectable, final boolean readonly) {
         return new Node.Property<Integer>(Integer.class) {
 
             @Override
