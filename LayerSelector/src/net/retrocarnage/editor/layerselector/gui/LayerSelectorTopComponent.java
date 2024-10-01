@@ -65,10 +65,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     private static final String NEW_LAYER_TITLE = "Please specify a name for the new Layer";
 
     private final ExplorerManager explorerManager = new ExplorerManager();
-    private final VetoableChangeListener selectionChangeListener;
-    private final LookupListener lookupListener;
-    private final Lookup.Result<SelectionController> selectionCtrlLookupResult;
-
+    private final VetoableChangeListener selectionChangeListener = (PropertyChangeEvent e) -> handleSelectionChanged(e);
     private SelectionController selectionCtrl;
 
     public LayerSelectorTopComponent() {
@@ -77,10 +74,12 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         initComponents();
 
-        lookupListener = (final LookupEvent le) -> handleSelectionControllerChanged();
-        selectionCtrlLookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(SelectionController.class);
+        final LookupListener lookupListener = (final LookupEvent le) -> handleSelectionControllerChanged();
+        final Lookup.Result<SelectionController> selectionCtrlLookupResult = GamePlayEditorProxy
+                .getDefault()
+                .getLookup()
+                .lookupResult(SelectionController.class);
         selectionCtrlLookupResult.addLookupListener(lookupListener);
-        selectionChangeListener = (final PropertyChangeEvent pce) -> handleSelectionChanged(pce);
 
         final BeanTreeView view = new BeanTreeView();
         view.setRootVisible(false);
@@ -187,11 +186,13 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
             Selectable selectable = null;
             if (selectedNodes[0] instanceof SelectableNode) {
                 selectable = ((SelectableNode) selectedNodes[0]).getSelectable();
+                if (null == selectionCtrl.getSelection() || !selectionCtrl.getSelection().equals(selectable)) {
+                    selectionCtrl.setSelection(selectable);
+                }
+            } else {
+                selectionCtrl.invalidateSelection();
             }
-            if (null == selectionCtrl.getSelection() || !selectionCtrl.getSelection().equals(selectable)) {
-                selectionCtrl.setSelection(selectable);
-            }
-        }
+        }            
     }
 
     /**
@@ -202,8 +203,10 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
             selectionCtrl.removeVetoableChangeListener(selectionChangeListener);
         }
 
-        final Collection<? extends SelectionController> items = selectionCtrlLookupResult.allInstances();
-        selectionCtrl = items.isEmpty() ? null : items.iterator().next();
+        selectionCtrl = GamePlayEditorProxy
+                .getDefault()
+                .getLookup()
+                .lookup(SelectionController.class);                
         if (null != selectionCtrl) {
             selectionCtrl.addVetoableChangeListener(selectionChangeListener);
             SwingUtilities.invokeLater(() -> changeSelection(selectionCtrl.getSelection()));
@@ -244,7 +247,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
                 explorerManager.setSelectedNodes(new Node[]{});
             }
         } catch (PropertyVetoException ex) {
-            Exceptions.printStackTrace(ex);
+            logger.log(Level.WARNING, "Failed to change selection", ex);            
         }
     }
 
