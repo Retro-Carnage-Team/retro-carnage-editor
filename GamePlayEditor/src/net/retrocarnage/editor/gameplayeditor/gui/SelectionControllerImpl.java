@@ -62,6 +62,12 @@ public class SelectionControllerImpl implements SelectionController {
         processSelectionChanged(selection);
     }
 
+    @Override
+    public void invalidateSelection() {        
+        this.selection = null;
+        controller.requestGamePlayRepaint();
+    }
+    
     /**
      * To be called when a property of the selected element has been updated.
      */

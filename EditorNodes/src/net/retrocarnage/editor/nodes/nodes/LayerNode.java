@@ -23,8 +23,7 @@ public final class LayerNode extends AbstractNode {
     private static final Image ICON_UNLOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_UNLOCKED_PATH));
 
     public LayerNode(final Layer layer) {
-        super(new LayerGroupsChildren(layer), Lookups.singleton(layer));
-        setDisplayName(layer.getName());
+        super(new LayerGroupsChildren(layer), Lookups.singleton(layer));        
     }
 
     public Layer getLayer() {
@@ -41,6 +40,11 @@ public final class LayerNode extends AbstractNode {
         return getIcon(type);
     }
 
+    @Override
+    public String getDisplayName() {
+        return getLayer().getName();
+    }
+    
     @Override
     public String getHtmlDisplayName() {
         return getLabel(getLayer());

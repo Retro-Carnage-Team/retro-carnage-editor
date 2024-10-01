@@ -54,6 +54,12 @@ public interface SelectionController {
     void setSelection(Selectable selection);
 
     /**
+     * Informs the SelectionController that it's selection is no longer valid. This will remove the active selection
+     * without notifications to any listeners.
+     */
+    void invalidateSelection();
+    
+    /**
      * To be called when a property of the selected element has been updated.
      */
     void selectionModified();
