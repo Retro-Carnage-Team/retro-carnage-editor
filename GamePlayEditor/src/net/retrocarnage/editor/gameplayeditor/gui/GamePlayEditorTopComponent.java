@@ -7,6 +7,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JPopupMenu;
@@ -24,6 +27,8 @@ import net.retrocarnage.editor.nodes.nodes.SelectableNode;
 import net.retrocarnage.editor.playermodeloverlay.PlayerModelOverlayService;
 import net.retrocarnage.editor.zoom.ZoomService;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Node;
@@ -55,6 +60,8 @@ public final class GamePlayEditorTopComponent
         extends TopComponent
         implements ExplorerManager.Provider, GamePlayEditor, PropertyChangeListener, VetoableChangeListener {
 
+    private static final Logger logger = Logger.getLogger(GamePlayEditorTopComponent.class.getName());
+    
     private final ExplorerManager explorerManager = new ExplorerManager();
     private final GamePlayEditorController controller;
     private final TransferHandler transferHandler;
@@ -197,6 +204,34 @@ public final class GamePlayEditorTopComponent
     }
 
     @Override
+    public boolean canClose() {
+        final SaveGamePlayAction savable = getLookup().lookup(SaveGamePlayAction.class);
+        if(null == savable) {
+            return true;
+        }
+        
+        final NotifyDescriptor d = new NotifyDescriptor.Confirmation(
+                "Do you want to save your changes?", 
+                "Unsaved changes",
+                NotifyDescriptor.YES_NO_CANCEL_OPTION
+        );
+        final Object userSelection = DialogDisplayer.getDefault().notify(d);
+        if(userSelection == NotifyDescriptor.YES_OPTION) {
+            try {
+                savable.handleSave();
+                return true;
+            } catch(final IOException iox) {
+                logger.log(Level.SEVERE, "Failed to save GamePlay", iox);
+            }
+        } else if(userSelection == NotifyDescriptor.NO_OPTION) {
+            return true;
+        } else if(userSelection == NotifyDescriptor.CANCEL_OPTION) {
+            return false;
+        }
+        return false;
+    }
+    
+    @Override
     protected void componentActivated() {
         ExplorerUtils.activateActions(explorerManager, true);
     }
@@ -268,7 +303,7 @@ public final class GamePlayEditorTopComponent
             }
         }
     }
-
+    
     private Node getNodeForSelection(final Node parent, final Selectable selection) {
         if (parent instanceof SelectableNode) {
             final Selectable selectable = ((SelectableNode) parent).getSelectable();
