@@ -68,10 +68,8 @@ class GamePlayEditorController {
 
         propertyChangeSupport = new PropertyChangeSupport(this);
         gamePlayChangeListener = (final PropertyChangeEvent pce) -> {
-            if (GamePlay.PROPERTY_UNKNOWN.equals(pce.getPropertyName())) {
-                propertyChangeSupport.firePropertyChange(PROPERTY_GAMEPLAY, null, gamePlay);
-                lookupContent.add(savable);
-            }
+            propertyChangeSupport.firePropertyChange(PROPERTY_GAMEPLAY, null, gamePlay);
+            lookupContent.add(savable);
         };
         gamePlay.addPropertyChangeListener(gamePlayChangeListener);
         lookupContent.add(gamePlay);

@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.model;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
@@ -41,4 +42,12 @@ public final class Section {
         this.propertyChangeSupport.firePropertyChange(PROPERTY_NUMBER_OF_SCREENS, oldValue, numberOfScreens);
     }
 
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+    
 }
