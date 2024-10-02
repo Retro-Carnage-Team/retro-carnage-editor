@@ -1,9 +1,10 @@
 package net.retrocarnage.editor.model;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.ChangeEvent;
 
 /**
  * Contains the gameplay of a Mission.
@@ -12,18 +13,31 @@ import java.util.List;
  */
 public final class GamePlay {
 
+    public static final String PROPERTY_LAYERS = "layers";
+    public static final String PROPERTY_MISSION_ID = "missionid";
+    public static final String PROPERTY_SECTIONS = "sections";
     public static final String PROPERTY_UNKNOWN = "unknown";
 
     private final PropertyChangeSupport propertyChangeSupport;
+    private final PropertyChangeListener nestedObjectChangeListener;    
 
     private String missionId;
-    private List<Layer> layers;
-    private List<Section> sections;
+    private ObservableList<Layer> layers;
+    private ObservableList<Section> sections;
 
     public GamePlay() {
         propertyChangeSupport = new PropertyChangeSupport(this);
-        layers = new ArrayList<>();
-        sections = new ArrayList<>();
+        nestedObjectChangeListener = (PropertyChangeEvent e) -> 
+                propertyChangeSupport.firePropertyChange(PROPERTY_UNKNOWN, null, null);
+        
+        layers = new ObservableList<>();
+        layers.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+                .firePropertyChange(PROPERTY_LAYERS, null, layers)
+        );
+        sections = new ObservableList<>();
+        sections.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+                .firePropertyChange(PROPERTY_SECTIONS, null, sections)
+        );
     }
 
     public GamePlay(final String missionId) {
@@ -52,24 +66,40 @@ public final class GamePlay {
         return missionId;
     }
 
-    public void setMissionId(String missionId) {
+    public void setMissionId(final String missionId) {
+        final String oldMissionId = this.missionId;
         this.missionId = missionId;
+        propertyChangeSupport.firePropertyChange(PROPERTY_MISSION_ID, oldMissionId, this.missionId);
     }
 
     public List<Layer> getLayers() {
         return layers;
     }
 
-    public void setLayers(List<Layer> layers) {
-        this.layers = layers;
+    public void setLayers(final List<Layer> layers) {
+        for(Layer l: this.layers) {
+            l.removePropertyChangeListener(nestedObjectChangeListener);
+        }
+        this.layers.clear();
+        this.layers.addAll(layers);
+        for(Layer l: this.layers) {
+            l.addPropertyChangeListener(nestedObjectChangeListener);
+        }
     }
 
     public List<Section> getSections() {
         return sections;
     }
 
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
+    public void setSections(final List<Section> sections) {
+        for(Section s: this.sections) {
+            s.removePropertyChangeListener(nestedObjectChangeListener);
+        }
+        this.sections.clear();
+        this.sections.addAll(sections);
+        for(Section s: this.sections) {
+            s.addPropertyChangeListener(nestedObjectChangeListener);
+        }
     }
 
 }

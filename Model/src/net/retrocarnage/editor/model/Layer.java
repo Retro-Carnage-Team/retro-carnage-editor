@@ -2,10 +2,12 @@ package net.retrocarnage.editor.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.stream.Stream;
+import javax.swing.event.ChangeEvent;
 
 /**
  * Layers are used to organize assets.
@@ -17,12 +19,17 @@ import java.util.stream.Stream;
 public final class Layer {
 
     public static final String DEFAULT_LAYER_NAME = "Default";
+    public static final String PROPERTY_ENEMIES = "enemies";
     public static final String PROPERTY_GOAL = "goal";
     public static final String PROPERTY_LOCKED = "locked";
     public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_OBSTACLES = "obstacles";
+    public static final String PROPERTY_UNKNOWN = "unknown";
     public static final String PROPERTY_VISIBLE = "visible";
+    public static final String PROPERTY_VISUAL_ASSETS = "visual assets";
 
     private final PropertyChangeSupport propertyChangeSupport;
+    private final PropertyChangeListener nestedObjectChangeListener;    
     private boolean locked;
     private String name;
     private boolean visible;
@@ -33,9 +40,20 @@ public final class Layer {
 
     public Layer() {
         propertyChangeSupport = new PropertyChangeSupport(this);
+        nestedObjectChangeListener = (PropertyChangeEvent e) -> 
+                propertyChangeSupport.firePropertyChange(PROPERTY_UNKNOWN, null, null);
         enemies = new ObservableList<>();
+        enemies.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+                .firePropertyChange(PROPERTY_ENEMIES, null, enemies)
+        );
         obstacles = new ObservableList<>();
+        obstacles.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+                .firePropertyChange(PROPERTY_OBSTACLES, null, obstacles)
+        );
         visualAssets = new ObservableList<>();
+        visualAssets.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+                .firePropertyChange(PROPERTY_VISUAL_ASSETS, null, visualAssets)
+        );
     }
 
     @JsonInclude(Include.NON_NULL)
@@ -84,8 +102,14 @@ public final class Layer {
     }
 
     public void setEnemies(final List<Enemy> enemies) {
+        for(Enemy e: this.enemies) {
+            e.removePropertyChangeListener(nestedObjectChangeListener);
+        }
         this.enemies.clear();
         this.enemies.addAll(enemies);
+        for(Enemy e: this.enemies) {
+            e.addPropertyChangeListener(nestedObjectChangeListener);
+        }
     }
 
     public ObservableList<Obstacle> getObstacles() {
@@ -93,8 +117,14 @@ public final class Layer {
     }
 
     public void setObstacles(final List<Obstacle> obstacles) {
+        for(Obstacle o: this.obstacles) {
+            o.removePropertyChangeListener(nestedObjectChangeListener);
+        }
         this.obstacles.clear();
         this.obstacles.addAll(obstacles);
+        for(Obstacle o: this.obstacles) {
+            o.addPropertyChangeListener(nestedObjectChangeListener);
+        }
     }
 
     public ObservableList<VisualAsset> getVisualAssets() {
@@ -102,8 +132,14 @@ public final class Layer {
     }
 
     public void setVisualAssets(final List<VisualAsset> visualAssets) {
+        for(VisualAsset va: this.visualAssets) {
+            va.removePropertyChangeListener(nestedObjectChangeListener);
+        }
         this.visualAssets.clear();
         this.visualAssets.addAll(visualAssets);
+        for(VisualAsset va: this.visualAssets) {
+            va.addPropertyChangeListener(nestedObjectChangeListener);
+        }
     }
 
     public Stream<Selectable> streamSelectables() {
