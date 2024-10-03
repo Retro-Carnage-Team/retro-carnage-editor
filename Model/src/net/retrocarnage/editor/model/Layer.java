@@ -43,15 +43,15 @@ public final class Layer {
         nestedObjectChangeListener = (PropertyChangeEvent e) -> 
                 propertyChangeSupport.firePropertyChange(PROPERTY_UNKNOWN, null, null);
         enemies = new ObservableList<>();
-        enemies.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+        enemies.addPropertyChangeListener((PropertyChangeEvent e) -> propertyChangeSupport
                 .firePropertyChange(PROPERTY_ENEMIES, null, enemies)
         );
         obstacles = new ObservableList<>();
-        obstacles.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+        obstacles.addPropertyChangeListener((PropertyChangeEvent e) -> propertyChangeSupport
                 .firePropertyChange(PROPERTY_OBSTACLES, null, obstacles)
         );
         visualAssets = new ObservableList<>();
-        visualAssets.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+        visualAssets.addPropertyChangeListener((PropertyChangeEvent e) -> propertyChangeSupport
                 .firePropertyChange(PROPERTY_VISUAL_ASSETS, null, visualAssets)
         );
     }

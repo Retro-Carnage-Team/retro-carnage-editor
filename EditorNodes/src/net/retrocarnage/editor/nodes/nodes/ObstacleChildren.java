@@ -1,12 +1,10 @@
 package net.retrocarnage.editor.nodes.nodes;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.beans.PropertyChangeEvent;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Obstacle;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
-import org.openide.util.WeakListeners;
 
 /**
  * Creates ObstacleNode for each Obstacle contained in the specified Layer.
@@ -18,9 +16,8 @@ public final class ObstacleChildren extends Children.Keys<Obstacle> {
     private final Layer layer;
 
     public ObstacleChildren(final Layer layer) {
-        this.layer = layer;
-        final ChangeListener listener = (ChangeEvent ce) -> addNotify();
-        layer.getObstacles().addChangeListener(WeakListeners.change(listener, layer.getObstacles()));
+        this.layer = layer;        
+        layer.getObstacles().addPropertyChangeListener((PropertyChangeEvent e) -> addNotify());
     }
 
     @Override
