@@ -31,11 +31,11 @@ public final class GamePlay {
                 propertyChangeSupport.firePropertyChange(PROPERTY_UNKNOWN, null, null);
         
         layers = new ObservableList<>();
-        layers.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+        layers.addPropertyChangeListener((PropertyChangeEvent e) -> propertyChangeSupport
                 .firePropertyChange(PROPERTY_LAYERS, null, layers)
         );
         sections = new ObservableList<>();
-        sections.addChangeListener((ChangeEvent ce) -> propertyChangeSupport
+        sections.addPropertyChangeListener((PropertyChangeEvent e) -> propertyChangeSupport
                 .firePropertyChange(PROPERTY_SECTIONS, null, sections)
         );
     }

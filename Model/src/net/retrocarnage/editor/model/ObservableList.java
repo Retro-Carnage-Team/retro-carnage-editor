@@ -3,13 +3,10 @@ package net.retrocarnage.editor.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * A List of things that can inform listener
@@ -19,23 +16,24 @@ import javax.swing.event.ChangeListener;
  */
 public class ObservableList<T> implements List<T> {
 
-    private static final Logger logger = Logger.getLogger(ObservableList.class.getName());
+    public static final String PROPERTY_ELEMENT = "element";
+    public static final String PROPERTY_SIZE = "size";        
 
-    private final List<T> delegate;
-    private final List<ChangeListener> changeListeners;
+    private final PropertyChangeSupport propertyChangeSupport;
+    private final List<T> delegate;    
 
     public ObservableList() {
-        delegate = new ArrayList<>();
-        changeListeners = new LinkedList<>();
+        delegate = new ArrayList<>();        
+        propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
-    public void addChangeListener(final ChangeListener listener) {
-        changeListeners.add(listener);
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    public void removeChangeListener(final ChangeListener listener) {
-        changeListeners.remove(listener);
-    }
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }    
 
     @Override
     public int size() {
@@ -68,58 +66,74 @@ public class ObservableList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(final T e) {
+    public boolean add(final T e) {        
         final boolean result = delegate.add(e);
-        callChangeListeners();
+        propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, delegate.size() -1, delegate.size());        
         return result;
     }
 
     @Override
     public boolean remove(final Object o) {
+        final int oldSize = delegate.size();
         final boolean result = delegate.remove(o);
-        callChangeListeners();
+        if(oldSize != delegate.size()) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, delegate.size());        
+        }
         return result;
     }
 
     @Override
     public boolean containsAll(final Collection<?> clctn) {
-        final boolean result = delegate.containsAll(clctn);
-        callChangeListeners();
-        return result;
+        return delegate.containsAll(clctn);        
     }
 
     @Override
     public boolean addAll(final Collection<? extends T> clctn) {
+        final int oldSize = delegate.size();
         final boolean result = delegate.addAll(clctn);
-        callChangeListeners();
+        if(oldSize != delegate.size()) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, delegate.size());        
+        }
         return result;
     }
 
     @Override
     public boolean addAll(final int i, final Collection<? extends T> clctn) {
+        final int oldSize = delegate.size();
         final boolean result = delegate.addAll(i, clctn);
-        callChangeListeners();
+        if(oldSize != delegate.size()) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, delegate.size());        
+        }
         return result;
     }
 
     @Override
     public boolean removeAll(final Collection<?> clctn) {
+        final int oldSize = delegate.size();
         final boolean result = delegate.removeAll(clctn);
-        callChangeListeners();
+        if(oldSize != delegate.size()) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, delegate.size());        
+        }
         return result;
     }
 
     @Override
     public boolean retainAll(final Collection<?> clctn) {
+        final int oldSize = delegate.size();
         final boolean result = delegate.retainAll(clctn);
-        callChangeListeners();
+        if(oldSize != delegate.size()) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, delegate.size());        
+        }
         return result;
     }
 
     @Override
     public void clear() {
+        final int oldSize = delegate.size();
         delegate.clear();
-        callChangeListeners();
+        if(oldSize > 0) {
+            propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, oldSize, 0);        
+        }
     }
 
     @Override
@@ -130,20 +144,20 @@ public class ObservableList<T> implements List<T> {
     @Override
     public T set(final int i, final T e) {
         final T result = delegate.set(i, e);
-        callChangeListeners();
+        propertyChangeSupport.firePropertyChange(PROPERTY_ELEMENT, null, null);
         return result;
     }
 
     @Override
     public void add(final int i, final T e) {
         delegate.add(i, e);
-        callChangeListeners();
+        propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, delegate.size() -1, delegate.size());        
     }
 
     @Override
     public T remove(final int i) {
         final T result = delegate.remove(i);
-        callChangeListeners();
+        propertyChangeSupport.firePropertyChange(PROPERTY_SIZE, delegate.size() +1, delegate.size());
         return result;
     }
 
@@ -170,16 +184,6 @@ public class ObservableList<T> implements List<T> {
     @Override
     public List<T> subList(final int i, final int i1) {
         return delegate.subList(i, i1);
-    }
-
-    private void callChangeListeners() {
-        changeListeners.forEach(listener -> {
-            try {
-                listener.stateChanged(new ChangeEvent(this));
-            } catch (Exception ex) {
-                logger.log(Level.SEVERE, "Failed to inform listener about list update", ex);
-            }
-        });
     }
 
 }

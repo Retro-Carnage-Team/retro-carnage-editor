@@ -1,6 +1,6 @@
 package net.retrocarnage.editor.nodes.nodes;
 
-import javax.swing.event.ChangeEvent;
+import java.beans.PropertyChangeEvent;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.Layer;
 import org.openide.nodes.Children;
@@ -17,7 +17,7 @@ public final class EnemyChildren extends Children.Keys<Enemy> {
 
     public EnemyChildren(final Layer layer) {
         this.layer = layer;
-        layer.getEnemies().addChangeListener((ChangeEvent ce) -> addNotify());
+        layer.getEnemies().addPropertyChangeListener((PropertyChangeEvent e) -> addNotify());
     }
 
     @Override
