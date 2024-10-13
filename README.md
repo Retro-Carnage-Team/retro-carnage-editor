@@ -4,7 +4,7 @@
 
 A level editor for [Retro-Carnage](https://github.com/huddeldaddel/retro-carnage).
 
-![Screenshot 1](docs/screenshot-4.png "Screenshot 1")
+![Screenshot 1](docs/screenshot-1.png "Screenshot")
 
 Here you can see the current state of the editor. It's based on the [NetBeans](https://netbeans.apache.org/) platform -
 so you can rearrange the windows as you like.
