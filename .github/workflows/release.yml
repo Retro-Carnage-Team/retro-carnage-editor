@@ -1,6 +1,3 @@
-# This workflow will build a Java project with Ant
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-ant
-
 name: Release
 
 on:  
@@ -14,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        fetch-depth: 0
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
@@ -45,5 +42,6 @@ jobs:
         mkdir /tmp/rc-upload
         mkdir /tmp/rc-upload/releases
         mv dist/retrocarnageeditor.zip /tmp/rc-upload/releases/Retro-Carnage-Editor.zip
+        curl -o /tmp/rc-upload/releases/Retro-Carnage-Editor-Code.zip https://codeload.github.com/Retro-Carnage-Team/retro-carnage-editor/zip/refs/tags/${{ github.ref_name }}
     - name: Upload release archive
       run: ./upload-release.sh ${{vars.FTP_HOST}} ${{secrets.FTP_USER}} ${{secrets.FTP_PASS}}
