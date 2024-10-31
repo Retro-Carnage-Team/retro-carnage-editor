@@ -1,0 +1,49 @@
+# This workflow will build a Java project with Ant
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-ant
+
+name: Release
+
+on:  
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    - name: Make the script files executable
+      run: chmod +x ./build-editor-workspace-archive.sh ./upload-release.sh
+    - name: Install tools
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lftp
+    - name: Download NetBeans
+      run: wget https://dlcdn.apache.org/netbeans/netbeans-installers/23/apache-netbeans_23-1_all.deb
+    - name: Install NetBeans  
+      run: sudo dpkg -i apache-netbeans_23-1_all.deb
+    - name: Remove NetBeans package
+      run: rm apache-netbeans_23-1_all.deb
+    - name: Build editor
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/usr/lib/apache-netbeans -Dnbplatform.default.harness.dir=/usr/lib/apache-netbeans/harness clean build
+    - name: Build editor workspace
+      run: ./build-editor-workspace-archive.sh ${{ github.ref_name }}
+    - name: Generate editor package
+      run: ant -Dnbplatform.default.netbeans.dest.dir=/usr/lib/apache-netbeans -Dnbplatform.default.harness.dir=/usr/lib/apache-netbeans/harness build-zip
+    - name: Prepare release upload
+      shell: bash
+      run: |
+        mkdir /tmp/rc-upload
+        mkdir /tmp/rc-upload/releases
+        mv dist/retrocarnageeditor.zip /tmp/rc-upload/releases/Retro-Carnage-Editor.zip
+    - name: Upload release archive
+      run: ./upload-release.sh ${{vars.FTP_HOST}} ${{secrets.FTP_USER}} ${{secrets.FTP_PASS}}
