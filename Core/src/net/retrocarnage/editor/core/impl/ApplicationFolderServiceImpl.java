@@ -65,11 +65,7 @@ public class ApplicationFolderServiceImpl extends ApplicationFolderService {
             try { 
                 unzip(zipArchive, applicationFolder.toPath());
             } catch (Exception e) {
-                logger.log(
-                        Level.WARNING, 
-                        "Failed extract workspace archive {0} to {1}",
-                        new Object[]{zipArchive.getCanonicalPath(), applicationFolder.toString()}
-                );
+                logger.log(Level.WARNING, "Failed extract workspace archive", e);
             }
         }
     }
@@ -82,70 +78,57 @@ public class ApplicationFolderServiceImpl extends ApplicationFolderService {
         );
     }
 
-    private static void unzip(final File inputFile, final Path targetDir) throws IOException {
-        final ZipFile zipFile = new ZipFile(inputFile);
-        final Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        final Path absoluteTargetDir = targetDir.toAbsolutePath();
-        
-        int totalSizeArchive = 0;
-        int totalEntryArchive = 0;
-        
-        while(entries.hasMoreElements()) {
-            totalEntryArchive ++;
-            
-            final ZipEntry ze = entries.nextElement();        
-            final Path resolvedPath = absoluteTargetDir.resolve(ze.getName()).normalize();
-            if (!resolvedPath.startsWith(absoluteTargetDir)) {
-                throw new RuntimeException("Entry with an illegal path: " + ze.getName());
-            }
-            if (ze.isDirectory()) {
-                Files.createDirectories(resolvedPath);
-            } else {
-                Files.createDirectories(resolvedPath.getParent());
+    private static void unzip(final File inputFile, final Path targetDir) throws IOException, DangerousZipContentException {
+        try(final ZipFile zipFile = new ZipFile(inputFile)) {            
+            final Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            final Path absoluteTargetDir = targetDir.toAbsolutePath();
 
-                try(
-                    final InputStream in = new BufferedInputStream(zipFile.getInputStream(ze));
-                    final OutputStream out = new BufferedOutputStream(new FileOutputStream(resolvedPath.toFile()));
-                ) {
-                    int nBytes = -1;
-                    byte[] buffer = new byte[2048];
-                    int totalSizeEntry = 0;
+            int totalSizeArchive = 0;
+            int totalEntryArchive = 0;
 
-                    while((nBytes = in.read(buffer)) > 0) { 
-                        out.write(buffer, 0, nBytes);
-                        totalSizeEntry += nBytes;
-                        totalSizeArchive += nBytes;
+            while(entries.hasMoreElements()) {
+                totalEntryArchive ++;
 
-                        double compressionRatio = totalSizeEntry / ze.getCompressedSize();
-                        if(compressionRatio > THRESHOLD_RATIO) {
-                            logger.log(
-                                Level.WARNING, 
-                                "Ratio between compressed and uncompressed data in Workspace archive is suspicious."
-                            );
-                            break;
-                        }
-                    }    
+                final ZipEntry ze = entries.nextElement();        
+                final Path resolvedPath = absoluteTargetDir.resolve(ze.getName()).normalize();
+                if (!resolvedPath.startsWith(absoluteTargetDir)) {
+                    throw new DangerousZipContentException("ZipEntry with an illegal path: " + ze.getName());
                 }
-            }
-                
-            if(totalSizeArchive > THRESHOLD_SIZE) {
-                logger.log(
-                    Level.WARNING, 
-                    "The uncompressed data size is suspicious.",
-                    inputFile.getCanonicalPath()
-                );                    
-                break;
-            }
+                if (ze.isDirectory()) {
+                    Files.createDirectories(resolvedPath);
+                } else {
+                    Files.createDirectories(resolvedPath.getParent());
+                    totalSizeArchive += extractZipEntry(zipFile, ze, resolvedPath.toFile());
+                }
 
-            if(totalEntryArchive > THRESHOLD_ENTRIES) {
-                logger.log(
-                    Level.WARNING, 
-                    "Too many entries in workspace archive: {0}",
-                    inputFile.getCanonicalPath()
-                );                    
-                break;
-            }            
+                if((totalSizeArchive > THRESHOLD_SIZE)  || (totalEntryArchive > THRESHOLD_ENTRIES)) {
+                    throw new DangerousZipContentException("ZIP content exceeds security limits");
+                }            
+            }
         }
+        
+    }
+    
+    private static int extractZipEntry(final ZipFile zipFile, final ZipEntry ze, final File target) 
+            throws DangerousZipContentException, IOException {        
+        int totalSizeEntry = 0;
+        try(
+            final var inStream = new BufferedInputStream(zipFile.getInputStream(ze));
+            final var outStream = new BufferedOutputStream(new FileOutputStream(target));
+        ) {
+            int nBytes;
+            byte[] buffer = new byte[2048];
+            while((nBytes = inStream.read(buffer)) > 0) { 
+                outStream.write(buffer, 0, nBytes);
+                totalSizeEntry += nBytes;
+
+                final double compressionRatio = (double) totalSizeEntry / ze.getCompressedSize();
+                if(compressionRatio > THRESHOLD_RATIO) {
+                    throw new DangerousZipContentException("Compression ratio is suspicious.");
+                }
+            }    
+        }
+        return totalSizeEntry;        
     }
     
 }
