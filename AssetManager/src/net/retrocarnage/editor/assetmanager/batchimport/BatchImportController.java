@@ -107,7 +107,7 @@ public class BatchImportController {
             this.tile = tile;
             this.tags = Arrays.asList(tags.split("\\s+"))
                     .stream()
-                    .map(str -> str.trim())
+                    .map(String::trim)
                     .distinct()
                     .collect(Collectors.toList());
             this.author = author;
