@@ -62,6 +62,7 @@ import org.openide.windows.TopComponent;
 public final class AssetManagerTopComponent extends TopComponent {
 
     private static final Logger logger = Logger.getLogger(AssetManagerTopComponent.class.getName());
+    private static final String DIALOG_TITLE_ALERT = "Alert";
 
     private final AssetManagerController controller;
     private final JTextField[] musicEditorFields;
@@ -69,7 +70,7 @@ public final class AssetManagerTopComponent extends TopComponent {
 
     public AssetManagerTopComponent() {
         controller = new AssetManagerController();
-        controller.addPropertyChangeListener((pce) -> controllerPropertyChanged(pce));
+        controller.addPropertyChangeListener(pce -> controllerPropertyChanged(pce));
 
         initComponents();
         musicEditorFields = new JTextField[]{
@@ -101,57 +102,57 @@ public final class AssetManagerTopComponent extends TopComponent {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlMenu = new javax.swing.JPanel();
-        pnlMenuLeft = new javax.swing.JPanel();
-        btnAddSprite = new javax.swing.JButton();
-        btnAddMusic = new javax.swing.JButton();
+        javax.swing.JPanel pnlMenu = new javax.swing.JPanel();
+        javax.swing.JPanel pnlMenuLeft = new javax.swing.JPanel();
+        javax.swing.JButton btnAddSprite = new javax.swing.JButton();
+        javax.swing.JButton btnAddMusic = new javax.swing.JButton();
         btnSaveAsset = new javax.swing.JButton();
-        pnlMenuRight = new javax.swing.JPanel();
+        javax.swing.JPanel pnlMenuRight = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         pnlTable = new javax.swing.JPanel();
-        scrTable = new javax.swing.JScrollPane();
-        tblAssets = new javax.swing.JTable();
+        javax.swing.JScrollPane scrTable = new javax.swing.JScrollPane();
+        javax.swing.JTable tblAssets = new javax.swing.JTable();
         pnlEditor = new javax.swing.JPanel();
-        pnlMusicEditor = new javax.swing.JPanel();
-        pnlMusicPlayer = new javax.swing.JPanel();
-        lblMusicPlayer = new javax.swing.JLabel();
-        pnlMusicAttribution = new javax.swing.JPanel();
-        lblMusicAuthor = new javax.swing.JLabel();
-        lblMusicWebsite = new javax.swing.JLabel();
-        lblMusicLicenseLink = new javax.swing.JLabel();
-        lblMusicLicenseText = new javax.swing.JLabel();
+        javax.swing.JPanel pnlMusicEditor = new javax.swing.JPanel();
+        javax.swing.JPanel pnlMusicPlayer = new javax.swing.JPanel();
+        javax.swing.JLabel lblMusicPlayer = new javax.swing.JLabel();
+        javax.swing.JPanel pnlMusicAttribution = new javax.swing.JPanel();
+        javax.swing.JLabel lblMusicAuthor = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicWebsite = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicLicenseLink = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicLicenseText = new javax.swing.JLabel();
         txtMusicAuthor = new javax.swing.JTextField();
         txtMusicWebsite = new javax.swing.JTextField();
         txtMusicLicenseLink = new javax.swing.JTextField();
         txtMusicLicenseText = new javax.swing.JTextField();
-        lblMusicId = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicId = new javax.swing.JLabel();
         lblMusicIdDisplay = new javax.swing.JLabel();
-        lblMusicName = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicName = new javax.swing.JLabel();
         txtMusicName = new javax.swing.JTextField();
-        lblMusicTags = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusicTags = new javax.swing.JLabel();
         txtMusicTags = new javax.swing.JTextField();
-        pnlMusicSpacer = new javax.swing.JPanel();
-        pnlSpriteEditor = new javax.swing.JPanel();
-        pnlSpriteThumbnail = new javax.swing.JPanel();
+        javax.swing.JPanel pnlMusicSpacer = new javax.swing.JPanel();
+        javax.swing.JPanel pnlSpriteEditor = new javax.swing.JPanel();
+        javax.swing.JPanel pnlSpriteThumbnail = new javax.swing.JPanel();
         lblSpriteThumbnail = new javax.swing.JLabel();
-        pnlSpriteAttribution = new javax.swing.JPanel();
-        lblSpriteAuthor = new javax.swing.JLabel();
-        lblSpriteWebsite = new javax.swing.JLabel();
-        lblSpriteLicenseLink = new javax.swing.JLabel();
-        lblSpriteLicenseText = new javax.swing.JLabel();
+        javax.swing.JPanel pnlSpriteAttribution = new javax.swing.JPanel();
+        javax.swing.JLabel lblSpriteAuthor = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteWebsite = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteLicenseLink = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteLicenseText = new javax.swing.JLabel();
         txtSpriteAuthor = new javax.swing.JTextField();
         txtSpriteWebsite = new javax.swing.JTextField();
         txtSpriteLicenseLink = new javax.swing.JTextField();
         txtSpriteLicenseText = new javax.swing.JTextField();
-        lblSpriteId = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteId = new javax.swing.JLabel();
         lblSpriteIdDisplay = new javax.swing.JLabel();
-        lblSpriteName = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteName = new javax.swing.JLabel();
         txtSpriteName = new javax.swing.JTextField();
-        lblSpriteTags = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteTags = new javax.swing.JLabel();
         txtSpriteTags = new javax.swing.JTextField();
-        pnlSpriteSpacer = new javax.swing.JPanel();
-        lblTile = new javax.swing.JLabel();
+        javax.swing.JPanel pnlSpriteSpacer = new javax.swing.JPanel();
+        javax.swing.JLabel lblTile = new javax.swing.JLabel();
         chkTile = new javax.swing.JCheckBox();
 
         setLayout(new java.awt.BorderLayout());
@@ -159,48 +160,28 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMenu.setLayout(new java.awt.BorderLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddSprite, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnAddSprite.text")); // NOI18N
-        btnAddSprite.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddSpriteActionPerformed(evt);
-            }
-        });
+        btnAddSprite.addActionListener(evt -> btnAddSpriteActionPerformed());
         pnlMenuLeft.add(btnAddSprite);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddMusic, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.jButton2.text")); // NOI18N
-        btnAddMusic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMusicActionPerformed(evt);
-            }
-        });
+        btnAddMusic.addActionListener(evt -> btnAddMusicActionPerformed());
         pnlMenuLeft.add(btnAddMusic);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnSaveAsset, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnSaveAsset.text_1")); // NOI18N
         btnSaveAsset.setEnabled(false);
-        btnSaveAsset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveAssetActionPerformed(evt);
-            }
-        });
+        btnSaveAsset.addActionListener(evt -> btnSaveAssetActionPerformed());
         pnlMenuLeft.add(btnSaveAsset);
 
         pnlMenu.add(pnlMenuLeft, java.awt.BorderLayout.WEST);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnCancel.text_1")); // NOI18N
         btnCancel.setEnabled(false);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
+        btnCancel.addActionListener(evt -> btnCancelActionPerformed());
         pnlMenuRight.add(btnCancel);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnDelete, org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.btnDelete.text")); // NOI18N
         btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
+        btnDelete.addActionListener(evt -> btnDeleteActionPerformed());
         pnlMenuRight.add(btnDelete);
 
         pnlMenu.add(pnlMenuRight, java.awt.BorderLayout.EAST);
@@ -280,17 +261,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(lblMusicLicenseText, gridBagConstraints);
 
         txtMusicAuthor.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicAuthor.text")); // NOI18N
-        txtMusicAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getAttributionData().getAuthor())) {
-                    music.getAttributionData().setAuthor(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicAuthor.getDocument().addDocumentListener(new MusicAuthorUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -300,17 +271,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicAuthor, gridBagConstraints);
 
         txtMusicWebsite.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicWebsite.text")); // NOI18N
-        txtMusicWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getAttributionData().getWebsite())) {
-                    music.getAttributionData().setWebsite(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicWebsite.getDocument().addDocumentListener(new MusicWebsiteUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -319,17 +280,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicWebsite, gridBagConstraints);
 
         txtMusicLicenseLink.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenseLink.text")); // NOI18N
-        txtMusicLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getAttributionData().getLicenseLink())) {
-                    music.getAttributionData().setLicenseLink(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicLicenseLink.getDocument().addDocumentListener(new MusicLicenseLinkUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -338,17 +289,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicAttribution.add(txtMusicLicenseLink, gridBagConstraints);
 
         txtMusicLicenseText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicLicenseText.text")); // NOI18N
-        txtMusicLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getAttributionData().getLicenseText())) {
-                    music.getAttributionData().setLicenseText(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicLicenseText.getDocument().addDocumentListener(new MusicLicenseTextUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -391,17 +332,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicEditor.add(lblMusicName, gridBagConstraints);
 
         txtMusicName.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicName.text")); // NOI18N
-        txtMusicName.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getName())) {
-                    music.setName(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicName.getDocument().addDocumentListener(new MusicNameUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -419,22 +350,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlMusicEditor.add(lblMusicTags, gridBagConstraints);
 
         txtMusicTags.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtMusicTags.text")); // NOI18N
-        txtMusicTags.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Music music = (Music) controller.getSelectedAsset();
-                if((null != music) && !newValue.equals(music.getTags())) {
-                    music.setTags(Arrays
-                        .asList(newValue.split("\\s+"))
-                        .stream()
-                        .map(str -> str.trim())
-                        .distinct()
-                        .collect(Collectors.toList()));
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtMusicTags.getDocument().addDocumentListener(new MusicTagsUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -521,17 +437,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(lblSpriteLicenseText, gridBagConstraints);
 
         txtSpriteAuthor.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteAuthor.text")); // NOI18N
-        txtSpriteAuthor.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getAuthor())) {
-                    sprite.getAttributionData().setAuthor(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteAuthor.getDocument().addDocumentListener(new SpriteAuthorUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -541,17 +447,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteAuthor, gridBagConstraints);
 
         txtSpriteWebsite.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteWebsite.text")); // NOI18N
-        txtSpriteWebsite.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getWebsite())) {
-                    sprite.getAttributionData().setWebsite(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteWebsite.getDocument().addDocumentListener(new SpriteWebsiteUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -560,17 +456,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteWebsite, gridBagConstraints);
 
         txtSpriteLicenseLink.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenseLink.text")); // NOI18N
-        txtSpriteLicenseLink.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseLink())) {
-                    sprite.getAttributionData().setLicenseLink(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteLicenseLink.getDocument().addDocumentListener(new SpriteLicenseLinkUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -579,17 +465,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteAttribution.add(txtSpriteLicenseLink, gridBagConstraints);
 
         txtSpriteLicenseText.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteLicenseText.text")); // NOI18N
-        txtSpriteLicenseText.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseText())) {
-                    sprite.getAttributionData().setLicenseText(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteLicenseText.getDocument().addDocumentListener(new SpriteLicenseTextUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -632,17 +508,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblSpriteName, gridBagConstraints);
 
         txtSpriteName.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteName.text")); // NOI18N
-        txtSpriteName.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getName())) {
-                    sprite.setName(newValue);
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteName.getDocument().addDocumentListener(new SpriteNameUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -660,22 +526,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblSpriteTags, gridBagConstraints);
 
         txtSpriteTags.setText(org.openide.util.NbBundle.getMessage(AssetManagerTopComponent.class, "AssetManagerTopComponent.txtSpriteTags.text")); // NOI18N
-        txtSpriteTags.getDocument().addDocumentListener(new AssetUpdateListener() {
-            @Override
-            protected void updateAssetProperty(final String newValue) {
-                final Sprite sprite = (Sprite) controller.getSelectedAsset();
-                if((null != sprite) && !newValue.equals(sprite.getTags())) {
-                    sprite.setTags(Arrays
-                        .asList(newValue.split("\\s+"))
-                        .stream()
-                        .map(str -> str.trim())
-                        .distinct()
-                        .collect(Collectors.toList()));
-                    btnSaveAsset.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                }
-            }
-        });
+        txtSpriteTags.getDocument().addDocumentListener(new SpriteTagsUpdateListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -727,22 +578,16 @@ public final class AssetManagerTopComponent extends TopComponent {
         add(pnlEditor, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSaveAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAssetActionPerformed
-        final boolean saved = controller.saveChanges();
-        btnSaveAsset.setEnabled(!saved);
-        btnCancel.setEnabled(!saved);
-    }//GEN-LAST:event_btnSaveAssetActionPerformed
-
-    private void btnAddMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMusicActionPerformed
-        if (handleUnsavedChanges()) {
-            final File selectAssetResource = this.selectAssetResource(new ImageMusicFilter());
-            if (null != selectAssetResource) {
-                controller.newMusicAsset(selectAssetResource);
-            }
+    private void chkTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTileActionPerformed
+        final Sprite sprite = (Sprite) controller.getSelectedAsset();
+        if ((null != sprite)) {
+            sprite.setTile(chkTile.isSelected());
+            btnSaveAsset.setEnabled(true);
+            btnCancel.setEnabled(true);
         }
-    }//GEN-LAST:event_btnAddMusicActionPerformed
+    }//GEN-LAST:event_chkTileActionPerformed
 
-    private void btnAddSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSpriteActionPerformed
+    private void btnAddSpriteActionPerformed() {                                             
         if (handleUnsavedChanges()) {
             final File selectAssetResource = this.selectAssetResource(new ImageFileFilter());
             if (null != selectAssetResource) {
@@ -755,75 +600,50 @@ public final class AssetManagerTopComponent extends TopComponent {
                 }
             }
         }
-    }//GEN-LAST:event_btnAddSpriteActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    }         
+    
+    private void btnAddMusicActionPerformed() {                                            
+        if (handleUnsavedChanges()) {
+            final File selectAssetResource = this.selectAssetResource(new ImageMusicFilter());
+            if (null != selectAssetResource) {
+                controller.newMusicAsset(selectAssetResource);
+            }
+        }
+    }    
+    
+    private void btnSaveAssetActionPerformed() {                                             
+        final boolean saved = controller.saveChanges();
+        btnSaveAsset.setEnabled(!saved);
+        btnCancel.setEnabled(!saved);
+    }     
+    
+    private void btnCancelActionPerformed() {
         final String message = "Unsaved changes will be discarded. Do you want to continue?";
-        final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+        final int selectedOption = JOptionPane.showConfirmDialog(this, message, DIALOG_TITLE_ALERT, YES_NO_CANCEL_OPTION);
         if (selectedOption == YES_OPTION) {
             discardChanges();
         }
-    }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    }      
+    
+    private void btnDeleteActionPerformed() { 
         final String message = "This will delete the selected asset. Do you want to continue?";
-        final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+        final int selectedOption = JOptionPane.showConfirmDialog(this, message, DIALOG_TITLE_ALERT, YES_NO_CANCEL_OPTION);
         if (selectedOption == YES_OPTION) {
             controller.deleteAsset();
             discardChanges();
         }
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void chkTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTileActionPerformed
-        final Sprite sprite = (Sprite) controller.getSelectedAsset();
-        if ((null != sprite)) {
-            sprite.setTile(chkTile.isSelected());
-            btnSaveAsset.setEnabled(true);
-            btnCancel.setEnabled(true);
-        }
-    }//GEN-LAST:event_chkTileActionPerformed
-
+    }     
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddMusic;
-    private javax.swing.JButton btnAddSprite;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSaveAsset;
     private javax.swing.JCheckBox chkTile;
-    private javax.swing.JLabel lblMusicAuthor;
-    private javax.swing.JLabel lblMusicId;
     private javax.swing.JLabel lblMusicIdDisplay;
-    private javax.swing.JLabel lblMusicLicenseLink;
-    private javax.swing.JLabel lblMusicLicenseText;
-    private javax.swing.JLabel lblMusicName;
-    private javax.swing.JLabel lblMusicPlayer;
-    private javax.swing.JLabel lblMusicTags;
-    private javax.swing.JLabel lblMusicWebsite;
-    private javax.swing.JLabel lblSpriteAuthor;
-    private javax.swing.JLabel lblSpriteId;
     private javax.swing.JLabel lblSpriteIdDisplay;
-    private javax.swing.JLabel lblSpriteLicenseLink;
-    private javax.swing.JLabel lblSpriteLicenseText;
-    private javax.swing.JLabel lblSpriteName;
-    private javax.swing.JLabel lblSpriteTags;
     private javax.swing.JLabel lblSpriteThumbnail;
-    private javax.swing.JLabel lblSpriteWebsite;
-    private javax.swing.JLabel lblTile;
     private javax.swing.JPanel pnlEditor;
-    private javax.swing.JPanel pnlMenu;
-    private javax.swing.JPanel pnlMenuLeft;
-    private javax.swing.JPanel pnlMenuRight;
-    private javax.swing.JPanel pnlMusicAttribution;
-    private javax.swing.JPanel pnlMusicEditor;
-    private javax.swing.JPanel pnlMusicPlayer;
-    private javax.swing.JPanel pnlMusicSpacer;
-    private javax.swing.JPanel pnlSpriteAttribution;
-    private javax.swing.JPanel pnlSpriteEditor;
-    private javax.swing.JPanel pnlSpriteSpacer;
-    private javax.swing.JPanel pnlSpriteThumbnail;
     private javax.swing.JPanel pnlTable;
-    private javax.swing.JScrollPane scrTable;
-    private javax.swing.JTable tblAssets;
     private javax.swing.JTextField txtMusicAuthor;
     private javax.swing.JTextField txtMusicLicenseLink;
     private javax.swing.JTextField txtMusicLicenseText;
@@ -843,7 +663,7 @@ public final class AssetManagerTopComponent extends TopComponent {
     }
 
     void readProperties(final java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     /**
@@ -855,10 +675,10 @@ public final class AssetManagerTopComponent extends TopComponent {
     private boolean handleUnsavedChanges() {
         if (btnSaveAsset.isEnabled()) {
             final String message = "There are unsaved changes. Do you want to save them first?";
-            final int selectedOption = JOptionPane.showConfirmDialog(this, message, "alert", YES_NO_CANCEL_OPTION);
+            final int selectedOption = JOptionPane.showConfirmDialog(this, message, DIALOG_TITLE_ALERT, YES_NO_CANCEL_OPTION);
             switch (selectedOption) {
                 case YES_OPTION:
-                    btnSaveAssetActionPerformed(null);
+                    btnSaveAssetActionPerformed();
                     return true;
                 case NO_OPTION:
                     discardChanges();
@@ -988,7 +808,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         }
     }
 
-    private static abstract class AssetUpdateListener implements DocumentListener {
+    private abstract static class AssetUpdateListener implements DocumentListener {
 
         @Override
         public void changedUpdate(final DocumentEvent e) {
@@ -1016,6 +836,160 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         protected abstract void updateAssetProperty(final String newValue);
 
+    }
+    
+    private class MusicAuthorUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if((null != music) && !newValue.equals(music.getAttributionData().getAuthor())) {
+                music.getAttributionData().setAuthor(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+
+    private class MusicWebsiteUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if((null != music) && !newValue.equals(music.getAttributionData().getWebsite())) {
+                music.getAttributionData().setWebsite(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }    
+    
+    private class MusicLicenseLinkUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if((null != music) && !newValue.equals(music.getAttributionData().getLicenseLink())) {
+                music.getAttributionData().setLicenseLink(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+    
+    private class MusicLicenseTextUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if((null != music) && !newValue.equals(music.getAttributionData().getLicenseText())) {
+                music.getAttributionData().setLicenseText(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+    
+    private class MusicNameUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if((null != music) && !newValue.equals(music.getName())) {
+                music.setName(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+    
+    private class MusicTagsUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Music music = (Music) controller.getSelectedAsset();
+            if(null != music) {             
+                music.setTags(Arrays
+                        .asList(newValue.split("\\s+"))
+                        .stream()
+                        .map(String::trim)
+                        .distinct()
+                        .collect(Collectors.toList()));                   
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }     
+        } 
+    }    
+    
+    private class SpriteAuthorUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if((null != sprite) && !newValue.equals(sprite.getAttributionData().getAuthor())) {
+                sprite.getAttributionData().setAuthor(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+   
+    private class SpriteWebsiteUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if((null != sprite) && !newValue.equals(sprite.getAttributionData().getWebsite())) {
+                sprite.getAttributionData().setWebsite(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }    
+    }
+    
+    private class SpriteLicenseLinkUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseLink())) {
+                sprite.getAttributionData().setLicenseLink(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+    
+    private class SpriteLicenseTextUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if((null != sprite) && !newValue.equals(sprite.getAttributionData().getLicenseText())) {
+                sprite.getAttributionData().setLicenseText(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+
+    private class SpriteNameUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if((null != sprite) && !newValue.equals(sprite.getName())) {
+                sprite.setName(newValue);
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }
+        }
+    }
+    
+    private class SpriteTagsUpdateListener extends AssetUpdateListener {
+        @Override
+        protected void updateAssetProperty(final String newValue) {
+            final Sprite sprite = (Sprite) controller.getSelectedAsset();
+            if(null != sprite) {
+                sprite.setTags(Arrays
+                        .asList(newValue.split("\\s+"))
+                        .stream()
+                        .map(String::trim)
+                        .distinct()
+                        .collect(Collectors.toList()));                   
+                btnSaveAsset.setEnabled(true);
+                btnCancel.setEnabled(true);
+            }     
+        }     
     }
 
 }
