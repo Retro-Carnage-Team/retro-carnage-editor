@@ -85,8 +85,7 @@ public class BatchImportController {
     private class ImportWorker extends SwingWorker<Void, Integer> {
 
         private final File folder;
-        private final boolean recursive;
-        private List<Path> filesToImport;
+        private final boolean recursive;        
         private final List<String> tags;
         private final boolean tile;
         private final String author;
@@ -106,9 +105,9 @@ public class BatchImportController {
             this.folder = folder;
             this.recursive = recursive;
             this.tile = tile;
-            this.tags = Arrays.asList(panel.getComponent().getTags().split("\\s+"))
+            this.tags = Arrays.asList(tags.split("\\s+"))
                     .stream()
-                    .map(str -> str.trim())
+                    .map(String::trim)
                     .distinct()
                     .collect(Collectors.toList());
             this.author = author;
@@ -120,7 +119,7 @@ public class BatchImportController {
         @Override
         protected Void doInBackground() throws Exception {
             try {
-                filesToImport = findFilesToImport();
+                List<Path> filesToImport = findFilesToImport();
                 final float total = filesToImport.size();
                 float idx = 0;
                 for (final Path fileToImport : filesToImport) {
@@ -152,7 +151,7 @@ public class BatchImportController {
             newSprite.setTile(tile);
             newSprite.setTags(tags);
 
-            logger.log(Level.FINE, "Importing sprite file {0}", spritePath.toString());
+            logger.log(Level.FINE, "Importing sprite file {0}", spritePath);
             try (final InputStream in = new FileInputStream(spritePath.toFile())) {
                 newSprite.setId(UUID.randomUUID().toString());
                 AssetService.getDefault().addSprite(newSprite, in);

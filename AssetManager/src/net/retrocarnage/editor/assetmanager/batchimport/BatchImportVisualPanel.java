@@ -60,27 +60,24 @@ public final class BatchImportVisualPanel extends JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButton1 = new javax.swing.JButton();
-        lblSpriteTags = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteTags = new javax.swing.JLabel();
         txtSpriteTags = new javax.swing.JTextField();
-        lblTile = new javax.swing.JLabel();
+        javax.swing.JLabel lblTile = new javax.swing.JLabel();
         chkTile = new javax.swing.JCheckBox();
-        pnlSpriteAttribution = new javax.swing.JPanel();
-        lblSpriteAuthor = new javax.swing.JLabel();
-        lblSpriteWebsite = new javax.swing.JLabel();
-        lblSpriteLicenseLink = new javax.swing.JLabel();
-        lblSpriteLicenseText = new javax.swing.JLabel();
+        javax.swing.JPanel pnlSpriteAttribution = new javax.swing.JPanel();
+        javax.swing.JLabel lblSpriteAuthor = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteWebsite = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteLicenseLink = new javax.swing.JLabel();
+        javax.swing.JLabel lblSpriteLicenseText = new javax.swing.JLabel();
         txtSpriteAuthor = new javax.swing.JTextField();
         txtSpriteWebsite = new javax.swing.JTextField();
         txtSpriteLicenseLink = new javax.swing.JTextField();
         txtSpriteLicenseText = new javax.swing.JTextField();
-        lblPath = new javax.swing.JLabel();
+        javax.swing.JLabel lblPath = new javax.swing.JLabel();
         txtPath = new javax.swing.JTextField();
-        btnPath = new javax.swing.JButton();
-        lblRecursive = new javax.swing.JLabel();
+        javax.swing.JButton btnPath = new javax.swing.JButton();
+        javax.swing.JLabel lblRecursive = new javax.swing.JLabel();
         chkRecursive = new javax.swing.JCheckBox();
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(BatchImportVisualPanel.class, "BatchImportVisualPanel.jButton1.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -212,11 +209,7 @@ public final class BatchImportVisualPanel extends JPanel {
         add(txtPath, gridBagConstraints);
 
         btnPath.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/assetmanager/batchimport/outline_folder_open_black_24dp.png"))); // NOI18N
-        btnPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPathActionPerformed(evt);
-            }
-        });
+        btnPath.addActionListener(evt -> btnPathActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -239,34 +232,23 @@ public final class BatchImportVisualPanel extends JPanel {
         add(chkRecursive, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPathActionPerformed
+    private void btnPathActionPerformed() {                                        
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(this)) {
             importFolder = fileChooser.getSelectedFile();
             txtPath.setText(importFolder.getPath());
         }
-    }//GEN-LAST:event_btnPathActionPerformed
-
+    }    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPath;
-    private javax.swing.JCheckBox chkRecursive;
-    private javax.swing.JCheckBox chkTile;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel lblPath;
-    private javax.swing.JLabel lblRecursive;
-    private javax.swing.JLabel lblSpriteAuthor;
-    private javax.swing.JLabel lblSpriteLicenseLink;
-    private javax.swing.JLabel lblSpriteLicenseText;
-    private javax.swing.JLabel lblSpriteTags;
-    private javax.swing.JLabel lblSpriteWebsite;
-    private javax.swing.JLabel lblTile;
-    private javax.swing.JPanel pnlSpriteAttribution;
-    private javax.swing.JTextField txtPath;
-    private javax.swing.JTextField txtSpriteAuthor;
-    private javax.swing.JTextField txtSpriteLicenseLink;
-    private javax.swing.JTextField txtSpriteLicenseText;
-    private javax.swing.JTextField txtSpriteTags;
-    private javax.swing.JTextField txtSpriteWebsite;
+    javax.swing.JCheckBox chkRecursive;
+    javax.swing.JCheckBox chkTile;
+    javax.swing.JTextField txtPath;
+    javax.swing.JTextField txtSpriteAuthor;
+    javax.swing.JTextField txtSpriteLicenseLink;
+    javax.swing.JTextField txtSpriteLicenseText;
+    javax.swing.JTextField txtSpriteTags;
+    javax.swing.JTextField txtSpriteWebsite;
     // End of variables declaration//GEN-END:variables
 }
