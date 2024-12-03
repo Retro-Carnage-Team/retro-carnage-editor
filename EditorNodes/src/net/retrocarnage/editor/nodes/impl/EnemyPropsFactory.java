@@ -1,7 +1,7 @@
 package net.retrocarnage.editor.nodes.impl;
 
 import java.beans.PropertyEditor;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.nodes.propeditors.SkinPropertyEditor;
@@ -48,7 +48,12 @@ public final class EnemyPropsFactory {
             public void setValue(final String skin) {
                 if (!readonly) {
                     enemy.setSkin(skin);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 
@@ -82,7 +87,12 @@ public final class EnemyPropsFactory {
             public void setValue(final Integer speed) {
                 if (!readonly) {
                     enemy.setSpeed(speed);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 

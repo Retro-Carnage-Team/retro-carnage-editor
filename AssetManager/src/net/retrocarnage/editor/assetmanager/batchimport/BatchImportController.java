@@ -167,12 +167,13 @@ public class BatchImportController {
          * @throws IOException if the specified import location cannot be accessed
          */
         private List<Path> findFilesToImport() throws IOException {
-            final Stream<Path> pathStream = recursive
+            try(final Stream<Path> pathStream = recursive
                     ? Files.walk(Paths.get(folder.toURI()))
-                    : Files.list(Paths.get(folder.toURI()));
-            return pathStream
-                    .filter(Files::isRegularFile)
-                    .collect(Collectors.toList());
+                    : Files.list(Paths.get(folder.toURI()))) {
+                return pathStream
+                        .filter(Files::isRegularFile)
+                        .collect(Collectors.toList());
+            }
         }
 
     }

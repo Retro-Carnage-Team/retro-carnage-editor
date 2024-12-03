@@ -3,7 +3,7 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.core.IconUtil;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.nodes.actions.*;
@@ -52,7 +52,11 @@ public final class LayerNode extends AbstractNode {
 
     @Override
     public Action[] getActions(boolean popup) {
-        final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
+        final LayerController layerCtrl = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookup(LayerController.class);
         final Layer layer = getLayer();
         return new Action[]{
             new LayerMoveUpAction(layer, layerCtrl),
@@ -66,7 +70,11 @@ public final class LayerNode extends AbstractNode {
     }
 
     private String getLabel(final Layer layer) {
-        final LayerController layerCtrl = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
+        final LayerController layerCtrl = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookup(LayerController.class);
         final boolean isSelected = (null != layerCtrl) && (layerCtrl.getSelectedLayer() == layer);
         final StringBuilder result = new StringBuilder();
         if (!layer.isVisible()) {

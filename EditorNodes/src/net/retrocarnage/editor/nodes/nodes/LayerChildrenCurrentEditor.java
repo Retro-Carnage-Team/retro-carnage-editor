@@ -1,7 +1,7 @@
 package net.retrocarnage.editor.nodes.nodes;
 
 import java.util.Collection;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -19,7 +19,11 @@ public final class LayerChildrenCurrentEditor extends LayerChildren {
 
     public LayerChildrenCurrentEditor() {
         final LookupListener lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
-        lookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(LayerController.class);
+        lookupResult = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookupResult(LayerController.class);
         lookupResult.addLookupListener(lookupListener);
     }
 

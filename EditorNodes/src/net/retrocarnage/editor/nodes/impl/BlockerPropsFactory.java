@@ -1,6 +1,6 @@
 package net.retrocarnage.editor.nodes.impl;
 
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Blocker;
 import org.openide.nodes.Node;
@@ -49,7 +49,12 @@ public final class BlockerPropsFactory {
             public void setValue(final Boolean t) {
                 if (!readonly) {
                     blocker.setBulletStopper(t);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 
@@ -77,7 +82,12 @@ public final class BlockerPropsFactory {
             public void setValue(final Boolean t) {
                 if (!readonly) {
                     blocker.setExplosiveStopper(t);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 
@@ -105,7 +115,12 @@ public final class BlockerPropsFactory {
             public void setValue(final Boolean t) {
                 if (!readonly) {
                     blocker.setObstacle(t);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 

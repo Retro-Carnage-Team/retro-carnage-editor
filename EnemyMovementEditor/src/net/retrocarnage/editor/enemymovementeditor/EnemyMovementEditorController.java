@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemyMovement;
@@ -57,11 +57,19 @@ public class EnemyMovementEditorController {
         movements = Collections.emptyList();        
         
         selectionControllerLookupListener = (final LookupEvent le) -> handleSelectionControllerLookupResultChanged();
-        selectionControllerLookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(SelectionController.class);
+        selectionControllerLookupResult = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookupResult(SelectionController.class);
         selectionControllerLookupResult.addLookupListener(selectionControllerLookupListener);
         
         enemyLookupListener = (final LookupEvent le) -> handleEnemyLookupResultChanged();
-        enemyLookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(Enemy.class);
+        enemyLookupResult = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookupResult(Enemy.class);
         enemyLookupResult.addLookupListener(enemyLookupListener);
         
         pointSelectedChangeListener = (pce) -> {
