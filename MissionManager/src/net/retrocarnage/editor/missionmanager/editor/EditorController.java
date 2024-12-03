@@ -18,6 +18,7 @@ import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
 import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
@@ -82,7 +83,7 @@ class EditorController {
         final int selectedOption = JOptionPane.showConfirmDialog(view, message, "alert", YES_NO_CANCEL_OPTION);
         if (selectedOption == YES_OPTION) {
             if (null != viewModel.getSelectedMission().getId()) {
-                final MissionService service = MissionService.getDefault();
+                final MissionService service = MissionServiceFactory.INSTANCE.buildMissionService();
                 service.removeMission(viewModel.getSelectedMission().getId());
             }
             viewModel.setSelectedMission(null);
@@ -94,7 +95,7 @@ class EditorController {
      * Saves the changes.
      */
     void saveChanges() {
-        final MissionService service = MissionService.getDefault();
+        final MissionService service = MissionServiceFactory.INSTANCE.buildMissionService();
         Mission changedMission = viewModel.getSelectedMission();
         if (null == changedMission.getId()) {
             if (changedMission instanceof MissionBean) {

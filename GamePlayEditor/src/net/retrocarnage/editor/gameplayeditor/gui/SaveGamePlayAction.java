@@ -1,7 +1,7 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.io.IOException;
-import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.GamePlay;
 import org.netbeans.spi.actions.AbstractSavable;
 
@@ -28,7 +28,10 @@ public class SaveGamePlayAction extends AbstractSavable {
 
     @Override
     protected void handleSave() throws IOException {
-        MissionService.getDefault().saveGamePlay(gamePlay);
+        MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .saveGamePlay(gamePlay);
     }
 
     @Override

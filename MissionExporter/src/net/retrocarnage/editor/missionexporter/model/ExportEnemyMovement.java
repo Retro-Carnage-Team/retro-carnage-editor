@@ -19,7 +19,7 @@ public class ExportEnemyMovement {
     private double offsetYPerMs;
 
     ExportEnemyMovement(final EnemyMovement em, final int speed) {
-        double emDistance = Math.sqrt(em.getDistanceX() * em.getDistanceX() + em.getDistanceY() * em.getDistanceY());
+        double emDistance = Math.sqrt((double) (em.getDistanceX() * em.getDistanceX()) + em.getDistanceY() * em.getDistanceY());
         double exactDuration = emDistance / ((double)speed) * 1_000.0;
         offsetXPerMs = em.getDistanceX() / exactDuration;
         offsetYPerMs = em.getDistanceY() / exactDuration;

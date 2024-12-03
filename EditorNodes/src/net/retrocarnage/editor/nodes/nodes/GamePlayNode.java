@@ -2,7 +2,7 @@ package net.retrocarnage.editor.nodes.nodes;
 
 import java.lang.reflect.InvocationTargetException;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
-import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.GamePlay;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.PropertySupport;
@@ -20,7 +20,11 @@ public class GamePlayNode extends AbstractNode {
 
     public GamePlayNode(final GamePlay gamePlay, final LayerController layerCtrl) {
         super(new GamePlayGroupsChildren(layerCtrl), Lookups.singleton(gamePlay));
-        name = MissionService.getDefault().getMission(gamePlay.getMissionId()).getName();
+        name = MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .getMission(gamePlay.getMissionId())
+                .getName();
     }
 
     @Override

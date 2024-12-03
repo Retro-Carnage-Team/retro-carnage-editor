@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.core.GameConstants;
-import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Section;
@@ -41,7 +41,10 @@ final class BackgroundExporter extends SectionPathRunner {
      * @return a BackgroundExporter, configured and ready to use
      */
     public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) {
-        final GamePlay gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
+        final GamePlay gamePlay = MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .loadGamePlay(mission.getId());
         final SectionAnalysis mapStructure = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
         return new BackgroundExporter(mapStructure, gamePlay.getSections(), exportFileStructure, gamePlay);
     }

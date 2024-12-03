@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Optional;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.DummyPaletteActions;
 import net.retrocarnage.editor.gameplayeditor.gui.palette.GroupNodeFactory;
-import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Goal;
@@ -55,7 +55,10 @@ class GamePlayEditorController {
 
     GamePlayEditorController(final Mission mission) {
         this.mission = mission;
-        gamePlay = MissionService.getDefault().loadGamePlay(mission.getId());
+        gamePlay = MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .loadGamePlay(mission.getId());
 
         lookupContent = new InstanceContent();
         savable = new SaveGamePlayAction(gamePlay, mission.getName()) {
