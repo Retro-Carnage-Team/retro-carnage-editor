@@ -1,6 +1,9 @@
 package net.retrocarnage.editor.missionexporter.impl.mock;
 
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.model.GamePlay;
@@ -11,7 +14,7 @@ import net.retrocarnage.editor.model.Mission;
  *
  * @author Thomas Werner
  */
-public class MissionServiceMock extends MissionService {
+public class MissionServiceMock implements MissionService {
 
     private final GamePlay gamePlay;
     private final Mission mission;
@@ -63,6 +66,21 @@ public class MissionServiceMock extends MissionService {
 
     @Override
     public void saveGamePlay(GamePlay gameplay) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void initializeFolderStructure() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void loadMissions(InputStream in) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveMissions(OutputStream out) throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

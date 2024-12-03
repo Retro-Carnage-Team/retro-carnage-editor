@@ -1,8 +1,10 @@
 package net.retrocarnage.editor.missionmanager;
 
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
-import net.retrocarnage.editor.missionmanager.impl.MissionServiceImpl;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.GamePlay;
 
@@ -11,35 +13,32 @@ import net.retrocarnage.editor.model.GamePlay;
  *
  * @author Thomas Werner
  */
-public abstract class MissionService {
+public interface MissionService {
 
-    public static final String PROPERTY_MISSIONS = "missions";
+    static final String PROPERTY_MISSIONS = "missions";
 
-    private static final MissionService missionServiceImpl = new MissionServiceImpl();
+    void addPropertyChangeListener(final PropertyChangeListener listener);
 
-    public abstract void addPropertyChangeListener(final PropertyChangeListener listener);
+    void removePropertyChangeListener(final PropertyChangeListener listener);
 
-    public abstract void removePropertyChangeListener(final PropertyChangeListener listener);
+    Collection<Mission> getMissions();
 
-    public abstract Collection<Mission> getMissions();
+    Mission getMission(final String id);
 
-    public abstract Mission getMission(final String id);
+    void addMission(final Mission mission);
 
-    public abstract void addMission(final Mission mission);
+    void updateMission(final Mission mission);
 
-    public abstract void updateMission(final Mission mission);
+    void removeMission(final String id);
 
-    public abstract void removeMission(final String id);
+    GamePlay loadGamePlay(final String missionId);
 
-    public abstract GamePlay loadGamePlay(final String missionId);
+    void saveGamePlay(final GamePlay gameplay);
 
-    public abstract void saveGamePlay(final GamePlay gameplay);
-
-    /**
-     * @return an instance of this service
-     */
-    public static MissionService getDefault() {
-        return missionServiceImpl;
-    }
-
+    void initializeFolderStructure();
+    
+     void loadMissions(final InputStream in) throws IOException;
+     
+     void saveMissions(final OutputStream out) throws IOException;
+    
 }

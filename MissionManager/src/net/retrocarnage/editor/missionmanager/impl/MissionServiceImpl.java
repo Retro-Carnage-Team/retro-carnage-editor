@@ -32,7 +32,7 @@ import net.retrocarnage.editor.model.SectionDirection;
  *
  * @author Thomas Werner
  */
-public final class MissionServiceImpl extends MissionService {
+public final class MissionServiceImpl implements MissionService {
 
     private static final String MISSION_FOLDER_NAME = "missions";
     private static final Logger logger = Logger.getLogger(MissionServiceImpl.class.getName());
@@ -60,15 +60,18 @@ public final class MissionServiceImpl extends MissionService {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    void loadMissions(final InputStream in) throws IOException {
+    @Override
+    public void loadMissions(final InputStream in) throws IOException {
         missions.load(in);
     }
 
-    void saveMissions(final OutputStream out) throws IOException {
+    @Override
+    public void saveMissions(final OutputStream out) throws IOException {
         missions.save(out);
     }
 
-    void initializeFolderStructure() {
+    @Override
+    public void initializeFolderStructure() {
         if (!missionFolder.toFile().exists() && !missionFolder.toFile().mkdir()) {
             logger.log(Level.WARNING, "Failed to create folder for missions: {0}", missionFolder.toString());
         }

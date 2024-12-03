@@ -2,7 +2,7 @@ package net.retrocarnage.editor.nodes.nodes;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.Mission;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
@@ -17,14 +17,25 @@ public final class MissionChildren extends Children.Keys<Mission> {
 
     public MissionChildren() {
         final PropertyChangeListener listener = (PropertyChangeEvent pce) -> addNotify();
-        MissionService
-                .getDefault()
-                .addPropertyChangeListener(WeakListeners.propertyChange(listener, MissionService.getDefault()));
+        MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .addPropertyChangeListener(
+                        WeakListeners.propertyChange(
+                                listener, 
+                                MissionServiceFactory
+                                        .INSTANCE
+                                        .buildMissionService()
+                        )
+                );
     }
 
     @Override
     protected void addNotify() {
-        setKeys(MissionService.getDefault().getMissions());
+        setKeys(MissionServiceFactory
+                .INSTANCE
+                .buildMissionService()
+                .getMissions());
     }
 
     @Override

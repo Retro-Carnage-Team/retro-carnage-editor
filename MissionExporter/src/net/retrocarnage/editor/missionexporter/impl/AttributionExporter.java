@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Layer;
@@ -56,7 +57,7 @@ public class AttributionExporter {
         this.assetService = AssetService.getDefault();
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
-        this.missionService = MissionService.getDefault();
+        this.missionService = MissionServiceFactory.INSTANCE.buildMissionService();
     }
 
     /**

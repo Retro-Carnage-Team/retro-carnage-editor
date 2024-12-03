@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.missionmanager.MissionService;
+import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import org.openide.modules.ModuleInstall;
 
 public class Installer extends ModuleInstall {
@@ -19,7 +20,7 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        final MissionServiceImpl missionService = ((MissionServiceImpl) MissionService.getDefault());
+        final MissionService missionService = MissionServiceFactory.INSTANCE.buildMissionService();
         missionService.initializeFolderStructure();
 
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
@@ -39,7 +40,7 @@ public class Installer extends ModuleInstall {
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(MISSION_DATABASE_FILENAME);
         try (final OutputStream database = Files.newOutputStream(databaseFile)) {
-            final MissionServiceImpl missionService = ((MissionServiceImpl) MissionService.getDefault());
+            final MissionService missionService = MissionServiceFactory.INSTANCE.buildMissionService();
             missionService.saveMissions(database);
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to write the mission database file", ex.getMessage());
