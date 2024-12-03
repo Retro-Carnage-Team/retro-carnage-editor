@@ -4,13 +4,12 @@ import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ActionMap;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.TreeSelectionModel;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
@@ -27,7 +26,6 @@ import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -75,8 +73,9 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         initComponents();
 
         final LookupListener lookupListener = (final LookupEvent le) -> handleSelectionControllerChanged();
-        final Lookup.Result<SelectionController> selectionCtrlLookupResult = GamePlayEditorProxy
-                .getDefault()
+        final Lookup.Result<SelectionController> selectionCtrlLookupResult = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(SelectionController.class);
         selectionCtrlLookupResult.addLookupListener(lookupListener);
@@ -124,7 +123,11 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLayerActionPerformed
-        final LayerController controller = GamePlayEditorProxy.getDefault().getLookup().lookup(LayerController.class);
+        final LayerController controller = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookup(LayerController.class);
         if (null == controller) {
             return;
         }
@@ -203,8 +206,9 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
             selectionCtrl.removeVetoableChangeListener(selectionChangeListener);
         }
 
-        selectionCtrl = GamePlayEditorProxy
-                .getDefault()
+        selectionCtrl = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(SelectionController.class);                
         if (null != selectionCtrl) {

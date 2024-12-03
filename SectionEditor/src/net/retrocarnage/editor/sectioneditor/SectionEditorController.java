@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Section;
 import net.retrocarnage.editor.model.SectionDirection;
@@ -42,7 +42,11 @@ public class SectionEditorController {
         sections = Collections.emptyList();
 
         lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
-        lookupResult = GamePlayEditorProxy.getDefault().getLookup().lookupResult(GamePlay.class);
+        lookupResult = GamePlayEditorProxyFactory
+                .INSTANCE
+                .buildGamePlayEditorProxy()
+                .getLookup()
+                .lookupResult(GamePlay.class);
         lookupResult.addLookupListener(lookupListener);
     }
 

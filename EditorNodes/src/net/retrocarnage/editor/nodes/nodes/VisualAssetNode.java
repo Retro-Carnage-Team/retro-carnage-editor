@@ -4,7 +4,7 @@ import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.core.IconUtil;
-import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxy;
+import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Rotation;
@@ -104,7 +104,12 @@ public final class VisualAssetNode extends AbstractNode implements SelectableNod
             public void setValue(final Rotation t) {
                 if (!readonly) {
                     visualAsset.setRotation(t);
-                    GamePlayEditorProxy.getDefault().getLookup().lookup(SelectionController.class).selectionModified();
+                    GamePlayEditorProxyFactory
+                            .INSTANCE
+                            .buildGamePlayEditorProxy()
+                            .getLookup()
+                            .lookup(SelectionController.class)
+                            .selectionModified();
                 }
             }
 
