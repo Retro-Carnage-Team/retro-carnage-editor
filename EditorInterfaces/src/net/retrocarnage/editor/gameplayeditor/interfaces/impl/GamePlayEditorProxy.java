@@ -38,7 +38,7 @@ public class GamePlayEditorProxy implements Lookup.Provider {
                     .getRegistry()
                     .getOpened()
                     .stream()
-                    .filter((tc) -> tc instanceof GamePlayEditor)
+                    .filter(GamePlayEditor.class::isInstance)
                     .count();
             if (0 == numberOfGamePlayEditors) {
                 controller.setLookups();
