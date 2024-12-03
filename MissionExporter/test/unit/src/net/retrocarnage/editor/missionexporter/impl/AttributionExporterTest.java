@@ -67,38 +67,34 @@ public class AttributionExporterTest {
 
         final AssetService assetService = new AssetServiceMock();
 
+        final AttributionData songAttribution = new AttributionData();
+        songAttribution.setAuthor("Antonio Vivaldi");
+        songAttribution.setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
+        songAttribution.setWebsite("https://www.retro-carnage.net");
+
         song = new Music();
-        song.setId(MUSIC_ID);
-        song.setAttributionData(new AttributionData() {
-                {
-                    setAuthor("Antonio Vivaldi");
-                    setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
-                    setWebsite("https://www.retro-carnage.net");
-                }
-        });
+        song.setId(MUSIC_ID);                       
+        song.setAttributionData(songAttribution);
         song.setName("4 seasons");
         assetService.addMusic(song, null);
 
-
+        final AttributionData sprite1Attribution = new AttributionData();
+        sprite1Attribution.setAuthor("John Doe");
+        sprite1Attribution.setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");        
+        
         sprite1 = new Sprite();
         sprite1.setId(ASSET_ID_1);
-        sprite1.setAttributionData(new AttributionData() {
-                {
-                    setAuthor("John Doe");
-                    setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
-                }
-        });
+        sprite1.setAttributionData(sprite1Attribution);        
         sprite1.setName("Sprite 1");
         assetService.addSprite(sprite1, null);
 
+        final AttributionData sprite2Attribution = new AttributionData();
+        sprite2Attribution.setAuthor("Jane Doe");
+        sprite2Attribution.setWebsite("https://www.retro-carnage.net");
+        
         sprite2 = new Sprite();
         sprite2.setId(ASSET_ID_2);
-        sprite2.setAttributionData(new AttributionData() {
-                {
-                    setAuthor("Jane Doe");
-                    setWebsite("https://www.retro-carnage.net");
-                }
-        });
+        sprite2.setAttributionData(sprite2Attribution);
         sprite2.setName("Sprite 2");
         assetService.addSprite(sprite2, null);
 
