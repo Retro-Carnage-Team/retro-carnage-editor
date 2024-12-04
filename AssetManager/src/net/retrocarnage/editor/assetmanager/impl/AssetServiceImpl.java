@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author Thomas Werner
  */
-public class AssetServiceImpl extends AssetService {
+public class AssetServiceImpl implements AssetService {
 
     private static final String ASSET_DATABASE_FILENAME = "assetDatabase.xml";
 
@@ -62,7 +62,8 @@ public class AssetServiceImpl extends AssetService {
         assets.load(in);
     }
 
-    void loadAssets() {
+    @Override
+    public void loadAssets() {
         final Path databaseFile = appFolderService.buildDatabaseFilePath(ASSET_DATABASE_FILENAME);
         if (databaseFile.toFile().exists()) {
             try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
@@ -86,7 +87,8 @@ public class AssetServiceImpl extends AssetService {
         }
     }
 
-    void initializeFolderStructure() {
+    @Override
+    public void initializeFolderStructure() {
         if (!musicFolder.toFile().exists() && !musicFolder.toFile().mkdir()) {
             logger.log(Level.WARNING, "Failed to create folder for music assets: {0}", musicFolder.toString());
         }

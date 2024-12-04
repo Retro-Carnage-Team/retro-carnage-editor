@@ -3,7 +3,7 @@ package net.retrocarnage.editor.missionexporter.impl;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import org.apache.commons.io.FilenameUtils;
@@ -121,7 +121,12 @@ public class ExportFolderStructure {
     public String getClientImageRelativePath() {
         return String.format("images/clients/%s.%s",
                 mission.getName(),
-                FilenameUtils.getExtension(AssetService.getDefault().getSprite(mission.getClient()).getRelativePath())
+                FilenameUtils.getExtension(
+                        AssetServiceFactory
+                                .buildAssetService()
+                                .getSprite(mission.getClient())
+                                .getRelativePath()
+                )
         );
     }
 
@@ -131,7 +136,12 @@ public class ExportFolderStructure {
     public File getClientImageFile() {
         final String fileName = String.format("%s.%s",
                 mission.getName(),
-                FilenameUtils.getExtension(AssetService.getDefault().getSprite(mission.getClient()).getRelativePath())
+                FilenameUtils.getExtension(
+                        AssetServiceFactory
+                                .buildAssetService()
+                                .getSprite(mission.getClient())
+                                .getRelativePath()
+                )
         );
         return new File(getClientsFolder(), fileName);
     }
@@ -146,7 +156,12 @@ public class ExportFolderStructure {
     public String getMusicRelativePath() {
         return String.format("sounds/music/%s.%s",
                 mission.getName(),
-                FilenameUtils.getExtension(AssetService.getDefault().getMusic(mission.getSong()).getRelativePath())
+                FilenameUtils.getExtension(
+                        AssetServiceFactory
+                                .buildAssetService()
+                                .getMusic(mission.getSong())
+                                .getRelativePath()
+                )
         );
     }
 
@@ -154,7 +169,7 @@ public class ExportFolderStructure {
      * @return a file for the background music of the missions
      */
     public File getMusicFile() {
-        final Music music = AssetService.getDefault().getMusic(mission.getSong());
+        final Music music = AssetServiceFactory.buildAssetService().getMusic(mission.getSong());
         final String fileName = String.format("%s.%s",
                                               music.getName(),
                                               FilenameUtils.getExtension(music.getRelativePath()));

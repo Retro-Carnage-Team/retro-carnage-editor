@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Sprite;
 
@@ -37,7 +37,7 @@ public class ClientImageExporter {
      */
     public void export() {
         final Path imageFile = exportFolderStructure.getClientImageFile().toPath();
-        final Sprite sprite = AssetService.getDefault().getSprite(mission.getClient());
+        final Sprite sprite = AssetServiceFactory.buildAssetService().getSprite(mission.getClient());
         try {
             Files.deleteIfExists(imageFile);
             sprite.getData(Files.newOutputStream(imageFile));

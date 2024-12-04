@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.Mission;
@@ -152,7 +153,7 @@ class EditorController {
     }
 
     ComboBoxModel<Sprite> getClientSelectionModel() {
-        final AssetService assetService = AssetService.getDefault();
+        final AssetService assetService = AssetServiceFactory.buildAssetService();
         final List<Sprite> clients = new LinkedList<>();
         assetService
                 .findAssets(TAG_CLIENT)
@@ -169,7 +170,7 @@ class EditorController {
     }
 
     ComboBoxModel<Music> getSongSelectionModel() {
-        final AssetService assetService = AssetService.getDefault();
+        final AssetService assetService = AssetServiceFactory.buildAssetService();
         final List<Music> songs = new LinkedList<>();
         assetService
                 .findAssets(null)

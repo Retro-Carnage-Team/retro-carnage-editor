@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Sprite;
 import org.apache.commons.io.FilenameUtils;
@@ -154,7 +155,7 @@ public class BatchImportController {
             logger.log(Level.FINE, "Importing sprite file {0}", spritePath);
             try (final InputStream in = new FileInputStream(spritePath.toFile())) {
                 newSprite.setId(UUID.randomUUID().toString());
-                AssetService.getDefault().addSprite(newSprite, in);
+                AssetServiceFactory.buildAssetService().addSprite(newSprite, in);
             } catch (IOException ex) {
                 logger.log(Level.SEVERE, "Failed to batch import asset", ex);
             }

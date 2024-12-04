@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.AttributionData;
 import net.retrocarnage.editor.model.Music;
@@ -37,7 +38,7 @@ class AssetManagerController {
 
     private static final Logger logger = Logger.getLogger(AssetManagerController.class.getName());
 
-    private final AssetService assetService = AssetService.getDefault();
+    private final AssetService assetService = AssetServiceFactory.buildAssetService();
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     private List<Asset<?>> assets = getAssetList();

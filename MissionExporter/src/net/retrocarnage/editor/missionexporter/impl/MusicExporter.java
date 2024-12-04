@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 
@@ -37,7 +37,7 @@ public class MusicExporter {
      */
     public void export() {
         final Path musicFile = exportFolderStructure.getMusicFile().toPath();
-        final Music music = AssetService.getDefault().getMusic(mission.getSong());
+        final Music music = AssetServiceFactory.buildAssetService().getMusic(mission.getSong());
         try {
             Files.deleteIfExists(musicFile);
             music.getData(Files.newOutputStream(musicFile));

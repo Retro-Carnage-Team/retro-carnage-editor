@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Position;
 import net.retrocarnage.editor.model.Rotation;
@@ -50,7 +50,7 @@ public class SpritePainter {
     }
 
     private void paintVisualAsset(final VisualAsset va) {
-        final Sprite sprite = AssetService.getDefault().getSprite(va.getAssetId());
+        final Sprite sprite = AssetServiceFactory.buildAssetService().getSprite(va.getAssetId());
         if (null == sprite) {
             logger.log(Level.INFO, String.format("Sprite asset not found: %s", va.getAssetId()));
             return;

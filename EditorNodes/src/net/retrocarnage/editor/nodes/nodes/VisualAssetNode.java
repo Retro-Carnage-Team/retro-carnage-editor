@@ -3,6 +3,7 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import javax.swing.Action;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
@@ -41,7 +42,7 @@ public final class VisualAssetNode extends AbstractNode implements SelectableNod
     public VisualAssetNode(final VisualAsset visualAsset) {
         super(Children.LEAF, Lookups.singleton(visualAsset));
 
-        final Sprite sprite = AssetService.getDefault().getSprite(visualAsset.getAssetId());
+        final Sprite sprite = AssetServiceFactory.buildAssetService().getSprite(visualAsset.getAssetId());
         this.name = sprite.getName();
         this.tile = sprite.isTile();
 
