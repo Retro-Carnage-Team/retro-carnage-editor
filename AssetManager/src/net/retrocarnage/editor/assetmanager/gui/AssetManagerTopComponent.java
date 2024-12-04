@@ -561,11 +561,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblTile, gridBagConstraints);
 
         chkTile.setPreferredSize(new java.awt.Dimension(18, 39));
-        chkTile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkTileActionPerformed(evt);
-            }
-        });
+        chkTile.addActionListener(evt -> chkTileActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -577,15 +573,6 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         add(pnlEditor, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void chkTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTileActionPerformed
-        final Sprite sprite = (Sprite) controller.getSelectedAsset();
-        if ((null != sprite)) {
-            sprite.setTile(chkTile.isSelected());
-            btnSaveAsset.setEnabled(true);
-            btnCancel.setEnabled(true);
-        }
-    }//GEN-LAST:event_chkTileActionPerformed
 
     private void btnAddSpriteActionPerformed() {                                             
         if (handleUnsavedChanges()) {
@@ -631,6 +618,15 @@ public final class AssetManagerTopComponent extends TopComponent {
         if (selectedOption == YES_OPTION) {
             controller.deleteAsset();
             discardChanges();
+        }
+    }     
+    
+    private void chkTileActionPerformed() {
+        final Sprite sprite = (Sprite) controller.getSelectedAsset();
+        if ((null != sprite)) {
+            sprite.setTile(chkTile.isSelected());
+            btnSaveAsset.setEnabled(true);
+            btnCancel.setEnabled(true);
         }
     }     
     
