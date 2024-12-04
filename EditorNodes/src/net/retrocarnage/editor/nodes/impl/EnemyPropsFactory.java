@@ -49,7 +49,6 @@ public final class EnemyPropsFactory {
                 if (!readonly) {
                     enemy.setSkin(skin);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)
@@ -88,7 +87,6 @@ public final class EnemyPropsFactory {
                 if (!readonly) {
                     enemy.setSpeed(speed);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)

@@ -53,7 +53,6 @@ public final class LayerNode extends AbstractNode {
     @Override
     public Action[] getActions(boolean popup) {
         final LayerController layerCtrl = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(LayerController.class);
@@ -71,7 +70,6 @@ public final class LayerNode extends AbstractNode {
 
     private String getLabel(final Layer layer) {
         final LayerController layerCtrl = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(LayerController.class);

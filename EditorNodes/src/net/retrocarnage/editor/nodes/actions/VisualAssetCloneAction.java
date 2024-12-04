@@ -34,7 +34,6 @@ public class VisualAssetCloneAction extends AbstractAction {
         final VisualAsset clone = visualAsset.clone();
         layer.getVisualAssets().add(0, clone);
         GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(SelectionController.class)

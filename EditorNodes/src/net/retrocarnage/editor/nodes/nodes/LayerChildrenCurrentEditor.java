@@ -20,7 +20,6 @@ public final class LayerChildrenCurrentEditor extends LayerChildren {
     public LayerChildrenCurrentEditor() {
         final LookupListener lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
         lookupResult = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(LayerController.class);

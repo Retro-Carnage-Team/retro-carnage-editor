@@ -2,7 +2,6 @@ package net.retrocarnage.editor.nodes.nodes;
 
 import java.awt.Image;
 import javax.swing.Action;
-import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFactory;
@@ -106,7 +105,6 @@ public final class VisualAssetNode extends AbstractNode implements SelectableNod
                 if (!readonly) {
                     visualAsset.setRotation(t);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)

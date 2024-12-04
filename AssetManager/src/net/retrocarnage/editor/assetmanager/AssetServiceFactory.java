@@ -19,6 +19,5 @@ public class AssetServiceFactory {
     public static AssetService buildAssetService() {
         return SingletonHelper.serviceInstance;
     }
-
     
 }
