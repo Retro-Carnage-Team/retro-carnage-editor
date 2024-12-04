@@ -7,18 +7,16 @@ import net.retrocarnage.editor.missionmanager.impl.MissionServiceImpl;
  * 
  * @author Thomas Werner
  */
-public enum MissionServiceFactory {
+public class MissionServiceFactory {
     
-    INSTANCE;
-    
-    private final MissionService missionService;
- 
-    private MissionServiceFactory() {
-        missionService = new MissionServiceImpl();
+    private static class SingletonHelper {
+        private static final MissionService serviceInstance = new MissionServiceImpl();
     }
- 
-    public MissionService buildMissionService() {
-        return missionService;
+    
+    private MissionServiceFactory() { }
+
+    public static MissionService buildMissionService() {
+        return SingletonHelper.serviceInstance;
     }
     
 }

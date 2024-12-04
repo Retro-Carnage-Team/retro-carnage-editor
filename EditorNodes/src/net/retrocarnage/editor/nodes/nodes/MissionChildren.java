@@ -18,13 +18,11 @@ public final class MissionChildren extends Children.Keys<Mission> {
     public MissionChildren() {
         final PropertyChangeListener listener = (PropertyChangeEvent pce) -> addNotify();
         MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .addPropertyChangeListener(
                         WeakListeners.propertyChange(
                                 listener, 
                                 MissionServiceFactory
-                                        .INSTANCE
                                         .buildMissionService()
                         )
                 );
@@ -33,7 +31,6 @@ public final class MissionChildren extends Children.Keys<Mission> {
     @Override
     protected void addNotify() {
         setKeys(MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .getMissions());
     }

@@ -58,7 +58,6 @@ public class EnemyMovementEditorController {
         
         selectionControllerLookupListener = (final LookupEvent le) -> handleSelectionControllerLookupResultChanged();
         selectionControllerLookupResult = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(SelectionController.class);
@@ -66,7 +65,6 @@ public class EnemyMovementEditorController {
         
         enemyLookupListener = (final LookupEvent le) -> handleEnemyLookupResultChanged();
         enemyLookupResult = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(Enemy.class);

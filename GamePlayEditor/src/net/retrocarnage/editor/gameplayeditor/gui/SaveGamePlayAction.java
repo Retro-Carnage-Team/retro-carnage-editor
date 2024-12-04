@@ -29,7 +29,6 @@ public class SaveGamePlayAction extends AbstractSavable {
     @Override
     protected void handleSave() throws IOException {
         MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .saveGamePlay(gamePlay);
     }

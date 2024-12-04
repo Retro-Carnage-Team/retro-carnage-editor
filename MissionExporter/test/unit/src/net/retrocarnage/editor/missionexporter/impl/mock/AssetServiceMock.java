@@ -15,7 +15,7 @@ import net.retrocarnage.editor.model.Sprite;
  *
  * @author Thomas Werner
  */
-public class AssetServiceMock extends AssetService {
+public class AssetServiceMock implements AssetService {
 
     private final Map<String, Music> musicAssets = new HashMap<>();
     private final Map<String, Sprite> spriteAssets = new HashMap<>();
@@ -77,6 +77,16 @@ public class AssetServiceMock extends AssetService {
 
     @Override
     public Collection<String> getSpriteTags() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void initializeFolderStructure() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void loadAssets() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

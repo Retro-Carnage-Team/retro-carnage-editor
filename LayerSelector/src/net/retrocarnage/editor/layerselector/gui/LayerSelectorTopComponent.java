@@ -74,7 +74,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
         final LookupListener lookupListener = (final LookupEvent le) -> handleSelectionControllerChanged();
         final Lookup.Result<SelectionController> selectionCtrlLookupResult = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(SelectionController.class);
@@ -124,7 +123,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
 
     private void btnAddLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLayerActionPerformed
         final LayerController controller = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(LayerController.class);
@@ -207,7 +205,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         }
 
         selectionCtrl = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookup(SelectionController.class);                

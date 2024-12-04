@@ -43,7 +43,6 @@ public class SectionEditorController {
 
         lookupListener = (final LookupEvent le) -> handleLookupResultChanged();
         lookupResult = GamePlayEditorProxyFactory
-                .INSTANCE
                 .buildGamePlayEditorProxy()
                 .getLookup()
                 .lookupResult(GamePlay.class);

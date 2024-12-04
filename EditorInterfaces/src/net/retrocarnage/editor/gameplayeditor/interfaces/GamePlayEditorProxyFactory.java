@@ -8,18 +8,16 @@ import org.openide.util.Lookup;
  *
  * @author Thomas Werner
  */
-public enum GamePlayEditorProxyFactory {
-
-    INSTANCE;
+public class GamePlayEditorProxyFactory {
     
-    private final Lookup.Provider gamePlayEditorProxy;
- 
-    private GamePlayEditorProxyFactory() {
-        gamePlayEditorProxy = new GamePlayEditorProxy();
+    private static class SingletonHelper {
+        private static final Lookup.Provider gamePlayEditorProxy = new GamePlayEditorProxy();
     }
- 
-    public Lookup.Provider buildGamePlayEditorProxy() {
-        return gamePlayEditorProxy;
+    
+    private GamePlayEditorProxyFactory() { }
+
+    public static Lookup.Provider buildGamePlayEditorProxy() {
+        return SingletonHelper.gamePlayEditorProxy;
     }
     
 }

@@ -3,7 +3,7 @@ package net.retrocarnage.editor.gameplayeditor.gui.palette;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import static net.retrocarnage.editor.assetmanager.AssetService.TAG_CLIENT;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -17,7 +17,7 @@ public class BackgroundNodeFactory extends ChildFactory<String> {
 
     @Override
     protected boolean createKeys(final List<String> toPopulate) {
-        final List<String> sortedEntries = new ArrayList<>(AssetService.getDefault().getSpriteTags());
+        final List<String> sortedEntries = new ArrayList<>(AssetServiceFactory.buildAssetService().getSpriteTags());
         sortedEntries.remove(TAG_CLIENT);
         Collections.sort(sortedEntries);
         toPopulate.addAll(sortedEntries);
@@ -26,10 +26,10 @@ public class BackgroundNodeFactory extends ChildFactory<String> {
 
     @Override
     protected Node[] createNodesForKey(final String key) {
-        return AssetService.getDefault()
+        return AssetServiceFactory.buildAssetService()
                 .findAssets(key).stream()
-                .map((asset) -> asset.getId())
-                .map((k) -> new BackgroundNode(k))
+                .map(asset -> asset.getId())
+                .map(k -> new BackgroundNode(k))
                 .toArray(BackgroundNode[]::new);
     }
 

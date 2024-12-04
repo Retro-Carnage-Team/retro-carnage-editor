@@ -50,7 +50,6 @@ public final class BlockerPropsFactory {
                 if (!readonly) {
                     blocker.setBulletStopper(t);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)
@@ -83,7 +82,6 @@ public final class BlockerPropsFactory {
                 if (!readonly) {
                     blocker.setExplosiveStopper(t);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)
@@ -116,7 +114,6 @@ public final class BlockerPropsFactory {
                 if (!readonly) {
                     blocker.setObstacle(t);
                     GamePlayEditorProxyFactory
-                            .INSTANCE
                             .buildGamePlayEditorProxy()
                             .getLookup()
                             .lookup(SelectionController.class)

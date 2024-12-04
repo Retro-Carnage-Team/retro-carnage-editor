@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.AttributionData;
@@ -25,9 +26,6 @@ import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
 import net.retrocarnage.editor.model.VisualAsset;
-
-// TODO: Currently only links to license information get exported.
-//       The item will be ignored when the license is specified as text.
 
 /**
  * Creates the attribution document for an exported mission. This file contains attributions for all assets used in the
@@ -54,10 +52,10 @@ public class AttributionExporter {
      * @param exportFolderStructure definition of the export folder structure
      */
     public AttributionExporter(final Mission mission, final ExportFolderStructure exportFolderStructure) {
-        this.assetService = AssetService.getDefault();
+        this.assetService = AssetServiceFactory.buildAssetService();
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
-        this.missionService = MissionServiceFactory.INSTANCE.buildMissionService();
+        this.missionService = MissionServiceFactory.buildMissionService();
     }
 
     /**

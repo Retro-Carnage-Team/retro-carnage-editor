@@ -20,7 +20,7 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        final MissionService missionService = MissionServiceFactory.INSTANCE.buildMissionService();
+        final MissionService missionService = MissionServiceFactory.buildMissionService();
         missionService.initializeFolderStructure();
 
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
@@ -40,7 +40,7 @@ public class Installer extends ModuleInstall {
         final ApplicationFolderService appFolderService = ApplicationFolderService.getDefault();
         final Path databaseFile = appFolderService.buildDatabaseFilePath(MISSION_DATABASE_FILENAME);
         try (final OutputStream database = Files.newOutputStream(databaseFile)) {
-            final MissionService missionService = MissionServiceFactory.INSTANCE.buildMissionService();
+            final MissionService missionService = MissionServiceFactory.buildMissionService();
             missionService.saveMissions(database);
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to write the mission database file", ex.getMessage());

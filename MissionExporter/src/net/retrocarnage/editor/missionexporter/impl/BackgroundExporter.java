@@ -42,7 +42,6 @@ final class BackgroundExporter extends SectionPathRunner {
      */
     public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) {
         final GamePlay gamePlay = MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .loadGamePlay(mission.getId());
         final SectionAnalysis mapStructure = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());

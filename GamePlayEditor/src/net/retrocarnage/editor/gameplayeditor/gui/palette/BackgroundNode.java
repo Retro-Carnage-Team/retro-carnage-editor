@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import net.retrocarnage.editor.assetmanager.AssetService;
+import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Sprite;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -26,7 +26,7 @@ public final class BackgroundNode extends AbstractNode {
 
     public BackgroundNode(final String id) {
         super(Children.LEAF);
-        sprite = AssetService.getDefault().getSprite(id);
+        sprite = AssetServiceFactory.buildAssetService().getSprite(id);
         setDisplayName(getLabel());
     }
 
