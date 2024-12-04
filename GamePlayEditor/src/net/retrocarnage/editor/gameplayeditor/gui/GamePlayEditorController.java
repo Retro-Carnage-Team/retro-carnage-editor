@@ -56,7 +56,6 @@ class GamePlayEditorController {
     GamePlayEditorController(final Mission mission) {
         this.mission = mission;
         gamePlay = MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .loadGamePlay(mission.getId());
 

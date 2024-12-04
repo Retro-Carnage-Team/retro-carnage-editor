@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
-import net.retrocarnage.editor.missionmanager.impl.MissionServiceImpl;
 import net.retrocarnage.editor.model.Mission;
 
 /**
@@ -96,7 +95,7 @@ class EditorViewModel {
     }
 
     void updateMissionsFromService() {
-        final MissionService service = MissionServiceFactory.INSTANCE.buildMissionService();
+        final MissionService service = MissionServiceFactory.buildMissionService();
         missions = new ArrayList<>();
         missions.addAll(service.getMissions());
         this.propertyChangeSupport.firePropertyChange(PROPERTY_MISSIONS, null, missions);

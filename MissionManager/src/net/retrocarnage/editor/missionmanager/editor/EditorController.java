@@ -84,7 +84,7 @@ class EditorController {
         final int selectedOption = JOptionPane.showConfirmDialog(view, message, "alert", YES_NO_CANCEL_OPTION);
         if (selectedOption == YES_OPTION) {
             if (null != viewModel.getSelectedMission().getId()) {
-                final MissionService service = MissionServiceFactory.INSTANCE.buildMissionService();
+                final MissionService service = MissionServiceFactory.buildMissionService();
                 service.removeMission(viewModel.getSelectedMission().getId());
             }
             viewModel.setSelectedMission(null);
@@ -96,7 +96,7 @@ class EditorController {
      * Saves the changes.
      */
     void saveChanges() {
-        final MissionService service = MissionServiceFactory.INSTANCE.buildMissionService();
+        final MissionService service = MissionServiceFactory.buildMissionService();
         Mission changedMission = viewModel.getSelectedMission();
         if (null == changedMission.getId()) {
             if (changedMission instanceof MissionBean) {

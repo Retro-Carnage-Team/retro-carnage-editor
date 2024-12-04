@@ -55,7 +55,7 @@ public class AttributionExporter {
         this.assetService = AssetServiceFactory.buildAssetService();
         this.exportFolderStructure = exportFolderStructure;
         this.mission = mission;
-        this.missionService = MissionServiceFactory.INSTANCE.buildMissionService();
+        this.missionService = MissionServiceFactory.buildMissionService();
     }
 
     /**

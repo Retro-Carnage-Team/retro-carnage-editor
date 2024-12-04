@@ -21,7 +21,6 @@ public class GamePlayNode extends AbstractNode {
     public GamePlayNode(final GamePlay gamePlay, final LayerController layerCtrl) {
         super(new GamePlayGroupsChildren(layerCtrl), Lookups.singleton(gamePlay));
         name = MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .getMission(gamePlay.getMissionId())
                 .getName();

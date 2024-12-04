@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import net.retrocarnage.editor.core.GameConstants;
 import net.retrocarnage.editor.missionexporter.impl.ExportFolderStructure;
-import net.retrocarnage.editor.missionmanager.MissionService;
 import net.retrocarnage.editor.missionmanager.MissionServiceFactory;
 import net.retrocarnage.editor.model.GamePlay;
 import net.retrocarnage.editor.model.Goal;
@@ -72,7 +71,6 @@ public class ExportMission {
 
     private void initializeSegments() {
         final GamePlay gamePlay = MissionServiceFactory
-                .INSTANCE
                 .buildMissionService()
                 .loadGamePlay(mission.getId());
         final SectionAnalysis mapStructure = new SectionAnalyzer().analyzeMapStructure(gamePlay.getSections());
