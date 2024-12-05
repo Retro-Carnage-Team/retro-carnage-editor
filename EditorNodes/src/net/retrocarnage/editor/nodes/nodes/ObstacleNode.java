@@ -6,6 +6,7 @@ import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Obstacle;
 import net.retrocarnage.editor.model.Selectable;
+import net.retrocarnage.editor.nodes.icons.IconPathProvider;
 import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
@@ -19,9 +20,10 @@ import org.openide.util.lookup.Lookups;
  * @author Thomas Werner
  */
 public final class ObstacleNode extends AbstractNode implements SelectableNode {
-
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/obstacle.png";
-    private static final Image ICON = IconUtil.loadIcon(ObstacleNode.class.getResourceAsStream(ICON_PATH));
+    
+    private static final Image ICON = IconUtil.loadIcon(
+            ObstacleNode.class.getResourceAsStream(IconPathProvider.OBSTACLE_ICON_PATH)
+    );
 
     public ObstacleNode(final Obstacle obstacle) {
         super(Children.LEAF, Lookups.singleton(obstacle));

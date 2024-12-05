@@ -20,9 +20,9 @@ public class Installer extends ModuleInstall {
             logger.log(Level.SEVERE, "Failed to initialize application folder", ex);
         }
 
-        WindowManager.getDefault().invokeWhenUIReady(() -> {
-            ((JFrame) WindowManager.getDefault().getMainWindow()).setTitle("RETRO CARNAGE EDITOR");
-        });
+        WindowManager.getDefault().invokeWhenUIReady(() -> 
+            ((JFrame) WindowManager.getDefault().getMainWindow()).setTitle("RETRO CARNAGE EDITOR")
+        );
     }
 
 }

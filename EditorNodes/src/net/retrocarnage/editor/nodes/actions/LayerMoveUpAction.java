@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.nodes.icons.IconPathProvider;
 
 /**
  * Moves the VisualAsset to the foreground.
@@ -16,9 +17,10 @@ import net.retrocarnage.editor.model.Layer;
  * @author Thomas Werner
  */
 public class LayerMoveUpAction extends AbstractAction {
-
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/up.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerMoveUpAction.class.getResourceAsStream(ICON_PATH));
+    
+    private static final Image ICON = IconUtil.loadIcon(
+            LayerMoveUpAction.class.getResourceAsStream(IconPathProvider.UP_ICON_PATH)
+    );
 
     private final Layer layer;
     private final LayerController layerCtrl;

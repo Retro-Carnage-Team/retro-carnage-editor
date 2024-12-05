@@ -19,6 +19,7 @@ public final class SelectablePropsFactory {
     public static final String PROPERTY_POSITION_Y = "Y";
     public static final String PROPERTY_POSITION_WIDTH = "Width";
     public static final String PROPERTY_POSITION_HEIGHT = "Height";
+    private static final String NAME_POSITION = "Position";
 
     private SelectablePropsFactory() {
         // Intentionally empty.
@@ -26,8 +27,8 @@ public final class SelectablePropsFactory {
 
     public static Sheet.Set buildFullSheet(final Selectable selectable, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
-        positionSet.setDisplayName("Position");
-        positionSet.setName("Position");
+        positionSet.setDisplayName(NAME_POSITION);
+        positionSet.setName(NAME_POSITION);
 
         final Property<Integer> posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
         posXProp.setName(PROPERTY_POSITION_X);
@@ -50,8 +51,8 @@ public final class SelectablePropsFactory {
 
     public static Sheet.Set buildPositionSheet(final Selectable selectable, final boolean readonly) {
         final Sheet.Set positionSet = Sheet.createPropertiesSet();
-        positionSet.setDisplayName("Position");
-        positionSet.setName("Position");
+        positionSet.setDisplayName(NAME_POSITION);
+        positionSet.setName(NAME_POSITION);
 
         final Property<Integer> posXProp = SelectablePropsFactory.buildXProperty(selectable, readonly);
         posXProp.setName(PROPERTY_POSITION_X);

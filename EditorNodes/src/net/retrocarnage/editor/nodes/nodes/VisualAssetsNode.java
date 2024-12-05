@@ -3,6 +3,7 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.nodes.icons.IconPathProvider;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
 
@@ -13,8 +14,9 @@ import org.openide.util.lookup.Lookups;
  */
 public final class VisualAssetsNode extends AbstractNode {
 
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/visualAssets.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
+    private static final Image ICON = IconUtil.loadIcon(
+            LayerNode.class.getResourceAsStream(IconPathProvider.VISUAL_ASSETS_ICON_PATH)
+    );
 
     public VisualAssetsNode(final Layer layer) {
         super(new VisualAssetChildren(layer), Lookups.singleton(layer));
