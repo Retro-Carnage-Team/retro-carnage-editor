@@ -9,7 +9,7 @@ import java.io.InputStream;
  */
 public final class IconProvider {
     
-    public static enum IconPath {
+    public enum IconPath {
         COPY_ICON("copy.png"),
         DELETE_ICON("delete.png"),
         DOWN_ICON("down.png"),
