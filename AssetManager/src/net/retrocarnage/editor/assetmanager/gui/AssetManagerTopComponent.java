@@ -110,7 +110,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         javax.swing.JPanel pnlMenuRight = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        pnlTable = new javax.swing.JPanel();
+        javax.swing.JPanel pnlTable = new javax.swing.JPanel();
         javax.swing.JScrollPane scrTable = new javax.swing.JScrollPane();
         javax.swing.JTable tblAssets = new javax.swing.JTable();
         pnlEditor = new javax.swing.JPanel();
@@ -639,7 +639,6 @@ public final class AssetManagerTopComponent extends TopComponent {
     private javax.swing.JLabel lblSpriteIdDisplay;
     private javax.swing.JLabel lblSpriteThumbnail;
     private javax.swing.JPanel pnlEditor;
-    private javax.swing.JPanel pnlTable;
     private javax.swing.JTextField txtMusicAuthor;
     private javax.swing.JTextField txtMusicLicenseLink;
     private javax.swing.JTextField txtMusicLicenseText;
