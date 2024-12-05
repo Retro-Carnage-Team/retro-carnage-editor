@@ -110,7 +110,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         javax.swing.JPanel pnlMenuRight = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        pnlTable = new javax.swing.JPanel();
+        javax.swing.JPanel pnlTable = new javax.swing.JPanel();
         javax.swing.JScrollPane scrTable = new javax.swing.JScrollPane();
         javax.swing.JTable tblAssets = new javax.swing.JTable();
         pnlEditor = new javax.swing.JPanel();
@@ -561,11 +561,7 @@ public final class AssetManagerTopComponent extends TopComponent {
         pnlSpriteEditor.add(lblTile, gridBagConstraints);
 
         chkTile.setPreferredSize(new java.awt.Dimension(18, 39));
-        chkTile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkTileActionPerformed(evt);
-            }
-        });
+        chkTile.addActionListener(evt -> chkTileActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -577,15 +573,6 @@ public final class AssetManagerTopComponent extends TopComponent {
 
         add(pnlEditor, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void chkTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTileActionPerformed
-        final Sprite sprite = (Sprite) controller.getSelectedAsset();
-        if ((null != sprite)) {
-            sprite.setTile(chkTile.isSelected());
-            btnSaveAsset.setEnabled(true);
-            btnCancel.setEnabled(true);
-        }
-    }//GEN-LAST:event_chkTileActionPerformed
 
     private void btnAddSpriteActionPerformed() {                                             
         if (handleUnsavedChanges()) {
@@ -634,6 +621,15 @@ public final class AssetManagerTopComponent extends TopComponent {
         }
     }     
     
+    private void chkTileActionPerformed() {
+        final Sprite sprite = (Sprite) controller.getSelectedAsset();
+        if ((null != sprite)) {
+            sprite.setTile(chkTile.isSelected());
+            btnSaveAsset.setEnabled(true);
+            btnCancel.setEnabled(true);
+        }
+    }     
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
@@ -643,7 +639,6 @@ public final class AssetManagerTopComponent extends TopComponent {
     private javax.swing.JLabel lblSpriteIdDisplay;
     private javax.swing.JLabel lblSpriteThumbnail;
     private javax.swing.JPanel pnlEditor;
-    private javax.swing.JPanel pnlTable;
     private javax.swing.JTextField txtMusicAuthor;
     private javax.swing.JTextField txtMusicLicenseLink;
     private javax.swing.JTextField txtMusicLicenseText;

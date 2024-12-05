@@ -26,6 +26,7 @@ import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
 import org.apache.commons.io.IOUtils;
+import org.openide.util.Exceptions;
 
 /**
  * Implementation of the AssetService.
@@ -41,6 +42,7 @@ public class AssetServiceImpl implements AssetService {
     private static final String THUMBNAIL_FOLDER_NAME = "thumbnails";
     private static final int THUMBNAIL_SIZE = 100;                                                                      // pixels width & height
     private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());
+    private static final String NO_ASSET_FOR_ID = "No such asset for given id: {0}";
 
     private final ApplicationFolderService appFolderService;
     private final AssetDatabase assets;
@@ -69,7 +71,7 @@ public class AssetServiceImpl implements AssetService {
             try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
                 loadAssets(database);
             } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read the asset database file", ex.getMessage());
+                logger.log(Level.WARNING, "Failed to read the asset database file",  ex.getMessage());
             }
         }
     }
@@ -90,13 +92,13 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void initializeFolderStructure() {
         if (!musicFolder.toFile().exists() && !musicFolder.toFile().mkdir()) {
-            logger.log(Level.WARNING, "Failed to create folder for music assets: {0}", musicFolder.toString());
+            logger.log(Level.WARNING, "Failed to create folder for music assets: {0}", musicFolder);
         }
         if (!spriteFolder.toFile().exists() && !spriteFolder.toFile().mkdir()) {
-            logger.log(Level.WARNING, "Failed to create folder for sprite assets: {0}", spriteFolder.toString());
+            logger.log(Level.WARNING, "Failed to create folder for sprite assets: {0}", spriteFolder);
         }
         if (!thumbnailFolder.toFile().exists() && !thumbnailFolder.toFile().mkdir()) {
-            logger.log(Level.WARNING, "Failed to create folder for sprite thumbnails: {0}", thumbnailFolder.toString());
+            logger.log(Level.WARNING, "Failed to create folder for sprite thumbnails: {0}", thumbnailFolder);
         }
     }
 
@@ -146,7 +148,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updateMusicInfo(final Music music) {
         if (null == getMusic(music.getId())) {
-            logger.log(Level.WARNING, "No such asset for given id: {0}", music.getId());
+            logger.log(Level.WARNING, NO_ASSET_FOR_ID, music.getId());
             throw new IllegalArgumentException("No such asset for given id: " + music.getId());
         }
         assets.getMusic().put(music.getId(), music.deepCopy());
@@ -164,9 +166,17 @@ public class AssetServiceImpl implements AssetService {
         if (null != music) {
             final Path appFolderPath = appFolderService.getApplicationFolder();
             final File musicFile = Paths.get(appFolderPath.toString(), music.getRelativePath()).toFile();
-            if (musicFile.exists() && !musicFile.delete()) {
-                musicFile.deleteOnExit();
-                logger.warning("Failed to delete music file immediatly. Scheduling delete on exit.");
+            if (musicFile.exists()) {
+                try {
+                    Files.delete(musicFile.toPath());
+                } catch (IOException ex) {
+                    logger.log(
+                            Level.WARNING, 
+                            "Failed to delete music file {0}. Scheduling delete on exit.", 
+                            musicFile
+                    );
+                    musicFile.deleteOnExit();
+                }
             }
             assets.getMusic().remove(id);
             saveAssets();
@@ -195,7 +205,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updateSpriteInfo(final Sprite sprite) {
         if (null == getSprite(sprite.getId())) {
-            logger.log(Level.WARNING, "No such asset for given id: {0}", sprite.getId());
+            logger.log(Level.WARNING, NO_ASSET_FOR_ID, sprite.getId());
             throw new IllegalArgumentException("No such asset for given id: " + sprite.getId());
         }
         assets.getSprites().put(sprite.getId(), sprite.deepCopy());
@@ -206,7 +216,7 @@ public class AssetServiceImpl implements AssetService {
     public void updateSpriteAsset(final String id, final InputStream in) throws IOException {
         final Sprite sprite = getSprite(id);
         if (null == sprite) {
-            logger.log(Level.WARNING, "No such asset for given id: {0}", id);
+            logger.log(Level.WARNING, NO_ASSET_FOR_ID, id);
             throw new IllegalArgumentException("No such asset for given id: " + id);
         }
 
@@ -222,14 +232,30 @@ public class AssetServiceImpl implements AssetService {
         if (null != sprite) {
             final Path appFolderPath = appFolderService.getApplicationFolder();
             final File spriteFile = Paths.get(appFolderPath.toString(), sprite.getRelativePath()).toFile();
-            if (spriteFile.exists() && !spriteFile.delete()) {
-                spriteFile.deleteOnExit();
-                logger.warning("Failed to delete sprite file immediatly. Scheduling delete on exit.");
+            if (spriteFile.exists()) {
+                try {
+                    Files.delete(spriteFile.toPath());
+                } catch (IOException ex) {
+                    logger.log(
+                            Level.WARNING, 
+                            "Failed to delete sprite file {0}. Scheduling delete on exit.", 
+                            spriteFile
+                    );
+                    spriteFile.deleteOnExit();
+                }
             }
             final File thumbnailFile = Paths.get(appFolderPath.toString(), sprite.getRelativePathThumbnail()).toFile();
-            if (thumbnailFile.exists() && !thumbnailFile.delete()) {
-                thumbnailFile.deleteOnExit();
-                logger.warning("Failed to delete thumbnail file immediatly. Scheduling delete on exit.");
+            if (thumbnailFile.exists()) {
+                try {
+                    Files.delete(thumbnailFile.toPath());
+                } catch (IOException ex) {
+                    logger.log(
+                            Level.WARNING, 
+                            "Failed to delete thumbnail file {0}. Scheduling delete on exit.", 
+                            thumbnailFile
+                    );
+                    thumbnailFile.deleteOnExit();
+                }
             }
             assets.getSprites().remove(id);
             saveAssets();
@@ -246,10 +272,9 @@ public class AssetServiceImpl implements AssetService {
      */
     private void storeMusicToDisk(final InputStream in, final Path musicPath) throws IOException {
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(musicPath))) {
-            // TODO: Resample using JAVE
             IOUtils.copy(in, out);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to add music asset: {0}", musicPath.toString());
+            logger.log(Level.WARNING, "Failed to add music asset: {0}", musicPath);
             throw new IOException("Failed to add music asset " + musicPath.toString(), ex);
         }
     }
@@ -276,14 +301,14 @@ public class AssetServiceImpl implements AssetService {
             outputImage.getGraphics().drawImage(sourceImage, 0, 0, null);
             ImageIO.write(outputImage, "PNG", out);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to add sprite asset: {0}", spritePath.toString());
+            logger.log(Level.WARNING, "Failed to add sprite asset: {0}", spritePath);
             throw new IOException("Failed to add sprite asset " + spritePath.toString(), ex);
         }
 
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(thumbnailPath))) {
             ImageIO.write(getThumbnailImage(spritePath.toFile()), "PNG", out);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to create sprite thumbnail: {0}", spritePath.toString());
+            logger.log(Level.WARNING, "Failed to create sprite thumbnail: {0}", spritePath);
             throw new IOException("Failed to create sprite thumbnail " + spritePath.toString(), ex);
         }
     }
@@ -310,7 +335,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Collection<String> getSpriteTags() {
         final Collection<String> result = new HashSet<>();
-        assets.getSprites().values().stream().forEach((sprite) -> result.addAll(sprite.getTags()));
+        assets.getSprites().values().stream().forEach(sprite -> result.addAll(sprite.getTags()));
         return result;
     }
 
