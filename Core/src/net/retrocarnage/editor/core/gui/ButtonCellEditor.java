@@ -22,14 +22,14 @@ public final class ButtonCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 
     private final JTable table;
-    private final Action action;
+    private final transient Action action;
     private int mnemonic;
-    private final Border originalBorder;
-    private Border focusBorder;
+    private final transient Border originalBorder;
+    private transient Border focusBorder;
 
     private final JButton renderButton;
     private final JButton editButton;
-    private Object editorValue;
+    private transient Object editorValue;
     private boolean isButtonColumnEditor;
 
     /**
@@ -197,13 +197,16 @@ public final class ButtonCellEditor
 
     @Override
     public void mouseClicked(final MouseEvent e) {
+        // Unused method of MouseListener interface
     }
 
     @Override
     public void mouseEntered(final MouseEvent e) {
+        // Unused method of MouseListener interface
     }
 
     @Override
     public void mouseExited(final MouseEvent e) {
+        // Unused method of MouseListener interface
     }
 }

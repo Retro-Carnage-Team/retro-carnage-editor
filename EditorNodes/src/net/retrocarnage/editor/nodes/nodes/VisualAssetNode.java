@@ -15,6 +15,7 @@ import net.retrocarnage.editor.nodes.actions.VisualAssetCloneAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetRemoveAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetToBackAction;
 import net.retrocarnage.editor.nodes.actions.VisualAssetToFrontAction;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import net.retrocarnage.editor.nodes.impl.BlockerPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
@@ -29,11 +30,9 @@ import org.openide.util.lookup.Lookups;
  * @author Thomas Werner
  */
 public final class VisualAssetNode extends AbstractNode implements SelectableNode {
-
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/visualAsset.png";
-    private static final String TILE_ICON_PATH = "/net/retrocarnage/editor/nodes/icons/tile.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
-    private static final Image TILE_ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(TILE_ICON_PATH));
+    
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.VISUAL_ASSET_ICON));
+    private static final Image TILE_ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.TILE_ICON));
 
     private final String name;
     private final boolean tile;

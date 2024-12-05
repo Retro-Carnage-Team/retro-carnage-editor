@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 
 /**
  * Moves the VisualAsset to the foreground.
@@ -17,8 +18,7 @@ import net.retrocarnage.editor.model.VisualAsset;
  */
 public class VisualAssetToFrontAction extends AbstractAction {
 
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/up.png";
-    private static final Image ICON = IconUtil.loadIcon(VisualAssetToBackAction.class.getResourceAsStream(ICON_PATH));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.UP_ICON));
 
     private final Layer layer;
     private final VisualAsset visualAsset;

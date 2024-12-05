@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 
 /**
  * Moves the Layer to the background.
@@ -17,8 +18,7 @@ import net.retrocarnage.editor.model.Layer;
  */
 public class LayerMoveDownAction extends AbstractAction {
 
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/down.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerMoveDownAction.class.getResourceAsStream(ICON_PATH));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DOWN_ICON));
 
     private final Layer layer;
     private final LayerController layerCtrl;

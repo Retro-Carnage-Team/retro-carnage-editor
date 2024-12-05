@@ -3,6 +3,7 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.nodes.AbstractNode;
 
 /**
@@ -11,9 +12,8 @@ import org.openide.nodes.AbstractNode;
  * @author Thomas Werner
  */
 public final class LayersNode extends AbstractNode {
-
-    private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/layers.png";
-    private static final Image ICON = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_PATH));
+    
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYERS_ICON));
 
     public LayersNode(final LayerController controller) {
         super(new LayerChildrenController(controller));

@@ -7,6 +7,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFact
 import net.retrocarnage.editor.gameplayeditor.interfaces.LayerController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.nodes.actions.*;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
 
@@ -16,11 +17,9 @@ import org.openide.util.lookup.Lookups;
  * @author Thomas Werner
  */
 public final class LayerNode extends AbstractNode {
-
-    private static final String ICON_LOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/locked.png";
-    private static final String ICON_UNLOCKED_PATH = "/net/retrocarnage/editor/nodes/icons/unlocked.png";
-    private static final Image ICON_LOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_LOCKED_PATH));
-    private static final Image ICON_UNLOCKED = IconUtil.loadIcon(LayerNode.class.getResourceAsStream(ICON_UNLOCKED_PATH));
+    
+    private static final Image ICON_LOCKED = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYER_LOCKED_ICON));
+    private static final Image ICON_UNLOCKED = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYER_UNLOCKED_ICON));
 
     public LayerNode(final Layer layer) {
         super(new LayerGroupsChildren(layer), Lookups.singleton(layer));        

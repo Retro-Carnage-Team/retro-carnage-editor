@@ -70,7 +70,7 @@ public class EnemyMovementEditorController {
                 .lookupResult(Enemy.class);
         enemyLookupResult.addLookupListener(enemyLookupListener);
         
-        pointSelectedChangeListener = (pce) -> {
+        pointSelectedChangeListener = pce -> {
             if(SelectionController.PROPERTY_POINT_SELECTED.equals(pce.getPropertyName()))
                 handlePointSelected((Point) pce.getNewValue());
         };
@@ -197,7 +197,7 @@ public class EnemyMovementEditorController {
             selectionController.removePropertyChangeListener(pointSelectedChangeListener);
             selectionController.removeVetoableChangeListener(selectionChangeListener);
         }
-        selectionControllerLookupResult.allInstances().stream().findAny().ifPresent((t) -> {
+        selectionControllerLookupResult.allInstances().stream().findAny().ifPresent(t -> {
            selectionController = t; 
            selectionController.addPropertyChangeListener(pointSelectedChangeListener);
            selectionController.addVetoableChangeListener(selectionChangeListener);

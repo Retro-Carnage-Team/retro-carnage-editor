@@ -9,4 +9,8 @@ public final class GameConstants {
 
     public static final int SCREEN_WIDTH = 1_500;
 
+    private GameConstants() { 
+        // Private constructor to prevent instantiation
+    }
+    
 }
