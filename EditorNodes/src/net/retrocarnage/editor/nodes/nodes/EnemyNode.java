@@ -6,7 +6,7 @@ import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.Selectable;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import net.retrocarnage.editor.nodes.impl.EnemyPropsFactory;
 import net.retrocarnage.editor.nodes.impl.SelectablePropsFactory;
 import org.openide.nodes.AbstractNode;
@@ -21,9 +21,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class EnemyNode extends AbstractNode implements SelectableNode {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            EnemyNode.class.getResourceAsStream(IconPathProvider.ENEMY_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.ENEMY_ICON));
 
     public EnemyNode(final Enemy enemy) {
         super(Children.LEAF, Lookups.singleton(enemy));

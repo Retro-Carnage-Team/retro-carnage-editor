@@ -3,7 +3,7 @@ package net.retrocarnage.editor.nodes.nodes;
 import java.awt.Image;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.lookup.Lookups;
 
@@ -14,9 +14,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class ObstaclesNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            ObstaclesNode.class.getResourceAsStream(IconPathProvider.OBSTACLES_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.OBSTACLES_ICON));
 
     public ObstaclesNode(final Layer layer) {
         super(new ObstacleChildren(layer), Lookups.singleton(layer));

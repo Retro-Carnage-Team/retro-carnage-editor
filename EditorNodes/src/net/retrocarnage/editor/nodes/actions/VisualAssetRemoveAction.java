@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 
 /**
  * Removes the VisualAsset from the gameplay.
@@ -16,9 +16,7 @@ import net.retrocarnage.editor.nodes.icons.IconPathProvider;
  */
 public class VisualAssetRemoveAction extends AbstractAction {
 
-    private static final Image ICON = IconUtil.loadIcon(
-            VisualAssetRemoveAction.class.getResourceAsStream(IconPathProvider.DELETE_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DELETE_ICON));
 
     private final Layer layer;
     private final VisualAsset visualAsset;

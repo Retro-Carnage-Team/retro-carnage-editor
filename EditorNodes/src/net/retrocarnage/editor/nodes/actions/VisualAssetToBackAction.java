@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 
 /**
  * Moves the VisualAsset to the background.
@@ -18,9 +18,7 @@ import net.retrocarnage.editor.nodes.icons.IconPathProvider;
  */
 public class VisualAssetToBackAction extends AbstractAction {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            VisualAssetToBackAction.class.getResourceAsStream(IconPathProvider.DOWN_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DOWN_ICON));
 
     private final transient Layer layer;
     private final VisualAsset visualAsset;

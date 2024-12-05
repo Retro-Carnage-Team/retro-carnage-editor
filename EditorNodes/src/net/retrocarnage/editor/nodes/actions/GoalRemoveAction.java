@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.util.Lookup;
 
 /**
@@ -17,9 +17,7 @@ import org.openide.util.Lookup;
  */
 public class GoalRemoveAction extends AbstractAction {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            GoalRemoveAction.class.getResourceAsStream(IconPathProvider.DELETE_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DELETE_ICON));
 
     private final transient Layer layer;
 

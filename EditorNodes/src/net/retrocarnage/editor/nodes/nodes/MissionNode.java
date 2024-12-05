@@ -6,7 +6,7 @@ import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.nodes.actions.MissionEditAction;
 import net.retrocarnage.editor.nodes.actions.MissionExportAction;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.lookup.Lookups;
@@ -18,9 +18,7 @@ import org.openide.util.lookup.Lookups;
  */
 public class MissionNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            MissionNode.class.getResourceAsStream(IconPathProvider.MISSION_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.MISSION_ICON));
 
     public MissionNode(final Mission mission) {
         super(Children.LEAF, Lookups.singleton(mission));

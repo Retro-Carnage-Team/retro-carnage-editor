@@ -9,7 +9,7 @@ import net.retrocarnage.editor.gameplayeditor.interfaces.GamePlayEditorProxyFact
 import net.retrocarnage.editor.gameplayeditor.interfaces.SelectionController;
 import net.retrocarnage.editor.model.Layer;
 import net.retrocarnage.editor.model.VisualAsset;
-import net.retrocarnage.editor.nodes.icons.IconPathProvider;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 
 /**
  * Clones the VisualAsset.
@@ -18,9 +18,7 @@ import net.retrocarnage.editor.nodes.icons.IconPathProvider;
  */
 public class VisualAssetCloneAction extends AbstractAction {
     
-    private static final Image ICON = IconUtil.loadIcon(
-            VisualAssetCloneAction.class.getResourceAsStream(IconPathProvider.COPY_ICON_PATH)
-    );
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.COPY_ICON));
 
     private final Layer layer;
     private final VisualAsset visualAsset;
