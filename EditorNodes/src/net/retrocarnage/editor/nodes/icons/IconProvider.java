@@ -38,8 +38,15 @@ public final class IconProvider {
         // private constructor to prevent instantiation of util class
     }
  
-    public static InputStream getIcon(IconPath icon) {
+    public static InputStream getIcon(final IconPath icon) {
         return IconProvider.class.getResourceAsStream(icon.fileName);
+    }
+    
+    public static InputStream getIcon(final String iconFileName) throws IllegalArgumentException {
+        if(iconFileName.contains("/") || iconFileName.contains("\\")) {
+            throw new IllegalArgumentException("Only packaged icons can be used here.");
+        }
+        return IconProvider.class.getResourceAsStream(iconFileName);
     }
 
 }
