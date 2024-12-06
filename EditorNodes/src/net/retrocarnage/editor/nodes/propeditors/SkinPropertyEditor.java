@@ -19,6 +19,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.model.EnemySkin;
+import net.retrocarnage.editor.nodes.icons.IconProvider;
 import org.openide.explorer.propertysheet.ExPropertyEditor;
 import org.openide.explorer.propertysheet.InplaceEditor;
 import org.openide.explorer.propertysheet.PropertyEnv;
@@ -157,7 +158,6 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
      */
     private static class SkinPropertyRenderer extends JLabel implements ListCellRenderer<String> {
 
-        private static final String ICON_PATH = "/net/retrocarnage/editor/nodes/icons/skins/%s.png";
         private final java.util.Map<String, ImageIcon> skinToIcons;
 
         public SkinPropertyRenderer() {
@@ -167,8 +167,8 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
 
             skinToIcons = new HashMap<>();
             for (EnemySkin es : EnemySkin.values()) {
-                final String iconPath = String.format(ICON_PATH, es.getName());
-                final Image iconImage = IconUtil.loadIcon(SkinPropertyRenderer.class.getResourceAsStream(iconPath));
+                
+                final Image iconImage = IconUtil.loadIcon(IconProvider.getIcon(es.getName() + ".png"));
                 skinToIcons.put(es.getName(), new ImageIcon(iconImage));
             }
         }

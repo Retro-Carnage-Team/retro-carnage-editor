@@ -40,7 +40,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
     public EnemyMovementEditorTopComponent() {
         controller = new EnemyMovementEditorController();
-        controllerChangeListener = (PropertyChangeEvent pce) -> handleControllerPropertyChanged(pce);
+        controllerChangeListener = this::handleControllerPropertyChanged;
         controller.addPropertyChangeListener(controllerChangeListener);
 
         initComponents();
