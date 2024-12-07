@@ -23,7 +23,7 @@ public enum IconProvider {
     }
     
     public static String getResourcePath(final String iconFileName) throws IllegalArgumentException {
-        return "/" + IconProvider.class.getPackageName().replaceAll("\\.", "/") + "/" + iconFileName;
+        return "/" + IconProvider.class.getPackageName().replace('.', '/') + "/" + iconFileName;
     }       
         
 }

@@ -22,7 +22,7 @@ public final class ObstacleNode extends AbstractNode {
     private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());    
     
     private static String labelTemplate;
-    private static Image icon = null;
+    private static Image icon = IconUtil.loadIcon(IconProvider.DIAGONAL_ICON.getResourcePath());
 
     private final Obstacle obstacle;
     
@@ -40,10 +40,7 @@ public final class ObstacleNode extends AbstractNode {
     }
 
     @Override
-    public Image getIcon(final int type) {
-        if (null == icon) {            
-            icon = IconUtil.loadIcon(IconProvider.DIAGONAL_ICON.getResourcePath());
-        }
+    public Image getIcon(final int type) {        
         return icon;        
     }
 
@@ -52,7 +49,7 @@ public final class ObstacleNode extends AbstractNode {
         return obstacle;
     }
 
-    private String getLabel() {
+    private static String getLabel() {
         if(null == labelTemplate) {
             try(var inStream = ObstacleNode.class.getResourceAsStream("ObstacleNodeLabelTemplate.html.template")) {
                 labelTemplate = IOUtils.toString(inStream, "utf-8");

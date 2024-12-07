@@ -61,7 +61,7 @@ public final class GoalNode extends AbstractNode {
         return goal;
     }
 
-    private String getLabel() {
+    private static String getLabel() {
         if(null == labelTemplate) {
             try(var inStream = GoalNode.class.getResourceAsStream("GoalNodeLabelTemplate.html.template")) {
                 labelTemplate = IOUtils.toString(inStream, "utf-8");
