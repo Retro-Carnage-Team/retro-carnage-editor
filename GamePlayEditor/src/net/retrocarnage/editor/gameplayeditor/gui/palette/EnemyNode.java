@@ -57,8 +57,7 @@ public final class EnemyNode extends AbstractNode {
     public Transferable drag() throws IOException {
         try {
             return enemy.clone();
-        } catch (CloneNotSupportedException ex) {
-            logger.log(Level.SEVERE, "Failed to clone enemy template", ex);
+        } catch (CloneNotSupportedException ex) {            
             throw new IOException("Failed to clone enemy template", ex);
         }
     }

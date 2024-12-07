@@ -24,7 +24,7 @@ public final class GoalNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(GoalNode.class.getName());
     
-    private static Image icon = null;
+    private static Image icon;
     private static String labelTemplate;
 
     private final Goal goal;    
@@ -42,6 +42,15 @@ public final class GoalNode extends AbstractNode {
 
     @Override
     public Image getIcon(final int type) {
+        return getIcon();
+    }
+
+    @Override
+    public Transferable drag() throws IOException {
+        return goal;
+    }
+        
+    private static Image getIcon() {
         if (null == icon) {
             final BufferedImage texture = TextureFactory.buildGoalTexture(10);
             final Rectangle anchor = new Rectangle(0, 0, 10, 10);
@@ -54,11 +63,6 @@ public final class GoalNode extends AbstractNode {
             icon = canvas;
         }
         return icon;
-    }
-
-    @Override
-    public Transferable drag() throws IOException {
-        return goal;
     }
 
     private static String getLabel() {
