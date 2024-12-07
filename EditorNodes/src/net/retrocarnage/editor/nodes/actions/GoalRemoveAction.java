@@ -17,7 +17,7 @@ import org.openide.util.Lookup;
  */
 public class GoalRemoveAction extends AbstractAction {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DELETE_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.DELETE_ICON.getResourcePath());
 
     private final transient Layer layer;
 

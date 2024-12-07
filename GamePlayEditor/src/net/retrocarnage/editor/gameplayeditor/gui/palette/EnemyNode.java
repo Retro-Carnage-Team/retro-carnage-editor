@@ -5,7 +5,7 @@ import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemyType;
@@ -45,15 +45,12 @@ public final class EnemyNode extends AbstractNode {
 
     @Override
     public Image getIcon(final int type) {
-        try {
-            if (null == icon) {
-                icon = ImageIO.read(IconProvider.getIcon(String.format("enemy-type-%d.png", enemy.getType())));
-            }
-            return icon;
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to read thumbnail for enemy", ex);
-            return null;
+        if (null == icon) {
+            final String resourceName = String.format("enemy-type-%d.png", enemy.getType());
+            final String resourcePath = IconProvider.getResourcePath(resourceName);
+            icon = IconUtil.loadIcon(resourcePath);
         }
+        return icon;
     }
 
     @Override

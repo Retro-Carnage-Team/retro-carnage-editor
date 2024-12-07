@@ -31,8 +31,8 @@ import org.openide.util.lookup.Lookups;
  */
 public final class VisualAssetNode extends AbstractNode implements SelectableNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.VISUAL_ASSET_ICON));
-    private static final Image TILE_ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.TILE_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.VISUAL_ASSET_ICON.getResourcePath());
+    private static final Image TILE_ICON = IconUtil.loadIcon(IconProvider.TILE_ICON.getResourcePath());
 
     private final String name;
     private final boolean tile;

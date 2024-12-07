@@ -26,7 +26,7 @@ public class IconUtilTest {
 
     @Test
     public void testLoadIconFallback() throws IOException {
-        final Image icon = IconUtil.loadIcon(null);
+        final Image icon = IconUtil.loadIcon((InputStream)null);
         assertNotNull(icon);
         assertEquals(1, icon.getWidth(null));
         assertEquals(1, icon.getHeight(null));

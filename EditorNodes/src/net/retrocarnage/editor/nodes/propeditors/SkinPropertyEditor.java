@@ -168,7 +168,7 @@ public class SkinPropertyEditor extends PropertyEditorSupport implements ExPrope
             skinToIcons = new HashMap<>();
             for (EnemySkin es : EnemySkin.values()) {
                 
-                final Image iconImage = IconUtil.loadIcon(IconProvider.getIcon(es.getName() + ".png"));
+                final Image iconImage = IconUtil.loadIcon(IconProvider.getResourcePath(es.getName() + ".png"));
                 skinToIcons.put(es.getName(), new ImageIcon(iconImage));
             }
         }

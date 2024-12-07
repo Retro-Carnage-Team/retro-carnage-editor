@@ -14,7 +14,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class EnemiesNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.ENEMIES_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.ENEMIES_ICON.getResourcePath());
 
     public EnemiesNode(final Layer layer) {
         super(new EnemyChildren(layer), Lookups.singleton(layer));

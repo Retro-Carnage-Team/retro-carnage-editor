@@ -21,7 +21,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class GoalNode extends AbstractNode implements SelectableNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.GOAL_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.GOAL_ICON.getResourcePath());
 
     public GoalNode(final Goal goal) {
         super(Children.LEAF, Lookups.singleton(goal));

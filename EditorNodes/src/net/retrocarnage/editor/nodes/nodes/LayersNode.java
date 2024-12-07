@@ -13,7 +13,7 @@ import org.openide.nodes.AbstractNode;
  */
 public final class LayersNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYERS_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.LAYERS_ICON.getResourcePath());
 
     public LayersNode(final LayerController controller) {
         super(new LayerChildrenController(controller));

@@ -18,7 +18,7 @@ import net.retrocarnage.editor.nodes.icons.IconProvider;
  */
 public class VisualAssetToFrontAction extends AbstractAction {
 
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.UP_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.UP_ICON.getResourcePath());
 
     private final Layer layer;
     private final VisualAsset visualAsset;

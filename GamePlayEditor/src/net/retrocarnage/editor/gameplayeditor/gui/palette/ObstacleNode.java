@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Obstacle;
 import org.apache.commons.io.IOUtils;
@@ -41,15 +42,10 @@ public final class ObstacleNode extends AbstractNode {
 
     @Override
     public Image getIcon(final int type) {
-        try {
-            if (null == icon) {
-                icon = ImageIO.read(IconProvider.getIcon(IconProvider.IconPath.DIAGONAL_ICON));
-            }
-            return icon;
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to read thumbnail for obstacle", ex);
-            return null;
+        if (null == icon) {            
+            icon = IconUtil.loadIcon(IconProvider.DIAGONAL_ICON.getResourcePath());
         }
+        return icon;        
     }
 
     @Override
