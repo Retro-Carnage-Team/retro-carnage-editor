@@ -83,7 +83,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         view.setRootVisible(false);
         view.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         explorerManager.setRootContext(new AbstractNode(new LayerChildrenCurrentEditor()));
-        explorerManager.addPropertyChangeListener((pce) -> {
+        explorerManager.addPropertyChangeListener(pce -> {
             if ("selectedNodes".equals(pce.getPropertyName())) {
                 handleExplorerNodeChange(pce);
             }
@@ -111,17 +111,18 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
         pnlActions.setLayout(new java.awt.GridLayout(1, 0));
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddLayer, org.openide.util.NbBundle.getMessage(LayerSelectorTopComponent.class, "LayerSelectorTopComponent.btnAddLayer.text")); // NOI18N
-        btnAddLayer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddLayerActionPerformed(evt);
-            }
-        });
+        btnAddLayer.addActionListener(l -> btnAddLayerActionPerformed());
         pnlActions.add(btnAddLayer);
 
         add(pnlActions, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLayerActionPerformed
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddLayer;
+    private javax.swing.JPanel pnlActions;
+    // End of variables declaration//GEN-END:variables
+
+    private void btnAddLayerActionPerformed() {                                            
         final LayerController controller = GamePlayEditorProxyFactory
                 .buildGamePlayEditorProxy()
                 .getLookup()
@@ -139,13 +140,8 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
             newLayer.setVisible(true);
             controller.addLayer(newLayer);
         }
-    }//GEN-LAST:event_btnAddLayerActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddLayer;
-    private javax.swing.JPanel pnlActions;
-    // End of variables declaration//GEN-END:variables
-
+    }      
+    
     @Override
     protected void componentActivated() {
         ExplorerUtils.activateActions(explorerManager, true);
@@ -166,7 +162,7 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     }
 
     void readProperties(java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     /**

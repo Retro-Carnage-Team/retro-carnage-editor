@@ -55,9 +55,9 @@
               <ResourceString bundle="net/retrocarnage/editor/layerselector/gui/Bundle.properties" key="LayerSelectorTopComponent.btnAddLayer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddLayerActionPerformed"/>
-          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnAddLayer.addActionListener(l -&gt; btnAddLayerActionPerformed());&#xa;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
