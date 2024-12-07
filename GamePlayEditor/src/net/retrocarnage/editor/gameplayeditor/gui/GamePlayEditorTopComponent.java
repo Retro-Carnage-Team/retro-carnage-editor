@@ -172,9 +172,7 @@ public final class GamePlayEditorTopComponent
     }//GEN-LAST:event_pnlDisplayMousePressed
 
     private void pnlDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseReleased
-        final Point location = evt.getPoint();
-        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-        controller.handleMouseReleased(location);
+        controller.handleMouseReleased();
     }//GEN-LAST:event_pnlDisplayMouseReleased
 
     private void pnlDisplayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseExited

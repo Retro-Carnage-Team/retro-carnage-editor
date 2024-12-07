@@ -135,5 +135,29 @@ public class SelectionMousePositionAnalyzer {
 
         return Cursor.getDefaultCursor();
     }
+    
+    public Operation getOperation() {
+        Operation result;
+        if (isMouseInTopResizeArea() && isMouseInLeftResizeArea()) {
+            result = Operation.RESIZE_NW;
+        } else if (isMouseInTopResizeArea() && isMouseInRightResizeArea()) {
+            result = Operation.RESIZE_NE;
+        } else if (isMouseInBottomResizeArea() && isMouseInLeftResizeArea()) {
+            result = Operation.RESIZE_SW;
+        } else if (isMouseInBottomResizeArea() && isMouseInRightResizeArea()) {
+            result = Operation.RESIZE_SE;
+        } else if (isMouseInTopResizeArea()) {
+            result = Operation.RESIZE_N;
+        } else if (isMouseInLeftResizeArea()) {
+            result = Operation.RESIZE_W;
+        } else if (isMouseInRightResizeArea()) {
+            result = Operation.RESIZE_E;
+        } else if (isMouseInBottomResizeArea()) {
+            result = Operation.RESIZE_S;
+        } else {
+            result = Operation.MOVE;
+        }
+        return result;
+    }
 
 }
