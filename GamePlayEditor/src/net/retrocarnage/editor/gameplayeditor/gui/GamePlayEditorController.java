@@ -206,21 +206,22 @@ class GamePlayEditorController {
 
     void removeSelectedElement() {
         final Selectable selection = selectionControllerImpl.getSelection();
-        if (null != selection) {
-            for (Layer layer : layerControllerImpl.getLayers()) {
-                if (!layer.isLocked()) {
-                    if (selection instanceof Goal) {
-                        layer.setGoal(null);
-                    }
-                    if (((selection instanceof VisualAsset) && layer.getVisualAssets().remove(selection)) ||
-                        ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) ||
-                        (selection instanceof Goal)) {
-                        selectionControllerImpl.setSelection(null);
-                        break;
-                    }
+        if (null == selection) {
+            return;
+        }
+        for (Layer layer : layerControllerImpl.getLayers()) {
+            if (!layer.isLocked()) {
+                if (selection instanceof Goal) {
+                    layer.setGoal(null);
+                }
+                if (((selection instanceof VisualAsset) && layer.getVisualAssets().remove(selection)) ||
+                    ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) ||
+                    (selection instanceof Goal)) {
+                    selectionControllerImpl.setSelection(null);
+                    break;
                 }
             }
-        }
+        }        
     }
 
     void handleMouseClick(final Point position) {
