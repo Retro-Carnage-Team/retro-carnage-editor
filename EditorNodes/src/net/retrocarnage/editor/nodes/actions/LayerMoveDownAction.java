@@ -18,7 +18,7 @@ import net.retrocarnage.editor.nodes.icons.IconProvider;
  */
 public class LayerMoveDownAction extends AbstractAction {
 
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.DOWN_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.DOWN_ICON.getResourcePath());
 
     private final Layer layer;
     private final LayerController layerCtrl;

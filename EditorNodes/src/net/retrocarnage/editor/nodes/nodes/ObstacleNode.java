@@ -21,7 +21,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class ObstacleNode extends AbstractNode implements SelectableNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.OBSTACLE_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.OBSTACLE_ICON.getResourcePath());
 
     public ObstacleNode(final Obstacle obstacle) {
         super(Children.LEAF, Lookups.singleton(obstacle));

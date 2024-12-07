@@ -21,7 +21,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class EnemyNode extends AbstractNode implements SelectableNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.ENEMY_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.ENEMY_ICON.getResourcePath());
 
     public EnemyNode(final Enemy enemy) {
         super(Children.LEAF, Lookups.singleton(enemy));

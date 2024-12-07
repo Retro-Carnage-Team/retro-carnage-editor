@@ -18,7 +18,7 @@ import org.openide.util.lookup.Lookups;
  */
 public class MissionNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.MISSION_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.MISSION_ICON.getResourcePath());
 
     public MissionNode(final Mission mission) {
         super(Children.LEAF, Lookups.singleton(mission));

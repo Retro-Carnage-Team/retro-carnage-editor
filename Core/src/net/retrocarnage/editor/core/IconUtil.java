@@ -50,6 +50,18 @@ public final class IconUtil {
         }
     }
 
+    /**
+     * Returns a BufferedImage as the result of decoding a supplied resource with an ImageReader chosen automatically
+     * from among those currently registered. 
+     * 
+     * @param resourcePath full path of a resource containing image data
+     * @return Image containing the data from resource
+     */
+    public static Image loadIcon(final String resourcePath) {
+        var resource = IconUtil.class.getResourceAsStream(resourcePath);
+        return loadIcon(resource);
+    }
+    
     private static Image buildEmptyIcon() {
         final BufferedImage result = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g2d = result.createGraphics();

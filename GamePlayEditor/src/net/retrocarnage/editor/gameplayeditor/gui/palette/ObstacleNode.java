@@ -5,8 +5,10 @@ import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import net.retrocarnage.editor.core.IconUtil;
+import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Obstacle;
+import org.apache.commons.io.IOUtils;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
@@ -17,13 +19,13 @@ import org.openide.nodes.Children;
  */
 public final class ObstacleNode extends AbstractNode {
 
-    private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());
-    private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/diagonal.png";
-
-    private static Image icon = null;
+    private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());    
+    
+    private static String labelTemplate;
+    private static Image icon = IconUtil.loadIcon(IconProvider.DIAGONAL_ICON.getResourcePath());
 
     private final Obstacle obstacle;
-
+    
     public ObstacleNode() {
         super(Children.LEAF);
         obstacle = new Obstacle();
@@ -38,16 +40,8 @@ public final class ObstacleNode extends AbstractNode {
     }
 
     @Override
-    public Image getIcon(final int type) {
-        try {
-            if (null == icon) {
-                icon = ImageIO.read(ObstacleNode.class.getResource(ICON_PATH));
-            }
-            return icon;
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Failed to read thumbnail for obstacle", ex);
-            return null;
-        }
+    public Image getIcon(final int type) {        
+        return icon;        
     }
 
     @Override
@@ -55,17 +49,17 @@ public final class ObstacleNode extends AbstractNode {
         return obstacle;
     }
 
-    private String getLabel() {
-        return new StringBuilder()
-                .append("<html>")
-                .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
-                .append("       <tr>")
-                .append("           <td><b>Type</b></td>")
-                .append("           <td>").append("Obstacle").append("</td>")
-                .append("       </tr>")
-                .append("   </table>")
-                .append("</html>")
-                .toString();
+    private static String getLabel() {
+        if(null == labelTemplate) {
+            try(var inStream = ObstacleNode.class.getResourceAsStream("ObstacleNodeLabelTemplate.html.template")) {
+                labelTemplate = IOUtils.toString(inStream, "utf-8");
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to read label template", ex);
+                return "";
+            }
+        }
+        
+        return labelTemplate;
     }
 
 }

@@ -14,7 +14,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class ObstaclesNode extends AbstractNode {
     
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.OBSTACLES_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.OBSTACLES_ICON.getResourcePath());
 
     public ObstaclesNode(final Layer layer) {
         super(new ObstacleChildren(layer), Lookups.singleton(layer));

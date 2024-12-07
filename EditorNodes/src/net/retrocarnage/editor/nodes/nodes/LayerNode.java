@@ -18,8 +18,8 @@ import org.openide.util.lookup.Lookups;
  */
 public final class LayerNode extends AbstractNode {
     
-    private static final Image ICON_LOCKED = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYER_LOCKED_ICON));
-    private static final Image ICON_UNLOCKED = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.LAYER_UNLOCKED_ICON));
+    private static final Image ICON_LOCKED = IconUtil.loadIcon(IconProvider.LAYER_LOCKED_ICON.getResourcePath());
+    private static final Image ICON_UNLOCKED = IconUtil.loadIcon(IconProvider.LAYER_UNLOCKED_ICON.getResourcePath());
 
     public LayerNode(final Layer layer) {
         super(new LayerGroupsChildren(layer), Lookups.singleton(layer));        

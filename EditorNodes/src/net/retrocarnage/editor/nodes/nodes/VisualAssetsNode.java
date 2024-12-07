@@ -14,7 +14,7 @@ import org.openide.util.lookup.Lookups;
  */
 public final class VisualAssetsNode extends AbstractNode {
 
-    private static final Image ICON = IconUtil.loadIcon(IconProvider.getIcon(IconProvider.IconPath.VISUAL_ASSETS_ICON));
+    private static final Image ICON = IconUtil.loadIcon(IconProvider.VISUAL_ASSETS_ICON.getResourcePath());
 
     public VisualAssetsNode(final Layer layer) {
         super(new VisualAssetChildren(layer), Lookups.singleton(layer));

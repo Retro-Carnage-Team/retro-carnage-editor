@@ -1,0 +1,20 @@
+<html>
+   <table cellspacing="0" cellpadding="1">
+       <tr>
+           <td><b>Name</b></td>
+           <td>%s</td>
+       </tr>
+       <tr>
+           <td><b>Type</b></td>
+           <td>%s</td>
+       </tr>
+       <tr>
+           <td><b>Tags</b></td>
+           <td>%s</td>
+       </tr>
+       <tr>
+           <td><b>Size</b></td>
+           <td>%d * %d </td>
+       </tr>
+   </table>
+</html>
