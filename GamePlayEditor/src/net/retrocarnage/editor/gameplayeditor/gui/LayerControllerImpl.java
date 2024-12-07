@@ -140,7 +140,7 @@ class LayerControllerImpl implements LayerController {
      */
     private Layer getDefaultLayer() {
         final Optional<Layer> possibleDefaultLayer = controller.getGamePlay().getLayers().stream()
-                .filter((l) -> Layer.DEFAULT_LAYER_NAME.equals(l.getName()))
+                .filter(l -> Layer.DEFAULT_LAYER_NAME.equals(l.getName()))
                 .findAny();
         if (possibleDefaultLayer.isEmpty()) {
             final Layer defaultLayer = new Layer();

@@ -110,23 +110,7 @@ public class SelectionMousePositionAnalyzer {
         }
 
         if (isResizable) {
-            if (isMouseInTopResizeArea() && isMouseInLeftResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
-            } else if (isMouseInTopResizeArea() && isMouseInRightResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
-            } else if (isMouseInBottomResizeArea() && isMouseInLeftResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
-            } else if (isMouseInBottomResizeArea() && isMouseInRightResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
-            } else if (isMouseInTopResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-            } else if (isMouseInBottomResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-            } else if (isMouseInLeftResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
-            } else if (isMouseInRightResizeArea()) {
-                return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-            }
+            return getResizeCursor();
         }
 
         if (isMovable) {
@@ -160,4 +144,25 @@ public class SelectionMousePositionAnalyzer {
         return result;
     }
 
+    private Cursor getResizeCursor() {
+        if (isMouseInTopResizeArea() && isMouseInLeftResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
+        } else if (isMouseInTopResizeArea() && isMouseInRightResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
+        } else if (isMouseInBottomResizeArea() && isMouseInLeftResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
+        } else if (isMouseInBottomResizeArea() && isMouseInRightResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
+        } else if (isMouseInTopResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
+        } else if (isMouseInBottomResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+        } else if (isMouseInLeftResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
+        } else if (isMouseInRightResizeArea()) {
+            return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+        }
+        return Cursor.getDefaultCursor();
+    }
+    
 }

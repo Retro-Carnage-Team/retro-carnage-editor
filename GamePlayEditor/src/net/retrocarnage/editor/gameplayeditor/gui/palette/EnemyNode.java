@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Enemy;
 import net.retrocarnage.editor.model.EnemyType;
+import org.apache.commons.io.IOUtils;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
@@ -18,13 +20,14 @@ import org.openide.nodes.Children;
  */
 public final class EnemyNode extends AbstractNode {
 
-    private static final Logger logger = Logger.getLogger(EnemyNode.class.getName());
-    private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/enemy-type-%d.png";
+    private static final Logger logger = Logger.getLogger(EnemyNode.class.getName());    
+
+    private String labelTemplate;
     private Image icon = null;
 
     private final Enemy enemy;
-    private final String type;
-
+    private final String type;    
+    
     public EnemyNode(final Enemy enemy) {
         super(Children.LEAF);
 
@@ -44,7 +47,7 @@ public final class EnemyNode extends AbstractNode {
     public Image getIcon(final int type) {
         try {
             if (null == icon) {
-                icon = ImageIO.read(EnemyNode.class.getResource(String.format(ICON_PATH, enemy.getType())));
+                icon = ImageIO.read(IconProvider.getIcon(String.format("enemy-type-%d.png", enemy.getType())));
             }
             return icon;
         } catch (IOException ex) {
@@ -64,15 +67,15 @@ public final class EnemyNode extends AbstractNode {
     }
 
     private String getLabel() {
-        return new StringBuilder()
-                .append("<html>")
-                .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
-                .append("       <tr>")
-                .append("           <td><b>Type</b></td>")
-                .append("           <td>").append(type).append("</td>")
-                .append("       </tr>")
-                .append("   </table>")
-                .append("</html>")
-                .toString();
+        if(null == labelTemplate) {
+            try(var inStream = EnemyNode.class.getResourceAsStream("EnemyNodeLabelTemplate.html")) {
+                labelTemplate = IOUtils.toString(inStream, "utf-8");
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to read label template", ex);
+                return "";
+            }
+        }
+                
+        return String.format(labelTemplate, type);
     }
 }

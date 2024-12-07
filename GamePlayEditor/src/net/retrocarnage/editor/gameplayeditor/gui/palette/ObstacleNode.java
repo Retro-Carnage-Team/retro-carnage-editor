@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Obstacle;
+import org.apache.commons.io.IOUtils;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
@@ -17,13 +19,13 @@ import org.openide.nodes.Children;
  */
 public final class ObstacleNode extends AbstractNode {
 
-    private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());
-    private static final String ICON_PATH = "/net/retrocarnage/editor/gameplayeditor/images/diagonal.png";
-
+    private static final Logger logger = Logger.getLogger(ObstacleNode.class.getName());    
+    
+    private static String labelTemplate;
     private static Image icon = null;
 
     private final Obstacle obstacle;
-
+    
     public ObstacleNode() {
         super(Children.LEAF);
         obstacle = new Obstacle();
@@ -41,7 +43,7 @@ public final class ObstacleNode extends AbstractNode {
     public Image getIcon(final int type) {
         try {
             if (null == icon) {
-                icon = ImageIO.read(ObstacleNode.class.getResource(ICON_PATH));
+                icon = ImageIO.read(IconProvider.getIcon(IconProvider.IconPath.DIAGONAL_ICON));
             }
             return icon;
         } catch (IOException ex) {
@@ -56,16 +58,16 @@ public final class ObstacleNode extends AbstractNode {
     }
 
     private String getLabel() {
-        return new StringBuilder()
-                .append("<html>")
-                .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
-                .append("       <tr>")
-                .append("           <td><b>Type</b></td>")
-                .append("           <td>").append("Obstacle").append("</td>")
-                .append("       </tr>")
-                .append("   </table>")
-                .append("</html>")
-                .toString();
+        if(null == labelTemplate) {
+            try(var inStream = ObstacleNode.class.getResourceAsStream("ObstacleNodeLabelTemplate.html")) {
+                labelTemplate = IOUtils.toString(inStream, "utf-8");
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Failed to read label template", ex);
+                return "";
+            }
+        }
+        
+        return labelTemplate;
     }
 
 }

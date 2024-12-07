@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
 import net.retrocarnage.editor.model.Sprite;
+import org.apache.commons.io.IOUtils;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 
@@ -21,9 +22,19 @@ import org.openide.nodes.Children;
 public final class BackgroundNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(BackgroundNode.class.getName());
+    private static String LABEL_TEMPLATE;
 
     private final Sprite sprite;
 
+    static {
+        try(var inStream = BackgroundNode.class.getResourceAsStream("BackgroundNodeLabelTemplate.html")) {
+            LABEL_TEMPLATE = IOUtils.toString(inStream, "utf-8");
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, "Failed to read label template", ex);
+            LABEL_TEMPLATE = "";
+        }
+    }
+    
     public BackgroundNode(final String id) {
         super(Children.LEAF);
         sprite = AssetServiceFactory.buildAssetService().getSprite(id);
@@ -56,29 +67,14 @@ public final class BackgroundNode extends AbstractNode {
     }
 
     private String getLabel() {
-        final String tags = sprite.getTags().stream().reduce("", (t, u) -> t.isEmpty() ? u : t + ", " + u);
-        return new StringBuilder()
-                .append("<html>")
-                .append("   <table cellspacing=\"0\" cellpadding=\"1\">")
-                .append("       <tr>")
-                .append("           <td><b>Name</b></td>")
-                .append("           <td>").append(sprite.getName()).append("</td>")
-                .append("       </tr>")
-                .append("       <tr>")
-                .append("           <td><b>Type</b></td>")
-                .append("           <td>").append(sprite.isTile() ? "Tile" : "Sprite").append("</td>")
-                .append("       </tr>")
-                .append("       <tr>")
-                .append("           <td><b>Tags</b></td>")
-                .append("           <td>").append(tags).append("</td>")
-                .append("       </tr>")
-                .append("       <tr>")
-                .append("           <td><b>Size</b></td>")
-                .append("           <td>").append(sprite.getWidth()).append(" * ").append(sprite.getHeight()).append("</td>")
-                .append("       </tr>")
-                .append("   </table>")
-                .append("</html>")
-                .toString();
+        return String.format(
+                LABEL_TEMPLATE, 
+                sprite.getName(),
+                sprite.isTile() ? "Tile" : "Sprite",
+                sprite.getTags().stream().reduce("", (t, u) -> t.isEmpty() ? u : t + ", " + u),
+                sprite.getWidth(),
+                sprite.getHeight()
+        );
     }
 
 }

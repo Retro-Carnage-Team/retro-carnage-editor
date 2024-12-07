@@ -133,8 +133,9 @@ public class SelectionControllerImpl implements SelectionController {
         } catch(PropertyVetoException pve) {
             try {
                 vetoableChangeSupport.fireVetoableChange(PROPERTY_SELECTION, this.selection, this.selection);
-            } catch (PropertyVetoException ex) { }
-            logger.log(Level.FINE, "Selection listener vetoed against selection change", pve);
+            } catch (PropertyVetoException ex) { 
+                logger.log(Level.FINE, "Selection listener vetoed against selection change", pve);
+            }
         } catch (Exception ex) {
             logger.log(Level.WARNING, "Failed to inform listeners about selection change", ex);
         }
