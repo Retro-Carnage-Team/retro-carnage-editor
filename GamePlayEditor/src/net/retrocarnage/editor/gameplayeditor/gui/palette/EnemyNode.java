@@ -65,7 +65,7 @@ public final class EnemyNode extends AbstractNode {
 
     private String getLabel() {
         if(null == labelTemplate) {
-            try(var inStream = EnemyNode.class.getResourceAsStream("EnemyNodeLabelTemplate.html")) {
+            try(var inStream = EnemyNode.class.getResourceAsStream("EnemyNodeLabelTemplate.html.template")) {
                 labelTemplate = IOUtils.toString(inStream, "utf-8");
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to read label template", ex);

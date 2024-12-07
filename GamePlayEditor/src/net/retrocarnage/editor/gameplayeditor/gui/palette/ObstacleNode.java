@@ -5,7 +5,6 @@ import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import net.retrocarnage.editor.core.IconUtil;
 import net.retrocarnage.editor.gameplayeditor.images.IconProvider;
 import net.retrocarnage.editor.model.Obstacle;
@@ -55,7 +54,7 @@ public final class ObstacleNode extends AbstractNode {
 
     private String getLabel() {
         if(null == labelTemplate) {
-            try(var inStream = ObstacleNode.class.getResourceAsStream("ObstacleNodeLabelTemplate.html")) {
+            try(var inStream = ObstacleNode.class.getResourceAsStream("ObstacleNodeLabelTemplate.html.template")) {
                 labelTemplate = IOUtils.toString(inStream, "utf-8");
             } catch (IOException ex) {
                 logger.log(Level.WARNING, "Failed to read label template", ex);

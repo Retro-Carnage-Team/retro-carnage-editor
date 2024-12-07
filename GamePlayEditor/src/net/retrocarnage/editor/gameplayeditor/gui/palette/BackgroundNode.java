@@ -22,16 +22,15 @@ import org.openide.nodes.Children;
 public final class BackgroundNode extends AbstractNode {
 
     private static final Logger logger = Logger.getLogger(BackgroundNode.class.getName());
-    private static String LABEL_TEMPLATE;
+    private static String labelTemplate = "";
 
     private final Sprite sprite;
 
     static {
-        try(var inStream = BackgroundNode.class.getResourceAsStream("BackgroundNodeLabelTemplate.html")) {
-            LABEL_TEMPLATE = IOUtils.toString(inStream, "utf-8");
+        try(var inStream = BackgroundNode.class.getResourceAsStream("BackgroundNodeLabelTemplate.html.template")) {
+            labelTemplate = IOUtils.toString(inStream, "utf-8");
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to read label template", ex);
-            LABEL_TEMPLATE = "";
+            logger.log(Level.WARNING, "Failed to read label template", ex);            
         }
     }
     
@@ -68,7 +67,7 @@ public final class BackgroundNode extends AbstractNode {
 
     private String getLabel() {
         return String.format(
-                LABEL_TEMPLATE, 
+                labelTemplate, 
                 sprite.getName(),
                 sprite.isTile() ? "Tile" : "Sprite",
                 sprite.getTags().stream().reduce("", (t, u) -> t.isEmpty() ? u : t + ", " + u),
