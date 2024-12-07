@@ -37,6 +37,7 @@ import org.openide.util.lookup.InstanceContent;
 class GamePlayEditorController {
 
     static final String PROPERTY_GAMEPLAY = "gamePlay";
+    private static final String MESSAGE_LAYER_LOCKED = "The selected layer is locked";
 
     private final InstanceContent lookupContent;
     private final GamePlay gamePlay;
@@ -116,7 +117,7 @@ class GamePlayEditorController {
     void addEnemy(final Enemy enemy, final Point position) {
         final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
         if (selectedLayer.isLocked()) {
-            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(MESSAGE_LAYER_LOCKED));
         } else {
             final Point scaledPosition = scalePosition(position);
             final Position newPosition = new Position();
@@ -134,7 +135,7 @@ class GamePlayEditorController {
     void addObstacle(final Obstacle obstacle, final Point position) {
         final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
         if (selectedLayer.isLocked()) {
-            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(MESSAGE_LAYER_LOCKED));
         } else {
             final Point scaledPosition = scalePosition(position);
             final Position targetPosition = new Position();
@@ -156,7 +157,7 @@ class GamePlayEditorController {
     void addSprite(final Sprite sprite, final Point position) {
         final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
         if (selectedLayer.isLocked()) {
-            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(MESSAGE_LAYER_LOCKED));
         } else {
             final Point scaledPosition = scalePosition(position);
             final Position rectangle = new Position();
@@ -177,7 +178,7 @@ class GamePlayEditorController {
     void setGoal(final Goal goal, final Point dropLocation) {
         final Layer selectedLayer = layerControllerImpl.getSelectedLayer();
         if (selectedLayer.isLocked()) {
-            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("The selected layer is locked"));
+            DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(MESSAGE_LAYER_LOCKED));
         } else {
             for (Layer layer : layerControllerImpl.getLayers()) {
                 if (null != layer.getGoal()) {
@@ -205,23 +206,22 @@ class GamePlayEditorController {
 
     void removeSelectedElement() {
         final Selectable selection = selectionControllerImpl.getSelection();
-        if (null != selection) {
-            for (Layer layer : layerControllerImpl.getLayers()) {
-                if (!layer.isLocked()) {
-                    if ((selection instanceof VisualAsset) && layer.getVisualAssets().remove(selection)) {
-                        selectionControllerImpl.setSelection(null);
-                        break;
-                    } else if ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) {
-                        selectionControllerImpl.setSelection(null);
-                        break;
-                    } else if (selection instanceof Goal) {
-                        layer.setGoal(null);
-                        selectionControllerImpl.setSelection(null);
-                        break;
-                    }
+        if (null == selection) {
+            return;
+        }
+        for (Layer layer : layerControllerImpl.getLayers()) {
+            if (!layer.isLocked()) {
+                if (selection instanceof Goal) {
+                    layer.setGoal(null);
+                }
+                if (((selection instanceof VisualAsset) && layer.getVisualAssets().remove(selection)) ||
+                    ((selection instanceof Obstacle) && layer.getObstacles().remove(selection)) ||
+                    (selection instanceof Goal)) {
+                    selectionControllerImpl.setSelection(null);
+                    break;
                 }
             }
-        }
+        }        
     }
 
     void handleMouseClick(final Point position) {
@@ -231,7 +231,7 @@ class GamePlayEditorController {
         for (Layer layer : gamePlay.getLayers()) {
             final Optional<Selectable> possibleItem = layer
                     .streamSelectables()
-                    .filter((b) -> b.getPosition().toRectangle().contains(scaledPosition))
+                    .filter(b -> b.getPosition().toRectangle().contains(scaledPosition))
                     .findFirst();
 
             if (possibleItem.isPresent() && oldSelection != possibleItem.get()) {
@@ -261,31 +261,13 @@ class GamePlayEditorController {
         offsetRight = smia.getOffsetRight();
 
         if (selection.isResizable()) {
-            if (smia.isMouseInTopResizeArea() && smia.isMouseInLeftResizeArea()) {
-                operation = Operation.RESIZE_NW;
-            } else if (smia.isMouseInTopResizeArea() && smia.isMouseInRightResizeArea()) {
-                operation = Operation.RESIZE_NE;
-            } else if (smia.isMouseInBottomResizeArea() && smia.isMouseInLeftResizeArea()) {
-                operation = Operation.RESIZE_SW;
-            } else if (smia.isMouseInBottomResizeArea() && smia.isMouseInRightResizeArea()) {
-                operation = Operation.RESIZE_SE;
-            } else if (smia.isMouseInTopResizeArea()) {
-                operation = Operation.RESIZE_N;
-            } else if (smia.isMouseInLeftResizeArea()) {
-                operation = Operation.RESIZE_W;
-            } else if (smia.isMouseInRightResizeArea()) {
-                operation = Operation.RESIZE_E;
-            } else if (smia.isMouseInBottomResizeArea()) {
-                operation = Operation.RESIZE_S;
-            } else {
-                operation = Operation.MOVE;
-            }
+            operation = smia.getOperation();
         } else if (selection.isMovable()) {
             operation = Operation.MOVE;
         }
     }
 
-    void handleMouseReleased(final Point position) {
+    void handleMouseReleased() {
         operation = Operation.NONE;
     }
 

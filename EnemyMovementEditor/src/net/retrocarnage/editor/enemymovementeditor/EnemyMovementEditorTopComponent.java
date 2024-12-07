@@ -55,12 +55,12 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlDetail = new javax.swing.JPanel();
-        scrMovements = new javax.swing.JScrollPane();
-        tblMovements = new javax.swing.JTable();
-        pnlMovementActions = new javax.swing.JPanel();
+        javax.swing.JPanel pnlDetail = new javax.swing.JPanel();
+        javax.swing.JScrollPane scrMovements = new javax.swing.JScrollPane();
+        javax.swing.JTable tblMovements = new javax.swing.JTable();
+        javax.swing.JPanel pnlMovementActions = new javax.swing.JPanel();
         btnReset = new javax.swing.JButton();
-        pnlRecordingStatus = new javax.swing.JPanel();
+        javax.swing.JPanel pnlRecordingStatus = new javax.swing.JPanel();
         btnStartRecording = new javax.swing.JButton();
         btnStopRecording = new javax.swing.JButton();
 
@@ -83,11 +83,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
 
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/remove.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(btnReset, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnReset.text")); // NOI18N
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
-            }
-        });
+        btnReset.addActionListener(evt -> controller.deleteMovements());
         pnlMovementActions.add(btnReset);
 
         pnlDetail.add(pnlMovementActions, java.awt.BorderLayout.SOUTH);
@@ -97,53 +93,23 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
         btnStartRecording.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/media-playback-start.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(btnStartRecording, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnStartRecording.text")); // NOI18N
         btnStartRecording.setEnabled(false);
-        btnStartRecording.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStartRecordingActionPerformed(evt);
-            }
-        });
+        btnStartRecording.addActionListener(evt -> controller.startRecording());
         pnlRecordingStatus.add(btnStartRecording);
 
         btnStopRecording.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/enemymovementeditor/media-playback-stop.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(btnStopRecording, org.openide.util.NbBundle.getMessage(EnemyMovementEditorTopComponent.class, "EnemyMovementEditorTopComponent.btnStopRecording.text")); // NOI18N
         btnStopRecording.setEnabled(false);
-        btnStopRecording.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopRecordingActionPerformed(evt);
-            }
-        });
+        btnStopRecording.addActionListener(evt -> controller.stopRecording());
         pnlRecordingStatus.add(btnStopRecording);
 
         add(pnlRecordingStatus, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        controller.deleteMovements();
-    }//GEN-LAST:event_btnResetActionPerformed
-
-    private void btnStartRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartRecordingActionPerformed
-        controller.startRecording();
-    }//GEN-LAST:event_btnStartRecordingActionPerformed
-
-    private void btnStopRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopRecordingActionPerformed
-        controller.stopRecording();
-    }//GEN-LAST:event_btnStopRecordingActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnStartRecording;
     private javax.swing.JButton btnStopRecording;
-    private javax.swing.JPanel pnlDetail;
-    private javax.swing.JPanel pnlMovementActions;
-    private javax.swing.JPanel pnlRecordingStatus;
-    private javax.swing.JScrollPane scrMovements;
-    private javax.swing.JTable tblMovements;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void componentOpened() {
-        // TODO add custom code on component opening
-    }
 
     @Override
     public void componentClosed() {
@@ -156,7 +122,7 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
     }
 
     void readProperties(java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
@@ -171,6 +137,9 @@ public final class EnemyMovementEditorTopComponent extends TopComponent {
             case EnemyMovementEditorController.PROPERTY_RECORDING:
                 btnStartRecording.setEnabled(controller.isEnabled() && Boolean.FALSE.equals(pce.getNewValue()));
                 btnStopRecording.setEnabled(controller.isEnabled() &&Boolean.TRUE.equals(pce.getNewValue()));                
+                break;
+            default:
+                // nothing to do here
         }
     }
 }
