@@ -1,8 +1,11 @@
 package net.retrocarnage.editor.gameplayeditor.gui;
 
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
@@ -109,91 +112,25 @@ public final class GamePlayEditorTopComponent
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrPane = new javax.swing.JScrollPane();
+        javax.swing.JScrollPane scrPane = new javax.swing.JScrollPane();
         scrPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         pnlDisplay = new GamePlayDisplay(scrPane);
         ((GamePlayDisplay) pnlDisplay).updateDisplay(controller.getGamePlay(), null);
 
         setLayout(new java.awt.BorderLayout());
 
+        pnlDisplay.addKeyListener(new DisplayPanelKeyHandler());
+        pnlDisplay.addMouseListener(new DisplayPanelMouseHandler());
+        pnlDisplay.addMouseMotionListener(new DisplayPanelMouseMotionHandler());
         pnlDisplay.setTransferHandler(transferHandler);
-        pnlDisplay.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                pnlDisplayMouseDragged(evt);
-            }
-        });
-        pnlDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlDisplayMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlDisplayMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlDisplayMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlDisplayMouseReleased(evt);
-            }
-        });
-        pnlDisplay.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                pnlDisplayKeyTyped(evt);
-            }
-        });
         scrPane.setViewportView(pnlDisplay);
 
         add(scrPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pnlDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseClicked
-        if (evt.getButton() == MouseEvent.BUTTON1) {
-            Point location = evt.getPoint();
-            location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-            controller.handleMouseClick(location);
-            pnlDisplay.requestFocus();
-        } else if (evt.getButton() == MouseEvent.BUTTON3) {
-            final Node[] selectedNodes = getExplorerManager().getSelectedNodes();
-            if (null != selectedNodes && 1 == selectedNodes.length && !(selectedNodes[0] instanceof GamePlayNode)) {
-                final JPopupMenu popup = new JPopupMenu();
-                for (Action action : selectedNodes[0].getActions(true)) {
-                    popup.add(action);
-                }
-                popup.show(pnlDisplay, evt.getPoint().x, evt.getPoint().y);
-            }
-            pnlDisplay.requestFocus();
-        }
-    }//GEN-LAST:event_pnlDisplayMouseClicked
-
-    private void pnlDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMousePressed
-        final Point location = evt.getPoint();
-        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-        controller.handleMousePressed(location);
-    }//GEN-LAST:event_pnlDisplayMousePressed
-
-    private void pnlDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseReleased
-        controller.handleMouseReleased();
-    }//GEN-LAST:event_pnlDisplayMouseReleased
-
-    private void pnlDisplayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseExited
-        controller.handleMouseExited();
-    }//GEN-LAST:event_pnlDisplayMouseExited
-
-    private void pnlDisplayMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDisplayMouseDragged
-        final Point location = evt.getPoint();
-        location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
-        controller.handleMouseDragged(location);
-    }//GEN-LAST:event_pnlDisplayMouseDragged
-
-    private void pnlDisplayKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pnlDisplayKeyTyped
-        if (KeyEvent.VK_DELETE == evt.getKeyChar()) {
-            controller.removeSelectedElement();
-        }
-    }//GEN-LAST:event_pnlDisplayKeyTyped
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel pnlDisplay;
-    private javax.swing.JScrollPane scrPane;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -227,7 +164,7 @@ public final class GamePlayEditorTopComponent
             return false;
         }
         return false;
-    }
+    }                     
     
     @Override
     protected void componentActivated() {
@@ -265,7 +202,7 @@ public final class GamePlayEditorTopComponent
     }
 
     void readProperties(java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     @Override
@@ -317,6 +254,73 @@ public final class GamePlayEditorTopComponent
             }
         }
         return null;
+    }
+    
+    private class DisplayPanelMouseHandler extends MouseAdapter {
+        
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            pnlDisplayMouseClicked(evt);
+        }
+        
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            controller.handleMouseExited();
+        }
+        
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            final Point location = evt.getPoint();
+            location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+            controller.handleMousePressed(location);
+        }
+        
+        @Override
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+            controller.handleMouseReleased();
+        }
+    
+        private void pnlDisplayMouseClicked(java.awt.event.MouseEvent evt) {                                        
+            if (evt.getButton() == MouseEvent.BUTTON1) {
+                Point location = evt.getPoint();
+                location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+                controller.handleMouseClick(location);
+                pnlDisplay.requestFocus();
+            } else if (evt.getButton() == MouseEvent.BUTTON3) {
+                final Node[] selectedNodes = getExplorerManager().getSelectedNodes();
+                if (null != selectedNodes && 1 == selectedNodes.length && !(selectedNodes[0] instanceof GamePlayNode)) {
+                    final JPopupMenu popup = new JPopupMenu();
+                    for (Action action : selectedNodes[0].getActions(true)) {
+                        popup.add(action);
+                    }
+                    popup.show(pnlDisplay, evt.getPoint().x, evt.getPoint().y);
+                }
+                pnlDisplay.requestFocus();
+            }
+        }                                       
+        
+    }
+    
+    private class DisplayPanelMouseMotionHandler extends MouseMotionAdapter {
+        
+        @Override
+        public void mouseDragged(java.awt.event.MouseEvent evt) {
+            final Point location = evt.getPoint();
+            location.translate(-GamePlayDisplay.BORDER_WIDTH, -GamePlayDisplay.BORDER_WIDTH);
+            controller.handleMouseDragged(location);
+        }
+        
+    }
+    
+    private class DisplayPanelKeyHandler extends KeyAdapter {
+        
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            if (KeyEvent.VK_DELETE == evt.getKeyChar()) {
+                controller.removeSelectedElement();
+            }
+        }
+        
     }
 
 }

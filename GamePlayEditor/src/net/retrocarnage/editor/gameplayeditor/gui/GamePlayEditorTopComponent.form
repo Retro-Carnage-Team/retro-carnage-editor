@@ -40,6 +40,8 @@
     <Container class="javax.swing.JScrollPane" name="scrPane">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="scrPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);"/>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -50,18 +52,10 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="pnlDisplay">
-          <Events>
-            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="pnlDisplayMouseDragged"/>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlDisplayMouseClicked"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlDisplayMouseExited"/>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlDisplayMousePressed"/>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlDisplayMouseReleased"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pnlDisplayKeyTyped"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new GamePlayDisplay(scrPane);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((GamePlayDisplay) pnlDisplay).updateDisplay(controller.getGamePlay(), null);"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pnlDisplay.setTransferHandler(transferHandler);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="pnlDisplay.addKeyListener(new DisplayPanelKeyHandler());&#xa;pnlDisplay.addMouseListener(new DisplayPanelMouseHandler());&#xa;pnlDisplay.addMouseMotionListener(new DisplayPanelMouseMotionHandler());&#xa;pnlDisplay.setTransferHandler(transferHandler);"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
