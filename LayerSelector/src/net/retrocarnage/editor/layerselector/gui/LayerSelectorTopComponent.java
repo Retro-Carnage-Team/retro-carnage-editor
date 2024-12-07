@@ -103,8 +103,8 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlActions = new javax.swing.JPanel();
-        btnAddLayer = new javax.swing.JButton();
+        javax.swing.JPanel pnlActions = new javax.swing.JPanel();
+        javax.swing.JButton btnAddLayer = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -118,8 +118,6 @@ public final class LayerSelectorTopComponent extends TopComponent implements Exp
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddLayer;
-    private javax.swing.JPanel pnlActions;
     // End of variables declaration//GEN-END:variables
 
     private void btnAddLayerActionPerformed() {                                            
