@@ -3,7 +3,7 @@ package net.retrocarnage.editor.missionexporter.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionexporter.impl.mock.AssetServiceMock;
@@ -38,10 +38,7 @@ public class AttributionExporterTest {
     private AttributionExporter attributionExporter;
     private ExportFolderStructure exportFolderStructure;
     private Mission mission;
-    private Music song;
-    private Sprite sprite1;
-    private Sprite sprite2;
-
+        
     @Before
     public void setUp() throws IOException {
 
@@ -72,7 +69,7 @@ public class AttributionExporterTest {
         songAttribution.setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
         songAttribution.setWebsite("https://www.retro-carnage.net");
 
-        song = new Music();
+        final Music song = new Music();
         song.setId(MUSIC_ID);                       
         song.setAttributionData(songAttribution);
         song.setName("4 seasons");
@@ -82,7 +79,7 @@ public class AttributionExporterTest {
         sprite1Attribution.setAuthor("John Doe");
         sprite1Attribution.setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");        
         
-        sprite1 = new Sprite();
+        final Sprite sprite1 = new Sprite();
         sprite1.setId(ASSET_ID_1);
         sprite1.setAttributionData(sprite1Attribution);        
         sprite1.setName("Sprite 1");
@@ -92,7 +89,7 @@ public class AttributionExporterTest {
         sprite2Attribution.setAuthor("Jane Doe");
         sprite2Attribution.setWebsite("https://www.retro-carnage.net");
         
-        sprite2 = new Sprite();
+        final Sprite sprite2 = new Sprite();
         sprite2.setId(ASSET_ID_2);
         sprite2.setAttributionData(sprite2Attribution);
         sprite2.setName("Sprite 2");
@@ -117,7 +114,7 @@ public class AttributionExporterTest {
         assertEquals(true, attributionFile.getAbsolutePath().endsWith(".md"));
 
         try(var fis = new FileInputStream(attributionFile)) {
-            String mdContent = IOUtils.toString(fis, Charset.forName("utf-8"));
+            String mdContent = IOUtils.toString(fis, StandardCharsets.UTF_8);
             String attr1 = "* Sprite 1 by John Doe ([License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
             assertEquals(true, mdContent.contains(attr1));
 

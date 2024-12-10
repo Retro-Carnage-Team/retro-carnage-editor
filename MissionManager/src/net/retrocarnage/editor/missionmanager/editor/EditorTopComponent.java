@@ -22,7 +22,6 @@ import javazoom.jl.player.Player;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.core.gui.AbstractDocumentListener;
 import net.retrocarnage.editor.core.gui.IntDocumentFilter;
-import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Location;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
