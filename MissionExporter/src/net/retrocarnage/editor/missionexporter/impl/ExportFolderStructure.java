@@ -191,7 +191,7 @@ public class ExportFolderStructure {
             logger.log(
                     Level.FINE,
                     "Creating new {0} {1}",
-                    new Object[]{description, folderToCreate.toString()}
+                    new Object[]{description, folderToCreate}
             );
             if (!folderToCreate.mkdirs()) {
                 logger.log(

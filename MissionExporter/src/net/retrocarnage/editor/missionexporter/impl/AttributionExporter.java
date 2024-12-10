@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class AttributionExporter {
      */
     public void export() {
         final File mdFile = exportFolderStructure.getMissionAttributionFile();
-        try (final BufferedWriter writer = new BufferedWriter(new FileWriter(mdFile, Charset.forName("utf-8")))) {
+        try (final BufferedWriter writer = new BufferedWriter(new FileWriter(mdFile, StandardCharsets.UTF_8))) {
             for (String line : readTemplate()) {
                 writer.write(replacePlaceholders(line));
             }
@@ -97,7 +98,7 @@ public class AttributionExporter {
     private List<String> readTemplate() throws IOException {
         final List<String> result = new ArrayList<>();
         final InputStream templateStream = AttributionExporter.class.getResourceAsStream(TEMPLATE);
-        try (final var reader = new BufferedReader(new InputStreamReader(templateStream, Charset.forName("utf-8")))) {
+        try (final var reader = new BufferedReader(new InputStreamReader(templateStream, StandardCharsets.UTF_8))) {
             String line;
             while (null != (line = reader.readLine())) {
                 result.add(line);
@@ -161,9 +162,7 @@ public class AttributionExporter {
             }
         }
         final List<Sprite> result = new ArrayList<>(sprites.values());
-        Collections.sort(result, (t1, t2) -> {
-            return t1.getName().compareTo(t2.getName());
-        });
+        Collections.sort(result, (t1, t2) -> t1.getName().compareTo(t2.getName()));
         return result;
     }
 

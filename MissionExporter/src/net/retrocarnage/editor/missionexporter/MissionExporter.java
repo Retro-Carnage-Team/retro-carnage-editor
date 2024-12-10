@@ -22,18 +22,21 @@ public class MissionExporter {
     public void exportMission(final Mission mission) {
         final File exportFolder = selectExportFolder();
         if (null != exportFolder) {
-            lastExportFolder = exportFolder;
             runExport(mission, exportFolder);
         }
     }
 
-    private File selectExportFolder() {
+    private static File selectExportFolder() {
         final JFileChooser fileChooser = (null == lastExportFolder)
                 ? new JFileChooser()
                 : new JFileChooser(lastExportFolder);
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         final int dialogResult = fileChooser.showOpenDialog(WindowManager.getDefault().getMainWindow());
-        return (dialogResult == JFileChooser.APPROVE_OPTION) ? fileChooser.getSelectedFile() : null;
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            lastExportFolder = fileChooser.getSelectedFile();
+            return lastExportFolder;
+        }
+        return null;
     }
 
     private void runExport(final Mission mission, final File exportFolder) {

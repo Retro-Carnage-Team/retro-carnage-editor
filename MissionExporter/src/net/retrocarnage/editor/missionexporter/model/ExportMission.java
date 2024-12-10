@@ -122,7 +122,7 @@ public class ExportMission {
                 result.addAll(layer
                         .getEnemies()
                         .stream()
-                        .filter((e) -> e.getPosition().toRectangle().intersects(sectionRect))
+                        .filter(e -> e.getPosition().toRectangle().intersects(sectionRect))
                         .map(e -> new ExportEnemy(e, sectionRect))
                         .collect(Collectors.toList())
                 );
@@ -136,15 +136,15 @@ public class ExportMission {
                 result.addAll(layer
                         .getObstacles()
                         .stream()
-                        .filter((o) -> o.getPosition().toRectangle().intersects(sectionRect))
+                        .filter(o -> o.getPosition().toRectangle().intersects(sectionRect))
                         .map(o -> new ExportObstacle(o, sectionRect))
                         .collect(Collectors.toList())
                 );
                 result.addAll(layer
                         .getVisualAssets()
                         .stream()
-                        .filter((va) -> va.isObstacle())
-                        .filter((va) -> va.getPosition().toRectangle().intersects(sectionRect))
+                        .filter(va -> va.isObstacle())
+                        .filter(va -> va.getPosition().toRectangle().intersects(sectionRect))
                         .map(va  -> new ExportObstacle(va, sectionRect))
                         .collect(Collectors.toList())
                 );
@@ -157,7 +157,7 @@ public class ExportMission {
                     .stream()
                     .filter(l -> null != l.getGoal())
                     .map(l -> l.getGoal())
-                    .filter((g) -> g.getPosition().toRectangle().intersects(sectionRect))
+                    .filter(g  -> g.getPosition().toRectangle().intersects(sectionRect))
                     .findFirst();
 
             if (possibleGoal.isPresent()) {

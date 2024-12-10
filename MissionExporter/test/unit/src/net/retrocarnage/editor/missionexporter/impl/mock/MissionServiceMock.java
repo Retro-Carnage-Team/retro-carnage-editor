@@ -16,6 +16,8 @@ import net.retrocarnage.editor.model.Mission;
  */
 public class MissionServiceMock implements MissionService {
 
+    private static final String NOT_SUPPORTED = "Not supported yet.";
+    
     private final GamePlay gamePlay;
     private final Mission mission;
 
@@ -26,17 +28,17 @@ public class MissionServiceMock implements MissionService {
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public Collection<Mission> getMissions() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
@@ -46,17 +48,17 @@ public class MissionServiceMock implements MissionService {
 
     @Override
     public void addMission(Mission mission) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void updateMission(Mission mission) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void removeMission(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
@@ -66,22 +68,22 @@ public class MissionServiceMock implements MissionService {
 
     @Override
     public void saveGamePlay(GamePlay gameplay) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void initializeFolderStructure() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void loadMissions(InputStream in) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void saveMissions(OutputStream out) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
 }

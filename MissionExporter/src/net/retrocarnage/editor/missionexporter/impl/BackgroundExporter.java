@@ -113,9 +113,9 @@ final class BackgroundExporter extends SectionPathRunner {
         final File missionBackgroundFolder = exportFileStructure.getMissionBackgroundFolder();
         if (missionBackgroundFolder.exists()) {
             try {
-                Files.list(missionBackgroundFolder.toPath()).forEach((p) -> {
+                Files.list(missionBackgroundFolder.toPath()).forEach(p -> {
                     try {
-                        logger.log(Level.FINE, "Deleting old mission background {0}", p.toString());
+                        logger.log(Level.FINE, "Deleting old mission background {0}", p);
                         Files.delete(p);
                     } catch (IOException ex) {
                         logger.log(

@@ -158,8 +158,8 @@ class EditorController {
         assetService
                 .findAssets(TAG_CLIENT)
                 .stream()
-                .filter(a -> a instanceof Sprite)
-                .forEach(a -> clients.add((Sprite) a));
+                .filter(Sprite.class::isInstance)
+                .forEach(a -> clients.add((Sprite)a));
 
         final Sprite[] spriteArray = new Sprite[clients.size()];
         for (int m = 0; m < clients.size(); m++) {
@@ -175,7 +175,7 @@ class EditorController {
         assetService
                 .findAssets(null)
                 .stream()
-                .filter(a -> a instanceof Music)
+                .filter(Music.class::isInstance)
                 .forEach(a -> songs.add((Music) a));
 
         final Music[] musicArray = new Music[songs.size()];
@@ -210,13 +210,7 @@ class EditorController {
 
         @Override
         public Object getValueAt(int row, int column) {
-            final SelectableMission mission = viewModel.getMissions().get(row);
-            switch (column) {
-                case 0:
-                    return mission.getName();
-                default:
-                    return "";
-            }
+            return (column == 0) ? viewModel.getMissions().get(row).getName() : "";
         }
 
         @Override

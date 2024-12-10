@@ -17,12 +17,14 @@ import net.retrocarnage.editor.model.Sprite;
  */
 public class AssetServiceMock implements AssetService {
 
+    private static final String NOT_SUPPORTED = "Not supported yet.";
+    
     private final Map<String, Music> musicAssets = new HashMap<>();
     private final Map<String, Sprite> spriteAssets = new HashMap<>();
 
     @Override
     public Collection<Asset<?>> findAssets(String tagFilter) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
@@ -37,17 +39,17 @@ public class AssetServiceMock implements AssetService {
 
     @Override
     public void updateMusicInfo(Music music) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void updateMusicAsset(String id, InputStream in) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void removeMusic(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
@@ -62,32 +64,32 @@ public class AssetServiceMock implements AssetService {
 
     @Override
     public void updateSpriteInfo(Sprite sprite) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void updateSpriteAsset(String id, InputStream in) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void removeSprite(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public Collection<String> getSpriteTags() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void initializeFolderStructure() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     @Override
     public void loadAssets() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
 }
