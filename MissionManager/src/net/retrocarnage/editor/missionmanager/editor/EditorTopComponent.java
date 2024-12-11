@@ -99,40 +99,40 @@ public final class EditorTopComponent extends TopComponent {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlEditor = new javax.swing.JPanel();
-        pnlLocation = new javax.swing.JPanel();
+        javax.swing.JPanel pnlEditor = new javax.swing.JPanel();
+        javax.swing.JPanel pnlLocation = new javax.swing.JPanel();
         lblLocationImage = new LocationLabel();
-        pnlClient = new javax.swing.JPanel();
+        javax.swing.JPanel pnlClient = new javax.swing.JPanel();
         lblClientImage = new javax.swing.JLabel();
-        pnlInput = new javax.swing.JPanel();
-        lblId = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
-        lblName = new javax.swing.JLabel();
+        javax.swing.JPanel pnlInput = new javax.swing.JPanel();
+        javax.swing.JLabel lblId = new javax.swing.JLabel();
+        javax.swing.JTextField txtId = new javax.swing.JTextField();
+        javax.swing.JLabel lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        lblBriefing = new javax.swing.JLabel();
-        scrBriefing = new javax.swing.JScrollPane();
+        javax.swing.JLabel lblBriefing = new javax.swing.JLabel();
+        javax.swing.JScrollPane scrBriefing = new javax.swing.JScrollPane();
         txtBriefing = new javax.swing.JTextArea();
-        lblReward = new javax.swing.JLabel();
+        javax.swing.JLabel lblReward = new javax.swing.JLabel();
         txtReward = new javax.swing.JTextField();
-        lblMusic = new javax.swing.JLabel();
+        javax.swing.JLabel lblMusic = new javax.swing.JLabel();
         cmbMusic = new javax.swing.JComboBox<>();
         btnPlaySong = new javax.swing.JButton();
         btnStopSong = new javax.swing.JButton();
-        lblClient = new javax.swing.JLabel();
-        lblLocation = new javax.swing.JLabel();
+        javax.swing.JLabel lblClient = new javax.swing.JLabel();
+        javax.swing.JLabel lblLocation = new javax.swing.JLabel();
         cmbClient = new javax.swing.JComboBox<>();
-        pnlLocationInput = new javax.swing.JPanel();
+        javax.swing.JPanel pnlLocationInput = new javax.swing.JPanel();
         spnLocationX = new javax.swing.JSpinner();
         spnLocationY = new javax.swing.JSpinner();
-        lblLocationX = new javax.swing.JLabel();
-        lblLocationY = new javax.swing.JLabel();
-        scrTable = new javax.swing.JScrollPane();
-        tblMissions = new javax.swing.JTable();
-        pnlActions = new javax.swing.JPanel();
-        pnlActionsLeft = new javax.swing.JPanel();
-        btnNewMission = new javax.swing.JButton();
+        javax.swing.JLabel lblLocationX = new javax.swing.JLabel();
+        javax.swing.JLabel lblLocationY = new javax.swing.JLabel();
+        javax.swing.JScrollPane scrTable = new javax.swing.JScrollPane();
+        javax.swing.JTable tblMissions = new javax.swing.JTable();
+        javax.swing.JPanel pnlActions = new javax.swing.JPanel();
+        javax.swing.JPanel pnlActionsLeft = new javax.swing.JPanel();
+        javax.swing.JButton btnNewMission = new javax.swing.JButton();
         btnSaveMission = new javax.swing.JButton();
-        pnlActionsRight = new javax.swing.JPanel();
+        javax.swing.JPanel pnlActionsRight = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
@@ -246,14 +246,7 @@ public final class EditorTopComponent extends TopComponent {
         txtReward.setText(org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.txtReward.text")); // NOI18N
         txtReward.setEnabled(false);
         ((PlainDocument) txtReward.getDocument()).setDocumentFilter(new IntDocumentFilter());
-        txtReward.getDocument().addDocumentListener(new AbstractDocumentListener() {
-            @Override
-            protected void handleChange(final DocumentEvent de) {
-                try {
-                    model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));
-                } catch(NumberFormatException nfe) { }
-            }
-        });
+        txtReward.getDocument().addDocumentListener(new RewardDocumentListener());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -274,11 +267,7 @@ public final class EditorTopComponent extends TopComponent {
         cmbMusic.setModel(controller.getSongSelectionModel());
         cmbMusic.setEnabled(false);
         cmbMusic.setRenderer(new MusicCellRenderer());
-        cmbMusic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbMusicActionPerformed(evt);
-            }
-        });
+        cmbMusic.addActionListener(evt -> cmbMusicActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -289,11 +278,7 @@ public final class EditorTopComponent extends TopComponent {
 
         btnPlaySong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-start.png"))); // NOI18N
         btnPlaySong.setEnabled(false);
-        btnPlaySong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlaySongActionPerformed(evt);
-            }
-        });
+        btnPlaySong.addActionListener(evt -> btnPlaySongActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -302,11 +287,7 @@ public final class EditorTopComponent extends TopComponent {
 
         btnStopSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/retrocarnage/editor/missionmanager/editor/media-playback-stop.png"))); // NOI18N
         btnStopSong.setEnabled(false);
-        btnStopSong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopSongActionPerformed(evt);
-            }
-        });
+        btnStopSong.addActionListener(evt -> stopMusic());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
@@ -332,11 +313,7 @@ public final class EditorTopComponent extends TopComponent {
         cmbClient.setModel(controller.getClientSelectionModel());
         cmbClient.setEnabled(false);
         cmbClient.setRenderer(new SpriteCellRenderer());
-        cmbClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbClientActionPerformed(evt);
-            }
-        });
+        cmbClient.addActionListener(evt -> cmbClientActionPerformed());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -407,20 +384,12 @@ public final class EditorTopComponent extends TopComponent {
         pnlActionsLeft.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         org.openide.awt.Mnemonics.setLocalizedText(btnNewMission, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnNewMission.text")); // NOI18N
-        btnNewMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewMissionActionPerformed(evt);
-            }
-        });
+        btnNewMission.addActionListener(evt -> btnNewMissionActionPerformed());
         pnlActionsLeft.add(btnNewMission);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnSaveMission, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnSaveMission.text")); // NOI18N
         btnSaveMission.setEnabled(false);
-        btnSaveMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveMissionActionPerformed(evt);
-            }
-        });
+        btnSaveMission.addActionListener(evt -> controller.saveChanges());
         pnlActionsLeft.add(btnSaveMission);
 
         pnlActions.add(pnlActionsLeft, java.awt.BorderLayout.CENTER);
@@ -429,20 +398,12 @@ public final class EditorTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnCancel.text")); // NOI18N
         btnCancel.setEnabled(false);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
+        btnCancel.addActionListener(evt -> btnCancelActionPerformed());
         pnlActionsRight.add(btnCancel);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnDelete, org.openide.util.NbBundle.getMessage(EditorTopComponent.class, "EditorTopComponent.btnDelete.text")); // NOI18N
         btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
+        btnDelete.addActionListener(evt -> btnDeleteActionPerformed());
         pnlActionsRight.add(btnDelete);
 
         pnlActions.add(pnlActionsRight, java.awt.BorderLayout.EAST);
@@ -450,26 +411,39 @@ public final class EditorTopComponent extends TopComponent {
         add(pnlActions, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNewMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewMissionActionPerformed
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnPlaySong;
+    private javax.swing.JButton btnSaveMission;
+    private javax.swing.JButton btnStopSong;
+    private javax.swing.JComboBox<Sprite> cmbClient;
+    private javax.swing.JComboBox<Music> cmbMusic;
+    private javax.swing.JLabel lblClientImage;
+    private javax.swing.JLabel lblLocationImage;
+    private javax.swing.JSpinner spnLocationX;
+    private javax.swing.JSpinner spnLocationY;
+    private javax.swing.JTextArea txtBriefing;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtReward;
+    // End of variables declaration//GEN-END:variables
+
+    private void btnNewMissionActionPerformed() {                                              
         controller.addMission();
         stopMusic();
-    }//GEN-LAST:event_btnNewMissionActionPerformed
+    }                                             
 
-    private void btnSaveMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveMissionActionPerformed
-        controller.saveChanges();
-    }//GEN-LAST:event_btnSaveMissionActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed() {                                          
         controller.discardChanges();
         stopMusic();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }                                         
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteActionPerformed() {                                          
         controller.deleteMission();
         stopMusic();
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }                                         
 
-    private void cmbClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClientActionPerformed
+    private void cmbClientActionPerformed() {                                          
         ImageIcon newIcon = null;
         if (cmbClient.getSelectedItem() instanceof Sprite) {
             final Sprite sprite = (Sprite) cmbClient.getSelectedItem();
@@ -483,9 +457,9 @@ public final class EditorTopComponent extends TopComponent {
             newIcon = new ImageIcon(thumbnailPath);
         }
         lblClientImage.setIcon(newIcon);
-    }//GEN-LAST:event_cmbClientActionPerformed
+    }                                         
 
-    private void cmbMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMusicActionPerformed
+    private void cmbMusicActionPerformed() {                                         
         final boolean musicSelected = cmbMusic.getSelectedItem() instanceof Music;
         stopMusic();
 
@@ -494,9 +468,9 @@ public final class EditorTopComponent extends TopComponent {
             final Music music = (Music) cmbMusic.getSelectedItem();
             model.getSelectedMission().setSong(music.getId());
         }
-    }//GEN-LAST:event_cmbMusicActionPerformed
+    }                                        
 
-    private void btnPlaySongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaySongActionPerformed
+    private void btnPlaySongActionPerformed() {                                            
         stopMusic();
 
         final Music music = (Music) cmbMusic.getSelectedItem();
@@ -519,55 +493,8 @@ public final class EditorTopComponent extends TopComponent {
             btnPlaySong.setEnabled(false);
             btnStopSong.setEnabled(true);
         }
-    }//GEN-LAST:event_btnPlaySongActionPerformed
-
-    private void btnStopSongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSongActionPerformed
-        stopMusic();
-    }//GEN-LAST:event_btnStopSongActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnNewMission;
-    private javax.swing.JButton btnPlaySong;
-    private javax.swing.JButton btnSaveMission;
-    private javax.swing.JButton btnStopSong;
-    private javax.swing.JComboBox<Sprite> cmbClient;
-    private javax.swing.JComboBox<Music> cmbMusic;
-    private javax.swing.JLabel lblBriefing;
-    private javax.swing.JLabel lblClient;
-    private javax.swing.JLabel lblClientImage;
-    private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblLocation;
-    private javax.swing.JLabel lblLocationImage;
-    private javax.swing.JLabel lblLocationX;
-    private javax.swing.JLabel lblLocationY;
-    private javax.swing.JLabel lblMusic;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblReward;
-    private javax.swing.JPanel pnlActions;
-    private javax.swing.JPanel pnlActionsLeft;
-    private javax.swing.JPanel pnlActionsRight;
-    private javax.swing.JPanel pnlClient;
-    private javax.swing.JPanel pnlEditor;
-    private javax.swing.JPanel pnlInput;
-    private javax.swing.JPanel pnlLocation;
-    private javax.swing.JPanel pnlLocationInput;
-    private javax.swing.JScrollPane scrBriefing;
-    private javax.swing.JScrollPane scrTable;
-    private javax.swing.JSpinner spnLocationX;
-    private javax.swing.JSpinner spnLocationY;
-    private javax.swing.JTable tblMissions;
-    private javax.swing.JTextArea txtBriefing;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtReward;
-    // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void componentOpened() {
-    }
-
+    }                                           
+    
     @Override
     public void componentClosed() {
         stopMusic();
@@ -578,7 +505,7 @@ public final class EditorTopComponent extends TopComponent {
     }
 
     void readProperties(final java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     private void stopMusic() {
@@ -616,34 +543,35 @@ public final class EditorTopComponent extends TopComponent {
         txtName.setText(null == mission ? "" : mission.getName());
         txtBriefing.setText(null == mission ? "" : mission.getBriefing());
         txtReward.setText(null == mission ? "0" : Integer.toString(mission.getReward()));
-        cmbClient.setSelectedIndex(-1);
-        if (null != mission) {
-            for (int i = 0; i < cmbClient.getModel().getSize(); i++) {
-                if (cmbClient.getModel().getElementAt(i).getId().equals(mission.getClient())) {
-                    cmbClient.setSelectedIndex(i);
-                    break;
-                }
+        
+        spnLocationX.setValue(0);
+        spnLocationY.setValue(0);
+        cmbMusic.setSelectedIndex(-1);        
+        cmbClient.setSelectedIndex(-1);        
+        
+        if(null != mission) {
+            return;
+        }
+        
+        for (int i = 0; i < cmbClient.getModel().getSize(); i++) {
+            if (cmbClient.getModel().getElementAt(i).getId().equals(mission.getClient())) {
+                cmbClient.setSelectedIndex(i);
+                break;
             }
         }
-
-        if (null == mission || null == mission.getLocation()) {
-            spnLocationX.setValue(0);
-            spnLocationY.setValue(0);
-        } else {
+               
+        if (null != mission.getLocation()) {
             // Looks clumsy but prevents the location object from being changed by the spinner's listener
             int lat = mission.getLocation().getLatitude();
             int lng = mission.getLocation().getLongitude();
             spnLocationX.setValue(lng);
             spnLocationY.setValue(lat);
         }
-
-        cmbMusic.setSelectedIndex(-1);
-        if (null != mission) {
-            for (int i = 0; i < cmbMusic.getModel().getSize(); i++) {
-                if (cmbMusic.getModel().getElementAt(i).getId().equals(mission.getSong())) {
-                    cmbMusic.setSelectedIndex(i);
-                    break;
-                }
+       
+        for (int i = 0; i < cmbMusic.getModel().getSize(); i++) {
+            if (cmbMusic.getModel().getElementAt(i).getId().equals(mission.getSong())) {
+                cmbMusic.setSelectedIndex(i);
+                break;
             }
         }
     }
@@ -696,4 +624,16 @@ public final class EditorTopComponent extends TopComponent {
         }
 
     }
+    
+    private class RewardDocumentListener extends AbstractDocumentListener {
+        @Override
+        protected void handleChange(final DocumentEvent de) {
+            try {
+                model.getSelectedMission().setReward(Integer.parseInt(txtReward.getText()));
+            } catch(NumberFormatException nfe) { 
+                // invalid user input is expected. No need to log this.
+            }
+        }
+    }
+    
 }
