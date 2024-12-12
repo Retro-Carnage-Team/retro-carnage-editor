@@ -66,7 +66,7 @@ public class ExportRenderer {
 
         stopWatch.stop();
         final long duration = stopWatch.getTime(TimeUnit.MILLISECONDS);
-        logger.log(Level.FINE, String.format("Rendering the mission took %d ms", duration));
+        logger.log(Level.FINE, "Rendering the mission took {0} ms", duration);
     }
 
     private void paintContent(final Graphics2D g2d) {

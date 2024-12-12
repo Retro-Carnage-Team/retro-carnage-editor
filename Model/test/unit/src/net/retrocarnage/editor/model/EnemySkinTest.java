@@ -13,7 +13,7 @@ public class EnemySkinTest {
     @Test
     public void testFindByName() {
         final EnemySkin skin = EnemySkin.findByName("enemy-2");
-        assertEquals(EnemySkin.DigitalWithPistols.getName(), skin.getName());
+        assertEquals(EnemySkin.DIGITAL_WITH_PISTOL.getName(), skin.getName());
     }
 
 }

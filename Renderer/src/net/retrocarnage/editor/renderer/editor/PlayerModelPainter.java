@@ -34,7 +34,7 @@ class PlayerModelPainter {
     public void paintPlayerModel() {
         final BufferedImage playerModel = loadPlayerImage();
         if (null == playerModel) {
-            logger.log(Level.SEVERE, String.format("Player asset not found: %s", MODEL_PATH));
+            logger.log(Level.SEVERE, "Player asset not found: {0}", MODEL_PATH);
             return;
         }
 

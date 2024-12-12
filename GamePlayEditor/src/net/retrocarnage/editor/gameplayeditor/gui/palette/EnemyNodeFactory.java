@@ -28,9 +28,9 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
     @Override
     protected Node[] createNodesForKey(final EnemyType key) {
         switch (key) {
-            case Person:
+            case PERSON:
                 return new EnemyNode[]{new EnemyNode(buildPersonTemplate())};
-            case Landmine:
+            case LANDMINE:
                 return new EnemyNode[]{new EnemyNode(buildLandmineTemplate())};
             default:
                 return new EnemyNode[]{};
@@ -40,24 +40,24 @@ public class EnemyNodeFactory extends ChildFactory<EnemyType> {
     private static Enemy buildPersonTemplate() {
         final Enemy result = new Enemy();
         result.setActions(Collections.emptyList());
-        result.setDirection(Direction.Down.getValue());
+        result.setDirection(Direction.DOWN.getValue());
         result.setMovements(Collections.emptyList());
         result.setPosition(new Position(0, 0, Enemy.PERSON_WIDTH, Enemy.PERSON_HEIGHT));
         result.setSpeed(EnemySpeed.NORMAL.getSpeed());
-        result.setSkin(EnemySkin.GreyJumperWithRifle.getName());
-        result.setType(EnemyType.Person.getValue());
+        result.setSkin(EnemySkin.GREY_JUMPER_WITH_RIFLE.getName());
+        result.setType(EnemyType.PERSON.getValue());
         return result;
     }
 
     private static Enemy buildLandmineTemplate() {
         final Enemy result = new Enemy();
         result.setActions(Collections.emptyList());
-        result.setDirection(Direction.Down.getValue());
+        result.setDirection(Direction.DOWN.getValue());
         result.setMovements(Collections.emptyList());
         result.setPosition(new Position(0, 0, Enemy.LANDMINE_WIDTH, Enemy.LANDMINE_HEIGHT));
         result.setSpeed(EnemySpeed.NONE.getSpeed());
         result.setSkin("");
-        result.setType(EnemyType.Landmine.getValue());
+        result.setType(EnemyType.LANDMINE.getValue());
         return result;
     }
 

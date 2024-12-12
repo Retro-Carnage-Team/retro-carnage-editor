@@ -12,7 +12,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -160,7 +159,6 @@ public final class Enemy implements Selectable, Transferable {
             final ObjectMapper xmlMapper = new XmlMapper();
             return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Enemy.class);
         } catch (JsonProcessingException ex) {
-            logger.log(Level.SEVERE, "Failed to serialize / deserialize Enemy instance", ex);
             throw new IllegalArgumentException("Enemy can't be serialized / deserialized", ex);
         }
     }

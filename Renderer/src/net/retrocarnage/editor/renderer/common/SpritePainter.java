@@ -41,7 +41,7 @@ public class SpritePainter {
     public void paintSprites() {
         layers.stream()
                 .filter(l -> (l.isVisible()))
-                .map(l -> l.getVisualAssets())
+                .map(Layer::getVisualAssets)
                 .forEachOrdered(visualAssets -> {
                     for (int idx = visualAssets.size() - 1; idx >= 0; idx--) {
                         paintVisualAsset(visualAssets.get(idx));
@@ -60,7 +60,7 @@ public class SpritePainter {
             BufferedImage scaledImage = imageScaler.getScaledSpriteImage(sprite, scalingFactor);
             final Position scaledPosition = va.getPosition().scale(scalingFactor);
 
-            if (Rotation.None != va.getRotation()) {
+            if (Rotation.NONE != va.getRotation()) {
                 scaledImage = rotateImage(scaledImage, va.getRotation());
             }
 

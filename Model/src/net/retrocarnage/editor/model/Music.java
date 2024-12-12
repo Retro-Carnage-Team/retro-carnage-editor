@@ -3,7 +3,6 @@ package net.retrocarnage.editor.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +20,6 @@ public class Music extends Asset<Music> {
             final ObjectMapper xmlMapper = new XmlMapper();
             return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Music.class);
         } catch (JsonProcessingException ex) {
-            logger.log(Level.SEVERE, "Failed to serialize / deserialize Music instance", ex);
             throw new IllegalArgumentException("Music can't be serialized / deserialized", ex);
         }
     }

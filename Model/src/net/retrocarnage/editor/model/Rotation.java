@@ -7,10 +7,10 @@ package net.retrocarnage.editor.model;
  */
 public enum Rotation {
 
-    None(0),
-    OneQuarter(90),
-    TwoQuarters(180),
-    ThreeQuarters(270);
+    NONE(0),
+    ONE_QUARTER(90),
+    HALF(180),
+    THREE_QUARTERS(270);
 
     private final int degrees;
 
