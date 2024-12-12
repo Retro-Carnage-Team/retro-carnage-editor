@@ -8,14 +8,14 @@ package net.retrocarnage.editor.model;
  */
 public enum Direction {
         
-    Up("up"),
-    UpRight("up_right"),
-    Right("right"),
-    DownRight("down_right"),
-    Down("down"),
-    DownLeft("down_left"),
-    Left("left"),
-    UpLeft("up_left");
+    UP("up"),
+    UP_RIGHT("up_right"),
+    RIGHT("right"),
+    DOWN_RIGHT("down_right"),
+    DOWN("down"),
+    DOWN_LEFT("down_left"),
+    LEFT("left"),
+    UP_LEFT("up_left");
     
     private final String value;
     

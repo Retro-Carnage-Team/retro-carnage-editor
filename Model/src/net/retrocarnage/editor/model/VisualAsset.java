@@ -19,7 +19,7 @@ public final class VisualAsset implements Blocker {
     private String assetId;
     private boolean obstacle;
     private Position position;
-    private Rotation rotation = Rotation.None;
+    private Rotation rotation = Rotation.NONE;
     private boolean stopsBullets;
     private boolean stopsExplosives;
 

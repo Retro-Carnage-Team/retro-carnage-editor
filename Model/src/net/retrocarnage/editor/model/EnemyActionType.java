@@ -7,8 +7,8 @@ package net.retrocarnage.editor.model;
  */
 public enum EnemyActionType {
  
-    Bullet("bullet"),
-    Grenade("grenade");
+    BULLET("bullet"),
+    GRENADE("grenade");
     
     private final String value;
     

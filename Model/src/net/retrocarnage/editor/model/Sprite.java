@@ -134,11 +134,9 @@ public class Sprite extends Asset<Sprite> implements Transferable {
             try (final InputStream in = new BufferedInputStream(Files.newInputStream(filePath))) {
                 IOUtils.copy(in, out);
             } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read sprite thumbnail: {0}", filePath.toString());
                 throw new IOException("Failed to read sprite thumbnail " + filePath.toString(), ex);
             }
         } else {
-            logger.log(Level.WARNING, "Missing thumbnail: {0}", filePath.toString());
             throw new IOException("File not found: " + filePath.toString());
         }
     }

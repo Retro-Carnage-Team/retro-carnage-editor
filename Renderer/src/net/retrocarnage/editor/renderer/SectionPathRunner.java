@@ -14,7 +14,7 @@ public abstract class SectionPathRunner {
     private final List<Section> sections;
     private final int gameScreenWidth;
 
-    public SectionPathRunner(
+    protected SectionPathRunner(
             final SectionAnalysis sectionAnalysis,
             final List<Section> sections,
             final int gameScreenWidth) {

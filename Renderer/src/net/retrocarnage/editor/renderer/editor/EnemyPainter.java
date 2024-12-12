@@ -43,7 +43,7 @@ class EnemyPainter {
     public void paintEnemies() {
         layers.stream()
                 .filter(l -> (l.isVisible()))
-                .map(l -> l.getEnemies())
+                .map(Layer::getEnemies)
                 .forEachOrdered(enemies -> {
                     for (int idx = enemies.size() - 1; idx >= 0; idx--) {
                         paintEnemy(enemies.get(idx));
@@ -63,7 +63,7 @@ class EnemyPainter {
             return;
         }
 
-        final Position unscaledPosition = (enemy.getType() == EnemyType.Person.getValue())
+        final Position unscaledPosition = (enemy.getType() == EnemyType.PERSON.getValue())
                 ? applySkinOffset(EnemySkin.findByName(enemy.getSkin()), enemy.getPosition())
                 : enemy.getPosition();
         try {
@@ -111,16 +111,16 @@ class EnemyPainter {
     private Position applySkinOffset(final EnemySkin skin, final Position playerPosition) {
         final Position result = playerPosition.clone();
         switch (skin) {
-            case WoodlandWithSMG:
+            case WOODLAND_WITH_SMG:
                 result.setY(result.getY() - 30);
                 break;
-            case GreyJumperWithRifle:
+            case GREY_JUMPER_WITH_RIFLE:
                 result.setY(result.getY() - 30);
                 break;
-            case DigitalWithPistols:
+            case DIGITAL_WITH_PISTOL:
                 result.setY(result.getY() - 30);
                 break;
-            case WoodlandWithBulletproofVest:
+            case WOODLAND_WITH_BULLETPROOF_VEST:
                 result.setY(result.getY() - 30);
                 break;
             default:

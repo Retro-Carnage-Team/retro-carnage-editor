@@ -161,7 +161,6 @@ public class Mission {
             final ObjectMapper xmlMapper = new XmlMapper();
             return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Mission.class);
         } catch (JsonProcessingException ex) {
-            logger.log(Level.SEVERE, "Failed to serialize / deserialize Mission instance", ex);
             throw new IllegalArgumentException("Mission can't be serialized / deserialized", ex);
         }
     }

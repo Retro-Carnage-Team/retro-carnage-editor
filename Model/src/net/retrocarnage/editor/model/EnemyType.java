@@ -7,8 +7,8 @@ package net.retrocarnage.editor.model;
  */
 public enum EnemyType {
 
-    Person(0, "Person"),
-    Landmine(1, "Landmine");
+    PERSON(0, "Person"),
+    LANDMINE(1, "Landmine");
 
     private final String name;
     private final int value;

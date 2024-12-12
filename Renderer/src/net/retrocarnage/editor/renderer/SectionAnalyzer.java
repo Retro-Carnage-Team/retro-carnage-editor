@@ -12,7 +12,9 @@ public class SectionAnalyzer {
 
     public SectionAnalysis analyzeMapStructure(final List<Section> sections) {
         int mapHeight = 1;
-        int x = 0, minX = 0, maxX = 0;
+        int x = 0;
+        int minX = 0;
+        int maxX = 0;
         for (final Section s : sections) {
             if (null != s.getDirection()) {
                 switch (s.getDirection()) {

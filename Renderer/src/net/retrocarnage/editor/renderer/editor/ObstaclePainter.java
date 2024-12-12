@@ -35,7 +35,7 @@ class ObstaclePainter {
     public void paintObstacles() {
         layers.stream()
                 .filter(l -> (l.isVisible()))
-                .map(l -> l.getObstacles())
+                .map(Layer::getObstacles)
                 .forEachOrdered(obstacles -> {
                     for (int idx = obstacles.size() - 1; idx >= 0; idx--) {
                         paintObstacle(obstacles.get(idx));
@@ -43,7 +43,7 @@ class ObstaclePainter {
                 });
         layers.stream()
                 .filter(l -> (l.isVisible()))
-                .map(l -> l.getVisualAssets())
+                .map(Layer::getVisualAssets)
                 .forEachOrdered(visualAssets -> {
                     for (int idx = visualAssets.size() - 1; idx >= 0; idx--) {
                         final VisualAsset vAsset = visualAssets.get(idx);
