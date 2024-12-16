@@ -27,6 +27,20 @@ public final class VisualAsset implements Blocker {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
+    public VisualAsset(final VisualAsset other) {        
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
+        for(PropertyChangeListener p: other.propertyChangeSupport.getPropertyChangeListeners()) {
+            addPropertyChangeListener(p);
+        }
+        
+        setAssetId(other.assetId);
+        setBulletStopper(other.stopsBullets);
+        setExplosiveStopper(other.stopsExplosives);
+        setObstacle(other.obstacle);
+        setPosition(new Position(other.position));
+        setRotation(other.rotation);
+    }
+    
     public String getAssetId() {
         return assetId;
     }
@@ -115,18 +129,4 @@ public final class VisualAsset implements Blocker {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
     
-    public VisualAsset createCopy() {
-        final VisualAsset clone = new VisualAsset();
-        clone.setAssetId(assetId);
-        clone.setBulletStopper(stopsBullets);
-        clone.setExplosiveStopper(stopsExplosives);
-        clone.setObstacle(obstacle);
-        clone.setPosition(new Position(position));
-        clone.setRotation(rotation);
-        for(PropertyChangeListener p: propertyChangeSupport.getPropertyChangeListeners()) {
-            clone.addPropertyChangeListener(p);
-        }
-        return clone;
-    }
-
 }
