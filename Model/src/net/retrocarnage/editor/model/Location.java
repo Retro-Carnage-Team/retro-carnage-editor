@@ -43,11 +43,6 @@ public class Location {
     }
 
     @Override
-    public Location clone() {
-        return new Location(longitude, latitude);
-    }
-
-    @Override
     public String toString() {
         return "Location [latitude=" + latitude + ", longitude=" + longitude + "]";
     }

@@ -55,11 +55,7 @@ public final class EnemyNode extends AbstractNode {
 
     @Override
     public Transferable drag() throws IOException {
-        try {
-            return enemy.clone();
-        } catch (CloneNotSupportedException ex) {            
-            throw new IOException("Failed to clone enemy template", ex);
-        }
+        return new Enemy(enemy);
     }
 
     private String getLabel() {

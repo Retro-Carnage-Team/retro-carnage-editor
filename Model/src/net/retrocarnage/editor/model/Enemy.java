@@ -1,9 +1,6 @@
 package net.retrocarnage.editor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -12,7 +9,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Enemy is the serialized definition of an enemy.
@@ -29,9 +25,7 @@ public final class Enemy implements Selectable, Transferable {
     public static final String PROPERTY_DIRECTION = "Direction";
     public static final String PROPERTY_SKIN = "Skin";
     public static final String PROPERTY_SPEED = "Speed";
-    public static final String PROPERTY_TYPE = "Type";
-
-    private static final Logger logger = Logger.getLogger(Enemy.class.getName());
+    public static final String PROPERTY_TYPE = "Type";    
 
     private final PropertyChangeSupport propertyChangeSupport;
     private List<EnemyMovement> movements;
@@ -46,6 +40,35 @@ public final class Enemy implements Selectable, Transferable {
         this.movements = new ArrayList<>();
         this.actions = new ArrayList<>();
         this.propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+    
+    /**
+     * Copy constructor. Creates a copy of the given Enemy. Registered listeners will be registered at the copy, too.
+     * 
+     * @param other Enemy object to be copied
+     */
+    public Enemy(final Enemy other) {
+        this.movements = new ArrayList<>();
+        this.actions = new ArrayList<>();
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
+                
+        this.direction = other.direction;
+        this.position = new Position(other.position);
+        this.skin = other.skin;
+        this.speed = other.speed;
+        this.type = other.type;
+
+        for(PropertyChangeListener l: other.propertyChangeSupport.getPropertyChangeListeners()) {
+            this.propertyChangeSupport.addPropertyChangeListener(l);
+        }
+        
+        for(EnemyAction a: other.actions) {
+            actions.add(new EnemyAction(a));
+        }
+        
+        for(EnemyMovement m: other.movements) {
+            movements.add(new EnemyMovement(m));
+        }
     }
 
     public List<EnemyMovement> getMovements() {
@@ -145,22 +168,6 @@ public final class Enemy implements Selectable, Transferable {
             return this;
         }
         throw new UnsupportedFlavorException(df);
-    }
-
-    /**
-     * Creates a deep copy of this object.
-     *
-     * @return the copy
-     * @throws java.lang.CloneNotSupportedException
-     */
-    @Override
-    public Enemy clone() throws CloneNotSupportedException {
-        try {
-            final ObjectMapper xmlMapper = new XmlMapper();
-            return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Enemy.class);
-        } catch (JsonProcessingException ex) {
-            throw new IllegalArgumentException("Enemy can't be serialized / deserialized", ex);
-        }
     }
 
     public void addPropertyChangeListener(final PropertyChangeListener listener) {

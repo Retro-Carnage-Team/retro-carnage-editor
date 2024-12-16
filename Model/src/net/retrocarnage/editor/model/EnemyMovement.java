@@ -17,6 +17,16 @@ public class EnemyMovement {
         distanceX = x;
         distanceY = y;
     }
+    
+    /**
+     * Copy constructor. Creates a copy of the given EnemyMovement.
+     * 
+     * @param other EnemyMovement to be copied
+     */
+    public EnemyMovement(final EnemyMovement other) {
+        distanceX = other.distanceX;
+        distanceY = other.distanceY;
+    }
 
     public int getDistanceX() {
         return distanceX;

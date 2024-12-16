@@ -24,7 +24,7 @@ class LocationLabel extends JLabel {
         if (null == location) {
             this.location = null;
         } else {
-            this.location = location.clone();
+            this.location = new Location(location.getLongitude(), location.getLatitude());
         }
         repaint();
     }

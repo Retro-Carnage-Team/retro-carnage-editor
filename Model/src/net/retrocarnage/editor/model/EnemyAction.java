@@ -17,6 +17,18 @@ public class EnemyAction {
     private String action;
     private long delay;
 
+    public EnemyAction() {}
+    
+    /**
+     * Copy constructor. Creates a copy of the given EnemyAction
+     * 
+     * @param other EnemyAction to be copied
+     */
+    public EnemyAction(final EnemyAction other) {
+        action = other.action;
+        delay = other.delay;
+    }
+    
     public String getAction() {
         return action;
     }
