@@ -1,6 +1,5 @@
 package net.retrocarnage.editor.sectioneditor;
 
-import net.retrocarnage.editor.core.gui.ButtonCellEditor;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
@@ -62,11 +61,11 @@ public final class SectionEditorTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlPreview = new javax.swing.JPanel();
+        javax.swing.JPanel pnlPreview = new javax.swing.JPanel();
         lblMap = new SectionMapLabel();
-        scrSections = new javax.swing.JScrollPane();
-        tblSections = new javax.swing.JTable();
-        pnlActions = new javax.swing.JPanel();
+        javax.swing.JScrollPane scrSections = new javax.swing.JScrollPane();
+        javax.swing.JTable tblSections = new javax.swing.JTable();
+        javax.swing.JPanel pnlActions = new javax.swing.JPanel();
         btnAddSection = new javax.swing.JButton();
         btnRemoveSection = new javax.swing.JButton();
 
@@ -100,18 +99,26 @@ public final class SectionEditorTopComponent extends TopComponent {
         new net.retrocarnage.editor.core.gui.ButtonCellEditor(tblSections, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final int modelRow = Integer.valueOf(e.getActionCommand());
-                final Section section = controller.getSections().get(modelRow);
-                controller.increaseLengthOfSection(section);
+                try {
+                    final int modelRow = Integer.parseInt(e.getActionCommand());
+                    final Section section = controller.getSections().get(modelRow);
+                    controller.increaseLengthOfSection(section);
+                } catch(NumberFormatException nfe) {
+                    // Invalid user input is expected. We will ignore it.
+                }
             }
         }, 2);
 
         new net.retrocarnage.editor.core.gui.ButtonCellEditor(tblSections, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final int modelRow = Integer.valueOf(e.getActionCommand());
-                final Section section = controller.getSections().get(modelRow);
-                controller.decreaseLengthOfSection(section);
+                try {
+                    final int modelRow = Integer.parseInt(e.getActionCommand());
+                    final Section section = controller.getSections().get(modelRow);
+                    controller.decreaseLengthOfSection(section);
+                } catch(NumberFormatException nfe) {
+                    // Invalid user input is expected. We will ignore it.
+                }
             }
         }, 3);
 
@@ -132,47 +139,22 @@ public final class SectionEditorTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(btnAddSection, org.openide.util.NbBundle.getMessage(SectionEditorTopComponent.class, "SectionEditorTopComponent.btnAddSection.text")); // NOI18N
         btnAddSection.setEnabled(false);
-        btnAddSection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddSectionActionPerformed(evt);
-            }
-        });
+        btnAddSection.addActionListener(l -> controller.addSection());
         pnlActions.add(btnAddSection);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnRemoveSection, org.openide.util.NbBundle.getMessage(SectionEditorTopComponent.class, "SectionEditorTopComponent.btnRemoveSection.text")); // NOI18N
         btnRemoveSection.setEnabled(false);
-        btnRemoveSection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveSectionActionPerformed(evt);
-            }
-        });
+        btnRemoveSection.addActionListener(l -> controller.deleteSection());
         pnlActions.add(btnRemoveSection);
 
         add(pnlActions, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSectionActionPerformed
-        controller.addSection();
-    }//GEN-LAST:event_btnAddSectionActionPerformed
-
-    private void btnRemoveSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSectionActionPerformed
-        controller.deleteSection();
-    }//GEN-LAST:event_btnRemoveSectionActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSection;
     private javax.swing.JButton btnRemoveSection;
     private javax.swing.JLabel lblMap;
-    private javax.swing.JPanel pnlActions;
-    private javax.swing.JPanel pnlPreview;
-    private javax.swing.JScrollPane scrSections;
-    private javax.swing.JTable tblSections;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void componentOpened() {
-        // TODO add custom code on component opening
-    }
 
     @Override
     public void componentClosed() {
@@ -184,7 +166,7 @@ public final class SectionEditorTopComponent extends TopComponent {
     }
 
     void readProperties(java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
     private void handleControllerPropertyChanged(final PropertyChangeEvent pce) {
@@ -202,6 +184,8 @@ public final class SectionEditorTopComponent extends TopComponent {
             case SectionEditorController.PROPERTY_SECTIONS:
                 ((SectionMapLabel) lblMap).setSections((List<Section>) pce.getNewValue());
                 break;
+            default:
+                // Nothing to do here
         }
     }
 }

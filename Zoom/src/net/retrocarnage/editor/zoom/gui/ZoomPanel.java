@@ -1,5 +1,6 @@
 package net.retrocarnage.editor.zoom.gui;
 
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import net.retrocarnage.editor.zoom.ZoomService;
@@ -28,17 +29,13 @@ public final class ZoomPanel extends javax.swing.JPanel implements PropertyChang
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblZoomOut = new javax.swing.JLabel();
+        javax.swing.JLabel lblZoomOut = new javax.swing.JLabel();
         sldZoom = new javax.swing.JSlider();
-        lblZoomIn = new javax.swing.JLabel();
+        javax.swing.JLabel lblZoomIn = new javax.swing.JLabel();
         lblZoomLevel = new javax.swing.JLabel();
 
         org.openide.awt.Mnemonics.setLocalizedText(lblZoomOut, org.openide.util.NbBundle.getMessage(ZoomPanel.class, "ZoomPanel.lblZoomOut.text_1")); // NOI18N
-        lblZoomOut.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblZoomOutMouseClicked(evt);
-            }
-        });
+        lblZoomOut.addMouseListener(new ZoomOutMouseAdapter());
 
         sldZoom.setMajorTickSpacing(50);
         sldZoom.setMaximum(300);
@@ -47,18 +44,10 @@ public final class ZoomPanel extends javax.swing.JPanel implements PropertyChang
         sldZoom.setPaintTicks(true);
         sldZoom.setSnapToTicks(true);
         sldZoom.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 3, 1));
-        sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sldZoomStateChanged(evt);
-            }
-        });
+        sldZoom.addChangeListener(l -> handleSliderChanged());
 
         org.openide.awt.Mnemonics.setLocalizedText(lblZoomIn, org.openide.util.NbBundle.getMessage(ZoomPanel.class, "ZoomPanel.lblZoomIn.text_1")); // NOI18N
-        lblZoomIn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblZoomInMouseClicked(evt);
-            }
-        });
+        lblZoomIn.addMouseListener(new ZoomInMouseAdapter());
 
         org.openide.awt.Mnemonics.setLocalizedText(lblZoomLevel, org.openide.util.NbBundle.getMessage(ZoomPanel.class, "ZoomPanel.lblZoomLevel.text_1")); // NOI18N
 
@@ -91,30 +80,18 @@ public final class ZoomPanel extends javax.swing.JPanel implements PropertyChang
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblZoomOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblZoomOutMouseClicked
-        final ZoomServiceImpl service = (ZoomServiceImpl) ZoomService.getDefault();
-        service.setZoomLevel(service.getZoomLevel() - 10);
-    }//GEN-LAST:event_lblZoomOutMouseClicked
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblZoomLevel;
+    private javax.swing.JSlider sldZoom;
+    // End of variables declaration//GEN-END:variables
 
-    private void lblZoomInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblZoomInMouseClicked
-        final ZoomServiceImpl service = (ZoomServiceImpl) ZoomService.getDefault();
-        service.setZoomLevel(service.getZoomLevel() + 10);
-    }//GEN-LAST:event_lblZoomInMouseClicked
-
-    private void sldZoomStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void handleSliderChanged() {                                     
         if (!sldZoom.getValueIsAdjusting()) {
             final ZoomServiceImpl service = (ZoomServiceImpl) ZoomService.getDefault();
             service.setZoomLevel(sldZoom.getValue());
         }
-    }//GEN-LAST:event_sldZoomStateChanged
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblZoomIn;
-    private javax.swing.JLabel lblZoomLevel;
-    private javax.swing.JLabel lblZoomOut;
-    private javax.swing.JSlider sldZoom;
-    // End of variables declaration//GEN-END:variables
-
+    }       
+        
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
         if (ZoomService.PROPERTY_ZOOM.equals(pce.getPropertyName())) {
@@ -122,4 +99,21 @@ public final class ZoomPanel extends javax.swing.JPanel implements PropertyChang
             lblZoomLevel.setText(Integer.toString((int) pce.getNewValue()) + " %");
         }
     }
+    
+    private class ZoomOutMouseAdapter extends MouseAdapter {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            final ZoomServiceImpl service = (ZoomServiceImpl) ZoomService.getDefault();
+            service.setZoomLevel(service.getZoomLevel() - 10);
+        }
+    }
+    
+    private class ZoomInMouseAdapter extends MouseAdapter {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            final ZoomServiceImpl service = (ZoomServiceImpl) ZoomService.getDefault();
+            service.setZoomLevel(service.getZoomLevel() + 10);
+        }
+    }
+    
 }
