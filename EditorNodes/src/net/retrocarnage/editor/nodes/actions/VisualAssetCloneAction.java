@@ -31,7 +31,7 @@ public class VisualAssetCloneAction extends AbstractAction {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final VisualAsset clone = visualAsset.clone();
+        final VisualAsset clone = visualAsset.createCopy();
         layer.getVisualAssets().add(0, clone);
         GamePlayEditorProxyFactory
                 .buildGamePlayEditorProxy()

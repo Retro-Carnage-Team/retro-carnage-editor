@@ -30,6 +30,13 @@ public class Position {
         this.height = height;
     }
 
+    public Position(final Position other) {
+        this.x = other.x;
+        this.y = other.y;
+        this.width = other.width;
+        this.height = other.height;
+    }
+    
     public int getX() {
         return x;
     }
@@ -61,12 +68,7 @@ public class Position {
     public void setHeight(int height) {
         this.height = height;
     }
-
-    @Override
-    public Position clone() {
-        return new Position(x, y, width, height);
-    }
-
+    
     public java.awt.Rectangle toRectangle() {
         return new java.awt.Rectangle(x, y, width, height);
     }

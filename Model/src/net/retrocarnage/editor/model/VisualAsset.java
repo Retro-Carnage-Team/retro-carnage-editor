@@ -114,13 +114,18 @@ public final class VisualAsset implements Blocker {
     public void removePropertyChangeListener(final PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
-    @Override
-    public VisualAsset clone() {
+    
+    public VisualAsset createCopy() {
         final VisualAsset clone = new VisualAsset();
         clone.setAssetId(assetId);
-        clone.setPosition(position.clone());
+        clone.setBulletStopper(stopsBullets);
+        clone.setExplosiveStopper(stopsExplosives);
+        clone.setObstacle(obstacle);
+        clone.setPosition(new Position(position));
         clone.setRotation(rotation);
+        for(PropertyChangeListener p: propertyChangeSupport.getPropertyChangeListeners()) {
+            clone.addPropertyChangeListener(p);
+        }
         return clone;
     }
 

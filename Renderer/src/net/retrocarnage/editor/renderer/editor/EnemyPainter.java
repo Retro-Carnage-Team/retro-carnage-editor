@@ -109,7 +109,7 @@ class EnemyPainter {
     }
 
     private Position applySkinOffset(final EnemySkin skin, final Position playerPosition) {
-        final Position result = playerPosition.clone();
+        final Position result = new Position(playerPosition);
         switch (skin) {
             case WOODLAND_WITH_SMG:
                 result.setY(result.getY() - 30);

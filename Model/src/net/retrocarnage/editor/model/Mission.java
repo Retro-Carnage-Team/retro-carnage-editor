@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A mission for Retro-Carnage.
@@ -15,9 +13,7 @@ import java.util.logging.Logger;
  * @author Thomas Werner
  * @see https://github.com/huddeldaddel/retro-carnage/blob/main/src/assets/mission.go
  */
-public class Mission {
-
-    private static final Logger logger = Logger.getLogger(Mission.class.getName());
+public class Mission {    
 
     private String id;
     private String briefing;
@@ -125,7 +121,7 @@ public class Mission {
         partialCopy.setClient(getClient());
         partialCopy.setId(getId());
         if (null != getLocation()) {
-            partialCopy.setLocation(getLocation().clone());
+            partialCopy.setLocation(new Location(location.getLongitude(), location.getLatitude()));
         }
         partialCopy.setName(getName());
         partialCopy.setReward(getReward());
