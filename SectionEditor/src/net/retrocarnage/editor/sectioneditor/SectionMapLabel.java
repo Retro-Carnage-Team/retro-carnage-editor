@@ -16,8 +16,8 @@ import net.retrocarnage.editor.renderer.minimap.MinimapRenderer;
  */
 class SectionMapLabel extends JLabel {
 
-    private static final int borderWidth = 10;
-    private List<Section> sections;
+    private static final int BORDER_WIDTH = 10;
+    private transient List<Section> sections;
 
     /**
      * Updates the sections to be drawn.
@@ -42,9 +42,9 @@ class SectionMapLabel extends JLabel {
             final Graphics2D g2d = (Graphics2D) g;
 
             final MinimapRenderer renderer = new MinimapRenderer(sections);
-            final Dimension mapSize = renderer.getSize(getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
+            final Dimension mapSize = renderer.getSize(getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2);
             g2d.translate((getWidth() - mapSize.getWidth()) / 2, (getHeight() - mapSize.getHeight()) / 2);
-            renderer.render(g2d, getWidth() - borderWidth * 2, getHeight() - borderWidth * 2);
+            renderer.render(g2d, getWidth() - BORDER_WIDTH * 2, getHeight() - BORDER_WIDTH * 2);
         }
     }
 

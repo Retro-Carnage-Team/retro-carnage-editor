@@ -53,9 +53,11 @@
           <ResourceString bundle="net/retrocarnage/editor/zoom/gui/Bundle.properties" key="ZoomPanel.lblZoomOut.text_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblZoomOutMouseClicked"/>
-      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="lblZoomOut.addMouseListener(new ZoomOutMouseAdapter());&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JSlider" name="sldZoom">
       <Properties>
@@ -71,9 +73,9 @@
           </Border>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldZoomStateChanged"/>
-      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="sldZoom.addChangeListener(l -&gt; handleSliderChanged());&#xa;"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblZoomIn">
       <Properties>
@@ -81,9 +83,11 @@
           <ResourceString bundle="net/retrocarnage/editor/zoom/gui/Bundle.properties" key="ZoomPanel.lblZoomIn.text_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblZoomInMouseClicked"/>
-      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="lblZoomIn.addMouseListener(new ZoomInMouseAdapter());&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblZoomLevel">
       <Properties>
