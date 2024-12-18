@@ -40,8 +40,7 @@ public class AssetServiceImpl implements AssetService {
     private static final String SPRITE_FOLDER_NAME = "sprites";
     private static final String THUMBNAIL_FOLDER_NAME = "thumbnails";
     private static final int THUMBNAIL_SIZE = 100;                                                                      // pixels width & height
-    private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());
-    private static final String NO_ASSET_FOR_ID = "No such asset for given id: {0}";
+    private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());    
 
     private final ApplicationFolderService appFolderService;
     private final AssetDatabase assets;
