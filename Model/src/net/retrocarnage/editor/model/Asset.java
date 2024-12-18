@@ -10,8 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import org.apache.commons.io.IOUtils;
 
@@ -20,9 +18,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author Thomas Werner
  */
-public abstract class Asset<T extends Asset<?>> {
-
-    private static final Logger logger = Logger.getLogger(Asset.class.getName());
+public abstract class Asset<T extends Asset<?>> {    
 
     protected final ApplicationFolderService appFolderService;
     private String id;
