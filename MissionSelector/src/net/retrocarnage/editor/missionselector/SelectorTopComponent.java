@@ -50,7 +50,7 @@ public final class SelectorTopComponent extends TopComponent implements Explorer
         initComponents();
 
         final ListView view = new ListView();
-        view.setDefaultProcessor((ae) -> {
+        view.setDefaultProcessor(ae -> {
             if (ae.getSource() instanceof MissionNode) {
                 new MissionEditAction(((MissionNode) ae.getSource()).getMission()).actionPerformed(ae);
             }
@@ -95,7 +95,7 @@ public final class SelectorTopComponent extends TopComponent implements Explorer
     }
 
     void readProperties(java.util.Properties p) {
-        // String version = p.getProperty("version");
+        p.getProperty("version");
     }
 
 }

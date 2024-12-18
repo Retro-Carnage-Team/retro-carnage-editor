@@ -106,11 +106,9 @@ public abstract class Asset<T extends Asset<?>> {
             try (final InputStream in = new BufferedInputStream(Files.newInputStream(filePath))) {
                 IOUtils.copy(in, out);
             } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read asset: {0}", filePath.toString());
                 throw new IOException("Failed to read asset " + filePath.toString(), ex);
             }
         } else {
-            logger.log(Level.WARNING, "Missing asset: {0}", filePath.toString());
             throw new IOException("File not found: " + filePath.toString());
         }
     }

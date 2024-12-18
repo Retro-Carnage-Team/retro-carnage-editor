@@ -8,8 +8,6 @@ import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import org.apache.commons.io.FilenameUtils;
 
-// TODO: This class builds various file names based on user input.
-//       We should make sure that the user only used non critical characters.
 /**
  * Holds information about the target file structure of a mission export.
  *
