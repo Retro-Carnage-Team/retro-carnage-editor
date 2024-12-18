@@ -63,7 +63,7 @@ public final class GamePlayDisplay extends JPanel {
             final EditorRenderer renderer = new EditorRenderer(gamePlay);
             gamePlaySize = renderer.getSize();
             container.revalidate();
-            repaint();                                                                                                  // TODO: Check: is this necessary?
+            repaint();
         }
     }
 

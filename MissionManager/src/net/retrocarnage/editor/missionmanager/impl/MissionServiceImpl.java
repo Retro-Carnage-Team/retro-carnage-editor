@@ -73,7 +73,7 @@ public final class MissionServiceImpl implements MissionService {
     @Override
     public void initializeFolderStructure() {
         if (!missionFolder.toFile().exists() && !missionFolder.toFile().mkdir()) {
-            logger.log(Level.WARNING, "Failed to create folder for missions: {0}", missionFolder.toString());
+            logger.log(Level.WARNING, "Failed to create folder for missions: {0}", missionFolder);
         }
     }
 

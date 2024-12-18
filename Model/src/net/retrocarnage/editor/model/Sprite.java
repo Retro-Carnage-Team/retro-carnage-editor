@@ -152,7 +152,6 @@ public class Sprite extends Asset<Sprite> implements Transferable {
             final ObjectMapper xmlMapper = new XmlMapper();
             return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Sprite.class);
         } catch (JsonProcessingException ex) {
-            logger.log(Level.SEVERE, "Failed to serialize / deserialize Sprite instance", ex);
             throw new IllegalArgumentException("Sprite can't be serialized / deserialized", ex);
         }
     }

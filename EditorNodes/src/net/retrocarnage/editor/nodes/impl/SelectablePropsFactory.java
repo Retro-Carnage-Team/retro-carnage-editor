@@ -174,9 +174,15 @@ public final class SelectablePropsFactory {
 
             @Override
             public void setValue(final Integer newValue) {
-                if (!readonly) {
-                    final Position old = selectable.getPosition();
-                    selectable.setPosition(new Position(old.getX(), old.getY(), old.getWidth(), newValue));
+                if (!readonly) {                    
+                    selectable.setPosition(
+                        new Position(
+                            selectable.getPosition().getX(), 
+                            selectable.getPosition().getY(), 
+                            selectable.getPosition().getWidth(), 
+                            newValue
+                        )
+                    );
                     GamePlayEditorProxyFactory
                             .buildGamePlayEditorProxy()
                             .getLookup()
