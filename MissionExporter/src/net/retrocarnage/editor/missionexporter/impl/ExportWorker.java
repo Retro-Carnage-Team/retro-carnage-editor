@@ -20,12 +20,8 @@ public class ExportWorker extends SwingWorker<Void, Integer> {
 
     public ExportWorker(final Mission mission, final File exportFolder) {
         exportFolderStructure = new ExportFolderStructure(exportFolder, mission);
-        try {
-            if (null != mission) {
-                this.mission = mission.clone();
-            }
-        } catch (CloneNotSupportedException ex) {
-            logger.log(Level.WARNING, "Failed to create working copy of mission", ex);
+        if (null != mission) {
+            this.mission = new Mission(mission);
         }
     }
 
