@@ -76,8 +76,14 @@ public final class SelectablePropsFactory {
             @Override
             public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    final Position old = selectable.getPosition();
-                    selectable.setPosition(new Position(newValue, old.getY(), old.getWidth(), old.getHeight()));
+                    selectable.setPosition(
+                            new Position(
+                                    newValue, 
+                                    selectable.getPosition().getY(), 
+                                    selectable.getPosition().getWidth(), 
+                                    selectable.getPosition().getHeight()
+                            )
+                    );
                     GamePlayEditorProxyFactory
                             .buildGamePlayEditorProxy()
                             .getLookup()
@@ -109,8 +115,14 @@ public final class SelectablePropsFactory {
             @Override
             public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    final Position old = selectable.getPosition();
-                    selectable.setPosition(new Position(old.getX(), newValue, old.getWidth(), old.getHeight()));
+                    selectable.setPosition(
+                            new Position(
+                                    selectable.getPosition().getX(), 
+                                    newValue, 
+                                    selectable.getPosition().getWidth(), 
+                                    selectable.getPosition().getHeight()
+                            )
+                    );
                     GamePlayEditorProxyFactory
                             .buildGamePlayEditorProxy()
                             .getLookup()
@@ -142,8 +154,14 @@ public final class SelectablePropsFactory {
             @Override
             public void setValue(final Integer newValue) {
                 if (!readonly) {
-                    final Position old = selectable.getPosition();
-                    selectable.setPosition(new Position(old.getX(), old.getY(), newValue, old.getHeight()));
+                    selectable.setPosition(
+                            new Position(
+                                    selectable.getPosition().getX(), 
+                                    selectable.getPosition().getY(), 
+                                    newValue, 
+                                    selectable.getPosition().getHeight()
+                            )
+                    );
                     GamePlayEditorProxyFactory
                             .buildGamePlayEditorProxy()
                             .getLookup()
@@ -176,12 +194,12 @@ public final class SelectablePropsFactory {
             public void setValue(final Integer newValue) {
                 if (!readonly) {                    
                     selectable.setPosition(
-                        new Position(
-                            selectable.getPosition().getX(), 
-                            selectable.getPosition().getY(), 
-                            selectable.getPosition().getWidth(), 
-                            newValue
-                        )
+                            new Position(
+                                    selectable.getPosition().getX(), 
+                                    selectable.getPosition().getY(), 
+                                    selectable.getPosition().getWidth(), 
+                                    newValue
+                            )
                     );
                     GamePlayEditorProxyFactory
                             .buildGamePlayEditorProxy()

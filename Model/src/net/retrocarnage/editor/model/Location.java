@@ -25,6 +25,18 @@ public class Location {
         longitude = lng;
         latitude = lat;
     }
+    
+    /**
+     * Copy constructor that creates a copy of the given Location.
+     * 
+     * @param other Location to be copied
+     */
+    public Location(final Location other) {
+        if(null != other) {
+            longitude = other.longitude;
+            latitude = other.latitude;
+        }
+    }
 
     public int getLatitude() {
         return latitude;

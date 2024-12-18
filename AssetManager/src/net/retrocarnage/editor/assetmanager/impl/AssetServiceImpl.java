@@ -26,7 +26,6 @@ import net.retrocarnage.editor.model.Asset;
 import net.retrocarnage.editor.model.Music;
 import net.retrocarnage.editor.model.Sprite;
 import org.apache.commons.io.IOUtils;
-import org.openide.util.Exceptions;
 
 /**
  * Implementation of the AssetService.
@@ -41,8 +40,7 @@ public class AssetServiceImpl implements AssetService {
     private static final String SPRITE_FOLDER_NAME = "sprites";
     private static final String THUMBNAIL_FOLDER_NAME = "thumbnails";
     private static final int THUMBNAIL_SIZE = 100;                                                                      // pixels width & height
-    private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());
-    private static final String NO_ASSET_FOR_ID = "No such asset for given id: {0}";
+    private static final Logger logger = Logger.getLogger(AssetServiceImpl.class.getName());    
 
     private final ApplicationFolderService appFolderService;
     private final AssetDatabase assets;
@@ -148,8 +146,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updateMusicInfo(final Music music) {
         if (null == getMusic(music.getId())) {
-            logger.log(Level.WARNING, NO_ASSET_FOR_ID, music.getId());
-            throw new IllegalArgumentException("No such asset for given id: " + music.getId());
+            throw new IllegalArgumentException(String.format("No such asset for given id: %s", music.getId()));
         }
         assets.getMusic().put(music.getId(), music.deepCopy());
         saveAssets();
@@ -204,9 +201,8 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void updateSpriteInfo(final Sprite sprite) {
-        if (null == getSprite(sprite.getId())) {
-            logger.log(Level.WARNING, NO_ASSET_FOR_ID, sprite.getId());
-            throw new IllegalArgumentException("No such asset for given id: " + sprite.getId());
+        if (null == getSprite(sprite.getId())) {            
+            throw new IllegalArgumentException(String.format("No such asset for given id %s", sprite.getId()));
         }
         assets.getSprites().put(sprite.getId(), sprite.deepCopy());
         saveAssets();
@@ -215,9 +211,8 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updateSpriteAsset(final String id, final InputStream in) throws IOException {
         final Sprite sprite = getSprite(id);
-        if (null == sprite) {
-            logger.log(Level.WARNING, NO_ASSET_FOR_ID, id);
-            throw new IllegalArgumentException("No such asset for given id: " + id);
+        if (null == sprite) {            
+            throw new IllegalArgumentException(String.format("No such asset for given id %s", id));
         }
 
         final Path appFolderPath = appFolderService.getApplicationFolder();
@@ -274,8 +269,7 @@ public class AssetServiceImpl implements AssetService {
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(musicPath))) {
             IOUtils.copy(in, out);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to add music asset: {0}", musicPath);
-            throw new IOException("Failed to add music asset " + musicPath.toString(), ex);
+            throw new IOException(String.format("Failed to add music asset %s", musicPath.toString()), ex);
         }
     }
 
@@ -301,15 +295,13 @@ public class AssetServiceImpl implements AssetService {
             outputImage.getGraphics().drawImage(sourceImage, 0, 0, null);
             ImageIO.write(outputImage, "PNG", out);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to add sprite asset: {0}", spritePath);
-            throw new IOException("Failed to add sprite asset " + spritePath.toString(), ex);
+            throw new IOException(String.format("Failed to add sprite asset %s", spritePath.toString()), ex);
         }
 
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(thumbnailPath))) {
             ImageIO.write(getThumbnailImage(spritePath.toFile()), "PNG", out);
-        } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to create sprite thumbnail: {0}", spritePath);
-            throw new IOException("Failed to create sprite thumbnail " + spritePath.toString(), ex);
+        } catch (IOException ex) {            
+            throw new IOException(String.format("Failed to create sprite thumbnail %s", spritePath.toString()), ex);
         }
     }
 

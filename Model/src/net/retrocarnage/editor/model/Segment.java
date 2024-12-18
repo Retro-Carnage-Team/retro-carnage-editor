@@ -23,6 +23,29 @@ public class Segment {
         enemies = new ArrayList<>();
         obstacles = new ArrayList<>();
     }
+    
+    /**
+     * Copy constructor that creates an exact copy of the given Sgement.
+     * 
+     * @param other Segment to be copied
+     */
+    public Segment(final Segment other) {
+        direction = other.direction;
+        goal = new Rectangle(goal);
+        
+        backgrounds = new ArrayList<>();
+        backgrounds.addAll(other.backgrounds);
+        
+        enemies = new ArrayList<>();
+        for(Enemy e: other.enemies) {
+            enemies.add(new Enemy(e));
+        }
+        
+        obstacles = new ArrayList<>();
+        for(Obstacle o: other.obstacles) {
+            obstacles.add(new Obstacle(o));
+        }
+    }
 
     public List<String> getBackgrounds() {
         return backgrounds;

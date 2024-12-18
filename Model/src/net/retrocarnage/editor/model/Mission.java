@@ -1,9 +1,6 @@
 package net.retrocarnage.editor.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +23,19 @@ public class Mission {
 
     public Mission() {
         segments = new ArrayList<>();
+    }
+    
+    /**
+     * This is a copy constructor that returns a copy of the given Mission.
+     * 
+     * @param other Mission to be copied
+     */
+    public Mission(final Mission other) {        
+        applyPartialChangesOfMetaData(other);
+        segments = new ArrayList<>();
+        for(Segment s: other.getSegments()) {
+            segments.add(new Segment(s));
+        }
     }
 
     public String getId() {
@@ -143,22 +153,6 @@ public class Mission {
         setName(otherMission.getName());
         setReward(otherMission.getReward());
         setSong(otherMission.getSong());
-    }
-
-    /**
-     * Creates a deep copy of this object.
-     *
-     * @return the copy
-     * @throws java.lang.CloneNotSupportedException
-     */
-    @Override
-    public Mission clone() throws CloneNotSupportedException {
-        try {
-            final ObjectMapper xmlMapper = new XmlMapper();
-            return xmlMapper.readValue(xmlMapper.writeValueAsString(this), Mission.class);
-        } catch (JsonProcessingException ex) {
-            throw new IllegalArgumentException("Mission can't be serialized / deserialized", ex);
-        }
     }
 
 }
