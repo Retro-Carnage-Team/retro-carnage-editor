@@ -27,6 +27,20 @@ public final class Obstacle implements Blocker, Transferable {
     public Obstacle() {
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
+    
+    /**
+     * Copy constructor. The new instance will be initialized with the values of the given Obstacle. 
+     * ChangeListeners will not be registered with the new instance.
+     * 
+     * @param other Obstacle to be copied
+     */
+    public Obstacle(final Obstacle other) {
+        propertyChangeSupport = new PropertyChangeSupport(this);
+        
+        stopsBullets = other.stopsBullets;
+        stopsExplosives = other.stopsExplosives;
+        position = new Position(other.position);
+    }
 
     @Override
     public boolean isBulletStopper() {

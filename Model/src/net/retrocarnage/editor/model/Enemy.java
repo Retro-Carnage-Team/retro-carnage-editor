@@ -43,7 +43,8 @@ public final class Enemy implements Selectable, Transferable {
     }
     
     /**
-     * Copy constructor. Creates a copy of the given Enemy. Registered listeners will be registered at the copy, too.
+     * Copy constructor. Creates a copy of the given Enemy.
+     * ChangeListeners will not be registered with the new instance.
      * 
      * @param other Enemy object to be copied
      */
@@ -58,10 +59,6 @@ public final class Enemy implements Selectable, Transferable {
         this.speed = other.speed;
         this.type = other.type;
 
-        for(PropertyChangeListener l: other.propertyChangeSupport.getPropertyChangeListeners()) {
-            this.propertyChangeSupport.addPropertyChangeListener(l);
-        }
-        
         for(EnemyAction a: other.actions) {
             actions.add(new EnemyAction(a));
         }
