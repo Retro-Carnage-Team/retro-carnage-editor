@@ -197,7 +197,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtName.getDocument().addDocumentListener(new AbstractDocumentListener() {&#xa;    @Override&#xa;    protected void handleChange(DocumentEvent de) {&#xa;        model.getSelectedMission().setName(txtName.getText());&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtName.getDocument().addDocumentListener(new AbstractDocumentListener() {&#xa;    @Override&#xa;    protected void handleChange(DocumentEvent de) {&#xa;        model.getSelectedMission().setName(txtName.getText());&#xa;    }&#xa;});&#xa;&#xa;final Document styledDoc = txtName.getDocument();&#xa;if (styledDoc instanceof AbstractDocument) {&#xa;    final AbstractDocument doc = (AbstractDocument)styledDoc;&#xa;    doc.setDocumentFilter(new SafeFilenameFilter());&#xa;}"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

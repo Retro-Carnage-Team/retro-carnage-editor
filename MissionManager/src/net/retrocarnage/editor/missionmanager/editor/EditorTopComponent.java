@@ -16,12 +16,15 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import net.retrocarnage.editor.core.ApplicationFolderService;
 import net.retrocarnage.editor.core.gui.AbstractDocumentListener;
 import net.retrocarnage.editor.core.gui.IntDocumentFilter;
+import net.retrocarnage.editor.core.gui.SafeFilenameFilter;
 import net.retrocarnage.editor.model.Location;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
@@ -194,6 +197,12 @@ public final class EditorTopComponent extends TopComponent {
                 model.getSelectedMission().setName(txtName.getText());
             }
         });
+
+        final Document styledDoc = txtName.getDocument();
+        if (styledDoc instanceof AbstractDocument) {
+            final AbstractDocument doc = (AbstractDocument)styledDoc;
+            doc.setDocumentFilter(new SafeFilenameFilter());
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
