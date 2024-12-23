@@ -12,6 +12,10 @@ public class FileNameChecker {
    
     private static final String SAFE_FILENAME_PATTERN = "^[\\w\\s-\\.]+$";
     
+    private FileNameChecker() {
+        // No need to create instances of this class
+    }
+    
     /**
      * Checks the given string for possible use as filename.
      * 

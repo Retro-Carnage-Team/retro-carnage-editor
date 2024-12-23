@@ -39,7 +39,6 @@ public class FileNameCheckerTest {
     @Test
     public void testIsValidFilenameWithValidNames() {
         for(String input: validFileNames) {
-            System.out.println("Testing isValidFilename with " + input);
             assertEquals(true, FileNameChecker.isValidFilename(input));
         }
     }
@@ -50,7 +49,6 @@ public class FileNameCheckerTest {
     @Test
     public void testIsValidFilenameWithInvalidNames() {
         for(String input: invalidFileNames) {
-            System.out.println("Testing isValidFilename with " + input);
             assertEquals(false, FileNameChecker.isValidFilename(input));
         }
     }
@@ -61,7 +59,6 @@ public class FileNameCheckerTest {
     @Test
     public void testIsValidFilenameOrEmptyWithValidNames() {
         for(String input: validFileNames) {
-            System.out.println("Testing isValidFilenameOrEmpty with " + input);
             assertEquals(true, FileNameChecker.isValidFilenameOrEmpty(input));
         }
         assertEquals(true, FileNameChecker.isValidFilenameOrEmpty(""));
@@ -73,7 +70,6 @@ public class FileNameCheckerTest {
     @Test
     public void testIsValidFilenameOrEmptyWithInvalidNames() {
         for(String input: invalidFileNames) {
-            System.out.println("Testing isValidFilenameOrEmpty with " + input);
             assertEquals(false, FileNameChecker.isValidFilenameOrEmpty(input));
         }
     }
