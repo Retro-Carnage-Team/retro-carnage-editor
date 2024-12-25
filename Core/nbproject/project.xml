@@ -51,6 +51,7 @@
             <public-packages>
                 <package>net.retrocarnage.editor.core</package>
                 <package>net.retrocarnage.editor.core.gui</package>
+                <package>net.retrocarnage.editor.core.io</package>
             </public-packages>
         </data>
     </configuration>
