@@ -43,7 +43,7 @@ public class FileNameCheckerTest {
         unsafeToSafeFielnames.put("abc?.xml", "abc_.xml");
         unsafeToSafeFielnames.put("kkk 878.xml", "kkk 878.xml");
         unsafeToSafeFielnames.put("a", "a");
-        unsafeToSafeFielnames.put("", "");
+        unsafeToSafeFielnames.put("", "_");
     }
     
     /**

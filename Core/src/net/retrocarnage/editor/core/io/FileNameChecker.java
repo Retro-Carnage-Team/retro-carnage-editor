@@ -56,6 +56,9 @@ public class FileNameChecker {
                 result.append('_');
             }
         }
+        if(input.isEmpty()) {
+            result.append('_');
+        }
         return result.toString();
     }
     
