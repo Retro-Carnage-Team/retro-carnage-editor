@@ -4,13 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Collections;
+import java.util.Set;
 import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.missionexporter.impl.mock.AssetServiceMock;
 import net.retrocarnage.editor.model.Location;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +36,19 @@ public class ExportFolderStructureTest {
     public void setUp() throws IOException {
         mission = buildMission();
         fixedLocation = Path.of("/home/tom/retro-carnage");
-        tempFolder = Files.createTempDirectory("rce-ut-");
+        
+        if(SystemUtils.IS_OS_UNIX) {
+            tempFolder = Files.createTempDirectory(
+                    "rce-ut-", 
+                    PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))
+            );
+        } else {
+            tempFolder = Files.createTempDirectory("rce-ut-");
+            final File tempFolderFile = tempFolder.toFile();
+            tempFolderFile.setReadable(true, true);
+            tempFolderFile.setWritable(true, true);
+            tempFolderFile.setExecutable(true, true);
+        }
     }
     
     @After
