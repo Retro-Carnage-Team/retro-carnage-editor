@@ -44,10 +44,6 @@ public class ExportFolderStructureTest {
             );
         } else {
             tempFolder = Files.createTempDirectory("rce-ut-");
-            final File tempFolderFile = tempFolder.toFile();
-            tempFolderFile.setReadable(true, true);
-            tempFolderFile.setWritable(true, true);
-            tempFolderFile.setExecutable(true, true);
         }
     }
     
