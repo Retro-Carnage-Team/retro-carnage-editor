@@ -29,19 +29,19 @@ public class FileNameCheckerTest {
         invalidFileNames.add("a😁bc.xml");
         
         validFileNames.clear();
-        validFileNames.add("abc.xml");
+        validFileNames.add("cba.xml");
         validFileNames.add("abc 123.xml");
         validFileNames.add("abc-132_mork.xml");
         validFileNames.add("abc");
         validFileNames.add(".xml");
         
         unsafeToSafeFielnames.clear();
-        unsafeToSafeFielnames.put("abc.xml", "abc.xml");
+        unsafeToSafeFielnames.put("xbf.xml", "xbf.xml");
         unsafeToSafeFielnames.put("abc123.xml", "abc123.xml");
         unsafeToSafeFielnames.put("/home/tom/.bashrc", "_home_tom_.bashrc");
         unsafeToSafeFielnames.put("\\usr\\bin\\bash", "_usr_bin_bash");
         unsafeToSafeFielnames.put("abc?.xml", "abc_.xml");
-        unsafeToSafeFielnames.put("abc 123.xml", "abc 123.xml");
+        unsafeToSafeFielnames.put("kkk 878.xml", "kkk 878.xml");
         unsafeToSafeFielnames.put("a", "a");
         unsafeToSafeFielnames.put("", "");
     }
@@ -92,9 +92,9 @@ public class FileNameCheckerTest {
      */
     @Test
     public void testBuildSaveVersion() {
-        unsafeToSafeFielnames.forEach((original, converted) -> {
-            assertEquals(converted, FileNameChecker.buildSaveVersion(original));
-        });
+        unsafeToSafeFielnames.forEach((original, converted) -> 
+            assertEquals(converted, FileNameChecker.buildSaveVersion(original))
+        );
     }
     
 }
