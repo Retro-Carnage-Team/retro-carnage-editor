@@ -3,7 +3,9 @@ package net.retrocarnage.editor.missionexporter.impl;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.retrocarnage.editor.assetmanager.AssetService;
 import net.retrocarnage.editor.assetmanager.AssetServiceFactory;
+import net.retrocarnage.editor.core.io.FileNameChecker;
 import net.retrocarnage.editor.model.Mission;
 import net.retrocarnage.editor.model.Music;
 import org.apache.commons.io.FilenameUtils;
@@ -17,6 +19,7 @@ public class ExportFolderStructure {
 
     private static final Logger logger = Logger.getLogger(ExportFolderStructure.class.getName());
 
+    private final AssetService assetService;
     private final File exportFolder;
     private final Mission mission;
 
@@ -27,6 +30,20 @@ public class ExportFolderStructure {
      * @param mission the mission to be exported
      */
     public ExportFolderStructure(final File exportFolder, final Mission mission) {
+        this.assetService = AssetServiceFactory.buildAssetService();
+        this.exportFolder = exportFolder;
+        this.mission = mission;
+    }
+    
+    /**
+     * Creates a new instance of ExportFolderStructure for usage in tests. Offers injection of AssetService instance.
+     *
+     * @param exportFolder the base folder for the export
+     * @param mission the mission to be exported
+     * @param assetService the AssetService to be used
+     */
+    public ExportFolderStructure(final File exportFolder, final Mission mission, final AssetService assetService) {
+        this.assetService = assetService;
         this.exportFolder = exportFolder;
         this.mission = mission;
     }
@@ -43,14 +60,14 @@ public class ExportFolderStructure {
      */
     public File getMissionFile() {
         final File missionFolder = getMissionsFolder();
-        return new File(missionFolder, mission.getName() + ".json");
+        return new File(missionFolder, FileNameChecker.buildSaveVersion(mission.getName() + ".json"));
     }
 
     /**
      * @return a File object for the attributions file containing license information about assets used in the mission
      */
     public File getMissionAttributionFile() {
-        return new File(exportFolder, mission.getName() + "-attributions.md");
+        return new File(exportFolder, FileNameChecker.buildSaveVersion(mission.getName() + "-attributions.md"));
     }
 
     /**
@@ -70,7 +87,7 @@ public class ExportFolderStructure {
         final String missionBackgroundFolderPath = String.format(
                 "%s/images/levels/%s",
                 exportFolder.getAbsolutePath(),
-                mission.getName()
+                FileNameChecker.buildSaveVersion(mission.getName())
         );
         return new File(missionBackgroundFolderPath);
     }
@@ -107,7 +124,7 @@ public class ExportFolderStructure {
      */
     public String getBackgroundImageRelativePath(final int sectionNumber, final int screenNumber) {
         return String.format("images/levels/%s/%d-%d.png",
-                mission.getName(),
+                FileNameChecker.buildSaveVersion(mission.getName()),
                 sectionNumber,
                 screenNumber
         );
@@ -118,13 +135,8 @@ public class ExportFolderStructure {
      */
     public String getClientImageRelativePath() {
         return String.format("images/clients/%s.%s",
-                mission.getName(),
-                FilenameUtils.getExtension(
-                        AssetServiceFactory
-                                .buildAssetService()
-                                .getSprite(mission.getClient())
-                                .getRelativePath()
-                )
+                FileNameChecker.buildSaveVersion(mission.getName()),
+                "png"
         );
     }
 
@@ -132,14 +144,10 @@ public class ExportFolderStructure {
      * @return a file for the image of the missions client
      */
     public File getClientImageFile() {
-        final String fileName = String.format("%s.%s",
-                mission.getName(),
-                FilenameUtils.getExtension(
-                        AssetServiceFactory
-                                .buildAssetService()
-                                .getSprite(mission.getClient())
-                                .getRelativePath()
-                )
+        final String fileName = String.format(
+                "%s.%s",
+                FileNameChecker.buildSaveVersion(mission.getName()),
+                "png"
         );
         return new File(getClientsFolder(), fileName);
     }
@@ -152,25 +160,16 @@ public class ExportFolderStructure {
      * @return the relative path of the background music of the mission
      */
     public String getMusicRelativePath() {
-        return String.format("sounds/music/%s.%s",
-                mission.getName(),
-                FilenameUtils.getExtension(
-                        AssetServiceFactory
-                                .buildAssetService()
-                                .getMusic(mission.getSong())
-                                .getRelativePath()
-                )
-        );
+        final Music music = assetService.getMusic(mission.getSong());
+        return String.format("sounds/music/%s.mp3", FileNameChecker.buildSaveVersion(music.getName()));
     }
 
     /**
      * @return a file for the background music of the missions
      */
     public File getMusicFile() {
-        final Music music = AssetServiceFactory.buildAssetService().getMusic(mission.getSong());
-        final String fileName = String.format("%s.%s",
-                                              music.getName(),
-                                              FilenameUtils.getExtension(music.getRelativePath()));
+        final Music music = assetService.getMusic(mission.getSong());
+        final String fileName = String.format("%s.mp3", FileNameChecker.buildSaveVersion(music.getName()));
         return new File(getMusicFolder(), fileName);
     }
 

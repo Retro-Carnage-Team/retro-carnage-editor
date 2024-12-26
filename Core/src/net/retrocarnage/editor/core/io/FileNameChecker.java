@@ -38,4 +38,35 @@ public class FileNameChecker {
         return input.isEmpty() || isValidFilename(input);
     }
     
+    /**
+     * Replaces all characters in the given input string that are not alphabetic characters, digits, spaces, dots or 
+     * underscores. 
+     * 
+     * @param input
+     * @return 
+     */
+    public static String buildSaveVersion(final String input) {
+        final StringBuilder result = new StringBuilder();
+        final char[] chars = input.toCharArray();
+        for(int i = 0; i<chars.length; i++) {
+            final char c = chars[i];
+            if(isCharAllowedInFileName(c, 0 < i)) {
+                result.append(c);
+            } else {
+                result.append('_');
+            }
+        }
+        if(input.isEmpty()) {
+            result.append('_');
+        }
+        return result.toString();
+    }
+    
+    private static boolean isCharAllowedInFileName(final char c, final boolean includingSpace) {
+        if(c == ' ') {
+            return includingSpace;
+        }
+        return Character.isDigit(c) || Character.isAlphabetic(c) || c == '-' || c == '_' || c == '.';
+    }
+    
 }

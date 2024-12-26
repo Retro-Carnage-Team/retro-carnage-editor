@@ -41,7 +41,6 @@ public class AttributionExporterTest {
         
     @Before
     public void setUp() throws IOException {
-
         mission = new Mission();
         mission.setId(MISSION_ID);
         mission.setName("AttributionTest");

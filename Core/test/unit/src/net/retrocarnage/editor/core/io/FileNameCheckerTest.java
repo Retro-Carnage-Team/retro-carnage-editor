@@ -1,7 +1,9 @@
 package net.retrocarnage.editor.core.io;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,6 +17,7 @@ public class FileNameCheckerTest {
     
     private final List<String> invalidFileNames = new ArrayList<>();
     private final List<String> validFileNames = new ArrayList<>();
+    private final Map<String, String> unsafeToSafeFielnames = new HashMap<>();
      
     @Before
     public void setUp() {
@@ -26,11 +29,21 @@ public class FileNameCheckerTest {
         invalidFileNames.add("a😁bc.xml");
         
         validFileNames.clear();
-        validFileNames.add("abc.xml");
+        validFileNames.add("cba.xml");
         validFileNames.add("abc 123.xml");
         validFileNames.add("abc-132_mork.xml");
         validFileNames.add("abc");
         validFileNames.add(".xml");
+        
+        unsafeToSafeFielnames.clear();
+        unsafeToSafeFielnames.put("xbf.xml", "xbf.xml");
+        unsafeToSafeFielnames.put("abc123.xml", "abc123.xml");
+        unsafeToSafeFielnames.put("/home/tom/.bashrc", "_home_tom_.bashrc");
+        unsafeToSafeFielnames.put("\\usr\\bin\\bash", "_usr_bin_bash");
+        unsafeToSafeFielnames.put("abc?.xml", "abc_.xml");
+        unsafeToSafeFielnames.put("kkk 878.xml", "kkk 878.xml");
+        unsafeToSafeFielnames.put("a", "a");
+        unsafeToSafeFielnames.put("", "_");
     }
     
     /**
@@ -72,6 +85,16 @@ public class FileNameCheckerTest {
         for(String input: invalidFileNames) {
             assertEquals(false, FileNameChecker.isValidFilenameOrEmpty(input));
         }
+    }
+    
+    /**
+     * Test of isFilenameAllowed method with invalid inputs
+     */
+    @Test
+    public void testBuildSaveVersion() {
+        unsafeToSafeFielnames.forEach((original, converted) -> 
+            assertEquals(converted, FileNameChecker.buildSaveVersion(original))
+        );
     }
     
 }
