@@ -209,13 +209,13 @@ public class AttributionExporter {
         if(attribution.getLicenseText() != null && !attribution.getLicenseText().isBlank()) {
             final String licenseText = attribution.getLicenseText().lines().reduce("",(t, u) -> t + "  " + u + "  \n");
             return (links.isEmpty()) 
-                    ? String.format("%s  \n  License:  \n%s", result, licenseText) 
-                    : String.format("%s (%s)  \n  License:  \n%s", result, links, licenseText);
-        } else {
-            return (links.isEmpty()) 
-                    ? result 
-                    : String.format("%s (%s)", result, links);    
+                    ? String.format("%s  %n  License:  %n%s", result, licenseText) 
+                    : String.format("%s (%s)  %n  License:  %n%s", result, links, licenseText);
         }
+        
+        return (links.isEmpty()) 
+                ? result 
+                : String.format("%s (%s)", result, links);
     }
 
 }
