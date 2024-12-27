@@ -7,7 +7,7 @@ distribute or sell copies of this software, please check the licenses of the art
 individual rights owner to clarify details.
 
 The following list contains all media elements used to create the <MISSION> mission and have not been created by the
-author of the software.
+author of the software or the author of the mission.
 
 ## Images
 

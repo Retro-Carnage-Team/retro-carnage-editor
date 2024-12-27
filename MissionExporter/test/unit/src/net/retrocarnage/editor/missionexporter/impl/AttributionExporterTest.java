@@ -32,6 +32,8 @@ public class AttributionExporterTest {
 
     private static final String ASSET_ID_1 = "asset-1";
     private static final String ASSET_ID_2 = "asset-2";
+    private static final String ASSET_ID_3 = "asset-3";
+    private static final String ASSET_ID_4 = "asset-4";
     private static final String MISSION_ID = "mission-id";
     private static final String MUSIC_ID = "music-id";
 
@@ -57,6 +59,14 @@ public class AttributionExporterTest {
         final VisualAsset asset2 = new VisualAsset();
         asset2.setAssetId(ASSET_ID_2);
         layer.getVisualAssets().add(asset2);
+        
+        final VisualAsset asset3 = new VisualAsset();
+        asset3.setAssetId(ASSET_ID_3);
+        layer.getVisualAssets().add(asset3);
+        
+        final VisualAsset asset4 = new VisualAsset();
+        asset4.setAssetId(ASSET_ID_4);
+        layer.getVisualAssets().add(asset4);
 
         final File tempDir = Files.createTempDirectory("rc-test-").toFile();
         exportFolderStructure = new ExportFolderStructure(tempDir, mission);
@@ -93,6 +103,27 @@ public class AttributionExporterTest {
         sprite2.setAttributionData(sprite2Attribution);
         sprite2.setName("Sprite 2");
         assetService.addSprite(sprite2, null);
+        
+        final AttributionData sprite3Attribution = new AttributionData();
+        sprite3Attribution.setAuthor("Michael Mrotz");
+        sprite3Attribution.setLicenseText("THE SOFTWARE IS PROVIDED AS IS.\nIN NO EVENT SHALL THE AUTHORS BE LIABLE.");
+        
+        final Sprite sprite3 = new Sprite();
+        sprite3.setId(ASSET_ID_3);
+        sprite3.setAttributionData(sprite3Attribution);
+        sprite3.setName("Sprite 3");
+        assetService.addSprite(sprite3, null);
+        
+        final AttributionData sprite4Attribution = new AttributionData();
+        sprite4Attribution.setAuthor("Thomas Krumpholz");
+        sprite4Attribution.setWebsite("https://www.retro-carnage.net");
+        sprite4Attribution.setLicenseText("THE SOFTWARE IS PROVIDED AS IS.\nIN NO EVENT SHALL THE AUTHORS BE LIABLE.");
+        
+        final Sprite sprite4 = new Sprite();
+        sprite4.setId(ASSET_ID_4);
+        sprite4.setAttributionData(sprite4Attribution);
+        sprite4.setName("Sprite 4");
+        assetService.addSprite(sprite4, null);
 
         final MissionService missionService = new MissionServiceMock(mission, gamePlay);
         attributionExporter = new AttributionExporter(assetService, mission, exportFolderStructure, missionService);
@@ -114,14 +145,20 @@ public class AttributionExporterTest {
 
         try(var fis = new FileInputStream(attributionFile)) {
             String mdContent = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            String attr1 = "* Sprite 1 by John Doe ([License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
+            String attr1 = "- Sprite 1 by John Doe ([License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
             assertEquals(true, mdContent.contains(attr1));
 
-            String attr2 = "* Sprite 2 by Jane Doe ([Link](https://www.retro-carnage.net))\n";
+            String attr2 = "- Sprite 2 by Jane Doe ([Link](https://www.retro-carnage.net))\n";
             assertEquals(true, mdContent.contains(attr2));
 
-            String attr3 = "* 4 seasons by Antonio Vivaldi ([Link](https://www.retro-carnage.net), [License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
+            String attr3 = "- Sprite 3 by Michael Mrotz  \n  License:  \n  THE SOFTWARE IS PROVIDED AS IS.  \n  IN NO EVENT SHALL THE AUTHORS BE LIABLE.  \n";
             assertEquals(true, mdContent.contains(attr3));
+            
+            String attr4 = "- Sprite 4 by Thomas Krumpholz ([Link](https://www.retro-carnage.net))  \n  License:  \n  THE SOFTWARE IS PROVIDED AS IS.  \n  IN NO EVENT SHALL THE AUTHORS BE LIABLE.  \n";
+            assertEquals(true, mdContent.contains(attr4));
+            
+            String attr5 = "- 4 seasons by Antonio Vivaldi ([Link](https://www.retro-carnage.net), [License](https://creativecommons.org/publicdomain/zero/1.0/))\n";
+            assertEquals(true, mdContent.contains(attr5));
         }
     }
 

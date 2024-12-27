@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +82,7 @@ public class AttributionExporter {
         try (final BufferedWriter writer = new BufferedWriter(new FileWriter(mdFile, StandardCharsets.UTF_8))) {
             for (String line : readTemplate()) {
                 writer.write(replacePlaceholders(line));
+                writer.write("\n");
             }
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Failed to write attribution file for mission " + mission.getName(), ex);
@@ -137,11 +137,9 @@ public class AttributionExporter {
             final StringBuilder sbuilder = new StringBuilder();
             for(Sprite sprite: getSprites()) {
                 final AttributionData attribution = sprite.getAttributionData();
-                final String mdString = buildAttribution(sprite.getName(),
-                                                         attribution.getAuthor(),
-                                                         attribution.getWebsite(),
-                                                         attribution.getLicenseLink());
-                sbuilder.append(mdString).append("\n");
+                final String mdString = buildAttribution(sprite.getName(), attribution);
+                sbuilder.append(mdString)
+                        .append("\n");
             }
             imageAttributions = sbuilder.toString();
         }
@@ -175,10 +173,7 @@ public class AttributionExporter {
         if (null == musicAttributions && mission.getSong() != null && !mission.getSong().isEmpty()) {
             final Music music = assetService.getMusic(mission.getSong());
             final AttributionData attribution = music.getAttributionData();
-            musicAttributions = buildAttribution(music.getName(),
-                                                 attribution.getAuthor(),
-                                                 attribution.getWebsite(),
-                                                 attribution.getLicenseLink()) + "\n";
+            musicAttributions = buildAttribution(music.getName(), attribution) + "\n";
         }
         return musicAttributions;
     }
@@ -187,34 +182,40 @@ public class AttributionExporter {
      * Creates a Markdown formatted list element for a singe attribution
      *
      * @param name the element created by another author
-     * @param author the name of the author
-     * @param website website of the author (or source)
-     * @param licenseLink link to the license of this element
+     * @param attribution AttributionData object containing the data to be exported
      * @return markdown formatted list element
      */
-    private String buildAttribution(final String name, final String author, final String website,
-                                    final String licenseLink) {
-        if (null == name || name.isBlank() || null == author || author.isBlank())
+    private String buildAttribution(final String name, final AttributionData attribution) {
+        if (null == name || name.isBlank() || null == attribution.getAuthor() || attribution.getAuthor().isBlank())
             return "";
 
-        String result = String.format("* %s by %s", name, author);
+        String result = String.format("- %s by %s", name, attribution.getAuthor());
 
         String links = "";
         boolean linkPresent = false;
-        if(website != null && !website.isBlank()) {
-            links = String.format("[Link](%s)", website);
+        if(attribution.getWebsite() != null && !attribution.getWebsite().isBlank()) {
+            links = String.format("[Link](%s)", attribution.getWebsite());
             linkPresent = true;
         }
 
-        if(licenseLink != null && !licenseLink.isBlank()) {
+        if(attribution.getLicenseLink() != null && !attribution.getLicenseLink().isBlank()) {
             if(linkPresent) {
-                links = String.format("%s, [License](%s)", links, licenseLink);
+                links = String.format("%s, [License](%s)", links, attribution.getLicenseLink());
             } else {
-                links = String.format("[License](%s)", licenseLink);
+                links = String.format("[License](%s)", attribution.getLicenseLink());
             }
         }
 
-        return (links.isEmpty()) ? result : String.format("%s (%s)", result, links);
+        if(attribution.getLicenseText() != null && !attribution.getLicenseText().isBlank()) {
+            final String licenseText = attribution.getLicenseText().lines().reduce("",(t, u) -> t + "  " + u + "  \n");
+            return (links.isEmpty()) 
+                    ? String.format("%s  \n  License:  \n%s", result, licenseText) 
+                    : String.format("%s (%s)  \n  License:  \n%s", result, links, licenseText);
+        } else {
+            return (links.isEmpty()) 
+                    ? result 
+                    : String.format("%s (%s)", result, links);    
+        }
     }
 
 }
