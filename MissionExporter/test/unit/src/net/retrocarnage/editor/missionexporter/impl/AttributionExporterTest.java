@@ -36,6 +36,7 @@ public class AttributionExporterTest {
     private static final String ASSET_ID_4 = "asset-4";
     private static final String MISSION_ID = "mission-id";
     private static final String MUSIC_ID = "music-id";
+    private static final String WEBSITE = "https://www.retro-carnage.net";
 
     private AttributionExporter attributionExporter;
     private ExportFolderStructure exportFolderStructure;
@@ -76,7 +77,7 @@ public class AttributionExporterTest {
         final AttributionData songAttribution = new AttributionData();
         songAttribution.setAuthor("Antonio Vivaldi");
         songAttribution.setLicenseLink("https://creativecommons.org/publicdomain/zero/1.0/");
-        songAttribution.setWebsite("https://www.retro-carnage.net");
+        songAttribution.setWebsite(WEBSITE);
 
         final Music song = new Music();
         song.setId(MUSIC_ID);                       
@@ -96,7 +97,7 @@ public class AttributionExporterTest {
 
         final AttributionData sprite2Attribution = new AttributionData();
         sprite2Attribution.setAuthor("Jane Doe");
-        sprite2Attribution.setWebsite("https://www.retro-carnage.net");
+        sprite2Attribution.setWebsite(WEBSITE);
         
         final Sprite sprite2 = new Sprite();
         sprite2.setId(ASSET_ID_2);
@@ -116,7 +117,7 @@ public class AttributionExporterTest {
         
         final AttributionData sprite4Attribution = new AttributionData();
         sprite4Attribution.setAuthor("Thomas Krumpholz");
-        sprite4Attribution.setWebsite("https://www.retro-carnage.net");
+        sprite4Attribution.setWebsite(WEBSITE);
         sprite4Attribution.setLicenseText("THE SOFTWARE IS PROVIDED AS IS.\nIN NO EVENT SHALL THE AUTHORS BE LIABLE.");
         
         final Sprite sprite4 = new Sprite();
