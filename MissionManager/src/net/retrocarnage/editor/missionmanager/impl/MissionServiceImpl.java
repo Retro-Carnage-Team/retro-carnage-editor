@@ -110,13 +110,11 @@ public final class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public GamePlay loadGamePlay(final String missionId) {
+    public GamePlay loadGamePlay(final String missionId) throws IOException {
         final File gamePlayFile = missionFolder.resolve(missionId + ".xml").toFile();
         if (gamePlayFile.exists()) {
             try (final InputStream in = new BufferedInputStream(new FileInputStream(gamePlayFile))) {
                 return new XmlMapper().readValue(in, GamePlay.class);
-            } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read mission file", ex);
             }
         }
 
@@ -146,7 +144,7 @@ public final class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void saveGamePlay(final GamePlay gameplay) {
+    public void saveGamePlay(final GamePlay gameplay) throws IOException {
         final File gamePlayFile = missionFolder.resolve(gameplay.getMissionId() + ".xml").toFile();
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(gamePlayFile))) {
             new XmlMapper().writeValue(out, gameplay);

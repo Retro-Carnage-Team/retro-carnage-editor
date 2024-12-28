@@ -113,7 +113,7 @@ public class AttributionExporter {
      * @param inputLine the line that possibly contains placeholders
      * @return line with placeholders replaced by formatted content
      */
-    private String replacePlaceholders(final String inputLine) {
+    private String replacePlaceholders(final String inputLine) throws IOException {
         String result = inputLine;
         if(result.contains("<MISSION>")) {
             result = result.replace("<MISSION>", mission.getName());
@@ -132,7 +132,7 @@ public class AttributionExporter {
      *
      * @return Markdown formatted attributions
      */
-    private String buildImageAttributions() {
+    private String buildImageAttributions() throws IOException {
         if (null == imageAttributions) {
             final StringBuilder sbuilder = new StringBuilder();
             for(Sprite sprite: getSprites()) {
@@ -151,7 +151,7 @@ public class AttributionExporter {
      *
      * @return list of sprites.
      */
-    private List<Sprite> getSprites() {
+    private List<Sprite> getSprites() throws IOException {
         final Map<String, Sprite> sprites = new HashMap<>();
         final GamePlay gamePlay = missionService.loadGamePlay(mission.getId());
         for(Layer layer: gamePlay.getLayers()) {
