@@ -40,7 +40,8 @@ final class BackgroundExporter extends SectionPathRunner {
      * @param exportFolder the target folder (root folder of RETRO-CARNAGE installation)
      * @return a BackgroundExporter, configured and ready to use
      */
-    public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) {
+    public static BackgroundExporter build(final Mission mission, final ExportFolderStructure exportFileStructure) 
+            throws IOException {
         final GamePlay gamePlay = MissionServiceFactory
                 .buildMissionService()
                 .loadGamePlay(mission.getId());

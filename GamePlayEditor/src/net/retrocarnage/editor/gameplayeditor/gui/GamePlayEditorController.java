@@ -54,7 +54,7 @@ class GamePlayEditorController {
     private int offsetBottom = 0;
     private int offsetRight = 0;
 
-    GamePlayEditorController(final Mission mission) {
+    GamePlayEditorController(final Mission mission) throws IOException {
         this.mission = mission;
         gamePlay = MissionServiceFactory
                 .buildMissionService()

@@ -31,9 +31,9 @@ public interface MissionService {
 
     void removeMission(final String id);
 
-    GamePlay loadGamePlay(final String missionId);
+    GamePlay loadGamePlay(final String missionId) throws IOException;
 
-    void saveGamePlay(final GamePlay gameplay);
+    void saveGamePlay(final GamePlay gameplay) throws IOException;
 
     void initializeFolderStructure();
     

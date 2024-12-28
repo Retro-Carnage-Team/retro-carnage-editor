@@ -2,6 +2,7 @@ package net.retrocarnage.editor.missionexporter.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.awt.Rectangle;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,14 +63,14 @@ public class ExportMission {
         return mission.getReward();
     }
 
-    public List<ExportSegment> getSegments() {
+    public List<ExportSegment> getSegments() throws IOException {
         if (null == segments) {
             initializeSegments();
         }
         return segments;
     }
 
-    private void initializeSegments() {
+    private void initializeSegments() throws IOException {
         final GamePlay gamePlay = MissionServiceFactory
                 .buildMissionService()
                 .loadGamePlay(mission.getId());

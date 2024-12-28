@@ -69,11 +69,11 @@ public final class GamePlayEditorTopComponent
     private final GamePlayEditorController controller;
     private final TransferHandler transferHandler;
 
-    public GamePlayEditorTopComponent() {
+    public GamePlayEditorTopComponent() throws IOException {
         this(null);
     }
 
-    public GamePlayEditorTopComponent(final Mission mission) {
+    public GamePlayEditorTopComponent(final Mission mission) throws IOException {
         controller = new GamePlayEditorController(mission);
         controller.addPropertyChangeListener(this);
         transferHandler = new DragAndDropTransferHandler(controller);
