@@ -2,6 +2,7 @@ package net.retrocarnage.editor.missionexporter.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -71,7 +72,11 @@ public class ExportWorker extends SwingWorker<IOException, Integer> {
                         .getDefault()
                         .notify(new NotifyDescriptor.Message(msg, NotifyDescriptor.WARNING_MESSAGE));
             }
-        } catch (Exception ignore) {
+        } catch (InterruptedException ie) {
+            logger.log(Level.WARNING, "Interrupted!", ie);
+            Thread.currentThread().interrupt();
+        } catch(ExecutionException ignore) {
+            logger.log(Level.WARNING, "Thread execution failed!", ignore);
             // this can be ignored
         }
     }
