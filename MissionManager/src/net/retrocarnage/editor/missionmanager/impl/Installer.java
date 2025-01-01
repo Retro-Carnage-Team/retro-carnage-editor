@@ -29,7 +29,7 @@ public class Installer extends ModuleInstall {
             try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
                 missionService.loadMissions(database);
             } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read the mission database file", ex.getMessage());
+                logger.log(Level.WARNING, "Failed to read the mission database file", ex);
             }
         }
 
@@ -43,7 +43,7 @@ public class Installer extends ModuleInstall {
             final MissionService missionService = MissionServiceFactory.buildMissionService();
             missionService.saveMissions(database);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to write the mission database file", ex.getMessage());
+            logger.log(Level.WARNING, "Failed to write the mission database file", ex);
         }
     }
 

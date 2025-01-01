@@ -69,7 +69,7 @@ public class AssetServiceImpl implements AssetService {
             try (final InputStream database = Files.newInputStream(databaseFile, StandardOpenOption.READ)) {
                 loadAssets(database);
             } catch (IOException ex) {
-                logger.log(Level.WARNING, "Failed to read the asset database file",  ex.getMessage());
+                logger.log(Level.WARNING, "Failed to read the asset database file",  ex);
             }
         }
     }
@@ -83,7 +83,7 @@ public class AssetServiceImpl implements AssetService {
         try (final OutputStream database = Files.newOutputStream(databaseFile)) {
             saveAssets(database);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to write the asset database file", ex.getMessage());
+            logger.log(Level.WARNING, "Failed to write the asset database file", ex);
         }
     }
 
